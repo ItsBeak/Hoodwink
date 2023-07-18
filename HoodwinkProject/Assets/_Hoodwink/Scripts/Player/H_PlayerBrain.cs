@@ -18,14 +18,25 @@ public class H_PlayerBrain : NetworkBehaviour
     [SyncVar(hook = nameof(SetShirtColour))] public Color shirtColour;
     [SyncVar(hook = nameof(SetPantsColour))] public Color pantsColour;
     [SyncVar(hook = nameof(SetShoesColour))] public Color shoesColour;
+    [SyncVar(hook = nameof(OnReadyChanged))] public bool isReady = false;
+
+    [Header("Alignment Data")]
+    [SyncVar(hook = nameof(OnAlignmentChanged))]
+    public AgentAlignment currentAlignment;
+    public Color alignmentColorUnassigned, alignmentColorAgent, alignmentColorSpy;
 
     [Header("Components")]
     public GameObject playerUI;
     public CinemachineVirtualCamera cam;
     public Image agentColourImage;
     public TextMeshProUGUI agentNameText;
-    public GameObject[] hideForLocalPlayer;
+    public TextMeshProUGUI readyText;
+    public TextMeshProUGUI alignmentText;
+    public Image alignmentBackground;
+
+    [Header("Rendering")]
     public Renderer playerRenderer;
+    public GameObject[] hideForLocalPlayer;
 
     private H_NetworkManager netManager;
 
@@ -53,6 +64,24 @@ public class H_PlayerBrain : NetworkBehaviour
 
             H_GameManager.instance.CmdRegisterPlayer(this);
 
+            playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+
+            CmdSetReady(false);
+            readyText.text = "Not Ready";
+            readyText.color = Color.red;
+
+            CmdSetAlignment(AgentAlignment.Unassigned);
+        }
+    }
+
+    private void Update()
+    {
+        if (!isLocalPlayer)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            CmdSetReady(!isReady);
         }
     }
 
@@ -101,6 +130,76 @@ public class H_PlayerBrain : NetworkBehaviour
     {
         H_GameManager.instance.CmdUnregisterPlayer(this);
     }
+
+    [Command]
+    void CmdSetAlignment(AgentAlignment alignment)
+    {
+        currentAlignment = alignment;
+        UpdateAlignmentUI(currentAlignment);
+        Debug.Log("Set role to: " + currentAlignment.ToString());
+    }
+
+
+    void OnAlignmentChanged(AgentAlignment oldRole, AgentAlignment newRole)
+    {
+        Debug.Log("Set changed to: " + newRole.ToString());
+
+        UpdateAlignmentUI(newRole);
+    }
+
+    void UpdateAlignmentUI(AgentAlignment alignment)
+    {
+        alignmentText.text = currentAlignment.ToString();
+
+        if (alignment == AgentAlignment.Unassigned)
+        {
+            alignmentBackground.color = alignmentColorUnassigned;
+        }
+        else if (alignment == AgentAlignment.Agent)
+        {
+            alignmentBackground.color = alignmentColorAgent;
+
+        }
+        else if (alignment == AgentAlignment.Spy)
+        {
+            alignmentBackground.color = alignmentColorSpy;
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    void CmdSetReady(bool ready)
+    {
+        isReady = ready;
+    }
+
+    void OnReadyChanged(bool oldReady, bool newReady)
+    {
+        if (newReady)
+        {
+            readyText.text = "Ready";
+            readyText.color = Color.green;
+        }
+        else
+        {
+            readyText.text = "Not Ready";
+            readyText.color = Color.red;
+        }
+    }
+
+    [TargetRpc]
+    public void TeleportPlayer(Vector3 position, Quaternion rotation)
+    {
+        transform.position = position;
+        transform.rotation = rotation;
+        Physics.SyncTransforms();
+    }
+}
+
+public enum AgentAlignment
+{
+    Unassigned,
+    Agent,
+    Spy
 }
 
 
