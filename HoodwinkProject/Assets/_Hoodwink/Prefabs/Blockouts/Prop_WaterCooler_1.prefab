@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 8327156797149332307}
   - component: {fileID: 2439892715554918568}
   - component: {fileID: 7573023740071033357}
+  - component: {fileID: 5863068162978034350}
   m_Layer: 0
   m_Name: Prop_WaterCooler_1
   m_TagString: Untagged
@@ -57,14 +58,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7378386037385218491}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000029504295}
+  m_LocalPosition: {x: 1.797, y: 0, z: 1.147}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 401218561861509857}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &2439892715554918568
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -115,3 +116,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5863068162978034350
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7378386037385218491}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.420789, y: 1.353682, z: 0.49906892}
+  m_Center: {x: 1.7433915, y: 0.676841, z: 1.2178465}
