@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 4913416318718190784}
   - component: {fileID: 8324610681422298010}
   - component: {fileID: 3089636422590162308}
+  - component: {fileID: 6040505558394736004}
   m_Layer: 0
   m_Name: Prop_RotaryPhone_1
   m_TagString: Untagged
@@ -57,14 +58,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5584015489902899036}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0.9365361, z: -0, w: 0.35057127}
+  m_LocalPosition: {x: 1.047, y: -0.8224428, z: 0.371}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4424152826418781831}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -138.955, z: 0}
 --- !u!33 &8324610681422298010
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -115,3 +116,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6040505558394736004
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5584015489902899036}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7550453636331719112, guid: 27d2f0ca3b460d74882601358a107487, type: 3}

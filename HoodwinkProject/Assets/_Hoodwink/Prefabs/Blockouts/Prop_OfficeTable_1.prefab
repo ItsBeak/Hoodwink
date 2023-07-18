@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6030993577671135401}
   - component: {fileID: 2247427795260361037}
   - component: {fileID: 6786507457134225322}
+  - component: {fileID: 1715092684133299443}
   m_Layer: 0
   m_Name: Office_Table
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2721347323956514739}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.724, y: 0.375, z: -0.015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -83,6 +84,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1715092684133299443
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721347323956514739}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.8, z: 0.75}
+  m_Center: {x: 0.70000005, y: 0.025000006, z: 0}
 --- !u!1 &7621170093833684071
 GameObject:
   m_ObjectHideFlags: 0
