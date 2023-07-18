@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.38354, g: 325.1084, b: 430.30957, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -257,75 +257,6 @@ Transform:
   m_Father: {fileID: 1535540405}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &480665574
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6945349478565121086, guid: d263ad6869d275c4e8af69791e04921c,
-        type: 3}
-      propertyPath: m_Name
-      value: Hoodwink Game Manager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d263ad6869d275c4e8af69791e04921c, type: 3}
 --- !u!1 &536527925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,6 +998,80 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1567886852
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3115548988286390778, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: sceneId
+      value: 3976654900
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271273356912507364, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6945349478565121086, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: m_Name
+      value: Hoodwink Game Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d263ad6869d275c4e8af69791e04921c, type: 3}
 --- !u!1 &1739691641
 GameObject:
   m_ObjectHideFlags: 0

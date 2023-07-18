@@ -7,6 +7,7 @@ using UnityEngine;
 using Unity.Services.Core;
 using Unity.Services.Authentication;
 using Unity.Services.Relay;
+using Random = UnityEngine.Random;
 
 using Mirror;
 using Utp;
@@ -116,6 +117,8 @@ public class H_NetworkManager : RelayNetworkManager
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         //conn.identity.GetComponent<H_PlayerEquipment>().TryDropItem();
+
+        conn.identity.GetComponent<H_PlayerBrain>().UnregisterPlayer();
 
         base.OnServerDisconnect(conn);
     }
