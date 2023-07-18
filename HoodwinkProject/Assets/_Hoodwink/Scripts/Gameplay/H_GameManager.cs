@@ -464,6 +464,9 @@ public struct AgentData
 {
     public string agentName;
     public Color agentColour;
+    public Color agentPantsColour;
+    public Color agentBootsColour;
+
 }
 
 [System.Serializable]
