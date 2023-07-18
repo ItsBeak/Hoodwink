@@ -1,7 +1,8 @@
 using UnityEngine;
 using Mirror;
 using Cinemachine;
-using UnityEngine.ProBuilder.Shapes;
+using TMPro;
+using UnityEngine.UI;
 
 public class H_PlayerBrain : NetworkBehaviour
 {
@@ -12,7 +13,8 @@ public class H_PlayerBrain : NetworkBehaviour
     [HideInInspector] public bool isPaused;
     public float speedMultiplier = 1;
 
-    [Header("Player Colours")]
+    [Header("Player Data")]
+    [SyncVar(hook = nameof(OnNameChanged))] public string playerName;
     [SyncVar(hook = nameof(SetShirtColour))] public Color shirtColour;
     [SyncVar(hook = nameof(SetPantsColour))] public Color pantsColour;
     [SyncVar(hook = nameof(SetShoesColour))] public Color shoesColour;
@@ -20,6 +22,8 @@ public class H_PlayerBrain : NetworkBehaviour
     [Header("Components")]
     public GameObject playerUI;
     public CinemachineVirtualCamera cam;
+    public Image agentColourImage;
+    public TextMeshProUGUI agentNameText;
     public GameObject[] hideForLocalPlayer;
     public Renderer playerRenderer;
 
@@ -72,17 +76,10 @@ public class H_PlayerBrain : NetworkBehaviour
         speedMultiplier = amount;
     }
 
-    [Command]
-    public void CmdSetPlayerColours()
-    {
-        shirtColour = H_GameManager.instance.shirtColours[Random.Range(0, H_GameManager.instance.shirtColours.Length)];
-        pantsColour = H_GameManager.instance.shirtColours[Random.Range(0, H_GameManager.instance.shirtColours.Length)];
-        shoesColour = H_GameManager.instance.shirtColours[Random.Range(0, H_GameManager.instance.shirtColours.Length)];
-    }
-
     public void SetShirtColour(Color oldColor, Color newColor)
     {
         playerRenderer.material.SetColor("_ShirtColour", newColor);
+        agentColourImage.color = newColor;
     }
 
     public void SetPantsColour(Color oldColor, Color newColor)
@@ -95,8 +92,15 @@ public class H_PlayerBrain : NetworkBehaviour
         playerRenderer.material.SetColor("_ShoesColour", newColor);
     }
 
+    public void OnNameChanged(string oldName, string newName)
+    {
+        agentNameText.text = newName;
+    }
+
     public void UnregisterPlayer()
     {
         H_GameManager.instance.CmdUnregisterPlayer(this);
     }
 }
+
+

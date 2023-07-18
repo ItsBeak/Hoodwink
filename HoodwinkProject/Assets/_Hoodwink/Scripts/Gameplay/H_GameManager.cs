@@ -16,8 +16,9 @@ public class H_GameManager : NetworkBehaviour
     public TextMeshProUGUI pingDisplay;
 
     [Header("Player Colours")]
-    public Color[] shirtColours, pantsColours, bootsColours;
-    List<Color> availableColours;
+    public AgentData[] agentData;
+    public Color[] pantsColours, shoesColours;
+    List<AgentData> availableAgents;
 
     [Header("Debugging")]
     public bool enableDebugLogs;
@@ -40,11 +41,11 @@ public class H_GameManager : NetworkBehaviour
 
     public override void OnStartServer()
     {
-        availableColours = new List<Color>();
+        availableAgents = new List<AgentData>();
 
-        foreach (Color c in shirtColours)
+        foreach (AgentData agent in agentData)
         {
-            availableColours.Add(c);
+            availableAgents.Add(agent);
         }
     }
 
@@ -70,18 +71,27 @@ public class H_GameManager : NetworkBehaviour
     {
         serverPlayers.Add(player);
 
-        int randomColour = Random.Range(0, availableColours.Count);
+        int randomAgent = Random.Range(0, availableAgents.Count);
 
-        player.shirtColour = availableColours[randomColour];
+        player.playerName = availableAgents[randomAgent].agentName;
+        player.shirtColour = availableAgents[randomAgent].agentColour;
 
-        availableColours.RemoveAt(randomColour);
+        player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
+        player.shoesColour = shoesColours[Random.Range(0, shoesColours.Length)];
+
+        availableAgents.RemoveAt(randomAgent);
 
     }
 
     [Command(requiresAuthority = false)]
     public void CmdUnregisterPlayer(H_PlayerBrain player)
     {
-        availableColours.Add(player.shirtColour);
+        AgentData newAgentData = new AgentData();
+
+        newAgentData.agentName = player.playerName;
+        newAgentData.agentColour = player.shirtColour;
+
+        availableAgents.Add(newAgentData);
 
         serverPlayers.Remove(player);
     }
@@ -113,4 +123,11 @@ public class H_GameManager : NetworkBehaviour
 
         }
     }
+}
+
+[System.Serializable]
+public struct AgentData
+{
+    public string agentName;
+    public Color agentColour;
 }
