@@ -18,9 +18,6 @@ public class H_GameManager : NetworkBehaviour
     [HideInInspector] public List<H_PlayerBrain> roundAgents;
     [HideInInspector] public List<H_PlayerBrain> roundSpies;
 
-    public int debugSpyCount = 1;
-
-
     [HideInInspector] public string chosenScene;
     bool winConditionMet = false;
     H_LevelData currentLevel;
@@ -30,6 +27,11 @@ public class H_GameManager : NetworkBehaviour
 
     [Header("Lobby Settings")]
     public Transform[] lobbySpawns;
+
+    [Header("Player Settings")]
+    public PlayerSettings[] playerSettings;
+    int roundSpyCount = 1;
+    int roundSpiesRemaining = 0;
 
     [Header("Player Colours")]
     public AgentData[] agentData;
@@ -357,9 +359,22 @@ public class H_GameManager : NetworkBehaviour
     private void AssignRoles()
     {
         int totalPlayers = roundPlayers.Count;
-        int spiesRemaining = debugSpyCount;
 
-        while (spiesRemaining > 0)
+        PlayerSettings newRoundSettings = new PlayerSettings();
+
+        foreach (PlayerSettings settings in playerSettings)
+        {
+            if (settings.playerCount == totalPlayers)
+            {
+                newRoundSettings = settings;
+                break;
+            }
+        }
+
+
+        roundSpiesRemaining = newRoundSettings.spyCount;
+
+        while (roundSpiesRemaining > 0)
         {
             int randomPlayerIndex = Random.Range(0, totalPlayers);
 
@@ -367,7 +382,7 @@ public class H_GameManager : NetworkBehaviour
             {
                 serverPlayers[randomPlayerIndex].currentAlignment = AgentAlignment.Spy;
                 roundSpies.Add(serverPlayers[randomPlayerIndex]);
-                spiesRemaining--;
+                roundSpiesRemaining--;
             }
         }
 
@@ -420,7 +435,7 @@ public class H_GameManager : NetworkBehaviour
         if (winConditionMet)
             return;
 
-        if (roundAgents.Count == 0 && debugSpyCount == 0)
+        if (roundAgents.Count == 0 && roundSpies.Count == 0)
         {
             winCondition = WinConditions.Draw;
             winConditionMet = true;
@@ -449,6 +464,13 @@ public struct AgentData
 {
     public string agentName;
     public Color agentColour;
+}
+
+[System.Serializable]
+public struct PlayerSettings
+{
+    public int playerCount;
+    public int spyCount;
 }
 
 public enum RoundStage
