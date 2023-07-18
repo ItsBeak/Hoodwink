@@ -5,6 +5,9 @@ using Mirror;
 
 using TMPro;
 
+using UnityEngine.Timeline;
+using UnityEngine.Playables;
+
 public class H_MainMenu : MonoBehaviour
 {
     [Header("UI Elements")]
@@ -12,6 +15,11 @@ public class H_MainMenu : MonoBehaviour
     public GameObject hostButton = null;
     public GameObject joinButton = null;
     public TMP_InputField codeInputField;
+
+    [Header("Directors")]
+    public PlayableDirector preLoginDirector, loggingInDirector, mainMenuDirector;
+
+    bool playedLogIn;
 
     private H_NetworkManager nm;
 
@@ -32,6 +40,12 @@ public class H_MainMenu : MonoBehaviour
         codeInputField.gameObject.SetActive(NetManager.isLoggedIn);
 
         loginButton.GetComponent<Button>().interactable = !NetManager.isLoggingIn;
+
+        if (NetManager.isLoggedIn && !playedLogIn)
+        {
+            playedLogIn = true;
+            loggingInDirector.gameObject.SetActive(true);
+        }
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
