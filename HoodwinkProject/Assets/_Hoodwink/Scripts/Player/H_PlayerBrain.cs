@@ -14,6 +14,7 @@ public class H_PlayerBrain : NetworkBehaviour
     public float speedMultiplier = 1;
 
     [Header("Player Data")]
+    [SyncVar] public bool hasAgentData;
     [SyncVar(hook = nameof(OnNameChanged))] public string playerName;
     [SyncVar(hook = nameof(SetShirtColour))] public Color shirtColour;
     [SyncVar(hook = nameof(SetPantsColour))] public Color pantsColour;

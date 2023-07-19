@@ -30,12 +30,11 @@ public class H_GameManager : NetworkBehaviour
 
     [Header("Player Settings")]
     public PlayerSettings[] playerSettings;
-    int roundSpyCount = 1;
     int roundSpiesRemaining = 0;
 
     [Header("Player Colours")]
     public AgentData[] agentData;
-    public Color[] pantsColours, shoesColours;
+    public Color[] shirtColours, pantsColours, shoesColours;
     List<AgentData> availableAgents;
 
     [Header("Map Pool")]
@@ -189,16 +188,11 @@ public class H_GameManager : NetworkBehaviour
     {
         serverPlayers.Add(player);
 
-        int randomAgent = Random.Range(0, availableAgents.Count);
+        player.playerName = "anon";
 
-        player.playerName = availableAgents[randomAgent].agentName;
-        player.shirtColour = availableAgents[randomAgent].agentColour;
-
+        player.shirtColour = shirtColours[Random.Range(0, shirtColours.Length)];
         player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
         player.shoesColour = shoesColours[Random.Range(0, shoesColours.Length)];
-
-        availableAgents.RemoveAt(randomAgent);
-
     }
 
     [Command(requiresAuthority = false)]
@@ -206,10 +200,13 @@ public class H_GameManager : NetworkBehaviour
     {
         AgentData newAgentData = new AgentData();
 
-        newAgentData.agentName = player.playerName;
-        newAgentData.agentColour = player.shirtColour;
+        if (player.hasAgentData)
+        {
+            newAgentData.agentName = player.playerName;
+            newAgentData.agentColour = player.shirtColour;
 
-        availableAgents.Add(newAgentData);
+            availableAgents.Add(newAgentData);
+        }
 
         serverPlayers.Remove(player);
         roundPlayers.Remove(player);
@@ -306,6 +303,19 @@ public class H_GameManager : NetworkBehaviour
             int randomSpawn = Random.Range(0, lobbySpawns.Length);
 
             player.TeleportPlayer(lobbySpawns[randomSpawn].position, lobbySpawns[randomSpawn].rotation);
+
+            AgentData newAgentData = new AgentData();
+
+            newAgentData.agentName = player.playerName;
+            newAgentData.agentColour = player.shirtColour;
+
+            availableAgents.Add(newAgentData);
+
+            player.hasAgentData = false;
+
+            player.playerName = "anon";
+            player.shirtColour = shirtColours[Random.Range(0, shirtColours.Length)];
+
         }
 
         roundPlayers.Clear();
@@ -350,6 +360,18 @@ public class H_GameManager : NetworkBehaviour
             int randomSpawn = Random.Range(0, spawns.Length);
 
             player.TeleportPlayer(spawns[randomSpawn].position, spawns[randomSpawn].rotation);
+
+            int randomAgent = Random.Range(0, availableAgents.Count);
+
+            player.playerName = availableAgents[randomAgent].agentName;
+            player.shirtColour = availableAgents[randomAgent].agentColour;
+
+            player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
+            player.shoesColour = shoesColours[Random.Range(0, shoesColours.Length)];
+
+            availableAgents.RemoveAt(randomAgent);
+
+            player.hasAgentData = true;
         }
 
 
@@ -464,9 +486,6 @@ public struct AgentData
 {
     public string agentName;
     public Color agentColour;
-    public Color agentPantsColour;
-    public Color agentBootsColour;
-
 }
 
 [System.Serializable]

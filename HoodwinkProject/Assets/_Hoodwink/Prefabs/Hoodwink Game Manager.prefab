@@ -580,19 +580,23 @@ MonoBehaviour:
   roundDeadPlayers: []
   roundAgents: []
   roundSpies: []
-  debugSpyCount: 1
   chosenScene: 
   currentRoundStage: 0
   winCondition: 0
-  lobbySpawns:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  lobbySpawns: []
+  playerSettings:
+  - playerCount: 3
+    spyCount: 1
+  - playerCount: 4
+    spyCount: 1
+  - playerCount: 5
+    spyCount: 2
+  - playerCount: 6
+    spyCount: 2
+  - playerCount: 7
+    spyCount: 3
+  - playerCount: 8
+    spyCount: 3
   agentData:
   - agentName: Poppy
     agentColour: {r: 0.8352941, g: 0.22352941, b: 0.22352941, a: 1}
@@ -610,10 +614,16 @@ MonoBehaviour:
     agentColour: {r: 0.54509807, g: 0.3019608, b: 0.8039216, a: 1}
   - agentName: Fandango
     agentColour: {r: 0.8039216, g: 0.3019608, b: 0.74509805, a: 1}
+  shirtColours:
+  - {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
+  - {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
+  - {r: 0.3018868, g: 0.15171438, b: 0.101103604, a: 1}
+  - {r: 0.6226415, g: 0.49274945, b: 0.28488788, a: 1}
   pantsColours:
   - {r: 0.509434, g: 0.2215376, b: 0.06488074, a: 1}
   - {r: 0.50980395, g: 0.4379468, b: 0.06666665, a: 1}
   - {r: 0.5685426, g: 0.5754717, b: 0.33388218, a: 1}
+  - {r: 0.33962262, g: 0.27714488, b: 0.27714488, a: 1}
   shoesColours:
   - {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
   - {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
