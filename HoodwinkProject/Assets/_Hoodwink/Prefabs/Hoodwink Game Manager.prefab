@@ -584,6 +584,7 @@ MonoBehaviour:
   currentRoundStage: 0
   winCondition: 0
   lobbySpawns: []
+  minPlayersToStart: 3
   playerSettings:
   - playerCount: 3
     spyCount: 1
@@ -637,3 +638,7 @@ MonoBehaviour:
   pingDisplay: {fileID: 7992946917195808622}
   timerDisplay: {fileID: 8632251401198278523}
   enableDebugLogs: 0
+  overrideMinimumPlayerCount: 0
+  overrideSettings:
+    playerCount: -1
+    spyCount: 1

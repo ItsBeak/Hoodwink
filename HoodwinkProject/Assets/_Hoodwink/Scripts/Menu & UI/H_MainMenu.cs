@@ -7,6 +7,7 @@ using TMPro;
 
 using UnityEngine.Timeline;
 using UnityEngine.Playables;
+using UnityEngine.LowLevel;
 
 public class H_MainMenu : MonoBehaviour
 {
@@ -18,8 +19,9 @@ public class H_MainMenu : MonoBehaviour
 
     [Header("Directors")]
     public PlayableDirector preLoginDirector, loggingInDirector, mainMenuDirector;
+    public float returnToMenuTime;
 
-    bool playedLogIn;
+    bool playedLogIn = false;
 
     private H_NetworkManager nm;
 
@@ -41,11 +43,34 @@ public class H_MainMenu : MonoBehaviour
 
         loginButton.GetComponent<Button>().interactable = !NetManager.isLoggingIn;
 
-        if (NetManager.isLoggedIn && !playedLogIn)
+        if (NetManager.isLoggedIn)
         {
-            playedLogIn = true;
-            loggingInDirector.gameObject.SetActive(true);
+
+            if (!playedLogIn)
+            {
+                Debug.Log("First time logging in");
+
+                playedLogIn = true;
+                loggingInDirector.gameObject.SetActive(true);
+            }
+            else if (false) // make this check if the player has logged in already, and is returning to the menu
+            {
+                //playedLogIn = true;
+                //
+                //Debug.Log("Player already logged in, adjusting intro cinematic");
+                //
+                //preLoginDirector.initialTime = 10.5f;
+                //preLoginDirector.time = 10.5f;
+                //
+                //loggingInDirector.gameObject.SetActive(true);
+                //loggingInDirector.initialTime = 1.65f;
+                //loggingInDirector.time = 1.65f;
+            }
+
+
         }
+
+
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

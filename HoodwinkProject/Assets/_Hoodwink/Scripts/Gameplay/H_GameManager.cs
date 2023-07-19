@@ -29,7 +29,9 @@ public class H_GameManager : NetworkBehaviour
     public Transform[] lobbySpawns;
 
     [Header("Player Settings")]
+    [Range(3, 8)]public int minPlayersToStart = 3;
     public PlayerSettings[] playerSettings;
+
     int roundSpiesRemaining = 0;
 
     [Header("Player Colours")]
@@ -55,6 +57,8 @@ public class H_GameManager : NetworkBehaviour
 
     [Header("Debugging")]
     public bool enableDebugLogs;
+    public bool overrideMinimumPlayerCount;
+    public PlayerSettings overrideSettings;
 
     private H_NetworkManager netManager;
 
@@ -262,6 +266,15 @@ public class H_GameManager : NetworkBehaviour
 
         if (allPlayersReady)
         {
+            if (minPlayersToStart > serverPlayers.Count)
+            {
+                if (!overrideMinimumPlayerCount)
+                {
+                    Debug.Log("Not enough players to start game");
+                    return;
+                }
+            }
+
             StartRound();
         }
 
@@ -384,15 +397,21 @@ public class H_GameManager : NetworkBehaviour
 
         PlayerSettings newRoundSettings = new PlayerSettings();
 
-        foreach (PlayerSettings settings in playerSettings)
+        if (overrideMinimumPlayerCount)
         {
-            if (settings.playerCount == totalPlayers)
+            newRoundSettings = overrideSettings;
+        }
+        else
+        {
+            foreach (PlayerSettings settings in playerSettings)
             {
-                newRoundSettings = settings;
-                break;
+                if (settings.playerCount == totalPlayers)
+                {
+                    newRoundSettings = settings;
+                    break;
+                }
             }
         }
-
 
         roundSpiesRemaining = newRoundSettings.spyCount;
 
@@ -489,7 +508,7 @@ public struct AgentData
 }
 
 [System.Serializable]
-public struct PlayerSettings
+public class PlayerSettings
 {
     public int playerCount;
     public int spyCount;
