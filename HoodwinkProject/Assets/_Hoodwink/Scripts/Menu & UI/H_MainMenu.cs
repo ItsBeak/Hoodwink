@@ -18,10 +18,10 @@ public class H_MainMenu : MonoBehaviour
     public TMP_InputField codeInputField;
 
     [Header("Directors")]
-    public PlayableDirector preLoginDirector, loggingInDirector, mainMenuDirector;
-    public float returnToMenuTime;
+    public PlayableDirector preLoginDirector, loggedInDirector;
 
     bool playedLogIn = false;
+    bool startup = false;
 
     private H_NetworkManager nm;
 
@@ -43,34 +43,31 @@ public class H_MainMenu : MonoBehaviour
 
         loginButton.GetComponent<Button>().interactable = !NetManager.isLoggingIn;
 
-        if (NetManager.isLoggedIn)
+        if (!startup)
         {
-
-            if (!playedLogIn)
+            if (NetManager.isLoggedIn)
             {
-                Debug.Log("First time logging in");
-
-                playedLogIn = true;
-                loggingInDirector.gameObject.SetActive(true);
+                loggedInDirector.gameObject.SetActive(true);
+                GetComponent<AudioSource>().Play();
             }
-            else if (false) // make this check if the player has logged in already, and is returning to the menu
+            else
             {
-                //playedLogIn = true;
-                //
-                //Debug.Log("Player already logged in, adjusting intro cinematic");
-                //
-                //preLoginDirector.initialTime = 10.5f;
-                //preLoginDirector.time = 10.5f;
-                //
-                //loggingInDirector.gameObject.SetActive(true);
-                //loggingInDirector.initialTime = 1.65f;
-                //loggingInDirector.time = 1.65f;
+                preLoginDirector.gameObject.SetActive(true);
             }
 
+            startup = true;
 
         }
 
-
+        if (NetManager.isLoggedIn)
+        {
+            
+            if (!playedLogIn)
+            {
+                playedLogIn = true;
+                loggedInDirector.gameObject.SetActive(true);
+            }
+        }
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
