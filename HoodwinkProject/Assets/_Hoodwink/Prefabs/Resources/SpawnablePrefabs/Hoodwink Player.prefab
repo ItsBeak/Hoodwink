@@ -867,6 +867,8 @@ GameObject:
   - component: {fileID: 8347831448061583201}
   - component: {fileID: 8005283740787475027}
   - component: {fileID: 4731691723292731582}
+  - component: {fileID: 4083913055767944122}
+  - component: {fileID: 311638667754521449}
   m_Layer: 0
   m_Name: Hoodwink Player
   m_TagString: Untagged
@@ -929,6 +931,7 @@ MonoBehaviour:
   canJump: 1
   isPaused: 0
   speedMultiplier: 1
+  hasAgentData: 0
   playerName: 
   shirtColour: {r: 0, g: 0, b: 0, a: 0}
   pantsColour: {r: 0, g: 0, b: 0, a: 0}
@@ -1023,6 +1026,39 @@ MonoBehaviour:
   compressRotation: 0
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &4083913055767944122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2269030465652812220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d8d80a94ffeac47aab50ad87acaf72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  playerAnimator: {fileID: 5250899048665670101}
+--- !u!114 &311638667754521449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2269030465652812220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 1
+  animator: {fileID: 5250899048665670101}
 --- !u!1 &2394470855388394214
 GameObject:
   m_ObjectHideFlags: 0
@@ -2432,6 +2468,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c63fa1d7f142a9649a33f2887e78ea23, type: 2}
+    - target: {fileID: -4683137074044702449, guid: b48f444feca338843809beb11b5612e8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b48f444feca338843809beb11b5612e8,
         type: 3}
       propertyPath: m_Name
@@ -2442,6 +2483,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: b48f444feca338843809beb11b5612e8,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: bbc40fb96ac21cb41a81284c36d777a9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b48f444feca338843809beb11b5612e8, type: 3}
 --- !u!4 &2179421204234550191 stripped
@@ -2453,6 +2499,12 @@ Transform:
 --- !u!137 &3081964895950316719 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -5516571122491950869, guid: b48f444feca338843809beb11b5612e8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1852216898748931140}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5250899048665670101 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: b48f444feca338843809beb11b5612e8,
     type: 3}
   m_PrefabInstance: {fileID: 1852216898748931140}
   m_PrefabAsset: {fileID: 0}

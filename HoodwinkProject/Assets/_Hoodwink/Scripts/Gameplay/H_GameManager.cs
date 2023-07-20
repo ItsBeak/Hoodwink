@@ -270,7 +270,7 @@ public class H_GameManager : NetworkBehaviour
             {
                 if (!overrideMinimumPlayerCount)
                 {
-                    Debug.Log("Not enough players to start game");
+                    timerDisplay.text = "Not enough players to start: " + serverPlayers.Count + "/" + minPlayersToStart;
                     return;
                 }
             }
