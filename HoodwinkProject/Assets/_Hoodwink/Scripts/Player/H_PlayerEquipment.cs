@@ -1,6 +1,7 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,17 +11,24 @@ public class H_PlayerEquipment : NetworkBehaviour
     [SyncVar(hook = nameof(OnEquipmentChanged))]
     public EquipmentSlot currentSlot = EquipmentSlot.Holstered;
 
-    GameObject currentSlotObject;
-
     [Header("Primary Equipment Settings")]
-    public GameObject itemAnchor;
-    public GameObject primaryObject;
+    public GameObject primaryClientObject;
+    public GameObject primaryObserverObject;
 
     [Header("Sidearm Equipment Settings")]
-    public GameObject sidearmObject;
+    public GameObject sidearmClientObject;
+    public GameObject sidearmObserverObject;
 
     [Header("Holstered Equipment Settings")]
-    public GameObject holsteredObject;
+    public GameObject holsteredClientObject;
+    public GameObject holsteredObserverObject;
+
+    [Header("Gadget Settings")]
+    public Transform gadgetAnchor;
+    public H_GadgetBase currentGadget;
+    public Image gadgetCooldownUI;
+    public Image gadgetIcon;
+    public TextMeshProUGUI gadgetNameText;
 
     [Header("Equipment UI Elements")]
     public Image primarySlotUI;
@@ -29,9 +37,23 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     public Color selectedColor, deselectedColor;
 
+    [Header("Item Input Settings")]
+    public KeyCode interactKey = KeyCode.F;
+    public KeyCode primaryUseKey = KeyCode.Mouse0;
+    public KeyCode secondaryUseKey = KeyCode.Mouse1;
+    public KeyCode alternateUseKey = KeyCode.R;
+    public KeyCode gadgetUseKey = KeyCode.G;
+    public KeyCode dropKey = KeyCode.Q;
+
+    [HideInInspector] public bool isPrimaryUseKeyPressed = false;
+    [HideInInspector] public bool isSecondaryUseKeyPressed = false;
+    [HideInInspector] public bool isAlternateUseKeyPressed = false;
+
     void Start()
     {
-
+        if (!isLocalPlayer)
+            return;
+        CmdChangeSlot(EquipmentSlot.Holstered);
     }
 
     void Update()
@@ -40,10 +62,15 @@ public class H_PlayerEquipment : NetworkBehaviour
             return;
 
         CheckForKeypresses();
+        UpdateUI();
     }
 
     void CheckForKeypresses()
     {
+        isPrimaryUseKeyPressed = Input.GetKey(primaryUseKey);
+        isSecondaryUseKeyPressed = Input.GetKey(secondaryUseKey);
+        isAlternateUseKeyPressed = Input.GetKey(alternateUseKey);
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             CmdChangeSlot(EquipmentSlot.PrimaryItem);
@@ -56,20 +83,34 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             CmdChangeSlot(EquipmentSlot.Holstered);
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0))
+        else if (Input.GetKeyDown(gadgetUseKey))
         {
-            if (currentSlot == EquipmentSlot.PrimaryItem)
+            if (!currentGadget)
             {
+                gadgetAnchor.GetComponentInChildren<H_GadgetBase>();
+            }
 
-            }
-            else if (currentSlot == EquipmentSlot.Sidearm)
+            if (currentGadget)
             {
-                currentSlotObject.GetComponent<H_ThingDoer>().DoThings();
+                currentGadget.UseGadget();
             }
-            else if (currentSlot == EquipmentSlot.Holstered)
-            {
+        }
+    }
 
-            }
+    void UpdateUI()
+    {
+        if (currentGadget)
+        {
+            gadgetCooldownUI.fillAmount = Mathf.Clamp(currentGadget.cooldownTimer / currentGadget.cooldown, 0, 1);
+            gadgetIcon.sprite = currentGadget.gadgetIcon;
+            gadgetIcon.color = Color.white;
+            gadgetNameText.text = currentGadget.gadgetName;
+        }
+        else
+        {
+            gadgetIcon.sprite = null;
+            gadgetIcon.color = Color.clear;
+            gadgetNameText.text = "";
         }
     }
 
@@ -109,35 +150,53 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void OnSlotPrimary()
     {
+        primaryObserverObject.SetActive(true);
+        sidearmObserverObject.SetActive(false);
+        holsteredObserverObject.SetActive(false);
+
+        if (!isLocalPlayer)
+            return;
+
         primarySlotUI.color = selectedColor;
 
-        primaryObject.SetActive(true);
-        sidearmObject.SetActive(false);
-        holsteredObject.SetActive(false);
-
-        currentSlotObject = primaryObject;
+        primaryClientObject.SetActive(true);
+        sidearmClientObject.SetActive(false);
+        holsteredClientObject.SetActive(false);
     }
 
     void OnSlotSidearm()
     {
+        primaryObserverObject.SetActive(false);
+        sidearmObserverObject.SetActive(true);
+        holsteredObserverObject.SetActive(false);
+
+        if (!isLocalPlayer)
+            return;
+
         sidearmSlotUI.color = selectedColor;
 
-        primaryObject.SetActive(false);
-        sidearmObject.SetActive(true);
-        holsteredObject.SetActive(false);
+        primaryClientObject.SetActive(false);
+        sidearmClientObject.SetActive(true);
+        holsteredClientObject.SetActive(false);
 
-        currentSlotObject = sidearmObject;
+
     }
 
     void OnSlotHolstered()
     {
+        primaryObserverObject.SetActive(false);
+        sidearmObserverObject.SetActive(false);
+        holsteredObserverObject.SetActive(true);
+
+        if (!isLocalPlayer)
+            return;
+
         holsteredSlotUI.color = selectedColor;
 
-        primaryObject.SetActive(false);
-        sidearmObject.SetActive(false);
-        holsteredObject.SetActive(true);
+        primaryClientObject.SetActive(false);
+        sidearmClientObject.SetActive(false);
+        holsteredClientObject.SetActive(true);
 
-        currentSlotObject = holsteredObject;
     }
 }
 

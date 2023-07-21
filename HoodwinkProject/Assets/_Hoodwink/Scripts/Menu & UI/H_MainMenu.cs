@@ -43,6 +43,11 @@ public class H_MainMenu : MonoBehaviour
 
         loginButton.GetComponent<Button>().interactable = !NetManager.isLoggingIn;
 
+        if (Input.GetKeyDown(KeyCode.Space) && preLoginDirector.time < 9f)
+        {
+            preLoginDirector.time = 9f;
+        }
+
         if (!startup)
         {
             if (NetManager.isLoggedIn)
