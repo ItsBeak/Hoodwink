@@ -18,7 +18,7 @@ public class H_MainMenu : MonoBehaviour
     public TMP_InputField codeInputField;
 
     [Header("Directors")]
-    public PlayableDirector preLoginDirector, loggedInDirector, customizationDirector, customizationEndDirector;
+    public PlayableDirector preLoginDirector, loggedInDirector, customizationDirector, customizationEndDirector, optionsDirector, optionsEndDirector;
 
     bool playedLogIn = false;
     bool startup = false;
@@ -115,6 +115,19 @@ public class H_MainMenu : MonoBehaviour
     {
         customizationDirector.gameObject.SetActive(false);
         customizationEndDirector.gameObject.SetActive(true);
+
+    }
+
+    public void OpenOptionsMenu()
+    {
+        optionsDirector.gameObject.SetActive(true);
+        optionsEndDirector.gameObject.SetActive(false);
+    }
+
+    public void CloseOptionsMenu()
+    {
+        optionsDirector.gameObject.SetActive(false);
+        optionsEndDirector.gameObject.SetActive(true);
 
     }
 }
