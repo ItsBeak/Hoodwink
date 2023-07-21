@@ -13,7 +13,7 @@ public class H_GadgetBase : NetworkBehaviour
 
     public virtual void Update()
     {
-        if (!isLocalPlayer)
+        if (!isOwned)
             return;
 
         if (cooldownTimer > 0)

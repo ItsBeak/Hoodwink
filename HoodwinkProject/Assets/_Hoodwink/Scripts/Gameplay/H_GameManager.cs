@@ -39,6 +39,10 @@ public class H_GameManager : NetworkBehaviour
     public Color[] shirtColours, pantsColours, shoesColours;
     List<AgentData> availableAgents;
 
+    [Header("Gadgets")]
+    public GameObject[] spyGadgets;
+    public GameObject[] agentGadgets;
+
     [Header("Map Pool")]
     [Scene] public string[] maps;
 
@@ -58,6 +62,7 @@ public class H_GameManager : NetworkBehaviour
     [Header("Debugging")]
     public bool enableDebugLogs;
     public bool overrideMinimumPlayerCount;
+    public bool allowServerToSkipGame;
     public PlayerSettings overrideSettings;
 
     private H_NetworkManager netManager;
@@ -145,6 +150,11 @@ public class H_GameManager : NetworkBehaviour
                     return;
 
                 roundTimer -= 1 * Time.deltaTime;
+
+                if (Input.GetKeyDown(KeyCode.Backspace) && allowServerToSkipGame)
+                {
+                    roundTimer -= 999;
+                }
 
                 if (winConditionMet)
                 {
@@ -329,6 +339,8 @@ public class H_GameManager : NetworkBehaviour
             player.playerName = "anon";
             player.shirtColour = shirtColours[Random.Range(0, shirtColours.Length)];
 
+            NetworkServer.Destroy(player.equipment.currentGadget.gameObject);
+
         }
 
         roundPlayers.Clear();
@@ -424,6 +436,11 @@ public class H_GameManager : NetworkBehaviour
                 serverPlayers[randomPlayerIndex].currentAlignment = AgentAlignment.Spy;
                 roundSpies.Add(serverPlayers[randomPlayerIndex]);
                 roundSpiesRemaining--;
+
+                GameObject newGadget = Instantiate(spyGadgets[Random.Range(0, spyGadgets.Length)]);
+                NetworkServer.Spawn(newGadget, serverPlayers[randomPlayerIndex].connectionToClient);
+                roundPlayers[randomPlayerIndex].equipment.RpcEquipGadget(newGadget);
+
             }
         }
 
@@ -433,6 +450,10 @@ public class H_GameManager : NetworkBehaviour
             {
                 serverPlayers[i].currentAlignment = AgentAlignment.Agent;
                 roundAgents.Add(serverPlayers[i]);
+
+                GameObject newGadget = Instantiate(agentGadgets[Random.Range(0, agentGadgets.Length)]);
+                NetworkServer.Spawn(newGadget, serverPlayers[i].connectionToClient);
+                roundPlayers[i].equipment.RpcEquipGadget(newGadget);
             }
         }
 

@@ -110,6 +110,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             gadgetIcon.sprite = null;
             gadgetIcon.color = Color.clear;
+            gadgetCooldownUI.fillAmount = 0;
             gadgetNameText.text = "";
         }
     }
@@ -198,6 +199,18 @@ public class H_PlayerEquipment : NetworkBehaviour
         holsteredClientObject.SetActive(true);
 
     }
+
+    [ClientRpc]
+    public void RpcEquipGadget(GameObject gadget)
+    {
+        currentGadget = gadget.GetComponent<H_GadgetBase>();
+
+        currentGadget.transform.parent = gadgetAnchor;
+        currentGadget.transform.localPosition = Vector3.zero;
+        currentGadget.transform.localRotation = Quaternion.identity;
+    }
+
+
 }
 
 public enum EquipmentSlot

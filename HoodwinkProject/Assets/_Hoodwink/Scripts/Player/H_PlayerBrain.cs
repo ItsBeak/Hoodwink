@@ -34,6 +34,7 @@ public class H_PlayerBrain : NetworkBehaviour
     public TextMeshProUGUI readyText;
     public TextMeshProUGUI alignmentText;
     public Image alignmentBackground;
+    public H_PlayerEquipment equipment;
 
     [Header("Rendering")]
     public Renderer playerRenderer;
