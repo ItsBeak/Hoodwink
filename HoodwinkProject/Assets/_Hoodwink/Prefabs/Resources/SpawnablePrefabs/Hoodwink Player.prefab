@@ -1154,6 +1154,7 @@ GameObject:
   - component: {fileID: 8347831448061583201}
   - component: {fileID: 8005283740787475027}
   - component: {fileID: 4731691723292731582}
+  - component: {fileID: 7927335673166897153}
   - component: {fileID: 4083913055767944122}
   - component: {fileID: 311638667754521449}
   - component: {fileID: 7732784669419588674}
@@ -1179,7 +1180,6 @@ Transform:
   - {fileID: 6530246134214341214}
   - {fileID: 1763644432317735662}
   - {fileID: 872655978596819741}
-  - {fileID: 3571303080921220556}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1315,6 +1315,40 @@ MonoBehaviour:
   compressRotation: 0
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &7927335673166897153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2269030465652812220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 5020679251781397042}
+  clientAuthority: 0
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 1, g: 1, b: 1, a: 0.5}
+  onlySyncOnChange: 1
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  compressRotation: 0
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!114 &4083913055767944122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1364,11 +1398,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   currentSlot: 2
-  primarySlotPrefab: {fileID: 3790335044636242929}
-  sidearmSlotPrefab: {fileID: 675379514232802888}
-  holsteredSlotPrefab: {fileID: 7807859031448187388}
-  currentSlotObject: {fileID: 0}
   itemAnchor: {fileID: 0}
+  primaryObject: {fileID: 3790335044636242929}
+  sidearmObject: {fileID: 675379514232802888}
+  holsteredObject: {fileID: 7807859031448187388}
   primarySlotUI: {fileID: 4875658578538716508}
   sidearmSlotUI: {fileID: 1250894469478280535}
   holsteredSlotUI: {fileID: 7530321556088076236}
@@ -1397,7 +1430,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2276840154210437441}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1405,8 +1438,8 @@ Transform:
   - {fileID: 3783978825366029993}
   - {fileID: 1559823613022349162}
   - {fileID: 8965999336580770374}
-  m_Father: {fileID: 9028162307016103110}
-  m_RootOrder: 3
+  m_Father: {fileID: 5020679251781397042}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2394470855388394214
 GameObject:
@@ -1711,6 +1744,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9099067814231866372}
+  - {fileID: 3571303080921220556}
   m_Father: {fileID: 6530246134214341214}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2564,7 +2598,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5500274452012256582}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2898,7 +2932,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6523605093240662935}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 1, z: 1}
+  m_LocalPosition: {x: 0.35, y: -0.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2930,7 +2964,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7325370406824813606}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 1, z: 1}
+  m_LocalPosition: {x: -0.35, y: -0.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

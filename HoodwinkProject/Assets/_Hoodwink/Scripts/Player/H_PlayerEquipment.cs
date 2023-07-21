@@ -10,21 +10,24 @@ public class H_PlayerEquipment : NetworkBehaviour
     [SyncVar(hook = nameof(OnEquipmentChanged))]
     public EquipmentSlot currentSlot = EquipmentSlot.Holstered;
 
-    public GameObject primarySlotPrefab;
-    public GameObject sidearmSlotPrefab;
-    public GameObject holsteredSlotPrefab;
+    GameObject currentSlotObject;
 
-    public GameObject currentSlotObject;
-
+    [Header("Primary Equipment Settings")]
     public GameObject itemAnchor;
+    public GameObject primaryObject;
 
-    [Header("UI Elements")]
+    [Header("Sidearm Equipment Settings")]
+    public GameObject sidearmObject;
+
+    [Header("Holstered Equipment Settings")]
+    public GameObject holsteredObject;
+
+    [Header("Equipment UI Elements")]
     public Image primarySlotUI;
     public Image sidearmSlotUI;
     public Image holsteredSlotUI;
 
     public Color selectedColor, deselectedColor;
-
 
     void Start()
     {
@@ -55,9 +58,17 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (currentSlot == EquipmentSlot.Sidearm)
+            if (currentSlot == EquipmentSlot.PrimaryItem)
+            {
+
+            }
+            else if (currentSlot == EquipmentSlot.Sidearm)
             {
                 currentSlotObject.GetComponent<H_ThingDoer>().DoThings();
+            }
+            else if (currentSlot == EquipmentSlot.Holstered)
+            {
+
             }
         }
     }
@@ -76,44 +87,58 @@ public class H_PlayerEquipment : NetworkBehaviour
         switch (newSlot)
         {
             case EquipmentSlot.PrimaryItem:
-                primarySlotUI.color = selectedColor;
-
-                primarySlotPrefab.SetActive(true);
-                sidearmSlotPrefab.SetActive(false);
-                holsteredSlotPrefab.SetActive(false);
-
-                currentSlotObject = primarySlotPrefab;
+                OnSlotPrimary();
                 break;
 
             case EquipmentSlot.Sidearm:
-                sidearmSlotUI.color = selectedColor;
-
-                primarySlotPrefab.SetActive(false);
-                sidearmSlotPrefab.SetActive(true);
-                holsteredSlotPrefab.SetActive(false);
-
-                currentSlotObject = sidearmSlotPrefab;
+                OnSlotSidearm();
                 break;
 
             case EquipmentSlot.Holstered:
-                holsteredSlotUI.color = selectedColor;
-
-                primarySlotPrefab.SetActive(false);
-                sidearmSlotPrefab.SetActive(false);
-                holsteredSlotPrefab.SetActive(true);
-
-                currentSlotObject = holsteredSlotPrefab;
+                OnSlotHolstered();
                 break;
         }
 
     }
 
-    [Command] 
+    [Command]
     void CmdChangeSlot(EquipmentSlot selectedSlot)
     {
         currentSlot = selectedSlot;
     }
 
+    void OnSlotPrimary()
+    {
+        primarySlotUI.color = selectedColor;
+
+        primaryObject.SetActive(true);
+        sidearmObject.SetActive(false);
+        holsteredObject.SetActive(false);
+
+        currentSlotObject = primaryObject;
+    }
+
+    void OnSlotSidearm()
+    {
+        sidearmSlotUI.color = selectedColor;
+
+        primaryObject.SetActive(false);
+        sidearmObject.SetActive(true);
+        holsteredObject.SetActive(false);
+
+        currentSlotObject = sidearmObject;
+    }
+
+    void OnSlotHolstered()
+    {
+        holsteredSlotUI.color = selectedColor;
+
+        primaryObject.SetActive(false);
+        sidearmObject.SetActive(false);
+        holsteredObject.SetActive(true);
+
+        currentSlotObject = holsteredObject;
+    }
 }
 
 public enum EquipmentSlot
