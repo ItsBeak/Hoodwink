@@ -39,6 +39,10 @@ public class H_GameManager : NetworkBehaviour
     public Color[] shirtColours, pantsColours, shoesColours;
     List<AgentData> availableAgents;
 
+    [Header("Default Sidearm Settings")]
+    public GameObject defaultClientSidearm;
+    public GameObject defaultObserverSidearm;
+
     [Header("Gadgets")]
     public GameObject[] spyGadgets;
     public GameObject[] agentGadgets;
@@ -341,6 +345,8 @@ public class H_GameManager : NetworkBehaviour
 
             NetworkServer.Destroy(player.equipment.currentGadget.gameObject);
 
+            NetworkServer.Destroy(player.equipment.sidearmClientObject.gameObject);
+            NetworkServer.Destroy(player.equipment.sidearmObserverObject.gameObject);
         }
 
         roundPlayers.Clear();
@@ -349,7 +355,7 @@ public class H_GameManager : NetworkBehaviour
 
         winConditionMet = false;
 
-        Invoke("CleanupObjects", 1f);
+       // Invoke("CleanupObjects", 1f);
 
         RpcUnloadMap(chosenScene);
         currentRoundStage = RoundStage.Lobby;
@@ -433,28 +439,36 @@ public class H_GameManager : NetworkBehaviour
 
             if (roundPlayers[randomPlayerIndex].currentAlignment != AgentAlignment.Spy)
             {
-                serverPlayers[randomPlayerIndex].currentAlignment = AgentAlignment.Spy;
-                roundSpies.Add(serverPlayers[randomPlayerIndex]);
+                roundPlayers[randomPlayerIndex].currentAlignment = AgentAlignment.Spy;
+                roundSpies.Add(roundPlayers[randomPlayerIndex]);
                 roundSpiesRemaining--;
 
                 GameObject newGadget = Instantiate(spyGadgets[Random.Range(0, spyGadgets.Length)]);
-                NetworkServer.Spawn(newGadget, serverPlayers[randomPlayerIndex].connectionToClient);
+                NetworkServer.Spawn(newGadget, roundPlayers[randomPlayerIndex].connectionToClient);
                 roundPlayers[randomPlayerIndex].equipment.RpcEquipGadget(newGadget);
-
             }
         }
 
         for (int i = 0; i < totalPlayers; i++)
         {
-            if (serverPlayers[i].currentAlignment != AgentAlignment.Spy)
+            if (roundPlayers[i].currentAlignment != AgentAlignment.Spy)
             {
-                serverPlayers[i].currentAlignment = AgentAlignment.Agent;
-                roundAgents.Add(serverPlayers[i]);
+                roundPlayers[i].currentAlignment = AgentAlignment.Agent;
+                roundAgents.Add(roundPlayers[i]);
 
                 GameObject newGadget = Instantiate(agentGadgets[Random.Range(0, agentGadgets.Length)]);
-                NetworkServer.Spawn(newGadget, serverPlayers[i].connectionToClient);
+                NetworkServer.Spawn(newGadget, roundPlayers[i].connectionToClient);
                 roundPlayers[i].equipment.RpcEquipGadget(newGadget);
             }
+
+            GameObject newClientSidearm = Instantiate(defaultClientSidearm);
+            GameObject newObserverSidearm = Instantiate(defaultObserverSidearm);
+
+            NetworkServer.Spawn(newClientSidearm, roundPlayers[i].connectionToClient);
+            NetworkServer.Spawn(newObserverSidearm, roundPlayers[i].connectionToClient);
+
+            roundPlayers[i].equipment.RpcEquipSidearm(newClientSidearm, newObserverSidearm);
+
         }
 
     }

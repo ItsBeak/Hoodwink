@@ -2,6 +2,7 @@ using UnityEngine;
 using Mirror;
 using System;
 using Random = UnityEngine.Random;
+using System.Diagnostics.Contracts;
 
 public class H_ItemWeapon : H_ItemBase
 {

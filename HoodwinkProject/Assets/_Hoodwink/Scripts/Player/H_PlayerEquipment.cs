@@ -64,7 +64,12 @@ public class H_PlayerEquipment : NetworkBehaviour
     void Start()
     {
         if (!isLocalPlayer)
+        {
+            primaryEquipPointClient.gameObject.SetActive(false);
+            sidearmEquipPointClient.gameObject.SetActive(false);
+            holsteredEquipPointClient.gameObject.SetActive(false);
             return;
+        }
 
         baseFOV = playerCamera.m_Lens.FieldOfView;
 
@@ -169,68 +174,72 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void ClearSlots()
     {
-        if (primaryObserverObject)
-            primaryObserverObject.SetActive(false);
-
-        if (sidearmObserverObject)
-            sidearmObserverObject.SetActive(false);
-
-        if (holsteredObserverObject)
-            holsteredObserverObject.SetActive(false);
+        primaryEquipPointObserver.gameObject.SetActive(false);
+        sidearmEquipPointObserver.gameObject.SetActive(false);
+        holsteredEquipPointObserver.gameObject.SetActive(false);
 
         if (!isLocalPlayer)
             return;
 
-        if (primaryClientObject)
-            primaryClientObject.SetActive(false);
-
-        if (sidearmClientObject)
-            sidearmClientObject.SetActive(false);
-
-        if (holsteredClientObject)
-            holsteredClientObject.SetActive(false);
+        primaryEquipPointClient.gameObject.SetActive(false);
+        sidearmEquipPointClient.gameObject.SetActive(false);
+        holsteredEquipPointClient.gameObject.SetActive(false);
     }
 
     void OnSlotPrimary()
     {
-        if (primaryObserverObject)
-            primaryObserverObject.SetActive(true);
+        primaryEquipPointObserver.gameObject.SetActive(true);
 
         if (!isLocalPlayer)
             return;
 
         primarySlotUI.color = selectedColor;
 
-        if (primaryClientObject)
-            primaryClientObject.SetActive(true);
+        primaryEquipPointClient.gameObject.SetActive(true);
+
     }
 
     void OnSlotSidearm()
     {
-        if (sidearmObserverObject)
-            sidearmObserverObject.SetActive(true);
+        sidearmEquipPointObserver.gameObject.SetActive(true);
 
         if (!isLocalPlayer)
             return;
 
         sidearmSlotUI.color = selectedColor;
 
-        if (sidearmClientObject)
-            sidearmClientObject.SetActive(true);
+        sidearmEquipPointClient.gameObject.SetActive(true);
     }
 
     void OnSlotHolstered()
     {
-        if (holsteredObserverObject)
-            holsteredObserverObject.SetActive(true);
+        holsteredEquipPointObserver.gameObject.SetActive(true);
+
 
         if (!isLocalPlayer)
             return;
 
         holsteredSlotUI.color = selectedColor;
 
-        if (holsteredClientObject)
-            holsteredClientObject.SetActive(true);
+        holsteredEquipPointClient.gameObject.SetActive(true);
+
+    }
+
+    [ClientRpc]
+    public void RpcEquipSidearm(GameObject clientSidearm, GameObject observerSidearm)
+    {
+        sidearmClientObject = clientSidearm;
+        sidearmObserverObject = observerSidearm;
+
+        sidearmClientObject.transform.parent = sidearmEquipPointClient;
+        sidearmClientObject.transform.localPosition = Vector3.zero;
+        sidearmClientObject.transform.localRotation = Quaternion.identity;
+
+        sidearmObserverObject.transform.parent = sidearmEquipPointObserver;
+        sidearmObserverObject.transform.localPosition = Vector3.zero;
+        sidearmObserverObject.transform.localRotation = Quaternion.identity;
+
+        clientSidearm.GetComponent<H_ItemWeapon>().Initialize();
     }
 
     [ClientRpc]

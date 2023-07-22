@@ -1,5 +1,6 @@
 using UnityEngine;
 using Mirror;
+using Unity.VisualScripting;
 
 public class H_ItemBase : NetworkBehaviour
 {
@@ -24,7 +25,7 @@ public class H_ItemBase : NetworkBehaviour
 
     public virtual void Update()
     {
-        if (!isLocalPlayer)
+        if (!isOwned)
             return;
 
         CheckForKeyPresses();
