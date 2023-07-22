@@ -25,12 +25,17 @@ public class H_ItemBase : NetworkBehaviour
     public virtual void Update()
     {
         if (!isLocalPlayer)
-        {
-            Debug.Log("The player does not own this item");
             return;
-        }
 
         CheckForKeyPresses();
+    }
+
+    public virtual void Initialize()
+    {
+        if (!equipment)
+        {
+            equipment = GetComponentInParent<H_PlayerEquipment>();
+        }
     }
 
     void CheckForKeyPresses()

@@ -40,7 +40,7 @@ public class H_GadgetBase : NetworkBehaviour
     [ClientRpc]
     public virtual void RpcUseGadget()
     {
-        Debug.Log(netIdentity + " used their gadget!");
+
     }
 
 }

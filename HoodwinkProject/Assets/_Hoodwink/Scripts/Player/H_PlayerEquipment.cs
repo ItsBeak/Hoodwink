@@ -1,3 +1,4 @@
+using Cinemachine;
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,14 +13,20 @@ public class H_PlayerEquipment : NetworkBehaviour
     public EquipmentSlot currentSlot = EquipmentSlot.Holstered;
 
     [Header("Primary Equipment Settings")]
+    public Transform primaryEquipPointClient;
+    public Transform primaryEquipPointObserver;
     public GameObject primaryClientObject;
     public GameObject primaryObserverObject;
 
     [Header("Sidearm Equipment Settings")]
+    public Transform sidearmEquipPointClient;
+    public Transform sidearmEquipPointObserver;
     public GameObject sidearmClientObject;
     public GameObject sidearmObserverObject;
 
     [Header("Holstered Equipment Settings")]
+    public Transform holsteredEquipPointClient;
+    public Transform holsteredEquipPointObserver;
     public GameObject holsteredClientObject;
     public GameObject holsteredObserverObject;
 
@@ -49,10 +56,18 @@ public class H_PlayerEquipment : NetworkBehaviour
     [HideInInspector] public bool isSecondaryUseKeyPressed = false;
     [HideInInspector] public bool isAlternateUseKeyPressed = false;
 
+    [Header("Components")]
+    public CinemachineVirtualCamera playerCamera;
+    [HideInInspector] public float baseFOV;
+
+
     void Start()
     {
         if (!isLocalPlayer)
             return;
+
+        baseFOV = playerCamera.m_Lens.FieldOfView;
+
         CmdChangeSlot(EquipmentSlot.Holstered);
     }
 
@@ -125,6 +140,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         primarySlotUI.color = deselectedColor;
         sidearmSlotUI.color = deselectedColor;
         holsteredSlotUI.color = deselectedColor;
+        ClearSlots();
 
         switch (newSlot)
         {
@@ -141,6 +157,8 @@ public class H_PlayerEquipment : NetworkBehaviour
                 break;
         }
 
+        playerCamera.m_Lens.FieldOfView = baseFOV;
+
     }
 
     [Command]
@@ -149,55 +167,70 @@ public class H_PlayerEquipment : NetworkBehaviour
         currentSlot = selectedSlot;
     }
 
+    void ClearSlots()
+    {
+        if (primaryObserverObject)
+            primaryObserverObject.SetActive(false);
+
+        if (sidearmObserverObject)
+            sidearmObserverObject.SetActive(false);
+
+        if (holsteredObserverObject)
+            holsteredObserverObject.SetActive(false);
+
+        if (!isLocalPlayer)
+            return;
+
+        if (primaryClientObject)
+            primaryClientObject.SetActive(false);
+
+        if (sidearmClientObject)
+            sidearmClientObject.SetActive(false);
+
+        if (holsteredClientObject)
+            holsteredClientObject.SetActive(false);
+    }
+
     void OnSlotPrimary()
     {
-        primaryObserverObject.SetActive(true);
-        sidearmObserverObject.SetActive(false);
-        holsteredObserverObject.SetActive(false);
+        if (primaryObserverObject)
+            primaryObserverObject.SetActive(true);
 
         if (!isLocalPlayer)
             return;
 
         primarySlotUI.color = selectedColor;
 
-        primaryClientObject.SetActive(true);
-        sidearmClientObject.SetActive(false);
-        holsteredClientObject.SetActive(false);
+        if (primaryClientObject)
+            primaryClientObject.SetActive(true);
     }
 
     void OnSlotSidearm()
     {
-        primaryObserverObject.SetActive(false);
-        sidearmObserverObject.SetActive(true);
-        holsteredObserverObject.SetActive(false);
+        if (sidearmObserverObject)
+            sidearmObserverObject.SetActive(true);
 
         if (!isLocalPlayer)
             return;
 
         sidearmSlotUI.color = selectedColor;
 
-        primaryClientObject.SetActive(false);
-        sidearmClientObject.SetActive(true);
-        holsteredClientObject.SetActive(false);
-
-
+        if (sidearmClientObject)
+            sidearmClientObject.SetActive(true);
     }
 
     void OnSlotHolstered()
     {
-        primaryObserverObject.SetActive(false);
-        sidearmObserverObject.SetActive(false);
-        holsteredObserverObject.SetActive(true);
+        if (holsteredObserverObject)
+            holsteredObserverObject.SetActive(true);
 
         if (!isLocalPlayer)
             return;
 
         holsteredSlotUI.color = selectedColor;
 
-        primaryClientObject.SetActive(false);
-        sidearmClientObject.SetActive(false);
-        holsteredClientObject.SetActive(true);
-
+        if (holsteredClientObject)
+            holsteredClientObject.SetActive(true);
     }
 
     [ClientRpc]
