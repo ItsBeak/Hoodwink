@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 467195675701399729}
   - component: {fileID: 8520857790104073964}
   - component: {fileID: 658602885788343482}
+  - component: {fileID: 4031457014854847074}
   m_Layer: 0
   m_Name: Metal_Desk
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246753723512347813}
   m_LocalRotation: {x: 0.70710576, y: -0, z: -0, w: 0.70710784}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.015, y: 0.37499985, z: 0.276}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4031457014854847074
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246753723512347813}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3055154964122646746, guid: 37d5d9d2ffd6efc43963f4fbbee2c5eb, type: 3}
 --- !u!1 &8627232901765921023
 GameObject:
   m_ObjectHideFlags: 0

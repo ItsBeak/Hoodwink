@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4933663380229478595}
   - component: {fileID: 5359478572284317279}
   - component: {fileID: 7174725392163080347}
+  - component: {fileID: 8160407053815611484}
   m_Layer: 0
   m_Name: Objective_Box
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546040585705017617}
   m_LocalRotation: {x: -0, y: -0, z: 0.13052596, w: 0.99144495}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.126, y: 0.2722253, z: -0.006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8160407053815611484
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546040585705017617}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1962751649997006019, guid: e1786da336f1da84da8616d8864f6bd0, type: 3}
 --- !u!1 &7014262275601237886
 GameObject:
   m_ObjectHideFlags: 0
