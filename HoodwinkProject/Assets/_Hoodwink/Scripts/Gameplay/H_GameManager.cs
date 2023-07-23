@@ -42,6 +42,8 @@ public class H_GameManager : NetworkBehaviour
     [Header("Default Sidearm Settings")]
     public GameObject defaultClientSidearm;
     public GameObject defaultObserverSidearm;
+    public GameObject boratGunClient; // remove these dear god
+    public GameObject boratGunObserver; // dont you forget to remove these
 
     [Header("Gadgets")]
     public GameObject[] spyGadgets;
@@ -461,13 +463,28 @@ public class H_GameManager : NetworkBehaviour
                 roundPlayers[i].equipment.RpcEquipGadget(newGadget);
             }
 
-            GameObject newClientSidearm = Instantiate(defaultClientSidearm);
-            GameObject newObserverSidearm = Instantiate(defaultObserverSidearm);
+            int boratChance = Random.Range(0, 100); // dear god remove this
 
-            NetworkServer.Spawn(newClientSidearm, roundPlayers[i].connectionToClient);
-            NetworkServer.Spawn(newObserverSidearm, roundPlayers[i].connectionToClient);
+            if (boratChance == 50)
+            {
+                GameObject newClientSidearm = Instantiate(boratGunClient);
+                GameObject newObserverSidearm = Instantiate(boratGunObserver);
 
-            roundPlayers[i].equipment.RpcEquipSidearm(newClientSidearm, newObserverSidearm);
+                NetworkServer.Spawn(newClientSidearm, roundPlayers[i].connectionToClient);
+                NetworkServer.Spawn(newObserverSidearm, roundPlayers[i].connectionToClient);
+
+                roundPlayers[i].equipment.RpcEquipSidearm(newClientSidearm, newObserverSidearm);
+            }
+            else
+            {
+                GameObject newClientSidearm = Instantiate(defaultClientSidearm);
+                GameObject newObserverSidearm = Instantiate(defaultObserverSidearm);
+
+                NetworkServer.Spawn(newClientSidearm, roundPlayers[i].connectionToClient);
+                NetworkServer.Spawn(newObserverSidearm, roundPlayers[i].connectionToClient);
+
+                roundPlayers[i].equipment.RpcEquipSidearm(newClientSidearm, newObserverSidearm);
+            }
 
         }
 
@@ -491,8 +508,8 @@ public class H_GameManager : NetworkBehaviour
     {
         foreach (var player in serverPlayers)
         {
-            //player.GetComponent<H_PlayerHealth>().isDead = false;
-            //player.GetComponent<H_PlayerHealth>().FullHeal();
+            player.GetComponent<H_PlayerHealth>().isDead = false;
+            player.GetComponent<H_PlayerHealth>().FullHeal();
         }
     }
 
@@ -502,6 +519,27 @@ public class H_GameManager : NetworkBehaviour
         foreach (var player in serverPlayers)
         {
             player.currentAlignment = AgentAlignment.Unassigned;
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdPlayerKilled(H_PlayerBrain player)
+    {
+        if (currentRoundStage == RoundStage.Game)
+        {
+            if (player.currentAlignment == AgentAlignment.Agent)
+            {
+                roundAgents.Remove(player);
+                roundDeadPlayers.Add(player);
+            }
+            else if (player.currentAlignment == AgentAlignment.Spy)
+            {
+                roundSpies.Remove(player);
+                roundDeadPlayers.Add(player);
+            }
+
+            CheckWinConditions();
+
         }
     }
 

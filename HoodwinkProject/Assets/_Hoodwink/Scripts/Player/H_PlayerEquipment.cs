@@ -15,20 +15,20 @@ public class H_PlayerEquipment : NetworkBehaviour
     [Header("Primary Equipment Settings")]
     public Transform primaryEquipPointClient;
     public Transform primaryEquipPointObserver;
-    public GameObject primaryClientObject;
-    public GameObject primaryObserverObject;
+    [HideInInspector] public GameObject primaryClientObject;
+    [HideInInspector] public GameObject primaryObserverObject;
 
     [Header("Sidearm Equipment Settings")]
     public Transform sidearmEquipPointClient;
     public Transform sidearmEquipPointObserver;
-    public GameObject sidearmClientObject;
-    public GameObject sidearmObserverObject;
+    [HideInInspector] public GameObject sidearmClientObject;
+    [HideInInspector] public GameObject sidearmObserverObject;
 
     [Header("Holstered Equipment Settings")]
     public Transform holsteredEquipPointClient;
     public Transform holsteredEquipPointObserver;
-    public GameObject holsteredClientObject;
-    public GameObject holsteredObserverObject;
+    [HideInInspector] public GameObject holsteredClientObject;
+    [HideInInspector] public GameObject holsteredObserverObject;
 
     [Header("Gadget Settings")]
     public Transform gadgetAnchor;
@@ -43,6 +43,10 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Image holsteredSlotUI;
 
     public Color selectedColor, deselectedColor;
+
+    [Header("Hit Markers")]
+    public Transform hitmarkerParent;
+    public GameObject hitmarkerPrefab;
 
     [Header("Item Input Settings")]
     public KeyCode interactKey = KeyCode.F;
@@ -70,6 +74,10 @@ public class H_PlayerEquipment : NetworkBehaviour
             holsteredEquipPointClient.gameObject.SetActive(false);
             return;
         }
+
+        primaryEquipPointObserver.gameObject.SetActive(false);
+        sidearmEquipPointObserver.gameObject.SetActive(false);
+        holsteredEquipPointObserver.gameObject.SetActive(false);
 
         baseFOV = playerCamera.m_Lens.FieldOfView;
 
@@ -188,41 +196,46 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void OnSlotPrimary()
     {
-        primaryEquipPointObserver.gameObject.SetActive(true);
 
         if (!isLocalPlayer)
-            return;
+        {
+            primaryEquipPointObserver.gameObject.SetActive(true);
+        }
+        else
+        {
+            primarySlotUI.color = selectedColor;
 
-        primarySlotUI.color = selectedColor;
-
-        primaryEquipPointClient.gameObject.SetActive(true);
-
+            primaryEquipPointClient.gameObject.SetActive(true);
+        }
     }
 
     void OnSlotSidearm()
     {
-        sidearmEquipPointObserver.gameObject.SetActive(true);
 
         if (!isLocalPlayer)
-            return;
+        {
+            sidearmEquipPointObserver.gameObject.SetActive(true);
+        }
+        else
+        {
+            sidearmSlotUI.color = selectedColor;
 
-        sidearmSlotUI.color = selectedColor;
-
-        sidearmEquipPointClient.gameObject.SetActive(true);
+            sidearmEquipPointClient.gameObject.SetActive(true);
+        }
     }
 
     void OnSlotHolstered()
     {
-        holsteredEquipPointObserver.gameObject.SetActive(true);
-
-
         if (!isLocalPlayer)
-            return;
+        {
+            holsteredEquipPointObserver.gameObject.SetActive(true);
+        }
+        else
+        {
+            holsteredSlotUI.color = selectedColor;
 
-        holsteredSlotUI.color = selectedColor;
-
-        holsteredEquipPointClient.gameObject.SetActive(true);
-
+            holsteredEquipPointClient.gameObject.SetActive(true);
+        }
     }
 
     [ClientRpc]
@@ -250,6 +263,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         currentGadget.transform.parent = gadgetAnchor;
         currentGadget.transform.localPosition = Vector3.zero;
         currentGadget.transform.localRotation = Quaternion.identity;
+    }
+
+    public void SpawnHitMarker()
+    {
+        Instantiate(hitmarkerPrefab, hitmarkerParent);
     }
 
 

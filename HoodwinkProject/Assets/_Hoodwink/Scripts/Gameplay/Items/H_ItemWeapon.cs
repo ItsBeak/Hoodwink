@@ -120,17 +120,17 @@ public class H_ItemWeapon : H_ItemBase
                         if (enableDebugLogs)
                             Debug.LogWarning("Hit Object: " + hit.collider.name);
 
-                        //var health = hit.collider.gameObject.GetComponentInParent<H_PlayerHealth>();
+                        var health = hit.collider.gameObject.GetComponentInParent<H_PlayerHealth>();
 
-                        //if (health)
-                        //{
-                        //    health.Damage(damage);
-                        //    equipment.SpawnHitMarker();
-                        //}
-                        //else
-                        //{
-                        //    CmdSpawnImpact(hit.point, hit.normal);
-                        //}
+                        if (health)
+                        {
+                            health.Damage(damage);
+                            equipment.SpawnHitMarker();
+                        }
+                        else
+                        {
+                            CmdSpawnImpact(hit.point, hit.normal);
+                        }
                     }
                     else
                     {
@@ -230,4 +230,5 @@ public class H_ItemWeapon : H_ItemBase
         GameObject newBulletHole = GameObject.Instantiate(bulletHolePrefab, position, Quaternion.identity);
         newBulletHole.transform.LookAt(position + normal);
     }
+
 }

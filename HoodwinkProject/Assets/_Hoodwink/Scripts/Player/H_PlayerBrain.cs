@@ -74,6 +74,10 @@ public class H_PlayerBrain : NetworkBehaviour
 
             CmdSetAlignment(AgentAlignment.Unassigned);
         }
+        else
+        {
+            playerUI.SetActive(false);
+        }
     }
 
     private void Update()
