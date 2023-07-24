@@ -63,7 +63,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     [Header("Components")]
     public CinemachineVirtualCamera playerCamera;
     [HideInInspector] public float baseFOV;
-
+    bool isDead;
 
     void Start()
     {
@@ -86,7 +86,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void Update()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || isDead)
             return;
 
         CheckForKeypresses();
@@ -270,6 +270,15 @@ public class H_PlayerEquipment : NetworkBehaviour
         Instantiate(hitmarkerPrefab, hitmarkerParent);
     }
 
+    public void SetDead(bool value)
+    {
+        isDead = value;
+
+        if (isDead)
+        {
+            CmdChangeSlot(0);
+        }
+    }
 
 }
 

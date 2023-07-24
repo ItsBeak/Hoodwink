@@ -59,6 +59,8 @@ public class H_PlayerBrain : NetworkBehaviour
             cam.enabled = true;
             playerUI.SetActive(true);
 
+            HideLocalPlayer();
+
             foreach (GameObject ob in hideForLocalPlayer)
             {
                 ob.layer = LayerMask.NameToLayer("LocalPlayer");
