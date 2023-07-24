@@ -22,6 +22,7 @@ public class H_PlayerHealth : NetworkBehaviour
     H_PlayerController controller;
     H_PlayerBrain brain;
     H_GameManager gameManager;
+    H_PlayerAnimator animator;
     public H_HealthEffect healthEffects;
 
     [Header("Debugging")]
@@ -32,6 +33,7 @@ public class H_PlayerHealth : NetworkBehaviour
         equipment = GetComponent<H_PlayerEquipment>();
         controller = GetComponent<H_PlayerController>();
         brain = GetComponent<H_PlayerBrain>();
+        animator = GetComponent<H_PlayerAnimator>();
 
         gameManager = FindObjectOfType<H_GameManager>();
 
@@ -70,10 +72,14 @@ public class H_PlayerHealth : NetworkBehaviour
             if (newState)
             {
                 //spectating.EnableSpectating();
+                brain.ShowLocalPlayer();
+                animator.playerAnimator.SetBool("isDead", true);
             }
             else
             {
                 //spectating.DisableSpectating();
+                brain.HideLocalPlayer();
+                animator.playerAnimator.SetBool("isDead", false);
             }
         }
     }

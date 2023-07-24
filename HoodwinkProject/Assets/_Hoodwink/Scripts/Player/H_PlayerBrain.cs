@@ -66,8 +66,6 @@ public class H_PlayerBrain : NetworkBehaviour
 
             H_GameManager.instance.CmdRegisterPlayer(this);
 
-            playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-
             CmdSetReady(false);
             readyText.text = "Not Ready";
             readyText.color = Color.red;
@@ -198,6 +196,16 @@ public class H_PlayerBrain : NetworkBehaviour
         transform.position = position;
         transform.rotation = rotation;
         Physics.SyncTransforms();
+    }
+
+    public void HideLocalPlayer()
+    {
+        playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+    }
+
+    public void ShowLocalPlayer()
+    {
+        playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
 }
 
