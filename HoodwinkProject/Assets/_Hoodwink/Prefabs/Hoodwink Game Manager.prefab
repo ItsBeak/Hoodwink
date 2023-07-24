@@ -580,19 +580,24 @@ MonoBehaviour:
   roundDeadPlayers: []
   roundAgents: []
   roundSpies: []
-  debugSpyCount: 1
   chosenScene: 
   currentRoundStage: 0
   winCondition: 0
-  lobbySpawns:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  lobbySpawns: []
+  minPlayersToStart: 3
+  playerSettings:
+  - playerCount: 3
+    spyCount: 1
+  - playerCount: 4
+    spyCount: 1
+  - playerCount: 5
+    spyCount: 2
+  - playerCount: 6
+    spyCount: 2
+  - playerCount: 7
+    spyCount: 3
+  - playerCount: 8
+    spyCount: 3
   agentData:
   - agentName: Poppy
     agentColour: {r: 0.8352941, g: 0.22352941, b: 0.22352941, a: 1}
@@ -610,20 +615,43 @@ MonoBehaviour:
     agentColour: {r: 0.54509807, g: 0.3019608, b: 0.8039216, a: 1}
   - agentName: Fandango
     agentColour: {r: 0.8039216, g: 0.3019608, b: 0.74509805, a: 1}
+  shirtColours:
+  - {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
+  - {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
+  - {r: 0.3018868, g: 0.15171438, b: 0.101103604, a: 1}
+  - {r: 0.6226415, g: 0.49274945, b: 0.28488788, a: 1}
   pantsColours:
   - {r: 0.509434, g: 0.2215376, b: 0.06488074, a: 1}
   - {r: 0.50980395, g: 0.4379468, b: 0.06666665, a: 1}
   - {r: 0.5685426, g: 0.5754717, b: 0.33388218, a: 1}
+  - {r: 0.33962262, g: 0.27714488, b: 0.27714488, a: 1}
   shoesColours:
   - {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
   - {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
   - {r: 0.3018868, g: 0.15171438, b: 0.101103604, a: 1}
+  defaultClientSidearm: {fileID: 586889395334819233, guid: 1db1dab97eb886b4cbd1ab7d4a22f0aa,
+    type: 3}
+  defaultObserverSidearm: {fileID: 586889395334819233, guid: 1ebb3bde8cafb264eacea157dbe2a21e,
+    type: 3}
+  boratGunClient: {fileID: 586889395334819233, guid: 46a4ebfde19e64144bd32753b7c89cdc,
+    type: 3}
+  boratGunObserver: {fileID: 586889395334819233, guid: 6acdea70a53a1a04d9a5bdb8038bb4f4,
+    type: 3}
+  spyGadgets:
+  - {fileID: 9045955919083193933, guid: c0c74ccdfc4f8d3429d8b145f9aaf137, type: 3}
+  agentGadgets:
+  - {fileID: 9045955919083193933, guid: c0c74ccdfc4f8d3429d8b145f9aaf137, type: 3}
   maps:
   - Assets/_Hoodwink/Scenes/Main/Levels/CubeLevel/CubeLevel.unity
   warmupLength: 5
-  roundLength: 5
-  postGameLength: 5
+  roundLength: 30
+  postGameLength: 10
   relayCodeUI: {fileID: 6167147485346841449}
   pingDisplay: {fileID: 7992946917195808622}
   timerDisplay: {fileID: 8632251401198278523}
   enableDebugLogs: 0
+  overrideMinimumPlayerCount: 0
+  allowServerToSkipGame: 0
+  overrideSettings:
+    playerCount: -1
+    spyCount: 1
