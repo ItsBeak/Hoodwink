@@ -7,6 +7,8 @@ public class H_Spectating : MonoBehaviour
 
     public GameObject[] spectatorTargets;
 
+    public H_PlayerUI playerUI;
+
     bool isSpectating;
     int targetIndex;
 
@@ -62,6 +64,9 @@ public class H_Spectating : MonoBehaviour
 
         spectatorCam.Follow = spectatorTargets[index].transform;
         spectatorCam.LookAt = spectatorTargets[index].transform;
+
+        //Debug.LogWarning(spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>());
+        playerUI.ChangeSpectator(spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>().playerName, spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>().shirtColour);
     }
 
     public GameObject[] FindSpectatorTargets()

@@ -1,24 +1,33 @@
 using UnityEngine;
 using Mirror;
+using TMPro;
 
-public class H_PlayerMenu : MonoBehaviour
+public class H_PlayerUI : MonoBehaviour
 {
     [Header("Canvas Groups")]
     public CanvasGroup gameUI;
+    public CanvasGroup playerUI;
+    public CanvasGroup spectatorUI;
+
     public CanvasGroup pauseUI;
+
+    H_PlayerHealth health;
 
     [Header("Components")]
     H_PlayerBrain brain;
+    public TextMeshProUGUI spectatedAgentText;
 
     bool isOpen;
 
     private void Start()
     {
         brain = GetComponentInParent<H_PlayerBrain>();
+        health = GetComponentInParent<H_PlayerHealth>();
     }
 
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!isOpen)
@@ -79,4 +88,33 @@ public class H_PlayerMenu : MonoBehaviour
             NetworkManager.singleton.StopClient();
         }
     }
+
+    public void ShowSpectatorUI()
+    {
+        playerUI.alpha = 0;
+        playerUI.interactable = false;
+        playerUI.blocksRaycasts = false;
+
+        spectatorUI.alpha = 1;
+        spectatorUI.interactable = true;
+        spectatorUI.blocksRaycasts = true;
+    }
+
+    public void ShowGameUI()
+    {
+        spectatorUI.alpha = 0;
+        spectatorUI.interactable = false;
+        spectatorUI.blocksRaycasts = false;
+
+        playerUI.alpha = 1;
+        playerUI.interactable = true;
+        playerUI.blocksRaycasts = true;
+    }
+
+    public void ChangeSpectator(string agentName, Color agentColour)
+    {
+        spectatedAgentText.color = agentColour;
+        spectatedAgentText.text = agentName;
+    }
+
 }

@@ -76,6 +76,7 @@ public class H_PlayerHealth : NetworkBehaviour
                 spectating.EnableSpectating();
                 brain.ShowLocalPlayer();
                 brain.equipment.SetDead(newState);
+                brain.playerUI.ShowSpectatorUI();
                 animator.playerAnimator.SetBool("isDead", true);
             }
             else
@@ -83,6 +84,7 @@ public class H_PlayerHealth : NetworkBehaviour
                 spectating.DisableSpectating();
                 brain.HideLocalPlayer();
                 brain.equipment.SetDead(newState);
+                brain.playerUI.ShowGameUI();
                 animator.playerAnimator.SetBool("isDead", false);
             }
         }

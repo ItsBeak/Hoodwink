@@ -27,7 +27,6 @@ public class H_PlayerBrain : NetworkBehaviour
     public Color alignmentColorUnassigned, alignmentColorAgent, alignmentColorSpy;
 
     [Header("Components")]
-    public GameObject playerUI;
     public CinemachineVirtualCamera cam;
     public Image agentColourImage;
     public TextMeshProUGUI agentNameText;
@@ -35,6 +34,7 @@ public class H_PlayerBrain : NetworkBehaviour
     public TextMeshProUGUI alignmentText;
     public Image alignmentBackground;
     public H_PlayerEquipment equipment;
+    public H_PlayerUI playerUI;
 
     [Header("Rendering")]
     public Renderer playerRenderer;
@@ -57,7 +57,7 @@ public class H_PlayerBrain : NetworkBehaviour
         if (isLocalPlayer)
         {
             cam.enabled = true;
-            playerUI.SetActive(true);
+            playerUI.gameObject.SetActive(true);
 
             HideLocalPlayer();
 
@@ -76,7 +76,7 @@ public class H_PlayerBrain : NetworkBehaviour
         }
         else
         {
-            playerUI.SetActive(false);
+            playerUI.gameObject.SetActive(false);
         }
     }
 
