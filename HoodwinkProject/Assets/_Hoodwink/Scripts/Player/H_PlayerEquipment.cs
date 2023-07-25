@@ -19,7 +19,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     [HideInInspector] public GameObject primaryObserverObject;
     [HideInInspector, SyncVar] public bool isHoldingItem = false;
     H_ItemBase currentObject;
-    GameObject primaryWorldObject;
     public Transform dropPoint;
 
     [Header("Sidearm Equipment Settings")]
@@ -232,7 +231,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             if (currentObject.dropOnSwap)
             {
-                RpcTryDropItem();
+                TryDropItem();
             }
         }
 
@@ -314,21 +313,10 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     public void TryDropItem()
     {
-        Debug.Log("Trying to drop object");
-
         if (isHoldingItem)
         {
-            Debug.Log("Player is holding an object");
-
             CmdDropItem();
-
-            ClearHeldItem();
-
             playerCamera.m_Lens.FieldOfView = baseFOV;
-        }
-        else
-        {
-            Debug.Log("Player is not holding an object");
         }
     }
 
@@ -352,14 +340,9 @@ public class H_PlayerEquipment : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdDropItem()
     {
-        Debug.Log("Drop object command called");
-
-        if (!primaryWorldObject)
-            return;
-
         Vector3 position = dropPoint.position;
         Quaternion rotation = dropPoint.rotation;
-        GameObject droppedObject = Instantiate(primaryWorldObject, position, rotation);
+        GameObject droppedObject = Instantiate(currentObject.worldDropItem, position, rotation);
 
         droppedObject.GetComponent<Rigidbody>().AddTorque(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
         droppedObject.GetComponent<Rigidbody>().AddForce(dropPoint.forward, ForceMode.Impulse);
@@ -367,21 +350,10 @@ public class H_PlayerEquipment : NetworkBehaviour
         NetworkServer.Destroy(primaryClientObject.gameObject);
         NetworkServer.Destroy(primaryObserverObject.gameObject);
 
-        ClearHeldItem();
+        isHoldingItem = false;
 
         NetworkServer.Spawn(droppedObject);
-
-        Debug.Log("Dropped new object: " + droppedObject.name);
-
     }
-
-    [ClientRpc]
-    void ClearHeldItem()
-    {
-        isHoldingItem = false;
-        primaryWorldObject = null;
-    }
-
 
     [ClientRpc]
     public void RpcEquipPrimary(GameObject clientObject, GameObject observerObject)
@@ -400,7 +372,6 @@ public class H_PlayerEquipment : NetworkBehaviour
         isHoldingItem = true;
 
         currentObject = primaryClientObject.GetComponent<H_ItemBase>();
-        primaryWorldObject = currentObject.worldDropItem;
         currentObject.Initialize();
     }
 

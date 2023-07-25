@@ -21,11 +21,11 @@ public class H_GameManager : NetworkBehaviour
     [Header("Game Data")]
     [HideInInspector] public string relayCode;
 
-    public List<H_PlayerBrain> serverPlayers;
-    public List<H_PlayerBrain> roundPlayers;
-    public List<H_PlayerBrain> roundDeadPlayers;
-    public List<H_PlayerBrain> roundAgents;
-    public List<H_PlayerBrain> roundSpies;
+    [HideInInspector] public List<H_PlayerBrain> serverPlayers;
+    [HideInInspector] public List<H_PlayerBrain> roundPlayers;
+    [HideInInspector] public List<H_PlayerBrain> roundDeadPlayers;
+    [HideInInspector] public List<H_PlayerBrain> roundAgents;
+    [HideInInspector] public List<H_PlayerBrain> roundSpies;
 
     [HideInInspector] public string chosenScene;
     bool winConditionMet = false;
@@ -38,7 +38,7 @@ public class H_GameManager : NetworkBehaviour
     public Transform[] lobbySpawns;
 
     [Header("Player Settings")]
-    [Range(1, 8)]public int minPlayersToStart = 3;
+    [Range(3, 8)]public int minPlayersToStart = 3;
     public PlayerSettings[] playerSettings;
 
     int roundSpiesRemaining = 0;
@@ -230,7 +230,7 @@ public class H_GameManager : NetworkBehaviour
     {
         serverPlayers.Add(player);
 
-        player.playerName = "anon";
+        player.playerName = "Anonymous";
 
         player.shirtColour = shirtColours[Random.Range(0, shirtColours.Length)];
         player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
@@ -322,24 +322,6 @@ public class H_GameManager : NetworkBehaviour
     public void StartRound()
     {
 
-        int totalPlayers = roundPlayers.Count;
-
-        if (overrideMinimumPlayerCount)
-        {
-            currentSettings = overrideSettings;
-        }
-        else
-        {
-            foreach (PlayerSettings settings in playerSettings)
-            {
-                if (settings.playerCount == totalPlayers)
-                {
-                    currentSettings = settings;
-                    break;
-                }
-            }
-        }
-
         StartCoroutine(InitializeLevel());
 
         warmupTimer = warmupLength;
@@ -350,6 +332,22 @@ public class H_GameManager : NetworkBehaviour
         {
             roundPlayers.Add(player);
             player.isReady = false;
+        }
+
+        if (overrideMinimumPlayerCount)
+        {
+            currentSettings = overrideSettings;
+        }
+        else
+        {
+            foreach (PlayerSettings settings in playerSettings)
+            {
+                if (settings.playerCount == roundPlayers.Count)
+                {
+                    currentSettings = settings;
+                    break;
+                }
+            }
         }
 
         ResetPlayerStates();
@@ -383,7 +381,7 @@ public class H_GameManager : NetworkBehaviour
 
             player.hasAgentData = false;
 
-            player.playerName = "anon";
+            player.playerName = "Anonymous";
             player.shirtColour = shirtColours[Random.Range(0, shirtColours.Length)];
 
             NetworkServer.Destroy(player.equipment.currentGadget.gameObject);
@@ -460,8 +458,6 @@ public class H_GameManager : NetworkBehaviour
         }
 
         Debug.Log("Spawning objects");
-
-        objectManager.SetPlayerSettings(currentSettings);
 
         objectManager.SpawnObjects(currentSettings);
 

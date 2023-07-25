@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class H_ObjectManager : NetworkBehaviour
 {
-
-    PlayerSettings settings;
-    H_GameManager manager;
     H_LevelData currentLevel;
 
     [Header("Round Settings & Loot")]
@@ -18,15 +15,6 @@ public class H_ObjectManager : NetworkBehaviour
 
     [Header("Debugging")]
     public bool enableDebugLogs;
-
-    private void Start()
-    {
-        manager = GetComponent<H_GameManager>();
-    }
-    public void SetPlayerSettings(PlayerSettings newSettings)
-    {
-        settings = newSettings;
-    }
 
     [Server]
     public void SpawnObjects(PlayerSettings newSettings)
