@@ -4,11 +4,19 @@ using TMPro;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using System.Runtime.Serialization;
+using UnityEngine.UI;
 
 public class H_GameManager : NetworkBehaviour
 {
     public static H_GameManager instance { get; private set; }
+
+    [Header("Evidence Data")]
+    [SyncVar(hook = nameof(OnEvidenceChanged))] int evidencePercent = 0;
+    [SyncVar(hook = nameof(OnSpyInformationChanged))] string spyInformation = "";
+    public TextMeshProUGUI evidenceText;
+    public TextMeshProUGUI revealedSpiesText;
+    public Image evidenceImage;
+    [SyncVar] bool spiesRevealed = false;
 
     [Header("Game Data")]
     [HideInInspector] public string relayCode;
@@ -89,6 +97,7 @@ public class H_GameManager : NetworkBehaviour
     {
         relayCodeUI.text = "Join Code: " + NetManager.relayJoinCode.ToUpper();
         objectManager = GetComponent<H_ObjectManager>();
+        revealedSpiesText.text = "";
     }
 
     public override void OnStartServer()
@@ -203,6 +212,15 @@ public class H_GameManager : NetworkBehaviour
             #endregion
 
             default: break;
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            UpdateEvidence(10);
+        }
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+            UpdateEvidence(-10);
         }
 
     }
@@ -380,11 +398,21 @@ public class H_GameManager : NetworkBehaviour
 
         winConditionMet = false;
 
-        Invoke("CleanupObjects", 0.5f);
+        evidencePercent = 0;
+        spiesRevealed = false;
+
+        spyInformation = "";
+
+        Invoke("CleanupObjects", 0.3f);
 
         RpcUnloadMap(chosenScene);
         currentRoundStage = RoundStage.Lobby;
 
+    }
+
+    void CleanupObjects()
+    {
+        objectManager.CleanupObjects();
     }
 
     IEnumerator InitializeLevel()
@@ -579,6 +607,73 @@ public class H_GameManager : NetworkBehaviour
         }
 
     }
+
+    [Command(requiresAuthority = false)]
+    public void UpdateEvidence(int amount)
+    {
+        if (spiesRevealed)
+            return;
+
+        int newEvidenceValue = evidencePercent + amount;
+        newEvidenceValue = Mathf.Clamp(newEvidenceValue, 0, 100);
+
+        evidencePercent = newEvidenceValue;
+
+        if (evidencePercent == 100 && !spiesRevealed)
+        {
+            spiesRevealed = true;
+            RevealSpies();
+        }
+    }
+
+    void OnEvidenceChanged(int oldValue, int newValue)
+    {
+        if (evidenceText != null)
+        {
+            if (newValue == 100)
+            {
+                evidenceText.text = "SPIES REVEALED!";
+                evidenceImage.fillAmount = 1;
+            }
+            else
+            {
+                evidenceText.text = "Evidence Gathered: " + evidencePercent.ToString() + "%";
+
+                evidenceImage.fillAmount = (float)evidencePercent / 100;
+            }
+        }
+    }
+
+    void RevealSpies()
+    {
+        foreach (var spy in roundSpies)
+        {
+            //Debug.Log(spy.playerName + " is a spy!");
+        }
+
+        if (roundSpies.Count == 1)
+        {
+            spyInformation = "The spy is " + ColorWord(roundSpies[0].playerName, roundSpies[0].shirtColour);
+        }
+        else if (roundSpies.Count == 2)
+        {
+            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].shirtColour) + " and " + ColorWord(roundSpies[1].playerName, roundSpies[1].shirtColour) + " are spies!";
+        }
+        else if (roundSpies.Count == 3)
+        {
+            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].shirtColour) + ", " + ColorWord(roundSpies[1].playerName, roundSpies[1].shirtColour) + " and " + ColorWord(roundSpies[2].playerName, roundSpies[2].shirtColour) + " are spies!";
+        }
+    }
+    void OnSpyInformationChanged(string oldValue, string newValue)
+    {
+        revealedSpiesText.text = newValue;
+    }
+
+    public static string ColorWord(string text, Color color)
+    {
+        return "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + text + "</color>";
+    }
+
 }
 
 [System.Serializable]
