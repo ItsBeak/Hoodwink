@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 262.38354, g: 325.1084, b: 430.30957, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5690,8 +5690,133 @@ PrefabInstance:
       objectReference: {fileID: 1724806049}
     - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
         type: 3}
+      propertyPath: playerSettings.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
       propertyPath: overrideMinimumPlayerCount
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[0].spyCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[1].spyCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[2].spyCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[3].spyCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[4].spyCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[5].spyCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[6].spyCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[7].spyCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[0].playerCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[1].playerCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[2].playerCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[3].playerCount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[4].playerCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[5].playerCount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[6].playerCount
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[7].playerCount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[0].itemsToSpawn
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[1].itemsToSpawn
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[2].itemsToSpawn
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[3].itemsToSpawn
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[4].itemsToSpawn
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[5].itemsToSpawn
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[6].itemsToSpawn
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: playerSettings.Array.data[7].itemsToSpawn
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3115548988286390778, guid: d263ad6869d275c4e8af69791e04921c,
         type: 3}

@@ -29,7 +29,7 @@ public class H_ObjectManager : NetworkBehaviour
     }
 
     [Server]
-    public void SpawnObjects()
+    public void SpawnObjects(PlayerSettings newSettings)
     {
         currentLevel = FindObjectOfType<H_LevelData>();
 
@@ -40,7 +40,7 @@ public class H_ObjectManager : NetworkBehaviour
             itemSpawns.Add(point);
         }
 
-        for (int i = 0; i < settings.itemsToSpawn; i++)
+        for (int i = 0; i < newSettings.itemsToSpawn; i++)
         {
             int spawnPoint = Random.Range(0, itemSpawns.Count);
 

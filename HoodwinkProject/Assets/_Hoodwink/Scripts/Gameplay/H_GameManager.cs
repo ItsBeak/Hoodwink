@@ -21,11 +21,11 @@ public class H_GameManager : NetworkBehaviour
     [Header("Game Data")]
     [HideInInspector] public string relayCode;
 
-    [HideInInspector] public List<H_PlayerBrain> serverPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundDeadPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundAgents;
-    [HideInInspector] public List<H_PlayerBrain> roundSpies;
+    public List<H_PlayerBrain> serverPlayers;
+    public List<H_PlayerBrain> roundPlayers;
+    public List<H_PlayerBrain> roundDeadPlayers;
+    public List<H_PlayerBrain> roundAgents;
+    public List<H_PlayerBrain> roundSpies;
 
     [HideInInspector] public string chosenScene;
     bool winConditionMet = false;
@@ -38,7 +38,7 @@ public class H_GameManager : NetworkBehaviour
     public Transform[] lobbySpawns;
 
     [Header("Player Settings")]
-    [Range(3, 8)]public int minPlayersToStart = 3;
+    [Range(1, 8)]public int minPlayersToStart = 3;
     public PlayerSettings[] playerSettings;
 
     int roundSpiesRemaining = 0;
@@ -395,6 +395,7 @@ public class H_GameManager : NetworkBehaviour
         roundPlayers.Clear();
         roundAgents.Clear();
         roundSpies.Clear();
+        roundDeadPlayers.Clear();
 
         winConditionMet = false;
 
@@ -462,7 +463,7 @@ public class H_GameManager : NetworkBehaviour
 
         objectManager.SetPlayerSettings(currentSettings);
 
-        objectManager.SpawnObjects();
+        objectManager.SpawnObjects(currentSettings);
 
     }
 
