@@ -18,13 +18,16 @@ public class H_PlayerController : NetworkBehaviour
     [Header("Components")]
     [HideInInspector] public CharacterController characterController;
     H_PlayerBrain brain;
+    H_PlayerHealth health;
 
     [HideInInspector] public Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
+    bool isRunning = false;
 
     void Start()
     {
         brain = GetComponent<H_PlayerBrain>();
+        health = GetComponent<H_PlayerHealth>(); 
         characterController = GetComponent<CharacterController>();
 
         if (!isLocalPlayer) return;
@@ -38,7 +41,9 @@ public class H_PlayerController : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
 
-        if (!brain.isPaused /* && !brain.isDead */)
+        Inputs();
+
+        if (!brain.isPaused && !health.isDead)
         {
             Movement();
             Turning();
@@ -46,20 +51,22 @@ public class H_PlayerController : NetworkBehaviour
 
     }
 
-    void Movement()
+    void Inputs()
     {
-        bool isRunning = false;
+        moveDirection.x = brain.canMove ? Input.GetAxis("Horizontal") : 0;
+        moveDirection.z = brain.canMove ? Input.GetAxis("Vertical") : 0;
 
         if (brain.canSprint)
         {
             isRunning = Input.GetKey(KeyCode.LeftShift);
         }
+    }
 
+    void Movement()
+    {    
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
-        moveDirection.x = brain.canMove ? Input.GetAxis("Horizontal") : 0;
-        moveDirection.z = brain.canMove ? Input.GetAxis("Vertical") : 0;
         float movementDirectionY = moveDirection.y;
         moveDirection.y = 0;
 
