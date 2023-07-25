@@ -2,7 +2,6 @@ using UnityEngine;
 using Mirror;
 using System;
 using Random = UnityEngine.Random;
-using System.Diagnostics.Contracts;
 
 public class H_ItemWeapon : H_ItemBase
 {
@@ -60,6 +59,8 @@ public class H_ItemWeapon : H_ItemBase
 
         ammoPool = startingAmmo;
         ammoLoaded = clipSize;
+
+        Debug.Log("Initializing sidearm");
     }
 
     public override void Update()
