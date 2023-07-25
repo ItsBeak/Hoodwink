@@ -519,6 +519,7 @@ GameObject:
   - component: {fileID: 4271273356912507364}
   - component: {fileID: 3115548988286390778}
   - component: {fileID: 1024749540059299432}
+  - component: {fileID: 7971697025386248749}
   m_Layer: 0
   m_Name: Hoodwink Game Manager
   m_TagString: Untagged
@@ -581,6 +582,7 @@ MonoBehaviour:
   roundAgents: []
   roundSpies: []
   chosenScene: 
+  currentLevel: {fileID: 0}
   currentRoundStage: 0
   winCondition: 0
   lobbySpawns: []
@@ -588,16 +590,22 @@ MonoBehaviour:
   playerSettings:
   - playerCount: 3
     spyCount: 1
+    itemsToSpawn: 6
   - playerCount: 4
     spyCount: 1
+    itemsToSpawn: 6
   - playerCount: 5
     spyCount: 2
+    itemsToSpawn: 7
   - playerCount: 6
     spyCount: 2
+    itemsToSpawn: 7
   - playerCount: 7
     spyCount: 3
+    itemsToSpawn: 8
   - playerCount: 8
     spyCount: 3
+    itemsToSpawn: 8
   agentData:
   - agentName: Poppy
     agentColour: {r: 0.8352941, g: 0.22352941, b: 0.22352941, a: 1}
@@ -655,3 +663,26 @@ MonoBehaviour:
   overrideSettings:
     playerCount: -1
     spyCount: 1
+    itemsToSpawn: 5
+--- !u!114 &7971697025386248749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6945349478565121086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 929249ff26f55d94690eb70092d13bf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  items:
+  - {fileID: 4572328729074933808, guid: d4c24875498bf1e4c909a8a8a98c0dbe, type: 3}
+  - {fileID: 4572328729074933808, guid: 3df2bbe9101f47348a1cbc3aeb5f7e6a, type: 3}
+  cleanupLayers:
+    serializedVersion: 2
+    m_Bits: 4096
+  enableDebugLogs: 1
