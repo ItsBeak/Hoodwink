@@ -10,6 +10,9 @@ public class H_ObjectManager : NetworkBehaviour
     [Header("Round Settings & Loot")]
     public GameObject[] items;
 
+    public GameObject faxMachinePrefab;
+    public GameObject shredderPrefab;
+
     [Header("Level Cleanup Settings")]
     public LayerMask cleanupLayers;
 
@@ -39,6 +42,14 @@ public class H_ObjectManager : NetworkBehaviour
             if (enableDebugLogs)
                 Debug.Log("Spawning new item: " + newItem.name);
         }
+
+        int randomShredderSet = Random.Range(0, currentLevel.documentObjectives.Length);
+
+        GameObject shredder = Instantiate(shredderPrefab, currentLevel.documentObjectives[randomShredderSet].shredderLocation.position, currentLevel.documentObjectives[randomShredderSet].shredderLocation.rotation);
+        NetworkServer.Spawn(shredder);
+
+        GameObject faxMachine = Instantiate(faxMachinePrefab, currentLevel.documentObjectives[randomShredderSet].faxLocation.position, currentLevel.documentObjectives[randomShredderSet].faxLocation.rotation);
+        NetworkServer.Spawn(faxMachine);
 
     }
 

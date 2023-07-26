@@ -216,11 +216,11 @@ public class H_GameManager : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            UpdateEvidence(10);
+            CmdUpdateEvidence(10);
         }
         else if (Input.GetKeyDown(KeyCode.K))
         {
-            UpdateEvidence(-10);
+            CmdUpdateEvidence(-10);
         }
 
     }
@@ -363,11 +363,12 @@ public class H_GameManager : NetworkBehaviour
         foreach (var player in serverPlayers)
         {
             player.isReady = false;
-            //player.GetComponent<H_PlayerEquipment>().CmdDropItem();
+            player.equipment.RpcTryDropItem();
         }
 
         foreach (var player in roundPlayers)
         {
+
             int randomSpawn = Random.Range(0, lobbySpawns.Length);
 
             player.TeleportPlayer(lobbySpawns[randomSpawn].position, lobbySpawns[randomSpawn].rotation);
@@ -440,6 +441,8 @@ public class H_GameManager : NetworkBehaviour
 
         foreach (var player in roundPlayers)
         {
+            player.equipment.RpcTryDropItem();
+
             int randomSpawn = Random.Range(0, spawns.Length);
 
             player.TeleportPlayer(spawns[randomSpawn].position, spawns[randomSpawn].rotation);
@@ -606,7 +609,7 @@ public class H_GameManager : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    public void UpdateEvidence(int amount)
+    public void CmdUpdateEvidence(int amount)
     {
         if (spiesRevealed)
             return;

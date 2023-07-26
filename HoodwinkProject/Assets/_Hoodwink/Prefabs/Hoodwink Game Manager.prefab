@@ -849,7 +849,7 @@ MonoBehaviour:
   maps:
   - Assets/_Hoodwink/Scenes/Main/Levels/CubeLevel/CubeLevel.unity
   warmupLength: 5
-  roundLength: 30
+  roundLength: 120
   postGameLength: 10
   relayCodeUI: {fileID: 6167147485346841449}
   pingDisplay: {fileID: 7992946917195808622}
@@ -860,7 +860,7 @@ MonoBehaviour:
   overrideSettings:
     playerCount: -1
     spyCount: 1
-    itemsToSpawn: 5
+    itemsToSpawn: 10
 --- !u!114 &7971697025386248749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -877,11 +877,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   items:
-  - {fileID: 4572328729074933808, guid: d4c24875498bf1e4c909a8a8a98c0dbe, type: 3}
-  - {fileID: 4572328729074933808, guid: 3df2bbe9101f47348a1cbc3aeb5f7e6a, type: 3}
+  - {fileID: 4572328729074933808, guid: cbf206711097a11469ea0d814b5d7195, type: 3}
+  faxMachinePrefab: {fileID: 5942521373019118780, guid: 509cba653bac3a24b9c8a0edd8b26f05,
+    type: 3}
+  shredderPrefab: {fileID: 6481523145805246346, guid: da38953007d7e784aa715f68ba80deb5,
+    type: 3}
   cleanupLayers:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 12288
   enableDebugLogs: 1
 --- !u!1 &7653097034030933272
 GameObject:
