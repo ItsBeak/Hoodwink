@@ -417,6 +417,12 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
     }
 
+    public void ClearCurrentObject()
+    {
+        isHoldingItem = false;
+        currentObject = null;
+    }
+
 }
 
 public enum EquipmentSlot

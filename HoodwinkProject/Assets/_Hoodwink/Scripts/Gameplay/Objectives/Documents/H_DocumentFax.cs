@@ -5,20 +5,63 @@ using Mirror;
 
 public class H_DocumentFax : NetworkBehaviour
 {
-    void Start()
-    {
-        
-    }
+    [SyncVar] public uint inUseBy = 0;
 
-    void Update()
+    [Header("Audio")]
+    public AudioClip useClip;
+    public AudioClip stopUseClip;
+
+    AudioSource source;
+
+    [Header("Debugging")]
+    public bool enableDebugLogs;
+
+    private void Start()
     {
-        
+        source = GetComponent<AudioSource>();
     }
 
     [Command(requiresAuthority = false)]
     public void CmdFaxdDocument()
     {
-        Debug.Log("A document has been faxed");
         H_GameManager.instance.CmdUpdateEvidence(-30);
+
+        if (enableDebugLogs)
+            Debug.Log("A document has been faxed");
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdStartUse(uint playerID)
+    {
+        inUseBy = playerID;
+
+        RpcStartUse();
+
+        if (enableDebugLogs)
+            Debug.Log("The fax machine is being used by: " + playerID);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdStopUse()
+    {
+        inUseBy = 0;
+
+        RpcStopUse();
+
+        if (enableDebugLogs)
+            Debug.Log("The fax machine is being used");
+    }
+
+    [ClientRpc]
+    public void RpcStartUse()
+    {
+        source.PlayOneShot(useClip);
+    }
+
+    [ClientRpc]
+    public void RpcStopUse()
+    {
+        source.Stop();
+        source.PlayOneShot(stopUseClip);
     }
 }

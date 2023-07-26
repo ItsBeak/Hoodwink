@@ -12,17 +12,17 @@ public class H_ItemBase : NetworkBehaviour
     public bool usePrimaryRepeating;
     public float primaryUseRate;
     [HideInInspector] public float timeUntilNextPrimaryUse;
-    [HideInInspector] public bool waitForPrimaryKeyReleased;
+    [HideInInspector] public bool waitForPrimaryKeyReleased = false;
 
     public bool useSecondaryRepeating;
     public float secondaryUseRate;
     [HideInInspector] public float timeUntilNextSecondaryUse;
-    [HideInInspector] public bool waitForSecondaryKeyReleased;
+    [HideInInspector] public bool waitForSecondaryKeyReleased = false;
 
     public bool useAlternateRepeating;
     public float alternateUseRate;
     [HideInInspector] public float timeUntilNextAlternateUse;
-    [HideInInspector] public bool waitForAlternateKeyReleased;
+    [HideInInspector] public bool waitForAlternateKeyReleased = false;
 
     public virtual void Update()
     {
