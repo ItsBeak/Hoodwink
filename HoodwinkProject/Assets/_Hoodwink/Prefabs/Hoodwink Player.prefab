@@ -1505,6 +1505,8 @@ GameObject:
   - component: {fileID: 7732784669419588674}
   - component: {fileID: 6220283844275577187}
   - component: {fileID: 2631851041001039865}
+  - component: {fileID: 6344377832614425805}
+  - component: {fileID: 8453869212605483144}
   m_Layer: 11
   m_Name: Hoodwink Player
   m_TagString: Player
@@ -1828,6 +1830,42 @@ MonoBehaviour:
   spectatorCam: {fileID: 5201658147502516683}
   spectatorTargets: []
   playerUI: {fileID: 6648118454623577374}
+--- !u!114 &6344377832614425805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2269030465652812220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03ebffaa92361e74fac5420475a3bf91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  roomName: hoodwink
+  PushToTalkHotkey: 118
+  UsePushToTalk: 1
+  AudioSender: {fileID: 0}
+--- !u!114 &8453869212605483144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2269030465652812220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ee61abaeb212b84ca54a006377e3524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  playbackPrefab: {fileID: 3405392946782191655, guid: d18ede2bfc16fa44d86ce39a32d9d192,
+    type: 3}
 --- !u!1 &2276840154210437441
 GameObject:
   m_ObjectHideFlags: 0
