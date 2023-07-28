@@ -72,6 +72,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     [Header("Components")]
     public CinemachineVirtualCamera playerCamera;
     [HideInInspector] public float baseFOV;
+    public H_Recoil cameraRecoil;
     bool isDead;
 
     void Start()

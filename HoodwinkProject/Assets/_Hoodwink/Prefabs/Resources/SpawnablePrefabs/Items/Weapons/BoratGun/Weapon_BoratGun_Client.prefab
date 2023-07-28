@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 5319513063072581390}
   - component: {fileID: 7874647504128588469}
   - component: {fileID: 6386852748550406051}
+  - component: {fileID: -8356992803429984743}
   m_Layer: 0
   m_Name: Weapon_BoratGun_Client
   m_TagString: Untagged
@@ -287,6 +288,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   equipment: {fileID: 0}
+  worldDropItem: {fileID: 0}
+  dropOnSwap: 0
   usePrimaryRepeating: 0
   primaryUseRate: 0.1
   timeUntilNextPrimaryUse: 0
@@ -302,6 +305,27 @@ MonoBehaviour:
   damage: 30
   range: 50
   sidearmMode: 1
+  restPosition: {x: 0, y: 0, z: 0}
+  aimPosition: {x: 0, y: 0, z: 0}
+  aimSpeed: 0
+  aimedFOV: 0
+  isAiming: 0
+  cameraVerticalRecoilHipFire: 0
+  cameraHorizontalRecoilHipFire: 0
+  cameraRotationalRecoilHipFire: 0
+  cameraVerticalRecoilAimedFire: 0
+  cameraHorizontalRecoilAimedFire: 0
+  cameraRotationalRecoilAimedFire: 0
+  cameraRecoilForce: 0
+  cameraReturnSpeed: 0
+  weaponVerticalRecoilHipFire: 0
+  weaponHorizontalRecoilHipFire: 0
+  weaponRotationalRecoilHipFire: 0
+  weaponVerticalRecoilAimedFire: 0
+  weaponHorizontalRecoilAimedFire: 0
+  weaponRotationalRecoilAimedFire: 0
+  weaponRecoilForce: 0
+  weaponReturnSpeed: 0
   bulletHolePrefab: {fileID: 753060101714924988, guid: 75c8eaa84a59838428e29015d3b249a2,
     type: 3}
   bulletSpread: 0.2
@@ -442,6 +466,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-8356992803429984743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586889395334819233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15c1e99566e3e344a54b5fa232fa3cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4471220291225408726
 GameObject:
   m_ObjectHideFlags: 0

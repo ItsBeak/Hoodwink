@@ -10,12 +10,38 @@ public class H_ItemWeapon : H_ItemBase
     public float range;
     public bool sidearmMode;
 
-    //[Header("Aiming")]
-    //public Vector3 restPosition;
-    //public Vector3 aimPosition;
-    //public float aimSpeed;
-    //public float aimedFOV;
-    //[HideInInspector] public bool isAiming;
+    [Header("Aiming")]
+    public Vector3 restPosition;
+    public Vector3 aimPosition;
+    public float aimSpeed;
+    public float aimedFOV;
+    [HideInInspector] public bool isAiming;
+
+    [Header("Camera Recoil")]
+    [SerializeField] private float cameraVerticalRecoilHipFire;
+    [SerializeField] private float cameraHorizontalRecoilHipFire;
+    [SerializeField] private float cameraRotationalRecoilHipFire;
+
+    [SerializeField] private float cameraVerticalRecoilAimedFire;
+    [SerializeField] private float cameraHorizontalRecoilAimedFire;
+    [SerializeField] private float cameraRotationalRecoilAimedFire;
+
+    [SerializeField] private float cameraRecoilForce;
+    [SerializeField] private float cameraReturnSpeed;
+
+    [Header("Weapon Recoil")]
+    [SerializeField] private float weaponVerticalRecoilHipFire;
+    [SerializeField] private float weaponHorizontalRecoilHipFire;
+    [SerializeField] private float weaponRotationalRecoilHipFire;
+
+    [SerializeField] private float weaponVerticalRecoilAimedFire;
+    [SerializeField] private float weaponHorizontalRecoilAimedFire;
+    [SerializeField] private float weaponRotationalRecoilAimedFire;
+
+    [SerializeField] private float weaponRecoilForce;
+    [SerializeField] private float weaponReturnSpeed;
+
+    H_Recoil weaponRecoil;
 
     [Header("Effects")]
     public GameObject bulletHolePrefab;
@@ -47,6 +73,7 @@ public class H_ItemWeapon : H_ItemBase
         base.Initialize();
 
         clientEffects = GetComponent<H_WeaponEffects>();
+        weaponRecoil = GetComponent<H_Recoil>();
 
         if (sidearmMode)
         {
@@ -70,18 +97,18 @@ public class H_ItemWeapon : H_ItemBase
         if (!isOwned || !equipment)
             return;
 
-        //if (waitForSecondaryKeyReleased)
-        //{
-        //    transform.localPosition = Vector3.Lerp(transform.localPosition, aimPosition, aimSpeed * Time.deltaTime);
-        //    equipment.playerCamera.m_Lens.FieldOfView = Mathf.Lerp(equipment.playerCamera.m_Lens.FieldOfView, aimedFOV, aimSpeed * Time.deltaTime);
-        //    isAiming = true;
-        //}
-        //else
-        //{
-        //    transform.localPosition = Vector3.Lerp(transform.localPosition, restPosition, aimSpeed * Time.deltaTime);
-        //    equipment.playerCamera.m_Lens.FieldOfView = Mathf.Lerp(equipment.playerCamera.m_Lens.FieldOfView, equipment.baseFOV, aimSpeed * Time.deltaTime);
-        //    isAiming = false;
-        //}
+        if (waitForSecondaryKeyReleased)
+        {
+            transform.localPosition = Vector3.Lerp(transform.localPosition, aimPosition, aimSpeed * Time.deltaTime);
+            equipment.playerCamera.m_Lens.FieldOfView = Mathf.Lerp(equipment.playerCamera.m_Lens.FieldOfView, aimedFOV, aimSpeed * Time.deltaTime);
+            isAiming = true;
+        }
+        else
+        {
+            transform.localPosition = Vector3.Lerp(transform.localPosition, restPosition, aimSpeed * Time.deltaTime);
+            equipment.playerCamera.m_Lens.FieldOfView = Mathf.Lerp(equipment.playerCamera.m_Lens.FieldOfView, equipment.baseFOV, aimSpeed * Time.deltaTime);
+            isAiming = false;
+        }
 
         if (!equipment.isPrimaryUseKeyPressed)
         {
@@ -141,16 +168,16 @@ public class H_ItemWeapon : H_ItemBase
                 }
             }
 
-            //if (isAiming)
-            //{
-            //    equipment.cameraRecoil.AddRecoil(cameraVerticalRecoilAimedFire, cameraHorizontalRecoilAimedFire, cameraRotationalRecoilAimedFire);
-            //    equipment.weaponRecoil.AddRecoil(weaponVerticalRecoilAimedFire, weaponHorizontalRecoilAimedFire, weaponRotationalRecoilAimedFire);
-            //}
-            //else
-            //{
-            //    equipment.cameraRecoil.AddRecoil(cameraVerticalRecoilHipFire, cameraHorizontalRecoilHipFire, cameraRotationalRecoilHipFire);
-            //    equipment.weaponRecoil.AddRecoil(weaponVerticalRecoilAimedFire, weaponHorizontalRecoilAimedFire, weaponRotationalRecoilAimedFire);
-            //}
+            if (isAiming)
+            {
+                equipment.cameraRecoil.AddRecoil(cameraVerticalRecoilAimedFire, cameraHorizontalRecoilAimedFire, cameraRotationalRecoilAimedFire, cameraRecoilForce, cameraReturnSpeed);
+                weaponRecoil.AddRecoil(weaponVerticalRecoilAimedFire, weaponHorizontalRecoilAimedFire, weaponRotationalRecoilAimedFire, weaponRecoilForce, weaponReturnSpeed);
+            }
+            else
+            {
+                equipment.cameraRecoil.AddRecoil(cameraVerticalRecoilHipFire, cameraHorizontalRecoilHipFire, cameraRotationalRecoilHipFire, cameraRecoilForce, cameraReturnSpeed);
+                weaponRecoil.AddRecoil(weaponVerticalRecoilAimedFire, weaponHorizontalRecoilAimedFire, weaponRotationalRecoilAimedFire, weaponRecoilForce, weaponReturnSpeed);
+            }
 
             if (clientEffects)
             {
@@ -206,7 +233,7 @@ public class H_ItemWeapon : H_ItemBase
         //need to enable animator while busy, play reload, then disable to allow for procedurals to continue
         //anim.SetTrigger("Reload");
 
-        //playerEffects.CmdPlayReload();
+        clientEffects.CmdPlayReload();
 
     }
 

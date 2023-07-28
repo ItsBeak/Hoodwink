@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 672183228678552027}
   - component: {fileID: 4383013776872652072}
   m_Layer: 0
-  m_Name: Point Light
+  m_Name: Muzzle Flash Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 5319513063072581390}
   - component: {fileID: 7874647504128588469}
   - component: {fileID: 6386852748550406051}
+  - component: {fileID: 9149936596780865197}
   m_Layer: 0
   m_Name: Weapon_PavelGun_Client
   m_TagString: Untagged
@@ -287,6 +288,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   equipment: {fileID: 0}
+  worldDropItem: {fileID: 0}
+  dropOnSwap: 0
   usePrimaryRepeating: 0
   primaryUseRate: 0.2
   timeUntilNextPrimaryUse: 0
@@ -302,6 +305,27 @@ MonoBehaviour:
   damage: 10
   range: 50
   sidearmMode: 1
+  restPosition: {x: -0.1, y: 0.1, z: -0.2}
+  aimPosition: {x: -0.25, y: 0.195, z: -0.27}
+  aimSpeed: 8
+  aimedFOV: 55
+  isAiming: 0
+  cameraVerticalRecoilHipFire: -3
+  cameraHorizontalRecoilHipFire: 1
+  cameraRotationalRecoilHipFire: 0.2
+  cameraVerticalRecoilAimedFire: -1.75
+  cameraHorizontalRecoilAimedFire: 0.5
+  cameraRotationalRecoilAimedFire: 0.1
+  cameraRecoilForce: 5
+  cameraReturnSpeed: 2
+  weaponVerticalRecoilHipFire: -10
+  weaponHorizontalRecoilHipFire: 5
+  weaponRotationalRecoilHipFire: 5
+  weaponVerticalRecoilAimedFire: -6
+  weaponHorizontalRecoilAimedFire: 3
+  weaponRotationalRecoilAimedFire: 4
+  weaponRecoilForce: 8
+  weaponReturnSpeed: 8
   bulletHolePrefab: {fileID: 753060101714924988, guid: 75c8eaa84a59838428e29015d3b249a2,
     type: 3}
   bulletSpread: 0.2
@@ -442,6 +466,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9149936596780865197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586889395334819233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15c1e99566e3e344a54b5fa232fa3cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4471220291225408726
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,7 +596,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 76beb2b9d0fd411448c3ea5fb50f2d5b, type: 2}
+      objectReference: {fileID: 2100000, guid: 9446b300f41e3b84bb6003167a625ff7, type: 2}
     - target: {fileID: 919132149155446097, guid: 438c21df3b670684ab19a9f14b423ddd,
         type: 3}
       propertyPath: m_Name
@@ -570,7 +606,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 76beb2b9d0fd411448c3ea5fb50f2d5b, type: 2}
+      objectReference: {fileID: 2100000, guid: 9446b300f41e3b84bb6003167a625ff7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 438c21df3b670684ab19a9f14b423ddd, type: 3}
 --- !u!4 &2882428540424216098 stripped
