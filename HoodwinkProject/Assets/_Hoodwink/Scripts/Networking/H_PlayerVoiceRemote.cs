@@ -2,14 +2,16 @@ using UnityEngine;
 using Mirror;
 using OdinNative.Odin.Room;
 using OdinNative.Unity.Audio;
-
+using OdinNative.Odin;
+using System.Text;
+using OdinNative.Odin.Peer;
 
 public class H_PlayerVoiceRemote : NetworkBehaviour
 {
     public PlaybackComponent playbackPrefab;
     PlaybackComponent spawnedPlayback;
 
-    void Start()
+    public override void OnStartLocalPlayer()
     {
         OdinHandler.Instance.OnMediaAdded.AddListener(MediaAdded);
     }
@@ -21,8 +23,10 @@ public class H_PlayerVoiceRemote : NetworkBehaviour
 
         if (roomObject is Room room)
         {
+            Peer peer = room.RemotePeers[peerId];
+            VoiceUserData userData = JsonUtility.FromJson<VoiceUserData>(peer.UserData.ToString());
 
-            if (!isLocalPlayer)
+            if (!isLocalPlayer && userData.NetworkId == netId)
             {
                 spawnedPlayback = Instantiate(playbackPrefab, transform);
                 spawnedPlayback.transform.localPosition = Vector3.zero;
@@ -39,6 +43,6 @@ public class H_PlayerVoiceRemote : NetworkBehaviour
         if (null != spawnedPlayback)
             Destroy(spawnedPlayback.gameObject);
     }
-
-
 }
+
+
