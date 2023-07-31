@@ -17,6 +17,8 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform primaryEquipPointObserver;
     [HideInInspector] public GameObject primaryClientObject;
     [HideInInspector] public GameObject primaryObserverObject;
+    public TextMeshProUGUI primaryItemName;
+    public Image primaryItemIcon;
     [HideInInspector, SyncVar] public bool isHoldingItem = false;
     H_ItemBase currentObject;
     public Transform dropPoint;
@@ -26,6 +28,8 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform sidearmEquipPointObserver;
     [HideInInspector] public GameObject sidearmClientObject;
     [HideInInspector] public GameObject sidearmObserverObject;
+    public TextMeshProUGUI sidearmItemName;
+    public Image sidearmItemIcon;
 
     [Header("Holstered Equipment Settings")]
     public Transform holsteredEquipPointClient;
@@ -318,6 +322,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             CmdDropItem();
             playerCamera.m_Lens.FieldOfView = baseFOV;
+            ClearPrimarySlot();
         }
     }
 
@@ -422,6 +427,32 @@ public class H_PlayerEquipment : NetworkBehaviour
     {
         isHoldingItem = false;
         currentObject = null;
+    }
+
+    public void ClearPrimarySlot()
+    {
+        primaryItemName.text = "";
+        primaryItemIcon.sprite = null;
+        primaryItemIcon.color = Color.clear;
+    }
+
+    public void ClearSidearmSlot()
+    {
+        sidearmItemName.text = "";
+        sidearmItemIcon.sprite = null;
+        sidearmItemIcon.color = Color.clear;
+    }
+
+    [ClientRpc]
+    public void RpcClearPrimarySlot()
+    {
+        ClearPrimarySlot();
+    }
+
+    [ClientRpc]
+    public void RpcClearSidearmSlot()
+    {
+        ClearSidearmSlot();
     }
 
 }

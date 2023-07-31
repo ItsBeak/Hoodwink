@@ -389,6 +389,9 @@ public class H_GameManager : NetworkBehaviour
 
             NetworkServer.Destroy(player.equipment.sidearmClientObject.gameObject);
             NetworkServer.Destroy(player.equipment.sidearmObserverObject.gameObject);
+
+            player.equipment.RpcClearSidearmSlot();
+
         }
 
         roundPlayers.Clear();

@@ -8,6 +8,10 @@ public class H_ItemBase : NetworkBehaviour
 
     public GameObject worldDropItem;
     public bool dropOnSwap;
+    [SerializeField] SlotType slotType;
+
+    public string itemName;
+    public Sprite itemIcon;
 
     public bool usePrimaryRepeating;
     public float primaryUseRate;
@@ -38,6 +42,20 @@ public class H_ItemBase : NetworkBehaviour
         {
             equipment = GetComponentInParent<H_PlayerEquipment>();
         }
+
+        if (slotType == SlotType.Primary)
+        {
+            equipment.primaryItemName.text = itemName;
+            equipment.primaryItemIcon.sprite = itemIcon;
+            equipment.primaryItemIcon.color = Color.white;
+        }
+        else if (slotType == SlotType.Sidearm)
+        {
+            equipment.sidearmItemName.text = itemName;
+            equipment.sidearmItemIcon.sprite = itemIcon;
+            equipment.sidearmItemIcon.color = Color.white;
+        }
+
     }
 
     void CheckForKeyPresses()
@@ -207,4 +225,10 @@ public class H_ItemBase : NetworkBehaviour
     {
 
     }
+}
+
+enum SlotType
+{
+    Primary,
+    Sidearm
 }
