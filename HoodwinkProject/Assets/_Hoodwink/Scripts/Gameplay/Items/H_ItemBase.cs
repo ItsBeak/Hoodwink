@@ -45,13 +45,11 @@ public class H_ItemBase : NetworkBehaviour
 
         if (slotType == SlotType.Primary)
         {
-            equipment.primaryItemName.text = itemName;
             equipment.primaryItemIcon.sprite = itemIcon;
             equipment.primaryItemIcon.color = Color.white;
         }
         else if (slotType == SlotType.Sidearm)
         {
-            equipment.sidearmItemName.text = itemName;
             equipment.sidearmItemIcon.sprite = itemIcon;
             equipment.sidearmItemIcon.color = Color.white;
         }

@@ -1,5 +1,6 @@
 using Cinemachine;
 using Mirror;
+using Mirror.Examples.Basic;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,7 +18,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform primaryEquipPointObserver;
     [HideInInspector] public GameObject primaryClientObject;
     [HideInInspector] public GameObject primaryObserverObject;
-    public TextMeshProUGUI primaryItemName;
     public Image primaryItemIcon;
     [HideInInspector, SyncVar] public bool isHoldingItem = false;
     H_ItemBase currentObject;
@@ -28,7 +28,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform sidearmEquipPointObserver;
     [HideInInspector] public GameObject sidearmClientObject;
     [HideInInspector] public GameObject sidearmObserverObject;
-    public TextMeshProUGUI sidearmItemName;
     public Image sidearmItemIcon;
 
     [Header("Holstered Equipment Settings")]
@@ -43,6 +42,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Image gadgetCooldownUI;
     public Image gadgetIcon;
     public TextMeshProUGUI gadgetNameText;
+    public TextMeshProUGUI gadgetDescriptionText;
 
     [Header("Equipment UI Elements")]
     public Image primarySlotUI;
@@ -54,8 +54,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public TextMeshProUGUI focusedItemReadout;
     public LayerMask interactableLayers;
     H_WorldItem focusedItem;
-
-    public Color selectedColor, deselectedColor;
 
     [Header("Hit Markers")]
     public Transform hitmarkerParent;
@@ -77,6 +75,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     public CinemachineVirtualCamera playerCamera;
     [HideInInspector] public float baseFOV;
     public H_Recoil cameraRecoil;
+    H_PlayerBrain brain;
     bool isDead;
 
     void Start()
@@ -88,6 +87,8 @@ public class H_PlayerEquipment : NetworkBehaviour
             holsteredEquipPointClient.gameObject.SetActive(false);
             return;
         }
+
+        brain = GetComponent<H_PlayerBrain>();
 
         primaryEquipPointObserver.gameObject.SetActive(false);
         sidearmEquipPointObserver.gameObject.SetActive(false);
@@ -155,6 +156,7 @@ public class H_PlayerEquipment : NetworkBehaviour
             gadgetIcon.sprite = currentGadget.gadgetIcon;
             gadgetIcon.color = Color.white;
             gadgetNameText.text = currentGadget.gadgetName;
+            gadgetDescriptionText.text = currentGadget.gadgetDescription;
         }
         else
         {
@@ -162,6 +164,7 @@ public class H_PlayerEquipment : NetworkBehaviour
             gadgetIcon.color = Color.clear;
             gadgetCooldownUI.fillAmount = 0;
             gadgetNameText.text = "";
+            gadgetDescriptionText.text = "";
         }
 
         if (focusedItem && !isHoldingItem)
@@ -206,9 +209,6 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void ChangeSlot(EquipmentSlot newSlot)
     {
-        primarySlotUI.color = deselectedColor;
-        sidearmSlotUI.color = deselectedColor;
-        holsteredSlotUI.color = deselectedColor;
         ClearSlots();
 
         switch (newSlot)
@@ -272,9 +272,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
         else
         {
-            primarySlotUI.color = selectedColor;
-
             primaryEquipPointClient.gameObject.SetActive(true);
+
+            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", true);
+            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", false);
+            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", false);
         }
     }
 
@@ -287,9 +289,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
         else
         {
-            sidearmSlotUI.color = selectedColor;
-
             sidearmEquipPointClient.gameObject.SetActive(true);
+
+            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", false);
+            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", true);
+            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", false);
         }
     }
 
@@ -301,9 +305,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
         else
         {
-            holsteredSlotUI.color = selectedColor;
-
             holsteredEquipPointClient.gameObject.SetActive(true);
+
+            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", false);
+            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", false);
+            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", true);
         }
     }
 
@@ -355,6 +361,8 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         NetworkServer.Destroy(primaryClientObject.gameObject);
         NetworkServer.Destroy(primaryObserverObject.gameObject);
+
+        RpcClearPrimarySlot();
 
         isHoldingItem = false;
 
@@ -431,16 +439,12 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     public void ClearPrimarySlot()
     {
-        primaryItemName.text = "";
         primaryItemIcon.sprite = null;
-        primaryItemIcon.color = Color.clear;
     }
 
     public void ClearSidearmSlot()
     {
-        sidearmItemName.text = "";
         sidearmItemIcon.sprite = null;
-        sidearmItemIcon.color = Color.clear;
     }
 
     [ClientRpc]

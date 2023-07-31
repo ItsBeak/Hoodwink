@@ -1,6 +1,8 @@
 using UnityEngine;
 using Mirror;
 using TMPro;
+using UnityEngine.UI;
+using Mono.Cecil.Cil;
 
 public class H_PlayerUI : MonoBehaviour
 {
@@ -8,10 +10,18 @@ public class H_PlayerUI : MonoBehaviour
     public CanvasGroup gameUI;
     public CanvasGroup playerUI;
     public CanvasGroup spectatorUI;
-
     public CanvasGroup pauseUI;
 
-    H_PlayerHealth health;
+    [Header("Alignment Data")]
+    public Color alignmentColorUnassigned;
+    public Color alignmentColorAgent;
+    public Color alignmentColorSpy; 
+    public TextMeshProUGUI alignmentText, alignmentFolderText;
+    public Image alignmentBackground;
+
+    [Header("Player GUI")]
+    public Animator folderAnimator;
+    public Animator slotPrimaryAnimator, slotSidearmAnimator, slotHolsteredAnimator, roleAnimator;
 
     [Header("Components")]
     H_PlayerBrain brain;
@@ -22,7 +32,6 @@ public class H_PlayerUI : MonoBehaviour
     private void Start()
     {
         brain = GetComponentInParent<H_PlayerBrain>();
-        health = GetComponentInParent<H_PlayerHealth>();
     }
 
     void Update()
@@ -39,6 +48,12 @@ public class H_PlayerUI : MonoBehaviour
                 ClosePauseMenu();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            folderAnimator.SetTrigger("open");
+        }
+
     }
 
     public void OpenPauseMenu()

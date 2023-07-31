@@ -24,15 +24,15 @@ public class H_PlayerBrain : NetworkBehaviour
     [Header("Alignment Data")]
     [SyncVar(hook = nameof(OnAlignmentChanged))]
     public AgentAlignment currentAlignment;
-    public Color alignmentColorUnassigned, alignmentColorAgent, alignmentColorSpy;
+    public Color alignmentColorUnassigned;
+    public Color alignmentColorAgent;
+    public Color alignmentColorSpy;
 
     [Header("Components")]
     public CinemachineVirtualCamera cam;
     public Image agentColourImage;
     public TextMeshProUGUI agentNameText;
     public TextMeshProUGUI readyText;
-    public TextMeshProUGUI alignmentText;
-    public Image alignmentBackground;
     public H_PlayerEquipment equipment;
     public H_PlayerUI playerUI;
 
@@ -155,20 +155,23 @@ public class H_PlayerBrain : NetworkBehaviour
 
     void UpdateAlignmentUI(AgentAlignment alignment)
     {
-        alignmentText.text = currentAlignment.ToString();
+        playerUI.alignmentText.text = currentAlignment.ToString();
+        playerUI.alignmentFolderText.text = currentAlignment.ToString();
 
         if (alignment == AgentAlignment.Unassigned)
         {
-            alignmentBackground.color = alignmentColorUnassigned;
+            playerUI.alignmentBackground.color = alignmentColorUnassigned;
+            playerUI.roleAnimator.SetBool("hasRole", false);
         }
         else if (alignment == AgentAlignment.Agent)
         {
-            alignmentBackground.color = alignmentColorAgent;
-
+            playerUI.alignmentBackground.color = alignmentColorAgent;
+            playerUI.roleAnimator.SetBool("hasRole", true);
         }
         else if (alignment == AgentAlignment.Spy)
         {
-            alignmentBackground.color = alignmentColorSpy;
+            playerUI.alignmentBackground.color = alignmentColorSpy;
+            playerUI.roleAnimator.SetBool("hasRole", true);
         }
     }
 
