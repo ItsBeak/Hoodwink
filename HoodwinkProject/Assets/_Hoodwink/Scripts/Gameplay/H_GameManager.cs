@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Runtime.Serialization;
 
 public class H_GameManager : NetworkBehaviour
 {
@@ -20,7 +21,7 @@ public class H_GameManager : NetworkBehaviour
 
     [HideInInspector] public string chosenScene;
     bool winConditionMet = false;
-    H_LevelData currentLevel;
+    [HideInInspector] public H_LevelData currentLevel;
 
     [HideInInspector, SyncVar] public RoundStage currentRoundStage = RoundStage.Lobby;
     [HideInInspector, SyncVar] public WinConditions winCondition;
@@ -64,12 +65,14 @@ public class H_GameManager : NetworkBehaviour
     public TextMeshProUGUI relayCodeUI;
     public TextMeshProUGUI pingDisplay;
     public TextMeshProUGUI timerDisplay;
+    H_ObjectManager objectManager;
 
     [Header("Debugging")]
     public bool enableDebugLogs;
     public bool overrideMinimumPlayerCount;
     public bool allowServerToSkipGame;
     public PlayerSettings overrideSettings;
+    PlayerSettings currentSettings;
 
     private H_NetworkManager netManager;
 
@@ -85,6 +88,7 @@ public class H_GameManager : NetworkBehaviour
     void Start()
     {
         relayCodeUI.text = "Join Code: " + NetManager.relayJoinCode.ToUpper();
+        objectManager = GetComponent<H_ObjectManager>();
     }
 
     public override void OnStartServer()
@@ -299,6 +303,25 @@ public class H_GameManager : NetworkBehaviour
     [Server]
     public void StartRound()
     {
+
+        int totalPlayers = roundPlayers.Count;
+
+        if (overrideMinimumPlayerCount)
+        {
+            currentSettings = overrideSettings;
+        }
+        else
+        {
+            foreach (PlayerSettings settings in playerSettings)
+            {
+                if (settings.playerCount == totalPlayers)
+                {
+                    currentSettings = settings;
+                    break;
+                }
+            }
+        }
+
         StartCoroutine(InitializeLevel());
 
         warmupTimer = warmupLength;
@@ -357,7 +380,7 @@ public class H_GameManager : NetworkBehaviour
 
         winConditionMet = false;
 
-       // Invoke("CleanupObjects", 1f);
+        Invoke("CleanupObjects", 0.5f);
 
         RpcUnloadMap(chosenScene);
         currentRoundStage = RoundStage.Lobby;
@@ -407,37 +430,22 @@ public class H_GameManager : NetworkBehaviour
             player.hasAgentData = true;
         }
 
+        Debug.Log("Spawning objects");
+
+        objectManager.SetPlayerSettings(currentSettings);
+
+        objectManager.SpawnObjects();
 
     }
 
     [Server]
     private void AssignRoles()
     {
-        int totalPlayers = roundPlayers.Count;
-
-        PlayerSettings newRoundSettings = new PlayerSettings();
-
-        if (overrideMinimumPlayerCount)
-        {
-            newRoundSettings = overrideSettings;
-        }
-        else
-        {
-            foreach (PlayerSettings settings in playerSettings)
-            {
-                if (settings.playerCount == totalPlayers)
-                {
-                    newRoundSettings = settings;
-                    break;
-                }
-            }
-        }
-
-        roundSpiesRemaining = newRoundSettings.spyCount;
+        roundSpiesRemaining = currentSettings.spyCount;
 
         while (roundSpiesRemaining > 0)
         {
-            int randomPlayerIndex = Random.Range(0, totalPlayers);
+            int randomPlayerIndex = Random.Range(0, roundPlayers.Count);
 
             if (roundPlayers[randomPlayerIndex].currentAlignment != AgentAlignment.Spy)
             {
@@ -451,7 +459,7 @@ public class H_GameManager : NetworkBehaviour
             }
         }
 
-        for (int i = 0; i < totalPlayers; i++)
+        for (int i = 0; i < roundPlayers.Count; i++)
         {
             if (roundPlayers[i].currentAlignment != AgentAlignment.Spy)
             {
@@ -585,6 +593,8 @@ public class PlayerSettings
 {
     public int playerCount;
     public int spyCount;
+
+    public int itemsToSpawn;
 }
 
 public enum RoundStage
