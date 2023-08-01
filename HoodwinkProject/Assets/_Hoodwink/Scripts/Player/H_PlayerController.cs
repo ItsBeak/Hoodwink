@@ -39,6 +39,8 @@ public class H_PlayerController : NetworkBehaviour
 
     void Update()
     {
+        characterController.enabled = !health.isDead;
+
         if (!isLocalPlayer) return;
 
         Inputs();
