@@ -49,6 +49,10 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Image sidearmSlotUI;
     public Image holsteredSlotUI;
 
+    [Header("Ammo UI Elements")]
+    public Image reloadingImage;
+    public TextMeshProUGUI ammoLoadedText, ammoPoolText;
+
     [Header("Interaction Settings")]
     public float interactionRange = 2f;
     public TextMeshProUGUI focusedItemReadout;
@@ -210,6 +214,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     void ChangeSlot(EquipmentSlot newSlot)
     {
         ClearSlots();
+        ClearAmmoUI();
 
         switch (newSlot)
         {
@@ -457,6 +462,22 @@ public class H_PlayerEquipment : NetworkBehaviour
     public void RpcClearSidearmSlot()
     {
         ClearSidearmSlot();
+    }
+
+    public void SetAmmoUI(int ammoLoaded, int ammoPool, float reloadTime)
+    {
+        ammoLoadedText.text = ammoLoaded.ToString();
+        ammoPoolText.text = ammoPool.ToString();
+
+        reloadingImage.fillAmount = reloadTime;
+    }
+
+    public void ClearAmmoUI()
+    {
+        ammoLoadedText.text = "";
+        ammoPoolText.text = "";
+
+        reloadingImage.fillAmount = 0;
     }
 
 }

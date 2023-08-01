@@ -58,6 +58,9 @@ public class H_ItemWeapon : H_ItemBase
     public int maxAmmo;
     public int clipSize;
     public int startingAmmo;
+    public float reloadTime;
+    float reloadTimer;
+    bool isReloading;
     [HideInInspector] public int ammoLoaded;
     [HideInInspector] public int ammoPool;
     bool lockTrigger = false;
@@ -115,11 +118,14 @@ public class H_ItemWeapon : H_ItemBase
             lockTrigger = false;
         }
 
+        isReloading = reloadTimer > 0;
+        equipment.SetAmmoUI(ammoLoaded, ammoPool, Mathf.Clamp(reloadTimer / reloadTime, 0, 1));
+        reloadTimer -= 1 * Time.deltaTime;
     }
 
     public override void PrimaryUse()
     {
-        if (lockTrigger)
+        if (lockTrigger || isReloading)
             return;
         if (enableDebugLogs)
             Debug.Log("Shooting");
@@ -205,7 +211,7 @@ public class H_ItemWeapon : H_ItemBase
 
     public override void AlternateUse()
     {
-        if (ammoLoaded == clipSize || ammoPool == 0)
+        if (ammoLoaded == clipSize || ammoPool == 0 || isReloading)
         {
             return;
         }
@@ -215,35 +221,18 @@ public class H_ItemWeapon : H_ItemBase
         LoadAmmo();
     }
 
-    [ClientRpc]
-    public override void RpcPrimaryUse()
-    {
-        //playerEffects.CmdPlayFire();
-    }
-
-    [ClientRpc]
-    public override void RpcSecondaryUse()
-    {
-
-    }
-
-    [ClientRpc]
-    public override void RpcAlternateUse()
-    {
-        //need to enable animator while busy, play reload, then disable to allow for procedurals to continue
-        //anim.SetTrigger("Reload");
-
-        clientEffects.CmdPlayReload();
-
-    }
-
     void LoadAmmo()
     {
+        reloadTimer = reloadTime;
+
         while (ammoLoaded < clipSize && ammoPool > 0)
         {
             ammoLoaded++;
             ammoPool--;
         }
+
+        clientEffects.PlayReloadLocal();
+        observerEffects.CmdPlayReload();
     }
 
     [Command]
