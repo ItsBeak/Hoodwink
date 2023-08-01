@@ -6,7 +6,8 @@ public class H_ItemBase : NetworkBehaviour
 {
     [HideInInspector] public H_PlayerEquipment equipment;
 
-    //public GameObject worldItem;
+    public GameObject worldDropItem;
+    public bool dropOnSwap;
 
     public bool usePrimaryRepeating;
     public float primaryUseRate;

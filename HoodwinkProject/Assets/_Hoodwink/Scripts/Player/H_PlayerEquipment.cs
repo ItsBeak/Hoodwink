@@ -17,6 +17,10 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform primaryEquipPointObserver;
     [HideInInspector] public GameObject primaryClientObject;
     [HideInInspector] public GameObject primaryObserverObject;
+    [HideInInspector, SyncVar] public bool isHoldingItem = false;
+    H_ItemBase currentObject;
+    GameObject primaryWorldObject;
+    public Transform dropPoint;
 
     [Header("Sidearm Equipment Settings")]
     public Transform sidearmEquipPointClient;
@@ -41,6 +45,12 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Image primarySlotUI;
     public Image sidearmSlotUI;
     public Image holsteredSlotUI;
+
+    [Header("Interaction Settings")]
+    public float interactionRange = 2f;
+    public TextMeshProUGUI focusedItemReadout;
+    public LayerMask interactableLayers;
+    H_WorldItem focusedItem;
 
     public Color selectedColor, deselectedColor;
 
@@ -81,7 +91,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         baseFOV = playerCamera.m_Lens.FieldOfView;
 
-        CmdChangeSlot(EquipmentSlot.Holstered);
+        ChangeSlotInput(EquipmentSlot.Holstered);
     }
 
     void Update()
@@ -101,15 +111,23 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            CmdChangeSlot(EquipmentSlot.PrimaryItem);
+            ChangeSlotInput(EquipmentSlot.PrimaryItem);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            CmdChangeSlot(EquipmentSlot.Sidearm);
+            ChangeSlotInput(EquipmentSlot.Sidearm);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            CmdChangeSlot(EquipmentSlot.Holstered);
+            ChangeSlotInput(EquipmentSlot.Holstered);
+        }
+        else if (Input.GetKeyDown(interactKey))
+        {
+            TryInteract();
+        }
+        else if (Input.GetKeyDown(dropKey))
+        {
+            TryDropItem();
         }
         else if (Input.GetKeyDown(gadgetUseKey))
         {
@@ -140,6 +158,40 @@ public class H_PlayerEquipment : NetworkBehaviour
             gadgetIcon.color = Color.clear;
             gadgetCooldownUI.fillAmount = 0;
             gadgetNameText.text = "";
+        }
+
+        if (focusedItem && !isHoldingItem)
+        {
+            focusedItemReadout.text = "Press " + interactKey + " to pickup " + focusedItem.itemName;
+        }
+        else
+        {
+            focusedItemReadout.text = "";
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!isLocalPlayer) return;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, interactionRange, interactableLayers) && !isHoldingItem)
+        {
+            H_WorldItem item = hit.collider.GetComponent<H_WorldItem>();
+
+            if (item != null)
+            {
+                focusedItem = item;
+            }
+            else
+            {
+                focusedItem = null;
+            }
+        }
+        else
+        {
+            focusedItem = null;
         }
     }
 
@@ -172,6 +224,19 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         playerCamera.m_Lens.FieldOfView = baseFOV;
 
+    }
+
+    void ChangeSlotInput(EquipmentSlot selectedSlot)
+    {
+        if (isHoldingItem)
+        {
+            if (currentObject.dropOnSwap)
+            {
+                RpcTryDropItem();
+            }
+        }
+
+        CmdChangeSlot(selectedSlot);
     }
 
     [Command]
@@ -238,11 +303,112 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    public void RpcEquipSidearm(GameObject clientSidearm, GameObject observerSidearm)
+    public void TryInteract()
     {
-        sidearmClientObject = clientSidearm;
-        sidearmObserverObject = observerSidearm;
+        if (focusedItem != null)
+        {
+            CmdTryPickUpItem(focusedItem.netIdentity);
+            CmdChangeSlot(EquipmentSlot.PrimaryItem);
+        }
+    }
+
+    public void TryDropItem()
+    {
+        Debug.Log("Trying to drop object");
+
+        if (isHoldingItem)
+        {
+            Debug.Log("Player is holding an object");
+
+            CmdDropItem();
+
+            ClearHeldItem();
+
+            playerCamera.m_Lens.FieldOfView = baseFOV;
+        }
+        else
+        {
+            Debug.Log("Player is not holding an object");
+        }
+    }
+
+    [ClientRpc]
+    public void RpcTryDropItem()
+    {
+        TryDropItem();
+    }
+
+    [Command]
+    private void CmdTryPickUpItem(NetworkIdentity itemIdentity)
+    {
+        H_WorldItem item = itemIdentity.GetComponent<H_WorldItem>();
+
+        if (item != null)
+        {
+            item.PickUpItem(netIdentity);
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdDropItem()
+    {
+        Debug.Log("Drop object command called");
+
+        if (!primaryWorldObject)
+            return;
+
+        Vector3 position = dropPoint.position;
+        Quaternion rotation = dropPoint.rotation;
+        GameObject droppedObject = Instantiate(primaryWorldObject, position, rotation);
+
+        droppedObject.GetComponent<Rigidbody>().AddTorque(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
+        droppedObject.GetComponent<Rigidbody>().AddForce(dropPoint.forward, ForceMode.Impulse);
+
+        NetworkServer.Destroy(primaryClientObject.gameObject);
+        NetworkServer.Destroy(primaryObserverObject.gameObject);
+
+        ClearHeldItem();
+
+        NetworkServer.Spawn(droppedObject);
+
+        Debug.Log("Dropped new object: " + droppedObject.name);
+
+    }
+
+    [ClientRpc]
+    void ClearHeldItem()
+    {
+        isHoldingItem = false;
+        primaryWorldObject = null;
+    }
+
+
+    [ClientRpc]
+    public void RpcEquipPrimary(GameObject clientObject, GameObject observerObject)
+    {
+        primaryClientObject = clientObject;
+        primaryObserverObject = observerObject;
+
+        primaryClientObject.transform.parent = primaryEquipPointClient;
+        primaryClientObject.transform.localPosition = Vector3.zero;
+        primaryClientObject.transform.localRotation = Quaternion.identity;
+
+        primaryObserverObject.transform.parent = primaryEquipPointObserver;
+        primaryObserverObject.transform.localPosition = Vector3.zero;
+        primaryObserverObject.transform.localRotation = Quaternion.identity;
+
+        isHoldingItem = true;
+
+        currentObject = primaryClientObject.GetComponent<H_ItemBase>();
+        primaryWorldObject = currentObject.worldDropItem;
+        currentObject.Initialize();
+    }
+
+    [ClientRpc]
+    public void RpcEquipSidearm(GameObject clientObject, GameObject observerObject)
+    {
+        sidearmClientObject = clientObject;
+        sidearmObserverObject = observerObject;
 
         sidearmClientObject.transform.parent = sidearmEquipPointClient;
         sidearmClientObject.transform.localPosition = Vector3.zero;
@@ -252,7 +418,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         sidearmObserverObject.transform.localPosition = Vector3.zero;
         sidearmObserverObject.transform.localRotation = Quaternion.identity;
 
-        clientSidearm.GetComponent<H_ItemWeapon>().Initialize();
+        sidearmClientObject.GetComponent<H_ItemBase>().Initialize();
     }
 
     [ClientRpc]
