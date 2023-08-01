@@ -15,7 +15,7 @@ public class H_PlayerAnimator : NetworkBehaviour
 
     void Update()
     {
-        playerAnimator.SetBool("isSidearm", equipment.currentSlot == EquipmentSlot.Sidearm);
+        playerAnimator.SetBool("isSidearm", equipment.currentSlot == EquipmentSlot.Sidearm && equipment.sidearmClientObject);
 
 
         if (!isLocalPlayer)
