@@ -6,22 +6,27 @@ public class H_ItemBase : NetworkBehaviour
 {
     [HideInInspector] public H_PlayerEquipment equipment;
 
-    //public GameObject worldItem;
+    public GameObject worldDropItem;
+    public bool dropOnSwap;
+    [SerializeField] SlotType slotType;
+
+    public string itemName;
+    public Sprite itemIcon;
 
     public bool usePrimaryRepeating;
     public float primaryUseRate;
     [HideInInspector] public float timeUntilNextPrimaryUse;
-    [HideInInspector] public bool waitForPrimaryKeyReleased;
+    [HideInInspector] public bool waitForPrimaryKeyReleased = false;
 
     public bool useSecondaryRepeating;
     public float secondaryUseRate;
     [HideInInspector] public float timeUntilNextSecondaryUse;
-    [HideInInspector] public bool waitForSecondaryKeyReleased;
+    [HideInInspector] public bool waitForSecondaryKeyReleased = false;
 
     public bool useAlternateRepeating;
     public float alternateUseRate;
     [HideInInspector] public float timeUntilNextAlternateUse;
-    [HideInInspector] public bool waitForAlternateKeyReleased;
+    [HideInInspector] public bool waitForAlternateKeyReleased = false;
 
     public virtual void Update()
     {
@@ -37,6 +42,23 @@ public class H_ItemBase : NetworkBehaviour
         {
             equipment = GetComponentInParent<H_PlayerEquipment>();
         }
+
+        if (slotType == SlotType.Primary)
+        {
+            equipment.primaryItemIcon.sprite = itemIcon;
+            equipment.primaryItemIcon.color = Color.white;
+        }
+        else if (slotType == SlotType.Sidearm)
+        {
+            equipment.sidearmItemIcon.sprite = itemIcon;
+            equipment.sidearmItemIcon.color = Color.white;
+        }
+        else if (slotType == SlotType.Holstered)
+        {
+            equipment.holsteredItemIcon.sprite = itemIcon;
+            equipment.holsteredItemIcon.color = Color.white;
+        }
+
     }
 
     void CheckForKeyPresses()
@@ -206,4 +228,11 @@ public class H_ItemBase : NetworkBehaviour
     {
 
     }
+}
+
+enum SlotType
+{
+    Primary,
+    Sidearm,
+    Holstered
 }

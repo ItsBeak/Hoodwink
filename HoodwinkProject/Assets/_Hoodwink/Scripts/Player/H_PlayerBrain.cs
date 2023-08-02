@@ -24,15 +24,19 @@ public class H_PlayerBrain : NetworkBehaviour
     [Header("Alignment Data")]
     [SyncVar(hook = nameof(OnAlignmentChanged))]
     public AgentAlignment currentAlignment;
-    public Color alignmentColorUnassigned, alignmentColorAgent, alignmentColorSpy;
+    public Color alignmentColorUnassigned;
+    public Color alignmentColorAgent;
+    public Color alignmentColorSpy;
+
+    [Header("Alignment Data")]
+    public GameObject spyIndicator;
+    public LayerMask baseCullingMask, spyCullingMask;
 
     [Header("Components")]
     public CinemachineVirtualCamera cam;
     public Image agentColourImage;
     public TextMeshProUGUI agentNameText;
     public TextMeshProUGUI readyText;
-    public TextMeshProUGUI alignmentText;
-    public Image alignmentBackground;
     public H_PlayerEquipment equipment;
     public H_PlayerUI playerUI;
 
@@ -155,20 +159,40 @@ public class H_PlayerBrain : NetworkBehaviour
 
     void UpdateAlignmentUI(AgentAlignment alignment)
     {
-        alignmentText.text = currentAlignment.ToString();
+        playerUI.alignmentText.text = currentAlignment.ToString();
+        playerUI.alignmentFolderText.text = currentAlignment.ToString();
+        spyIndicator.SetActive(false);
 
         if (alignment == AgentAlignment.Unassigned)
         {
-            alignmentBackground.color = alignmentColorUnassigned;
+            playerUI.alignmentBackground.color = alignmentColorUnassigned;
+            playerUI.roleAnimator.SetBool("hasRole", false);
+
+            if (isLocalPlayer)
+            {
+                HideSpyIndicators();
+            }
         }
         else if (alignment == AgentAlignment.Agent)
         {
-            alignmentBackground.color = alignmentColorAgent;
+            playerUI.alignmentBackground.color = alignmentColorAgent;
+            playerUI.roleAnimator.SetBool("hasRole", true);
 
+            if (isLocalPlayer)
+            {
+                HideSpyIndicators();
+            }
         }
         else if (alignment == AgentAlignment.Spy)
         {
-            alignmentBackground.color = alignmentColorSpy;
+            playerUI.alignmentBackground.color = alignmentColorSpy;
+            playerUI.roleAnimator.SetBool("hasRole", true);
+            spyIndicator.SetActive(true);
+
+            if (isLocalPlayer)
+            {
+                ShowSpyIndicators();
+            }
         }
     }
 
@@ -208,6 +232,16 @@ public class H_PlayerBrain : NetworkBehaviour
     public void ShowLocalPlayer()
     {
         playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+    }
+
+    public void ShowSpyIndicators()
+    {
+        Camera.main.cullingMask = spyCullingMask;
+    }
+
+    public void HideSpyIndicators()
+    {
+        Camera.main.cullingMask = baseCullingMask;
     }
 }
 

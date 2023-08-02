@@ -32,7 +32,6 @@ public class H_PlayerHealth : NetworkBehaviour
     private void Start()
     {
         equipment = GetComponent<H_PlayerEquipment>();
-        controller = GetComponent<H_PlayerController>();
         brain = GetComponent<H_PlayerBrain>();
         animator = GetComponent<H_PlayerAnimator>();
         spectating = GetComponent<H_Spectating>();
@@ -66,8 +65,6 @@ public class H_PlayerHealth : NetworkBehaviour
     private void OnDeathStateChanged(bool oldState, bool newState)
     {
         UpdateUI();
-
-        controller.characterController.detectCollisions = !newState;
 
         if (isLocalPlayer)
         {
