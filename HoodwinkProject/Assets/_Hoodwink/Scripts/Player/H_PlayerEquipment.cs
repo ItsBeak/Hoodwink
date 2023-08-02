@@ -35,6 +35,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform holsteredEquipPointObserver;
     [HideInInspector] public GameObject holsteredClientObject;
     [HideInInspector] public GameObject holsteredObserverObject;
+    public Image holsteredItemIcon;
 
     [Header("Gadget Settings")]
     public Transform gadgetAnchor;
@@ -80,6 +81,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     [HideInInspector] public float baseFOV;
     public H_Recoil cameraRecoil;
     H_PlayerBrain brain;
+    [HideInInspector] public H_PlayerAnimator animator;
     bool isDead;
 
     void Start()
@@ -93,6 +95,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
 
         brain = GetComponent<H_PlayerBrain>();
+        animator = GetComponent<H_PlayerAnimator>();
 
         primaryEquipPointObserver.gameObject.SetActive(false);
         sidearmEquipPointObserver.gameObject.SetActive(false);
@@ -412,6 +415,23 @@ public class H_PlayerEquipment : NetworkBehaviour
     }
 
     [ClientRpc]
+    public void RpcEquipHolstered(GameObject clientObject, GameObject observerObject)
+    {
+        holsteredClientObject = clientObject;
+        holsteredObserverObject = observerObject;
+
+        holsteredClientObject.transform.parent = holsteredEquipPointClient;
+        holsteredClientObject.transform.localPosition = Vector3.zero;
+        holsteredClientObject.transform.localRotation = Quaternion.identity;
+
+        holsteredObserverObject.transform.parent = holsteredEquipPointObserver;
+        holsteredObserverObject.transform.localPosition = Vector3.zero;
+        holsteredObserverObject.transform.localRotation = Quaternion.identity;
+
+        holsteredClientObject.GetComponent<H_ItemBase>().Initialize();
+    }
+
+    [ClientRpc]
     public void RpcEquipGadget(GameObject gadget)
     {
         currentGadget = gadget.GetComponent<H_GadgetBase>();
@@ -452,6 +472,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         sidearmItemIcon.sprite = null;
     }
 
+    public void ClearHolsteredSlot()
+    {
+        holsteredItemIcon.sprite = null;
+    }
+
     [ClientRpc]
     public void RpcClearPrimarySlot()
     {
@@ -462,6 +487,12 @@ public class H_PlayerEquipment : NetworkBehaviour
     public void RpcClearSidearmSlot()
     {
         ClearSidearmSlot();
+    }
+
+    [ClientRpc]
+    public void RpcClearHolsteredSlot()
+    {
+        ClearHolsteredSlot();
     }
 
     public void SetAmmoUI(int ammoLoaded, int ammoPool, float reloadTime)

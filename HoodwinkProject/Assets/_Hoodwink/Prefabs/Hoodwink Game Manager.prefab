@@ -842,6 +842,10 @@ MonoBehaviour:
     type: 3}
   boratGunObserver: {fileID: 586889395334819233, guid: 6acdea70a53a1a04d9a5bdb8038bb4f4,
     type: 3}
+  defaultClientHolstered: {fileID: 9167389897428647333, guid: 68a0894dece4aad4690f0259a7eaec87,
+    type: 3}
+  defaultObserverHolstered: {fileID: 2612458019253353128, guid: 69cc63a6f7614c24eae206d2ddac4a52,
+    type: 3}
   spyGadgets:
   - {fileID: 9045955919083193933, guid: c0c74ccdfc4f8d3429d8b145f9aaf137, type: 3}
   agentGadgets:
@@ -859,7 +863,7 @@ MonoBehaviour:
   allowServerToSkipGame: 1
   overrideSettings:
     playerCount: -1
-    spyCount: 2
+    spyCount: 1
     itemsToSpawn: 20
 --- !u!114 &7971697025386248749
 MonoBehaviour:

@@ -54,6 +54,10 @@ public class H_GameManager : NetworkBehaviour
     public GameObject boratGunClient; // remove these dear god
     public GameObject boratGunObserver; // dont you forget to remove these
 
+    [Header("Default Sidearm Settings")]
+    public GameObject defaultClientHolstered;
+    public GameObject defaultObserverHolstered;
+
     [Header("Gadgets")]
     public GameObject[] spyGadgets;
     public GameObject[] agentGadgets;
@@ -390,7 +394,11 @@ public class H_GameManager : NetworkBehaviour
             NetworkServer.Destroy(player.equipment.sidearmClientObject.gameObject);
             NetworkServer.Destroy(player.equipment.sidearmObserverObject.gameObject);
 
+            NetworkServer.Destroy(player.equipment.holsteredClientObject.gameObject);
+            NetworkServer.Destroy(player.equipment.holsteredObserverObject.gameObject);
+
             player.equipment.RpcClearSidearmSlot();
+            player.equipment.RpcClearHolsteredSlot();
         }
 
         roundPlayers.Clear();
@@ -523,6 +531,14 @@ public class H_GameManager : NetworkBehaviour
 
                 roundPlayers[i].equipment.RpcEquipSidearm(newClientSidearm, newObserverSidearm);
             }
+
+            GameObject newClientHolstered = Instantiate(defaultClientHolstered);
+            GameObject newObserverHolstered = Instantiate(defaultObserverHolstered);
+
+            NetworkServer.Spawn(newClientHolstered, roundPlayers[i].connectionToClient);
+            NetworkServer.Spawn(newObserverHolstered, roundPlayers[i].connectionToClient);
+
+            roundPlayers[i].equipment.RpcEquipHolstered(newClientHolstered, newObserverHolstered);
 
         }
 

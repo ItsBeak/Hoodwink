@@ -24,4 +24,16 @@ public class H_PlayerAnimator : NetworkBehaviour
         playerAnimator.SetFloat("moveX", Input.GetAxis("Horizontal"));
         playerAnimator.SetFloat("moveY", Input.GetAxis("Vertical"));
     }
+
+    [Command]
+    public void CmdPlayPunchAnimation()
+    {
+        RpcPlayPunchAnimation();
+    }
+
+    [ClientRpc]
+    public void RpcPlayPunchAnimation()
+    {
+        playerAnimator.SetTrigger("Punch");
+    }
 }
