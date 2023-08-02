@@ -6,7 +6,7 @@ using UnityEngine.VFX;
 public class H_WeaponEffects : NetworkBehaviour
 {
     [Header("Audio")]
-    AudioSource source;
+    public AudioSource source;
     public AudioClip[] shootClips;
     public AudioClip[] reloadClip;
     public AudioClip[] dryFireClips;
@@ -29,8 +29,6 @@ public class H_WeaponEffects : NetworkBehaviour
 
     void Start()
     {
-        source = GetComponent<AudioSource>();
-
         if (slide)
             slideRestPosition = slide.localPosition;
     }
@@ -39,7 +37,6 @@ public class H_WeaponEffects : NetworkBehaviour
     {
         if (slide)
         {
-            //slide.localPosition = new Vector3(slide.localPosition.x, Mathf.Lerp(slide.localPosition.y, slideRest, slideSpeed * Time.deltaTime), slide.localPosition.z);
             slide.localPosition = Vector3.Lerp(slide.localPosition, slideRestPosition, slideSpeed * Time.deltaTime);
         }
 

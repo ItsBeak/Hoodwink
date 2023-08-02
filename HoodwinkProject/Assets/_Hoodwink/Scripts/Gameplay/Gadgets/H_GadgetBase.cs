@@ -7,6 +7,7 @@ public class H_GadgetBase : NetworkBehaviour
 {
     [Header("Base Gadget Settings")]
     public string gadgetName;
+    [TextArea] public string gadgetDescription;
     public Sprite gadgetIcon;
     public float cooldown = 5f;
     [HideInInspector] public float cooldownTimer = 0;

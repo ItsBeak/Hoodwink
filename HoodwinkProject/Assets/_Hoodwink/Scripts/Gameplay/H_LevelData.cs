@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class H_LevelData : MonoBehaviour
 
     public Transform[] itemSpawnPoints;
 
+    public DocumentObjectives[] documentObjectives;
+
     [Header("Level Cleanup Settings")]
     public Vector3 cleanupCentre;
     public Vector3 cleanupBounds;
@@ -17,4 +20,11 @@ public class H_LevelData : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(cleanupCentre, cleanupBounds);
     }
+}
+
+[Serializable]
+public struct DocumentObjectives
+{
+    public Transform shredderLocation;
+    public Transform faxLocation;
 }
