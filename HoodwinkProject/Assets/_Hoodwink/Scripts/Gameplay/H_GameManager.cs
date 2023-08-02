@@ -391,7 +391,6 @@ public class H_GameManager : NetworkBehaviour
             NetworkServer.Destroy(player.equipment.sidearmObserverObject.gameObject);
 
             player.equipment.RpcClearSidearmSlot();
-
         }
 
         roundPlayers.Clear();
@@ -649,11 +648,6 @@ public class H_GameManager : NetworkBehaviour
 
     void RevealSpies()
     {
-        foreach (var spy in roundSpies)
-        {
-            //Debug.Log(spy.playerName + " is a spy!");
-        }
-
         if (roundSpies.Count == 1)
         {
             spyInformation = "The spy is " + ColorWord(roundSpies[0].playerName, roundSpies[0].shirtColour);

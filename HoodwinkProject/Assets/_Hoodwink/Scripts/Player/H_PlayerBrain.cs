@@ -28,6 +28,10 @@ public class H_PlayerBrain : NetworkBehaviour
     public Color alignmentColorAgent;
     public Color alignmentColorSpy;
 
+    [Header("Alignment Data")]
+    public GameObject spyIndicator;
+    public LayerMask baseCullingMask, spyCullingMask;
+
     [Header("Components")]
     public CinemachineVirtualCamera cam;
     public Image agentColourImage;
@@ -157,21 +161,38 @@ public class H_PlayerBrain : NetworkBehaviour
     {
         playerUI.alignmentText.text = currentAlignment.ToString();
         playerUI.alignmentFolderText.text = currentAlignment.ToString();
+        spyIndicator.SetActive(false);
 
         if (alignment == AgentAlignment.Unassigned)
         {
             playerUI.alignmentBackground.color = alignmentColorUnassigned;
             playerUI.roleAnimator.SetBool("hasRole", false);
+
+            if (isLocalPlayer)
+            {
+                HideSpyIndicators();
+            }
         }
         else if (alignment == AgentAlignment.Agent)
         {
             playerUI.alignmentBackground.color = alignmentColorAgent;
             playerUI.roleAnimator.SetBool("hasRole", true);
+
+            if (isLocalPlayer)
+            {
+                HideSpyIndicators();
+            }
         }
         else if (alignment == AgentAlignment.Spy)
         {
             playerUI.alignmentBackground.color = alignmentColorSpy;
             playerUI.roleAnimator.SetBool("hasRole", true);
+            spyIndicator.SetActive(true);
+
+            if (isLocalPlayer)
+            {
+                ShowSpyIndicators();
+            }
         }
     }
 
@@ -211,6 +232,16 @@ public class H_PlayerBrain : NetworkBehaviour
     public void ShowLocalPlayer()
     {
         playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+    }
+
+    public void ShowSpyIndicators()
+    {
+        Camera.main.cullingMask = spyCullingMask;
+    }
+
+    public void HideSpyIndicators()
+    {
+        Camera.main.cullingMask = baseCullingMask;
     }
 }
 
