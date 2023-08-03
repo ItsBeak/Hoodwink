@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1047041337051358626}
   - component: {fileID: 4552784145301134697}
+  - component: {fileID: 4709764185579363127}
+  - component: {fileID: 6272785117908703398}
   m_Layer: 0
   m_Name: Env_Wall_half&half_door
   m_TagString: Untagged
@@ -45,8 +47,34 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3, y: 3.25, z: 0.25}
-  m_Center: {x: 1.5, y: 1.625, z: 0}
+  m_Size: {x: 0.87208307, y: 3.25, z: 0.25}
+  m_Center: {x: 0.44210118, y: 1.625, z: 0}
+--- !u!65 &4709764185579363127
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6280887478319553607}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8639657, y: 3.25, z: 0.25}
+  m_Center: {x: 2.568017, y: 1.625, z: 0}
+--- !u!65 &6272785117908703398
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6280887478319553607}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2665789, y: 0.84544563, z: 0.25}
+  m_Center: {x: 1.5060917, y: 2.8272772, z: 0}
 --- !u!1001 &3953917584308650569
 PrefabInstance:
   m_ObjectHideFlags: 0
