@@ -7,6 +7,7 @@ public class H_DocumentShredder : NetworkBehaviour
 {
 
     [SyncVar] public uint inUseBy = 0;
+    public int scoreChange;
 
     [Header("Audio")]
     public AudioClip useClip;
@@ -25,7 +26,7 @@ public class H_DocumentShredder : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdShredDocument()
     {
-        H_GameManager.instance.CmdUpdateEvidence(10);
+        H_GameManager.instance.CmdUpdateEvidence(scoreChange);
         inUseBy = 0;
 
         if (enableDebugLogs)
