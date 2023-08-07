@@ -22,8 +22,8 @@ public class H_NetworkManager : NetworkManager
     public static event Action<NetworkConnection> OnServerReadied;
     //public static event Action OnServerStopped;
 
-    [HideInInspector] public bool isLoggedIn = false;
-    [HideInInspector] public bool isLoggingIn = false;
+    public bool isLoggedIn = false;
+    public bool isLoggingIn = false;
 
     public override void Start()
     {

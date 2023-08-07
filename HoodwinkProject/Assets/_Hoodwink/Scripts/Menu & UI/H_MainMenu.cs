@@ -34,6 +34,18 @@ public class H_MainMenu : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (NetManager.isLoggedIn)
+        {
+            loggedInDirector.gameObject.SetActive(true);
+        }
+        else
+        {
+            preLoginDirector.gameObject.SetActive(true);
+        }
+    }
+
     private void Update()
     {
         loginButton.SetActive(!NetManager.isLoggedIn);
@@ -48,32 +60,6 @@ public class H_MainMenu : MonoBehaviour
             preLoginDirector.time = 9f;
         }
 
-        if (!startup)
-        {
-            if (NetManager.isLoggedIn)
-            {
-                loggedInDirector.gameObject.SetActive(true);
-                GetComponent<AudioSource>().Play();
-            }
-            else
-            {
-                preLoginDirector.gameObject.SetActive(true);
-            }
-
-            startup = true;
-
-        }
-
-        if (NetManager.isLoggedIn)
-        {
-            
-            if (!playedLogIn)
-            {
-                playedLogIn = true;
-                loggedInDirector.gameObject.SetActive(true);
-            }
-        }
-
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
@@ -86,6 +72,7 @@ public class H_MainMenu : MonoBehaviour
     public void PlayButton()
     {
         NetManager.isLoggedIn = true;
+        loggedInDirector.gameObject.SetActive(true);
     }
 
     public void HostButton()
