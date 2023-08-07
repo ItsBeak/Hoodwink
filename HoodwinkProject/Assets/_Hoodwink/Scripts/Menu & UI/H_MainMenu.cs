@@ -21,7 +21,6 @@ public class H_MainMenu : MonoBehaviour
     public PlayableDirector preLoginDirector, loggedInDirector, customizationDirector, customizationEndDirector, optionsDirector, optionsEndDirector;
 
     bool playedLogIn = false;
-    bool startup = false;
 
     private H_NetworkManager nm;
 
@@ -33,7 +32,6 @@ public class H_MainMenu : MonoBehaviour
             return nm = NetworkManager.singleton as H_NetworkManager;
         }
     }
-
     private void Start()
     {
         if (NetManager.isLoggedIn)

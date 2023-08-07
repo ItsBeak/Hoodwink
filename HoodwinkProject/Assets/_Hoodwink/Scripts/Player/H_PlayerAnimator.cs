@@ -36,4 +36,16 @@ public class H_PlayerAnimator : NetworkBehaviour
     {
         playerAnimator.SetTrigger("Punch");
     }
+
+    [Command]
+    public void CmdPlayStabAnimation()
+    {
+        RpcPlayStabAnimation();
+    }
+
+    [ClientRpc]
+    public void RpcPlayStabAnimation()
+    {
+        playerAnimator.SetTrigger("Stab");
+    }
 }
