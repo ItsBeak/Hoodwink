@@ -18,9 +18,6 @@ public class H_GameManager : NetworkBehaviour
     public Image evidenceImage;
     [SyncVar] bool spiesRevealed = false;
 
-    [Header("Game Data")]
-    [HideInInspector] public string relayCode;
-
     [HideInInspector] public List<H_PlayerBrain> serverPlayers;
     [HideInInspector] public List<H_PlayerBrain> roundPlayers;
     [HideInInspector] public List<H_PlayerBrain> roundDeadPlayers;
@@ -99,7 +96,6 @@ public class H_GameManager : NetworkBehaviour
 
     void Start()
     {
-        relayCodeUI.text = "Join Code: " + NetManager.relayJoinCode.ToUpper();
         objectManager = GetComponent<H_ObjectManager>();
         revealedSpiesText.text = "";
     }

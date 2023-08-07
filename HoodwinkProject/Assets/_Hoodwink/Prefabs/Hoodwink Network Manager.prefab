@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7050881525468666243}
   - component: {fileID: 6307068120963435832}
-  - component: {fileID: 8037843137517549114}
-  - component: {fileID: -5513416368131417601}
   - component: {fileID: 4278825638569501339}
   m_Layer: 0
   m_Name: Hoodwink Network Manager
@@ -74,41 +72,9 @@ MonoBehaviour:
     dynamicAdjustmentTolerance: 1
     deliveryTimeEmaDuration: 2
   timeInterpolationGui: 0
-  relayJoinCode: 
   minimumPlayersToStart: 0
   isLoggedIn: 0
   isLoggingIn: 0
---- !u!114 &8037843137517549114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5005161449528315632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d4f9593ba7f845458730213887b5758, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logNullEvents: 0
-  Port: 7777
-  LoggerLevel: 1
-  TimeoutMS: 1000
-  useRelay: 0
---- !u!114 &-5513416368131417601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5005161449528315632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offsetX: 20
-  offsetY: 20
 --- !u!114 &4278825638569501339
 MonoBehaviour:
   m_ObjectHideFlags: 0

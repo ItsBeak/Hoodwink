@@ -83,21 +83,20 @@ public class H_MainMenu : MonoBehaviour
         }
     }
 
-    public void LoginButton()
+    public void PlayButton()
     {
-        NetManager.UnityLogin();
+        NetManager.isLoggedIn = true;
     }
 
     public void HostButton()
     {
-        NetManager.StartRelayHost(NetManager.maxConnections, "australia-southeast1");
+        NetManager.StartHost();
     }
 
     public void JoinButton()
     {
-        NetManager.relayJoinCode = codeInputField.text;
-
-        NetManager.JoinRelayServer();
+        NetManager.networkAddress = codeInputField.text;
+        NetManager.StartClient();
     }
 
     public void ExitGame()
