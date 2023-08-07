@@ -1,10 +1,6 @@
 using Cinemachine;
 using Mirror;
-using Mirror.Examples.Basic;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
