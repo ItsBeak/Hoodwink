@@ -46,7 +46,7 @@ public class H_DocumentItem : H_ItemBase
 
         if (waitForPrimaryKeyReleased && !isDone)
         {
-            if (focusedShredder)
+            if (focusedShredder && ownerIsSpy)
             {
             
                 if (focusedShredder.inUseBy == 0)
@@ -67,8 +67,6 @@ public class H_DocumentItem : H_ItemBase
                         isDone = true;
                         focusedShredder.CmdShredDocument();
 
-                        //equipment.CmdDropItem();
-
                         CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);
                         equipment.ClearCurrentObject();
 
@@ -83,7 +81,7 @@ public class H_DocumentItem : H_ItemBase
                     isUsing = false;
                 }
             }
-            else if (focusedFax && ownerIsSpy)
+            else if (focusedFax)
             {
                 if (focusedFax.inUseBy == 0)
                 {
@@ -102,7 +100,6 @@ public class H_DocumentItem : H_ItemBase
                     {
                         isDone = true;
                         focusedFax.CmdFaxdDocument();
-                        //equipment.CmdDropItem();
 
                         CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);
                         equipment.ClearCurrentObject();

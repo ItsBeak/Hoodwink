@@ -122,12 +122,12 @@ public class H_PlayerBrain : NetworkBehaviour
     {
         playerRenderer.material.SetColor("_ShirtColour", Color.clear);
         coatRenderer.material.color = newColor;
-        agentColourImage.color = newColor;
     }
 
     public void SetCoatTrimColour(Color oldColor, Color newColor)
     {
         coatTrimRenderer.material.color = newColor;
+        agentColourImage.color = newColor;
     }
 
     public void SetPantsColour(Color oldColor, Color newColor)
