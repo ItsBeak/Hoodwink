@@ -669,15 +669,15 @@ public class H_GameManager : NetworkBehaviour
     {
         if (roundSpies.Count == 1)
         {
-            spyInformation = "The spy is " + ColorWord(roundSpies[0].playerName, roundSpies[0].coatColour);
+            spyInformation = "The spy is " + ColorWord(roundSpies[0].playerName, roundSpies[0].coatTrimColour);
         }
         else if (roundSpies.Count == 2)
         {
-            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].coatColour) + " and " + ColorWord(roundSpies[1].playerName, roundSpies[1].coatColour) + " are spies!";
+            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].coatTrimColour) + " and " + ColorWord(roundSpies[1].playerName, roundSpies[1].coatTrimColour) + " are spies!";
         }
         else if (roundSpies.Count == 3)
         {
-            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].coatColour) + ", " + ColorWord(roundSpies[1].playerName, roundSpies[1].coatColour) + " and " + ColorWord(roundSpies[2].playerName, roundSpies[2].coatColour) + " are spies!";
+            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].coatTrimColour) + ", " + ColorWord(roundSpies[1].playerName, roundSpies[1].coatTrimColour) + " and " + ColorWord(roundSpies[2].playerName, roundSpies[2].coatTrimColour) + " are spies!";
         }
     }
     void OnSpyInformationChanged(string oldValue, string newValue)

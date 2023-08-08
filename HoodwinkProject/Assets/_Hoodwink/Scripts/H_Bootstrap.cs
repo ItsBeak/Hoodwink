@@ -7,11 +7,12 @@ using UnityEngine.SceneManagement;
 public class H_Bootstrap : MonoBehaviour
 {
     [Scene] public string mainMenuScene;
+    public float bootstrapTime;
     [HideInInspector] public bool hasPressedPlay;
     void Start()
     {
         DontDestroyOnLoad(this);
-        Invoke("StartGame", 1f);
+        Invoke("StartGame", bootstrapTime);
     }
 
     void StartGame()
