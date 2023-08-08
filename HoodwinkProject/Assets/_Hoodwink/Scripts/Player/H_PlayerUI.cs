@@ -29,6 +29,16 @@ public class H_PlayerUI : MonoBehaviour
 
     bool isOpen;
 
+    private H_NetworkManager nm;
+
+    private H_NetworkManager NetManager
+    {
+        get
+        {
+            if (nm != null) { return nm; }
+            return nm = NetworkManager.singleton as H_NetworkManager;
+        }
+    }
     private void Start()
     {
         brain = GetComponentInParent<H_PlayerBrain>();
@@ -96,11 +106,11 @@ public class H_PlayerUI : MonoBehaviour
     {
         if (GetComponentInParent<NetworkIdentity>().isServer)
         {
-            NetworkManager.singleton.StopHost();
+            NetManager.StopHost();
         }
         else
         {
-            NetworkManager.singleton.StopClient();
+            NetManager.StopClient();
         }
     }
 

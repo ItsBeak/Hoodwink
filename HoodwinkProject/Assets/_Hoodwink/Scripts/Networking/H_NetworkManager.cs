@@ -22,9 +22,6 @@ public class H_NetworkManager : NetworkManager
     public static event Action<NetworkConnection> OnServerReadied;
     //public static event Action OnServerStopped;
 
-    public bool isLoggedIn = false;
-    public bool isLoggingIn = false;
-
     public override void Start()
     {
         spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
@@ -59,7 +56,6 @@ public class H_NetworkManager : NetworkManager
             return;
         }
     }
-
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         conn.identity.GetComponent<H_PlayerBrain>().UnregisterPlayer();

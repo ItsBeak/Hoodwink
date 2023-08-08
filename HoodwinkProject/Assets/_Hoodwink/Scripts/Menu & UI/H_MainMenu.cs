@@ -34,9 +34,10 @@ public class H_MainMenu : MonoBehaviour
     }
     private void Start()
     {
-        if (NetManager.isLoggedIn)
+        if (FindObjectOfType<H_Bootstrap>().hasPressedPlay)
         {
             loggedInDirector.gameObject.SetActive(true);
+            GetComponent<AudioSource>().Play();
         }
         else
         {
@@ -46,12 +47,12 @@ public class H_MainMenu : MonoBehaviour
 
     private void Update()
     {
-        loginButton.SetActive(!NetManager.isLoggedIn);
-        hostButton.SetActive(NetManager.isLoggedIn);
-        joinButton.SetActive(NetManager.isLoggedIn);
-        codeInputField.gameObject.SetActive(NetManager.isLoggedIn);
+       //loginButton.SetActive(!NetManager.isLoggedIn);
+       //hostButton.SetActive(NetManager.isLoggedIn);
+       //joinButton.SetActive(NetManager.isLoggedIn);
+       //codeInputField.gameObject.SetActive(NetManager.isLoggedIn);
 
-        loginButton.GetComponent<Button>().interactable = !NetManager.isLoggingIn;
+       //loginButton.GetComponent<Button>().interactable = !NetManager.isLoggingIn;
 
         if (Input.GetKeyDown(KeyCode.Space) && preLoginDirector.time < 9f)
         {
@@ -69,7 +70,7 @@ public class H_MainMenu : MonoBehaviour
 
     public void PlayButton()
     {
-        NetManager.isLoggedIn = true;
+        FindObjectOfType<H_Bootstrap>().hasPressedPlay = true;
         loggedInDirector.gameObject.SetActive(true);
     }
 

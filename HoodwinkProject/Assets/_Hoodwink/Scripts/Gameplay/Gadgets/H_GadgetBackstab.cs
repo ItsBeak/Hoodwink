@@ -20,12 +20,10 @@ public class H_GadgetBackstab : H_GadgetBase
     public AudioClip[] swingClips;
     public AudioClip[] stabSuccessClips;
     public AudioClip[] stabFailClips;
-    AudioSource source;
+    public AudioSource source;
 
     void Start()
     {
-        source = GetComponent<AudioSource>();
-
         damageCollider = GetComponent<BoxCollider>();
         damageCollider.enabled = false;
     }

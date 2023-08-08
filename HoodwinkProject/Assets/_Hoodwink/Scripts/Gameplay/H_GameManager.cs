@@ -18,11 +18,11 @@ public class H_GameManager : NetworkBehaviour
     public Image evidenceImage;
     [SyncVar] bool spiesRevealed = false;
 
-    [HideInInspector] public List<H_PlayerBrain> serverPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundDeadPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundAgents;
-    [HideInInspector] public List<H_PlayerBrain> roundSpies;
+    public List<H_PlayerBrain> serverPlayers;
+    public List<H_PlayerBrain> roundPlayers;
+    public List<H_PlayerBrain> roundDeadPlayers;
+    public List<H_PlayerBrain> roundAgents;
+    public List<H_PlayerBrain> roundSpies;
 
     [HideInInspector] public string chosenScene;
     bool winConditionMet = false;
@@ -71,7 +71,6 @@ public class H_GameManager : NetworkBehaviour
     [SyncVar] float postGameTimer;
 
     [Header("Components")]
-    public TextMeshProUGUI relayCodeUI;
     public TextMeshProUGUI pingDisplay;
     public TextMeshProUGUI timerDisplay;
     H_ObjectManager objectManager;
@@ -153,6 +152,7 @@ public class H_GameManager : NetworkBehaviour
 
                 if (warmupTimer <= 0)
                 {
+                    winConditionMet = false;
                     currentRoundStage = RoundStage.Game;
                     AssignRoles();
                 }
@@ -603,21 +603,25 @@ public class H_GameManager : NetworkBehaviour
         {
             winCondition = WinConditions.Draw;
             winConditionMet = true;
+            Debug.Log("Win Condition Met: Draw");
         }
         else if (roundSpies.Count == 0)
         {
             winCondition = WinConditions.GoodWin;
             winConditionMet = true;
+            Debug.Log("Win Condition Met: Agents Win");
         }
         else if (roundAgents.Count == 0)
         {
             winCondition = WinConditions.EvilWin;
             winConditionMet = true;
+            Debug.Log("Win Condition Met: Spies Win");
         }
         else if (roundTimer <= 0)
         {
             winCondition = WinConditions.TimeOut;
             winConditionMet = true;
+            Debug.Log("Win Condition Met: Time Ran Out");
         }
 
     }
