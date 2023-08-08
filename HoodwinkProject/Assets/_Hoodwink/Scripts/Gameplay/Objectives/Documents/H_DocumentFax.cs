@@ -6,6 +6,7 @@ using Mirror;
 public class H_DocumentFax : NetworkBehaviour
 {
     [SyncVar] public uint inUseBy = 0;
+    public int scoreChange;
 
     [Header("Audio")]
     public AudioClip useClip;
@@ -24,7 +25,8 @@ public class H_DocumentFax : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdFaxdDocument()
     {
-        H_GameManager.instance.CmdUpdateEvidence(-30);
+        H_GameManager.instance.CmdUpdateEvidence(scoreChange);
+        inUseBy = 0;
 
         if (enableDebugLogs)
             Debug.Log("A document has been faxed");
