@@ -43,13 +43,25 @@ public class H_PlayerController : NetworkBehaviour
 
         if (!isLocalPlayer) return;
 
-        Inputs();
 
         if (!brain.isPaused && !health.isDead)
         {
-            Movement();
+            Inputs();
+            Direction();
             Turning();
         }
+        else
+        {
+            moveDirection.x = 0;
+            moveDirection.z = 0;
+        }
+
+        if (!characterController.isGrounded)
+        {
+            moveDirection.y -= gravityForce * Time.deltaTime;
+        }
+
+        characterController.Move(moveDirection * Time.deltaTime);
 
     }
 
@@ -64,7 +76,7 @@ public class H_PlayerController : NetworkBehaviour
         }
     }
 
-    void Movement()
+    void Direction()
     {    
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
@@ -88,12 +100,6 @@ public class H_PlayerController : NetworkBehaviour
             moveDirection.y = movementDirectionY;
         }
 
-        if (!characterController.isGrounded)
-        {
-            moveDirection.y -= gravityForce * Time.deltaTime;
-        }
-
-        characterController.Move(moveDirection * Time.deltaTime);
     }
 
     void Turning()
@@ -106,7 +112,5 @@ public class H_PlayerController : NetworkBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
     }
-
-
 
 }

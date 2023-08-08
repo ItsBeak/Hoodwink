@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 using Mirror;
 using Utp;
 
-public class H_NetworkManager : RelayNetworkManager
+public class H_NetworkManager : NetworkManager
 {
     [Range(1, 5)]
     public int minimumPlayersToStart;
@@ -22,66 +22,9 @@ public class H_NetworkManager : RelayNetworkManager
     public static event Action<NetworkConnection> OnServerReadied;
     //public static event Action OnServerStopped;
 
-    [HideInInspector] public bool isLoggedIn = false;
-    [HideInInspector] public bool isLoggingIn = false;
-
     public override void Start()
     {
         spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
-
-        if (UnityServices.State == ServicesInitializationState.Initialized)
-        {
-            if (AuthenticationService.Instance.IsSignedIn)
-            {
-                isLoggedIn = true;
-            }
-        }
-    }
-
-    public async void UnityLogin()
-    {
-        try
-        {
-            await UnityServices.InitializeAsync();
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            Debug.Log("Logged into Unity, player ID: " + AuthenticationService.Instance.PlayerId);
-            isLoggedIn = true;
-        }
-        catch (Exception e)
-        {
-
-            if (AuthenticationService.Instance.IsSignedIn)
-            {
-                isLoggedIn = true;
-                return;
-            }
-
-            isLoggedIn = false;
-            Debug.Log(e);
-        }
-    }
-
-    private IEnumerator ListRegions()
-    {
-        var regionsRequest = Relay.Instance.ListRegionsAsync();
-
-        while (!regionsRequest.IsCompleted)
-        {
-            yield return null;
-        }
-
-        if (regionsRequest.IsFaulted)
-        {
-            Debug.LogError("Regions request failed");
-            yield break;
-        }
-
-        var regionList = regionsRequest.Result;
-
-        foreach (var region in regionList)
-        {
-            Debug.Log(region.Id);
-        }
     }
 
     public override void OnClientConnect()
@@ -113,35 +56,10 @@ public class H_NetworkManager : RelayNetworkManager
             return;
         }
     }
-
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        //conn.identity.GetComponent<H_PlayerEquipment>().TryDropItem();
-
         conn.identity.GetComponent<H_PlayerBrain>().UnregisterPlayer();
 
         base.OnServerDisconnect(conn);
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        isLoggingIn = UnityServices.State == ServicesInitializationState.Initializing;
-
-        if (Input.GetKeyDown(KeyCode.Backslash))
-        {
-            if (Cursor.lockState == CursorLockMode.Locked)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-        }
-
     }
 }
