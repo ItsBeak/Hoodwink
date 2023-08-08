@@ -42,7 +42,7 @@ public class H_GameManager : NetworkBehaviour
 
     [Header("Player Colours")]
     public AgentData[] agentData;
-    public Color[] shirtColours, pantsColours, shoesColours;
+    public Color[] coatColours, trimColours, pantsColours, shoesColours;
     List<AgentData> availableAgents;
 
     [Header("Default Sidearm Settings")]
@@ -232,7 +232,8 @@ public class H_GameManager : NetworkBehaviour
 
         player.playerName = "Anonymous";
 
-        player.shirtColour = shirtColours[Random.Range(0, shirtColours.Length)];
+        player.coatColour = coatColours[Random.Range(0, coatColours.Length)];
+        player.coatTrimColour = trimColours[Random.Range(0, trimColours.Length)];
         player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
         player.shoesColour = shoesColours[Random.Range(0, shoesColours.Length)];
     }
@@ -245,7 +246,7 @@ public class H_GameManager : NetworkBehaviour
         if (player.hasAgentData)
         {
             newAgentData.agentName = player.playerName;
-            newAgentData.agentColour = player.shirtColour;
+            newAgentData.agentColour = player.coatColour;
 
             availableAgents.Add(newAgentData);
         }
@@ -376,14 +377,15 @@ public class H_GameManager : NetworkBehaviour
             AgentData newAgentData = new AgentData();
 
             newAgentData.agentName = player.playerName;
-            newAgentData.agentColour = player.shirtColour;
+            newAgentData.agentColour = player.coatColour;
 
             availableAgents.Add(newAgentData);
 
             player.hasAgentData = false;
 
             player.playerName = "Anonymous";
-            player.shirtColour = shirtColours[Random.Range(0, shirtColours.Length)];
+            player.coatColour = coatColours[Random.Range(0, coatColours.Length)];
+            player.coatTrimColour = trimColours[Random.Range(0, trimColours.Length)];
 
             NetworkServer.Destroy(player.equipment.currentGadget.gameObject);
 
@@ -456,7 +458,8 @@ public class H_GameManager : NetworkBehaviour
             int randomAgent = Random.Range(0, availableAgents.Count);
 
             player.playerName = availableAgents[randomAgent].agentName;
-            player.shirtColour = availableAgents[randomAgent].agentColour;
+            player.coatColour = availableAgents[randomAgent].agentSecondaryColour;
+            player.coatTrimColour = availableAgents[randomAgent].agentColour;
 
             player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
             player.shoesColour = shoesColours[Random.Range(0, shoesColours.Length)];
@@ -666,15 +669,15 @@ public class H_GameManager : NetworkBehaviour
     {
         if (roundSpies.Count == 1)
         {
-            spyInformation = "The spy is " + ColorWord(roundSpies[0].playerName, roundSpies[0].shirtColour);
+            spyInformation = "The spy is " + ColorWord(roundSpies[0].playerName, roundSpies[0].coatColour);
         }
         else if (roundSpies.Count == 2)
         {
-            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].shirtColour) + " and " + ColorWord(roundSpies[1].playerName, roundSpies[1].shirtColour) + " are spies!";
+            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].coatColour) + " and " + ColorWord(roundSpies[1].playerName, roundSpies[1].coatColour) + " are spies!";
         }
         else if (roundSpies.Count == 3)
         {
-            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].shirtColour) + ", " + ColorWord(roundSpies[1].playerName, roundSpies[1].shirtColour) + " and " + ColorWord(roundSpies[2].playerName, roundSpies[2].shirtColour) + " are spies!";
+            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].coatColour) + ", " + ColorWord(roundSpies[1].playerName, roundSpies[1].coatColour) + " and " + ColorWord(roundSpies[2].playerName, roundSpies[2].coatColour) + " are spies!";
         }
     }
     void OnSpyInformationChanged(string oldValue, string newValue)
@@ -694,6 +697,7 @@ public struct AgentData
 {
     public string agentName;
     public Color agentColour;
+    public Color agentSecondaryColour;
 }
 
 [System.Serializable]

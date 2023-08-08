@@ -3,6 +3,7 @@ using Mirror;
 using Cinemachine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class H_PlayerBrain : NetworkBehaviour
 {
@@ -16,7 +17,8 @@ public class H_PlayerBrain : NetworkBehaviour
     [Header("Player Data")]
     [SyncVar] public bool hasAgentData;
     [SyncVar(hook = nameof(OnNameChanged))] public string playerName;
-    [SyncVar(hook = nameof(SetShirtColour))] public Color shirtColour;
+    [SyncVar(hook = nameof(SetCoatColour))] public Color coatColour;
+    [SyncVar(hook = nameof(SetCoatTrimColour))] public Color coatTrimColour;
     [SyncVar(hook = nameof(SetPantsColour))] public Color pantsColour;
     [SyncVar(hook = nameof(SetShoesColour))] public Color shoesColour;
     [SyncVar(hook = nameof(OnReadyChanged))] public bool isReady = false;
@@ -42,6 +44,7 @@ public class H_PlayerBrain : NetworkBehaviour
 
     [Header("Rendering")]
     public Renderer playerRenderer;
+    public Renderer coatRenderer, coatTrimRenderer;
     public GameObject[] hideForLocalPlayer;
 
     private H_NetworkManager netManager;
@@ -115,10 +118,16 @@ public class H_PlayerBrain : NetworkBehaviour
         speedMultiplier = amount;
     }
 
-    public void SetShirtColour(Color oldColor, Color newColor)
+    public void SetCoatColour(Color oldColor, Color newColor)
     {
-        playerRenderer.material.SetColor("_ShirtColour", newColor);
+        playerRenderer.material.SetColor("_ShirtColour", Color.clear);
+        coatRenderer.material.color = newColor;
         agentColourImage.color = newColor;
+    }
+
+    public void SetCoatTrimColour(Color oldColor, Color newColor)
+    {
+        coatTrimRenderer.material.color = newColor;
     }
 
     public void SetPantsColour(Color oldColor, Color newColor)
@@ -227,11 +236,15 @@ public class H_PlayerBrain : NetworkBehaviour
     public void HideLocalPlayer()
     {
         playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+        coatRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+        coatTrimRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
     }
 
     public void ShowLocalPlayer()
     {
         playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        coatRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        coatTrimRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
 
     public void ShowSpyIndicators()
