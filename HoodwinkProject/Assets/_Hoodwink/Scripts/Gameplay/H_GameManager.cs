@@ -18,14 +18,11 @@ public class H_GameManager : NetworkBehaviour
     public Image evidenceImage;
     [SyncVar] bool spiesRevealed = false;
 
-    [Header("Game Data")]
-    [HideInInspector] public string relayCode;
-
-    [HideInInspector] public List<H_PlayerBrain> serverPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundDeadPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundAgents;
-    [HideInInspector] public List<H_PlayerBrain> roundSpies;
+    public List<H_PlayerBrain> serverPlayers;
+    public List<H_PlayerBrain> roundPlayers;
+    public List<H_PlayerBrain> roundDeadPlayers;
+    public List<H_PlayerBrain> roundAgents;
+    public List<H_PlayerBrain> roundSpies;
 
     [HideInInspector] public string chosenScene;
     bool winConditionMet = false;
@@ -45,7 +42,7 @@ public class H_GameManager : NetworkBehaviour
 
     [Header("Player Colours")]
     public AgentData[] agentData;
-    public Color[] shirtColours, pantsColours, shoesColours;
+    public Color[] coatColours, trimColours, pantsColours, shoesColours;
     List<AgentData> availableAgents;
 
     [Header("Default Sidearm Settings")]
@@ -74,7 +71,6 @@ public class H_GameManager : NetworkBehaviour
     [SyncVar] float postGameTimer;
 
     [Header("Components")]
-    public TextMeshProUGUI relayCodeUI;
     public TextMeshProUGUI pingDisplay;
     public TextMeshProUGUI timerDisplay;
     H_ObjectManager objectManager;
@@ -99,7 +95,6 @@ public class H_GameManager : NetworkBehaviour
 
     void Start()
     {
-        relayCodeUI.text = "Join Code: " + NetManager.relayJoinCode.ToUpper();
         objectManager = GetComponent<H_ObjectManager>();
         revealedSpiesText.text = "";
     }
@@ -157,6 +152,7 @@ public class H_GameManager : NetworkBehaviour
 
                 if (warmupTimer <= 0)
                 {
+                    winConditionMet = false;
                     currentRoundStage = RoundStage.Game;
                     AssignRoles();
                 }
@@ -236,7 +232,8 @@ public class H_GameManager : NetworkBehaviour
 
         player.playerName = "Anonymous";
 
-        player.shirtColour = shirtColours[Random.Range(0, shirtColours.Length)];
+        player.coatColour = coatColours[Random.Range(0, coatColours.Length)];
+        player.coatTrimColour = trimColours[Random.Range(0, trimColours.Length)];
         player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
         player.shoesColour = shoesColours[Random.Range(0, shoesColours.Length)];
     }
@@ -249,7 +246,7 @@ public class H_GameManager : NetworkBehaviour
         if (player.hasAgentData)
         {
             newAgentData.agentName = player.playerName;
-            newAgentData.agentColour = player.shirtColour;
+            newAgentData.agentColour = player.coatColour;
 
             availableAgents.Add(newAgentData);
         }
@@ -380,14 +377,15 @@ public class H_GameManager : NetworkBehaviour
             AgentData newAgentData = new AgentData();
 
             newAgentData.agentName = player.playerName;
-            newAgentData.agentColour = player.shirtColour;
+            newAgentData.agentColour = player.coatColour;
 
             availableAgents.Add(newAgentData);
 
             player.hasAgentData = false;
 
             player.playerName = "Anonymous";
-            player.shirtColour = shirtColours[Random.Range(0, shirtColours.Length)];
+            player.coatColour = coatColours[Random.Range(0, coatColours.Length)];
+            player.coatTrimColour = trimColours[Random.Range(0, trimColours.Length)];
 
             NetworkServer.Destroy(player.equipment.currentGadget.gameObject);
 
@@ -460,7 +458,8 @@ public class H_GameManager : NetworkBehaviour
             int randomAgent = Random.Range(0, availableAgents.Count);
 
             player.playerName = availableAgents[randomAgent].agentName;
-            player.shirtColour = availableAgents[randomAgent].agentColour;
+            player.coatColour = availableAgents[randomAgent].agentSecondaryColour;
+            player.coatTrimColour = availableAgents[randomAgent].agentColour;
 
             player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
             player.shoesColour = shoesColours[Random.Range(0, shoesColours.Length)];
@@ -607,21 +606,25 @@ public class H_GameManager : NetworkBehaviour
         {
             winCondition = WinConditions.Draw;
             winConditionMet = true;
+            Debug.Log("Win Condition Met: Draw");
         }
         else if (roundSpies.Count == 0)
         {
             winCondition = WinConditions.GoodWin;
             winConditionMet = true;
+            Debug.Log("Win Condition Met: Agents Win");
         }
         else if (roundAgents.Count == 0)
         {
             winCondition = WinConditions.EvilWin;
             winConditionMet = true;
+            Debug.Log("Win Condition Met: Spies Win");
         }
         else if (roundTimer <= 0)
         {
             winCondition = WinConditions.TimeOut;
             winConditionMet = true;
+            Debug.Log("Win Condition Met: Time Ran Out");
         }
 
     }
@@ -666,15 +669,15 @@ public class H_GameManager : NetworkBehaviour
     {
         if (roundSpies.Count == 1)
         {
-            spyInformation = "The spy is " + ColorWord(roundSpies[0].playerName, roundSpies[0].shirtColour);
+            spyInformation = "The spy is " + ColorWord(roundSpies[0].playerName, roundSpies[0].coatTrimColour);
         }
         else if (roundSpies.Count == 2)
         {
-            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].shirtColour) + " and " + ColorWord(roundSpies[1].playerName, roundSpies[1].shirtColour) + " are spies!";
+            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].coatTrimColour) + " and " + ColorWord(roundSpies[1].playerName, roundSpies[1].coatTrimColour) + " are spies!";
         }
         else if (roundSpies.Count == 3)
         {
-            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].shirtColour) + ", " + ColorWord(roundSpies[1].playerName, roundSpies[1].shirtColour) + " and " + ColorWord(roundSpies[2].playerName, roundSpies[2].shirtColour) + " are spies!";
+            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].coatTrimColour) + ", " + ColorWord(roundSpies[1].playerName, roundSpies[1].coatTrimColour) + " and " + ColorWord(roundSpies[2].playerName, roundSpies[2].coatTrimColour) + " are spies!";
         }
     }
     void OnSpyInformationChanged(string oldValue, string newValue)
@@ -694,6 +697,7 @@ public struct AgentData
 {
     public string agentName;
     public Color agentColour;
+    public Color agentSecondaryColour;
 }
 
 [System.Serializable]
