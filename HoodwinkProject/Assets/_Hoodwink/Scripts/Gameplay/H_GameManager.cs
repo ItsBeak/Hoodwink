@@ -249,6 +249,8 @@ public class H_GameManager : NetworkBehaviour
         roundSpies.Remove(player);
         roundDeadPlayers.Remove(player);
 
+        player.equipment.RpcTryDropItem();
+
         CheckWinConditions();
 
     }

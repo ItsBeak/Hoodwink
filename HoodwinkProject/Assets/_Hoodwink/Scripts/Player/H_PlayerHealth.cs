@@ -75,6 +75,7 @@ public class H_PlayerHealth : NetworkBehaviour
                 brain.equipment.SetDead(newState);
                 brain.playerUI.ShowSpectatorUI();
                 animator.playerAnimator.SetBool("isDead", true);
+                equipment.TryDropItem();
             }
             else
             {
@@ -97,8 +98,6 @@ public class H_PlayerHealth : NetworkBehaviour
     {
         if (enableDebugLogs)
             Debug.Log("Player: " + netIdentity.name + " has died");
-
-        //equipment.RpcTryDropItem();
 
         gameManager.CmdPlayerKilled(brain);
 
