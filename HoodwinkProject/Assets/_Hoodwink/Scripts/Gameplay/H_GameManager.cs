@@ -542,7 +542,10 @@ public class H_GameManager : NetworkBehaviour
     [ClientRpc]
     void RpcUnloadMap(string scene)
     {
-        SceneManager.UnloadSceneAsync(scene);
+        if (SceneManager.GetSceneByName(scene).isLoaded)
+        {
+            SceneManager.UnloadSceneAsync(scene);
+        }
     }
 
     [Server]
