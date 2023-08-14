@@ -1,5 +1,6 @@
 using Mirror;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class H_PlayerAnimator : NetworkBehaviour
 {
@@ -17,6 +18,18 @@ public class H_PlayerAnimator : NetworkBehaviour
     {
         playerAnimator.SetBool("isSidearm", equipment.currentSlot == EquipmentSlot.Sidearm && equipment.sidearmClientObject);
 
+        if (playerController.isRunning)
+        {
+            playerAnimator.SetFloat("movementState", 1);
+        }
+        else if (false)
+        {
+            //playerAnimator.SetFloat("movementState", 0.0f);
+        }
+        else
+        {
+            playerAnimator.SetFloat("movementState", 0.5f);
+        }
 
         if (!isLocalPlayer)
             return;
