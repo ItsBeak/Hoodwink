@@ -80,6 +80,7 @@ public class H_GameManager : NetworkBehaviour
     public bool enableDebugLogs;
     public bool overrideMinimumPlayerCount;
     public bool allowServerToSkipGame;
+    public bool allowServerToForceStart;
     public PlayerSettings overrideSettings;
     PlayerSettings currentSettings;
 
@@ -138,6 +139,12 @@ public class H_GameManager : NetworkBehaviour
                     return;
 
                 CheckReadyPlayers();
+
+                if (Input.GetKeyDown(KeyCode.Insert) && allowServerToForceStart)
+                {
+                    StartRound();
+                    return;
+                }
 
                 break;
             #endregion
