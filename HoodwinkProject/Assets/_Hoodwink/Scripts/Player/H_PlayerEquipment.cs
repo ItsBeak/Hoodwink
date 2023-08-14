@@ -1,9 +1,6 @@
 using Cinemachine;
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,9 +14,9 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform primaryEquipPointObserver;
     [HideInInspector] public GameObject primaryClientObject;
     [HideInInspector] public GameObject primaryObserverObject;
+    public Image primaryItemIcon;
     [HideInInspector, SyncVar] public bool isHoldingItem = false;
     H_ItemBase currentObject;
-    GameObject primaryWorldObject;
     public Transform dropPoint;
 
     [Header("Sidearm Equipment Settings")]
@@ -27,12 +24,14 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform sidearmEquipPointObserver;
     [HideInInspector] public GameObject sidearmClientObject;
     [HideInInspector] public GameObject sidearmObserverObject;
+    public Image sidearmItemIcon;
 
     [Header("Holstered Equipment Settings")]
     public Transform holsteredEquipPointClient;
     public Transform holsteredEquipPointObserver;
     [HideInInspector] public GameObject holsteredClientObject;
     [HideInInspector] public GameObject holsteredObserverObject;
+    public Image holsteredItemIcon;
 
     [Header("Gadget Settings")]
     public Transform gadgetAnchor;
@@ -40,19 +39,22 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Image gadgetCooldownUI;
     public Image gadgetIcon;
     public TextMeshProUGUI gadgetNameText;
+    public TextMeshProUGUI gadgetDescriptionText;
 
     [Header("Equipment UI Elements")]
     public Image primarySlotUI;
     public Image sidearmSlotUI;
     public Image holsteredSlotUI;
 
+    [Header("Ammo UI Elements")]
+    public Image reloadingImage;
+    public TextMeshProUGUI ammoLoadedText, ammoPoolText;
+
     [Header("Interaction Settings")]
     public float interactionRange = 2f;
     public TextMeshProUGUI focusedItemReadout;
     public LayerMask interactableLayers;
     H_WorldItem focusedItem;
-
-    public Color selectedColor, deselectedColor;
 
     [Header("Hit Markers")]
     public Transform hitmarkerParent;
@@ -73,6 +75,9 @@ public class H_PlayerEquipment : NetworkBehaviour
     [Header("Components")]
     public CinemachineVirtualCamera playerCamera;
     [HideInInspector] public float baseFOV;
+    public H_Recoil cameraRecoil;
+    H_PlayerBrain brain;
+    [HideInInspector] public H_PlayerAnimator animator;
     bool isDead;
 
     void Start()
@@ -84,6 +89,9 @@ public class H_PlayerEquipment : NetworkBehaviour
             holsteredEquipPointClient.gameObject.SetActive(false);
             return;
         }
+
+        brain = GetComponent<H_PlayerBrain>();
+        animator = GetComponent<H_PlayerAnimator>();
 
         primaryEquipPointObserver.gameObject.SetActive(false);
         sidearmEquipPointObserver.gameObject.SetActive(false);
@@ -151,6 +159,7 @@ public class H_PlayerEquipment : NetworkBehaviour
             gadgetIcon.sprite = currentGadget.gadgetIcon;
             gadgetIcon.color = Color.white;
             gadgetNameText.text = currentGadget.gadgetName;
+            gadgetDescriptionText.text = currentGadget.gadgetDescription;
         }
         else
         {
@@ -158,6 +167,7 @@ public class H_PlayerEquipment : NetworkBehaviour
             gadgetIcon.color = Color.clear;
             gadgetCooldownUI.fillAmount = 0;
             gadgetNameText.text = "";
+            gadgetDescriptionText.text = "";
         }
 
         if (focusedItem && !isHoldingItem)
@@ -202,10 +212,8 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void ChangeSlot(EquipmentSlot newSlot)
     {
-        primarySlotUI.color = deselectedColor;
-        sidearmSlotUI.color = deselectedColor;
-        holsteredSlotUI.color = deselectedColor;
         ClearSlots();
+        ClearAmmoUI();
 
         switch (newSlot)
         {
@@ -232,7 +240,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             if (currentObject.dropOnSwap)
             {
-                RpcTryDropItem();
+                TryDropItem();
             }
         }
 
@@ -268,9 +276,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
         else
         {
-            primarySlotUI.color = selectedColor;
-
             primaryEquipPointClient.gameObject.SetActive(true);
+
+            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", true);
+            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", false);
+            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", false);
         }
     }
 
@@ -283,9 +293,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
         else
         {
-            sidearmSlotUI.color = selectedColor;
-
             sidearmEquipPointClient.gameObject.SetActive(true);
+
+            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", false);
+            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", true);
+            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", false);
         }
     }
 
@@ -297,9 +309,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
         else
         {
-            holsteredSlotUI.color = selectedColor;
-
             holsteredEquipPointClient.gameObject.SetActive(true);
+
+            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", false);
+            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", false);
+            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", true);
         }
     }
 
@@ -314,21 +328,11 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     public void TryDropItem()
     {
-        Debug.Log("Trying to drop object");
-
         if (isHoldingItem)
         {
-            Debug.Log("Player is holding an object");
-
             CmdDropItem();
-
-            ClearHeldItem();
-
             playerCamera.m_Lens.FieldOfView = baseFOV;
-        }
-        else
-        {
-            Debug.Log("Player is not holding an object");
+            ClearPrimarySlot();
         }
     }
 
@@ -352,14 +356,9 @@ public class H_PlayerEquipment : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdDropItem()
     {
-        Debug.Log("Drop object command called");
-
-        if (!primaryWorldObject)
-            return;
-
         Vector3 position = dropPoint.position;
         Quaternion rotation = dropPoint.rotation;
-        GameObject droppedObject = Instantiate(primaryWorldObject, position, rotation);
+        GameObject droppedObject = Instantiate(currentObject.worldDropItem, position, rotation);
 
         droppedObject.GetComponent<Rigidbody>().AddTorque(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
         droppedObject.GetComponent<Rigidbody>().AddForce(dropPoint.forward, ForceMode.Impulse);
@@ -367,21 +366,12 @@ public class H_PlayerEquipment : NetworkBehaviour
         NetworkServer.Destroy(primaryClientObject.gameObject);
         NetworkServer.Destroy(primaryObserverObject.gameObject);
 
-        ClearHeldItem();
+        RpcClearPrimarySlot();
+
+        isHoldingItem = false;
 
         NetworkServer.Spawn(droppedObject);
-
-        Debug.Log("Dropped new object: " + droppedObject.name);
-
     }
-
-    [ClientRpc]
-    void ClearHeldItem()
-    {
-        isHoldingItem = false;
-        primaryWorldObject = null;
-    }
-
 
     [ClientRpc]
     public void RpcEquipPrimary(GameObject clientObject, GameObject observerObject)
@@ -400,7 +390,6 @@ public class H_PlayerEquipment : NetworkBehaviour
         isHoldingItem = true;
 
         currentObject = primaryClientObject.GetComponent<H_ItemBase>();
-        primaryWorldObject = currentObject.worldDropItem;
         currentObject.Initialize();
     }
 
@@ -419,6 +408,23 @@ public class H_PlayerEquipment : NetworkBehaviour
         sidearmObserverObject.transform.localRotation = Quaternion.identity;
 
         sidearmClientObject.GetComponent<H_ItemBase>().Initialize();
+    }
+
+    [ClientRpc]
+    public void RpcEquipHolstered(GameObject clientObject, GameObject observerObject)
+    {
+        holsteredClientObject = clientObject;
+        holsteredObserverObject = observerObject;
+
+        holsteredClientObject.transform.parent = holsteredEquipPointClient;
+        holsteredClientObject.transform.localPosition = Vector3.zero;
+        holsteredClientObject.transform.localRotation = Quaternion.identity;
+
+        holsteredObserverObject.transform.parent = holsteredEquipPointObserver;
+        holsteredObserverObject.transform.localPosition = Vector3.zero;
+        holsteredObserverObject.transform.localRotation = Quaternion.identity;
+
+        holsteredClientObject.GetComponent<H_ItemBase>().Initialize();
     }
 
     [ClientRpc]
@@ -444,6 +450,61 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             CmdChangeSlot(0);
         }
+    }
+
+    public void ClearCurrentObject()
+    {
+        isHoldingItem = false;
+        currentObject = null;
+    }
+
+    public void ClearPrimarySlot()
+    {
+        primaryItemIcon.sprite = null;
+    }
+
+    public void ClearSidearmSlot()
+    {
+        sidearmItemIcon.sprite = null;
+    }
+
+    public void ClearHolsteredSlot()
+    {
+        holsteredItemIcon.sprite = null;
+    }
+
+    [ClientRpc]
+    public void RpcClearPrimarySlot()
+    {
+        ClearPrimarySlot();
+    }
+
+    [ClientRpc]
+    public void RpcClearSidearmSlot()
+    {
+        ClearSidearmSlot();
+    }
+
+    [ClientRpc]
+    public void RpcClearHolsteredSlot()
+    {
+        ClearHolsteredSlot();
+    }
+
+    public void SetAmmoUI(int ammoLoaded, int ammoPool, float reloadTime)
+    {
+        ammoLoadedText.text = ammoLoaded.ToString();
+        ammoPoolText.text = ammoPool.ToString();
+
+        reloadingImage.fillAmount = reloadTime;
+    }
+
+    public void ClearAmmoUI()
+    {
+        ammoLoadedText.text = "";
+        ammoPoolText.text = "";
+
+        reloadingImage.fillAmount = 0;
     }
 
 }

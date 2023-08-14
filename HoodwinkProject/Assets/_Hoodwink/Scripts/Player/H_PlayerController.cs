@@ -1,5 +1,6 @@
 using UnityEngine;
 using Mirror;
+using UnityEngine.Rendering;
 
 public class H_PlayerController : NetworkBehaviour
 {
@@ -9,6 +10,13 @@ public class H_PlayerController : NetworkBehaviour
     public float runSpeed;
     public float jumpForce;
     public float gravityForce;
+
+    [Header("Run Variables")]
+    public float maxStaminaTime;
+    float stamina;
+    public float staminaRechargeOffset;
+    public float staminaRechargeSpeed;
+    float staminaRechargeTimer;
 
     [Header("Camera Variables")]
     public float lookSpeed;
@@ -22,7 +30,8 @@ public class H_PlayerController : NetworkBehaviour
 
     [HideInInspector] public Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
-    bool isRunning = false;
+    [HideInInspector] public bool isRunning = false;
+    
 
     void Start()
     {
@@ -32,6 +41,8 @@ public class H_PlayerController : NetworkBehaviour
 
         if (!isLocalPlayer) return;
 
+        stamina = maxStaminaTime;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -39,15 +50,31 @@ public class H_PlayerController : NetworkBehaviour
 
     void Update()
     {
+        characterController.enabled = !health.isDead;
+
         if (!isLocalPlayer) return;
 
-        Inputs();
 
         if (!brain.isPaused && !health.isDead)
         {
-            Movement();
+            Inputs();
+            Direction();
             Turning();
         }
+        else
+        {
+            moveDirection.x = 0;
+            moveDirection.z = 0;
+        }
+
+        CalculateRunning();
+
+        if (!characterController.isGrounded)
+        {
+            moveDirection.y -= gravityForce * Time.deltaTime;
+        }
+
+        characterController.Move(moveDirection * Time.deltaTime);
 
     }
 
@@ -55,14 +82,9 @@ public class H_PlayerController : NetworkBehaviour
     {
         moveDirection.x = brain.canMove ? Input.GetAxis("Horizontal") : 0;
         moveDirection.z = brain.canMove ? Input.GetAxis("Vertical") : 0;
-
-        if (brain.canSprint)
-        {
-            isRunning = Input.GetKey(KeyCode.LeftShift);
-        }
     }
 
-    void Movement()
+    void Direction()
     {    
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
@@ -86,12 +108,6 @@ public class H_PlayerController : NetworkBehaviour
             moveDirection.y = movementDirectionY;
         }
 
-        if (!characterController.isGrounded)
-        {
-            moveDirection.y -= gravityForce * Time.deltaTime;
-        }
-
-        characterController.Move(moveDirection * Time.deltaTime);
     }
 
     void Turning()
@@ -105,6 +121,48 @@ public class H_PlayerController : NetworkBehaviour
         }
     }
 
+    void CalculateRunning()
+    {
+        if (brain.canSprint && Input.GetAxis("Vertical") > 0)
+        {
+            if (stamina > 0)
+            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    isRunning = true;
+                    stamina -= 1 * Time.deltaTime;
+                    staminaRechargeTimer = staminaRechargeOffset;
+                }
+                else
+                {
+                    isRunning = false;
+                }
+            }
+            else
+            {
+                isRunning = false;
+            }
 
+        }
+        else
+        {
+            isRunning = false;
+        }
 
+        if (isRunning == false)
+        {
+            staminaRechargeTimer -= 1 * Time.deltaTime;
+
+            if (staminaRechargeTimer <= 0)
+            {
+                if (stamina < maxStaminaTime)
+                {
+                    stamina += 1 * staminaRechargeSpeed * Time.deltaTime;
+                }
+            }
+        }
+
+        brain.playerUI.staminaBarImage.fillAmount = Mathf.Clamp01(stamina / maxStaminaTime);
+
+    }
 }
