@@ -2312,8 +2312,43 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1749900065705473348, guid: 88de23aa3c84a4d4cb0257932e86fab4,
         type: 3}
+      propertyPath: NoiseModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749900065705473348, guid: 88de23aa3c84a4d4cb0257932e86fab4,
+        type: 3}
+      propertyPath: NoiseModule.frequency
+      value: 1.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749900065705473348, guid: 88de23aa3c84a4d4cb0257932e86fab4,
+        type: 3}
+      propertyPath: VelocityModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749900065705473348, guid: 88de23aa3c84a4d4cb0257932e86fab4,
+        type: 3}
+      propertyPath: ShapeModule.randomPositionAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749900065705473348, guid: 88de23aa3c84a4d4cb0257932e86fab4,
+        type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 1.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749900065705473348, guid: 88de23aa3c84a4d4cb0257932e86fab4,
+        type: 3}
+      propertyPath: VelocityModule.speedModifier.scalar
+      value: 1.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749900065705473348, guid: 88de23aa3c84a4d4cb0257932e86fab4,
+        type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: 5.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749900065705473348, guid: 88de23aa3c84a4d4cb0257932e86fab4,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].value
+      value: 0.29729897
       objectReference: {fileID: 0}
     - target: {fileID: 5408821748131278158, guid: 88de23aa3c84a4d4cb0257932e86fab4,
         type: 3}
