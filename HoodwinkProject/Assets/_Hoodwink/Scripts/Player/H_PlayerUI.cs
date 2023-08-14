@@ -22,6 +22,7 @@ public class H_PlayerUI : MonoBehaviour
     [Header("Player GUI")]
     public Animator folderAnimator;
     public Animator slotPrimaryAnimator, slotSidearmAnimator, slotHolsteredAnimator, roleAnimator;
+    public Image staminaBarImage;
 
     [Header("Components")]
     H_PlayerBrain brain;

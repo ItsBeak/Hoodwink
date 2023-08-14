@@ -43,6 +43,7 @@ public class H_GameManager : NetworkBehaviour
     [Header("Player Colours")]
     public AgentData[] agentData;
     public Color[] coatColours, trimColours, pantsColours, shoesColours;
+    List<AgentData> allAgents;
     List<AgentData> availableAgents;
 
     [Header("Default Sidearm Settings")]
@@ -101,11 +102,12 @@ public class H_GameManager : NetworkBehaviour
 
     public override void OnStartServer()
     {
+        allAgents = new List<AgentData>();
         availableAgents = new List<AgentData>();
 
         foreach (AgentData agent in agentData)
         {
-            availableAgents.Add(agent);
+            allAgents.Add(agent);
         }
     }
 
@@ -241,21 +243,13 @@ public class H_GameManager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdUnregisterPlayer(H_PlayerBrain player)
     {
-        AgentData newAgentData = new AgentData();
-
-        if (player.hasAgentData)
-        {
-            newAgentData.agentName = player.playerName;
-            newAgentData.agentColour = player.coatColour;
-
-            availableAgents.Add(newAgentData);
-        }
-
         serverPlayers.Remove(player);
         roundPlayers.Remove(player);
         roundAgents.Remove(player);
         roundSpies.Remove(player);
         roundDeadPlayers.Remove(player);
+
+        player.equipment.RpcTryDropItem();
 
         CheckWinConditions();
 
@@ -374,15 +368,6 @@ public class H_GameManager : NetworkBehaviour
 
             player.TeleportPlayer(lobbySpawns[randomSpawn].position, lobbySpawns[randomSpawn].rotation);
 
-            AgentData newAgentData = new AgentData();
-
-            newAgentData.agentName = player.playerName;
-            newAgentData.agentColour = player.coatColour;
-
-            availableAgents.Add(newAgentData);
-
-            player.hasAgentData = false;
-
             player.playerName = "Anonymous";
             player.coatColour = coatColours[Random.Range(0, coatColours.Length)];
             player.coatTrimColour = trimColours[Random.Range(0, trimColours.Length)];
@@ -405,6 +390,8 @@ public class H_GameManager : NetworkBehaviour
         roundDeadPlayers.Clear();
 
         winConditionMet = false;
+
+        availableAgents.Clear();
 
         evidencePercent = 0;
         spiesRevealed = false;
@@ -447,6 +434,11 @@ public class H_GameManager : NetworkBehaviour
 
         Transform[] spawns = currentLevel.playerSpawnPoints;
 
+        foreach (AgentData agent in allAgents)
+        {
+            availableAgents.Add(agent);
+        }
+
         foreach (var player in roundPlayers)
         {
             player.equipment.RpcTryDropItem();
@@ -466,7 +458,6 @@ public class H_GameManager : NetworkBehaviour
 
             availableAgents.RemoveAt(randomAgent);
 
-            player.hasAgentData = true;
         }
 
         Debug.Log("Spawning objects");
@@ -553,7 +544,10 @@ public class H_GameManager : NetworkBehaviour
     [ClientRpc]
     void RpcUnloadMap(string scene)
     {
-        SceneManager.UnloadSceneAsync(scene);
+        if (SceneManager.GetSceneByPath(scene).isLoaded)
+        {
+            SceneManager.UnloadSceneAsync(scene);
+        }
     }
 
     [Server]

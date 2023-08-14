@@ -3,7 +3,6 @@ using Mirror;
 using Cinemachine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.Rendering;
 
 public class H_PlayerBrain : NetworkBehaviour
 {
@@ -15,7 +14,6 @@ public class H_PlayerBrain : NetworkBehaviour
     public float speedMultiplier = 1;
 
     [Header("Player Data")]
-    [SyncVar] public bool hasAgentData;
     [SyncVar(hook = nameof(OnNameChanged))] public string playerName;
     [SyncVar(hook = nameof(SetCoatColour))] public Color coatColour;
     [SyncVar(hook = nameof(SetCoatTrimColour))] public Color coatTrimColour;
@@ -33,6 +31,9 @@ public class H_PlayerBrain : NetworkBehaviour
     [Header("Alignment Data")]
     public GameObject spyIndicator;
     public LayerMask baseCullingMask, spyCullingMask;
+
+    [Header("Cosmetic Data")]
+    public Transform hatAnchor;
 
     [Header("Components")]
     public CinemachineVirtualCamera cam;
