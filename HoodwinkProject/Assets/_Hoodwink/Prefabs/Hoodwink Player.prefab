@@ -4204,6 +4204,37 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1865705531766817576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7679669079450929049}
+  m_Layer: 0
+  m_Name: HatAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7679669079450929049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865705531766817576}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3970657651734867563}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1880618422193244735
 GameObject:
   m_ObjectHideFlags: 0
@@ -4789,6 +4820,7 @@ GameObject:
   - component: {fileID: 7732784669419588674}
   - component: {fileID: 6220283844275577187}
   - component: {fileID: 2631851041001039865}
+  - component: {fileID: 8823686986365779589}
   m_Layer: 11
   m_Name: Hoodwink Player
   m_TagString: Player
@@ -4872,6 +4904,7 @@ MonoBehaviour:
   spyCullingMask:
     serializedVersion: 2
     m_Bits: 30771
+  hatAnchor: {fileID: 0}
   cam: {fileID: 8715472728634818221}
   agentColourImage: {fileID: 6394061803648061412}
   agentNameText: {fileID: 4149585385148860692}
@@ -5133,6 +5166,23 @@ MonoBehaviour:
   spectatorCam: {fileID: 5201658147502516683}
   spectatorTargets: []
   playerUI: {fileID: 6648118454623577374}
+--- !u!114 &8823686986365779589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2269030465652812220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 030a503584341d04db5a9fe4b3089442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  hatAnchor: {fileID: 7679669079450929049}
+  hatIndex: 0
 --- !u!1 &2276840154210437441
 GameObject:
   m_ObjectHideFlags: 0
@@ -18159,6 +18209,12 @@ Transform:
 --- !u!137 &3750150940174918147 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6639917616623317741, guid: a2135d9babfcfb340971d6d0bd3112bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 7507095465960788206}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3970657651734867563 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6860129665342652037, guid: a2135d9babfcfb340971d6d0bd3112bf,
     type: 3}
   m_PrefabInstance: {fileID: 7507095465960788206}
   m_PrefabAsset: {fileID: 0}

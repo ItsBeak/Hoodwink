@@ -155,6 +155,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3953917584308650569}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4187866934943842072 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f1b2429d6510a9d498015fff69aa1c65,
+    type: 3}
+  m_PrefabInstance: {fileID: 3953917584308650569}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5715498741879750280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4187866934943842072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e829c87dc2a2ed2419c5f67848317fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 11400000, guid: 5272c55b882edd34a9d80b11bd6f240c, type: 2}
+  exportAllChildren: 0
+  terrainSimplificationLevel: 0
 --- !u!1001 &5377103894743443801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -229,6 +250,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6dd4cfd6f615fe46a65409fb1e536b8, type: 3}
+--- !u!1 &5070532360513016840 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e6dd4cfd6f615fe46a65409fb1e536b8,
+    type: 3}
+  m_PrefabInstance: {fileID: 5377103894743443801}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6498686428288707468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5070532360513016840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e829c87dc2a2ed2419c5f67848317fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 11400000, guid: 5272c55b882edd34a9d80b11bd6f240c, type: 2}
+  exportAllChildren: 0
+  terrainSimplificationLevel: 0
 --- !u!4 &5554617284874473138 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e6dd4cfd6f615fe46a65409fb1e536b8,
