@@ -98,7 +98,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2c5ddeac2d8ce014e9b416940c673cb7, type: 2}
+      objectReference: {fileID: 2100000, guid: e373bdd867952a7439598601fd2dd5f7, type: 2}
     - target: {fileID: 919132149155446097, guid: d787be4cc7647b54cbe87a12898e71e1,
         type: 3}
       propertyPath: m_Name
@@ -126,6 +126,21 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -638745410488446199, guid: d787be4cc7647b54cbe87a12898e71e1, type: 3}
+--- !u!114 &4808397348600034617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8402860101577581146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e829c87dc2a2ed2419c5f67848317fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 11400000, guid: 5272c55b882edd34a9d80b11bd6f240c, type: 2}
+  exportAllChildren: 0
+  terrainSimplificationLevel: 0
 --- !u!4 &9211871219876755680 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d787be4cc7647b54cbe87a12898e71e1,

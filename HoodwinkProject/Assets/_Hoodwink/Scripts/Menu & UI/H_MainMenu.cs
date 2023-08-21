@@ -21,7 +21,6 @@ public class H_MainMenu : MonoBehaviour
     public PlayableDirector preLoginDirector, loggedInDirector, customizationDirector, customizationEndDirector, optionsDirector, optionsEndDirector;
 
     bool playedLogIn = false;
-    bool startup = false;
 
     private H_NetworkManager nm;
 
@@ -33,45 +32,31 @@ public class H_MainMenu : MonoBehaviour
             return nm = NetworkManager.singleton as H_NetworkManager;
         }
     }
+    private void Start()
+    {
+        if (FindObjectOfType<H_Bootstrap>().hasPressedPlay)
+        {
+            loggedInDirector.gameObject.SetActive(true);
+            GetComponent<AudioSource>().Play();
+        }
+        else
+        {
+            preLoginDirector.gameObject.SetActive(true);
+        }
+    }
 
     private void Update()
     {
-        loginButton.SetActive(!NetManager.isLoggedIn);
-        hostButton.SetActive(NetManager.isLoggedIn);
-        joinButton.SetActive(NetManager.isLoggedIn);
-        codeInputField.gameObject.SetActive(NetManager.isLoggedIn);
+       //loginButton.SetActive(!NetManager.isLoggedIn);
+       //hostButton.SetActive(NetManager.isLoggedIn);
+       //joinButton.SetActive(NetManager.isLoggedIn);
+       //codeInputField.gameObject.SetActive(NetManager.isLoggedIn);
 
-        loginButton.GetComponent<Button>().interactable = !NetManager.isLoggingIn;
+       //loginButton.GetComponent<Button>().interactable = !NetManager.isLoggingIn;
 
         if (Input.GetKeyDown(KeyCode.Space) && preLoginDirector.time < 9f)
         {
             preLoginDirector.time = 9f;
-        }
-
-        if (!startup)
-        {
-            if (NetManager.isLoggedIn)
-            {
-                loggedInDirector.gameObject.SetActive(true);
-                GetComponent<AudioSource>().Play();
-            }
-            else
-            {
-                preLoginDirector.gameObject.SetActive(true);
-            }
-
-            startup = true;
-
-        }
-
-        if (NetManager.isLoggedIn)
-        {
-            
-            if (!playedLogIn)
-            {
-                playedLogIn = true;
-                loggedInDirector.gameObject.SetActive(true);
-            }
         }
 
         Cursor.lockState = CursorLockMode.None;
@@ -83,21 +68,21 @@ public class H_MainMenu : MonoBehaviour
         }
     }
 
-    public void LoginButton()
+    public void PlayButton()
     {
-        NetManager.UnityLogin();
+        FindObjectOfType<H_Bootstrap>().hasPressedPlay = true;
+        loggedInDirector.gameObject.SetActive(true);
     }
 
     public void HostButton()
     {
-        NetManager.StartRelayHost(NetManager.maxConnections, "australia-southeast1");
+        NetManager.StartHost();
     }
 
     public void JoinButton()
     {
-        NetManager.relayJoinCode = codeInputField.text;
-
-        NetManager.JoinRelayServer();
+        NetManager.networkAddress = codeInputField.text;
+        NetManager.StartClient();
     }
 
     public void ExitGame()
