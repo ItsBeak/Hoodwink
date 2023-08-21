@@ -23,6 +23,8 @@ public class H_GameManager : NetworkBehaviour
     public List<H_PlayerBrain> roundDeadPlayers;
     public List<H_PlayerBrain> roundAgents;
     public List<H_PlayerBrain> roundSpies;
+    int agentsLeft = 0;
+    int spiesLeft = 0;
 
     [HideInInspector] public string chosenScene;
     bool winConditionMet = false;
@@ -75,6 +77,7 @@ public class H_GameManager : NetworkBehaviour
     public TextMeshProUGUI pingDisplay;
     public TextMeshProUGUI timerDisplay;
     H_ObjectManager objectManager;
+    H_RoundEndManager roundEndManager;
 
     [Header("Debugging")]
     public bool enableDebugLogs;
@@ -98,6 +101,7 @@ public class H_GameManager : NetworkBehaviour
     void Start()
     {
         objectManager = GetComponent<H_ObjectManager>();
+        roundEndManager = GetComponent<H_RoundEndManager>();
         revealedSpiesText.text = "";
     }
 
@@ -215,6 +219,7 @@ public class H_GameManager : NetworkBehaviour
                     ResetRoles();
                     ResetPlayerStates();
                     EndRound();
+                    roundEndManager.RpcResetUI();
                 }
 
                 break;
@@ -400,6 +405,9 @@ public class H_GameManager : NetworkBehaviour
 
         availableAgents.Clear();
 
+        agentsLeft = 0;
+        spiesLeft = 0;
+
         evidencePercent = 0;
         spiesRevealed = false;
 
@@ -487,6 +495,7 @@ public class H_GameManager : NetworkBehaviour
                 roundPlayers[randomPlayerIndex].currentAlignment = AgentAlignment.Spy;
                 roundSpies.Add(roundPlayers[randomPlayerIndex]);
                 roundSpiesRemaining--;
+                spiesLeft++;
 
                 GameObject newGadget = Instantiate(spyGadgets[Random.Range(0, spyGadgets.Length)]);
                 NetworkServer.Spawn(newGadget, roundPlayers[randomPlayerIndex].connectionToClient);
@@ -500,6 +509,7 @@ public class H_GameManager : NetworkBehaviour
             {
                 roundPlayers[i].currentAlignment = AgentAlignment.Agent;
                 roundAgents.Add(roundPlayers[i]);
+                agentsLeft++;
 
                 GameObject newGadget = Instantiate(agentGadgets[Random.Range(0, agentGadgets.Length)]);
                 NetworkServer.Spawn(newGadget, roundPlayers[i].connectionToClient);
@@ -583,12 +593,12 @@ public class H_GameManager : NetworkBehaviour
         {
             if (player.currentAlignment == AgentAlignment.Agent)
             {
-                roundAgents.Remove(player);
+                agentsLeft -= 1;
                 roundDeadPlayers.Add(player);
             }
             else if (player.currentAlignment == AgentAlignment.Spy)
             {
-                roundSpies.Remove(player);
+                spiesLeft -= 1;
                 roundDeadPlayers.Add(player);
             }
 
@@ -603,23 +613,48 @@ public class H_GameManager : NetworkBehaviour
         if (winConditionMet)
             return;
 
-        if (roundAgents.Count == 0 && roundSpies.Count == 0)
+        if (agentsLeft == 0 && spiesLeft == 0)
         {
             winCondition = WinConditions.Draw;
             winConditionMet = true;
             Debug.Log("Win Condition Met: Draw");
         }
-        else if (roundSpies.Count == 0)
+        else if (spiesLeft == 0)
         {
             winCondition = WinConditions.GoodWin;
             winConditionMet = true;
             Debug.Log("Win Condition Met: Agents Win");
+
+            RoundEndData[] endData = new RoundEndData[roundSpies.Count];
+
+            for (int i = 0; i < endData.Length; i++)
+            {
+                endData[i].agentData.agentName = roundSpies[i].playerName;
+                endData[i].agentData.agentColour = roundSpies[i].coatTrimColour;
+                endData[i].agentData.agentSecondaryColour = roundSpies[i].coatColour;
+                endData[i].isDead = roundDeadPlayers.Contains(roundSpies[i]);
+            }
+
+            roundEndManager.RpcSetAgentCards(endData, "Spies Eliminated");
         }
-        else if (roundAgents.Count == 0)
+        else if (agentsLeft == 0)
         {
             winCondition = WinConditions.EvilWin;
             winConditionMet = true;
             Debug.Log("Win Condition Met: Spies Win");
+
+            RoundEndData[] endData = new RoundEndData[roundAgents.Count];
+
+            for (int i = 0; i < endData.Length; i++)
+            {
+                endData[i].agentData.agentName = roundAgents[i].playerName;
+                endData[i].agentData.agentColour = roundAgents[i].coatTrimColour;
+                endData[i].agentData.agentSecondaryColour = roundAgents[i].coatColour;
+                endData[i].isDead = roundDeadPlayers.Contains(roundAgents[i]);
+            }
+
+            roundEndManager.RpcSetAgentCards(endData, "Agents Eliminated");
+
         }
         else if (roundTimer <= 0)
         {
