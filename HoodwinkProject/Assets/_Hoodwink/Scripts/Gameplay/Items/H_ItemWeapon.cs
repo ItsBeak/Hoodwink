@@ -182,7 +182,7 @@ public class H_ItemWeapon : H_ItemBase
             else
             {
                 equipment.cameraRecoil.AddRecoil(cameraVerticalRecoilHipFire, cameraHorizontalRecoilHipFire, cameraRotationalRecoilHipFire, cameraRecoilForce, cameraReturnSpeed);
-                weaponRecoil.AddRecoil(weaponVerticalRecoilAimedFire, weaponHorizontalRecoilAimedFire, weaponRotationalRecoilAimedFire, weaponRecoilForce, weaponReturnSpeed);
+                weaponRecoil.AddRecoil(weaponVerticalRecoilHipFire, weaponHorizontalRecoilHipFire, weaponRotationalRecoilHipFire, weaponRecoilForce, weaponReturnSpeed);
             }
 
             if (clientEffects)

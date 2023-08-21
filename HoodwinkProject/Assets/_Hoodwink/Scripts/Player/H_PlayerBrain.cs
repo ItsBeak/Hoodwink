@@ -3,7 +3,6 @@ using Mirror;
 using Cinemachine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.Rendering;
 
 public class H_PlayerBrain : NetworkBehaviour
 {
@@ -32,6 +31,9 @@ public class H_PlayerBrain : NetworkBehaviour
     [Header("Alignment Data")]
     public GameObject spyIndicator;
     public LayerMask baseCullingMask, spyCullingMask;
+
+    [Header("Cosmetic Data")]
+    public Transform hatAnchor;
 
     [Header("Components")]
     public CinemachineVirtualCamera cam;
