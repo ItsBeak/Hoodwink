@@ -20,9 +20,11 @@ public class H_GadgetXray : H_GadgetBase
 
     private void Start()
     {
+        //Get the camera and turn it off, had a mind fry and dont remember why i did this
         Camera parent = GetComponentInChildren<Camera>();
         _camera = parent.gameObject;
         _camera.gameObject.SetActive(false);
+        active = true;
     }
     public override void UseGadget()
     {
