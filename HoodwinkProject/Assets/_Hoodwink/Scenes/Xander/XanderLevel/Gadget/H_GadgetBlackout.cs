@@ -1,6 +1,7 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class H_GadgetBlackout : H_GadgetBase
@@ -24,7 +25,7 @@ public class H_GadgetBlackout : H_GadgetBase
 
     private void Start()
     {
-                
+        _light = (Light[])FindObjectsOfType(typeof(UnityEngine.Light));
     }
         //if (Input.GetKeyDown(KeyCode.Q))
         public override void UseGadget()
