@@ -7,7 +7,7 @@ using UnityEngine;
 public class H_GadgetXray : H_GadgetBase
 {
     [Header("X-Ray Settings")]
-    [SerializeField] GameObject _camera;
+    [SerializeField] GameObject _effect;
     [SerializeField] Animator _xray;
 
 
@@ -22,8 +22,7 @@ public class H_GadgetXray : H_GadgetBase
     {
         //Get the camera and turn it off, had a mind fry and dont remember why i did this
         Camera parent = GetComponentInChildren<Camera>();
-        _camera = parent.gameObject;
-        _camera.gameObject.SetActive(false);
+        _effect.gameObject.SetActive(false);
         active = true;
     }
     public override void UseGadget()
@@ -43,12 +42,12 @@ public class H_GadgetXray : H_GadgetBase
     //Both activated in events within the animations
     void XrayOn()
     {
-        _camera.gameObject.SetActive(true);
+        _effect.gameObject.SetActive(true);
         active = false;
     }
     void XrayOff()
     {
-        _camera.gameObject.SetActive(false);
+        _effect.gameObject.SetActive(false);
         active = true;
     }
 

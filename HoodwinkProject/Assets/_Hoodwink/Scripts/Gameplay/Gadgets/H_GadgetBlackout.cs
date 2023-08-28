@@ -13,7 +13,6 @@ public class H_GadgetBlackout : H_GadgetBase
     [SerializeField] float lightTime = 0f;
     [SerializeField] int dimmedLightTime;
 
-
     bool _lerping = false;
     bool _unlerp = false;
 
@@ -27,12 +26,14 @@ public class H_GadgetBlackout : H_GadgetBase
     {
         _light = (Light[])FindObjectsOfType(typeof(UnityEngine.Light));
     }
-        //if (Input.GetKeyDown(KeyCode.Q))
-        public override void UseGadget()
-        {
-            _lerping = true;
-        }
-    private void Update()
+
+    //if (Input.GetKeyDown(KeyCode.Q))
+    public override void UseGadget()
+    {
+        _lerping = true;
+    }
+
+    public override void Update()
     {
 
         //Lerp all lights in array from the default intensity to the destination intensity
