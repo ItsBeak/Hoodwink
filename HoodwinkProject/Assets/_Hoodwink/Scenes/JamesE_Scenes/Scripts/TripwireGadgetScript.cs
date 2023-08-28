@@ -57,6 +57,7 @@ public class TripwireGadgetScript : H_GadgetBase
     {
         Vector3 newPos = gameObject.transform.position;
         Instantiate(TestPrefab, newPos, Quaternion.identity);
+        targetObjects = GameObject.FindGameObjectsWithTag("StartPoint");
         startPoint = GameObject.FindGameObjectWithTag("StartPoint").transform;
         endPoint = GameObject.FindGameObjectWithTag("EndPoint").transform;
     }
