@@ -9,9 +9,14 @@ public class H_Bootstrap : MonoBehaviour
     [Scene] public string mainMenuScene;
     public float bootstrapTime;
     [HideInInspector] public bool hasPressedPlay;
-    void Start()
+
+    void Awake()
     {
         DontDestroyOnLoad(this);
+    }
+
+    void Start()
+    {
         Invoke("StartGame", bootstrapTime);
     }
 
