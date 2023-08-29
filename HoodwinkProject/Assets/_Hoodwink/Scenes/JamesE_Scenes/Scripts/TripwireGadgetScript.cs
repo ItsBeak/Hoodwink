@@ -1,8 +1,5 @@
 using Mirror;
 using System.Collections;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class TripwireGadgetScript : H_GadgetBase
