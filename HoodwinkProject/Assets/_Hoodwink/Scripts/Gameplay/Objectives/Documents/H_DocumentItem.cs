@@ -199,28 +199,30 @@ public class H_DocumentItem : H_ItemBase
     {
         if (focusedShredder)
         {
-            if (waitForPrimaryKeyReleased)
-            {
-                focusReadout.text = "Shredding";
-            }
-            else
-            {
-                focusReadout.text = "Hold " + equipment.primaryUseKey + " to shred documents";
-            }
-        }
-        else if (focusedFax)
-        {
             if (ownerIsSpy)
             {
                 if (waitForPrimaryKeyReleased)
                 {
-                    focusReadout.text = "Faxing";
+                    focusReadout.text = "Shredding";
                 }
                 else
                 {
-                    focusReadout.text = "Hold " + equipment.primaryUseKey + " to fax documents";
+                    focusReadout.text = "Hold " + equipment.primaryUseKey + " to shred documents";
                 }
             }
+        }
+        else if (focusedFax)
+        {
+            
+            if (waitForPrimaryKeyReleased)
+            {
+                focusReadout.text = "Faxing";
+            }
+            else
+            {
+                focusReadout.text = "Hold " + equipment.primaryUseKey + " to fax documents";
+            }
+            
         }
         else
         {
