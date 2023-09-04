@@ -1,9 +1,4 @@
 using Mirror;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class H_GadgetBandage : H_GadgetBase
@@ -45,7 +40,7 @@ public class H_GadgetBandage : H_GadgetBase
             }
             else
             {
-                Debug.LogError("Player heal hit: " + hit.collider.gameObject.name + ", which is a child of this player. Check layermask settings on both the hit object and the target player");
+                Debug.LogError("Player heal hit " + hit.collider.gameObject.name + ", which is a child of this player. Check layermask settings on both the hit object and the target player");
             }
         }
 
