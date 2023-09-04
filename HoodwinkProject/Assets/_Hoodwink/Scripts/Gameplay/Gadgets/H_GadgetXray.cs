@@ -42,12 +42,12 @@ public class H_GadgetXray : H_GadgetBase
     void XrayOn()
     {
         cameraEffect.gameObject.SetActive(true);
-        isActive = false;
+        isActive = true;
     }
     void XrayOff()
     {
         cameraEffect.gameObject.SetActive(false);
-        isActive = true;
+        isActive = false;
     }
 
 }
