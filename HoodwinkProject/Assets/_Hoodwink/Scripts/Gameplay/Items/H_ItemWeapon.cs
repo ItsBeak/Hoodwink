@@ -121,6 +121,12 @@ public class H_ItemWeapon : H_ItemBase
         isReloading = reloadTimer > 0;
         equipment.SetAmmoUI(ammoLoaded, ammoPool, Mathf.Clamp(reloadTimer / reloadTime, 0, 1));
         reloadTimer -= 1 * Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            clientEffects.ToggleSilencer();
+            observerEffects.ToggleSilencer();
+        }
     }
 
     public override void PrimaryUse()
