@@ -16,9 +16,9 @@ public class H_GadgetSneeze : H_GadgetBase
     }
 
     [ClientRpc]
-    public override void RpcUseGadget()
+    public override void RpcUseGadgetPrimary()
     {
-        base.RpcUseGadget();
+        base.RpcUseGadgetPrimary();
 
         source.PlayOneShot(sneezeClips[Random.Range(0, sneezeClips.Length)]);
         sneezeFX.Play();

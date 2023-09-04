@@ -28,7 +28,7 @@ public class H_GadgetBackstab : H_GadgetBase
         damageCollider.enabled = false;
     }
 
-    public override void UseGadget()
+    public override void UseGadgetPrimary()
     {
 
         if (!animator)
@@ -44,12 +44,12 @@ public class H_GadgetBackstab : H_GadgetBase
             PlaySwingLocal();
             CmdPlaySwing();
 
-            CmdUseGadget();
+            CmdUseGadgetPrimary();
             cooldownTimer = cooldown;
         }
     }
 
-    public override void RpcUseGadget()
+    public override void RpcUseGadgetPrimary()
     {
         source.PlayOneShot(swingClips[Random.Range(0, swingClips.Length)]);
     }

@@ -25,7 +25,7 @@ public class H_GadgetXray : H_GadgetBase
         _effect.gameObject.SetActive(false);
         active = true;
     }
-    public override void UseGadget()
+    public override void UseGadgetPrimary()
     {
         //trigger the equip animation
         if (active)

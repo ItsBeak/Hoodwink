@@ -19,7 +19,7 @@ public class H_GadgetProximitySensor : H_GadgetBase
         instantiated = false;
         onLight.SetActive(false);
     }
-    public override void UseGadget()
+    public override void UseGadgetPrimary()
     {
         if (!proxyActive)
         {

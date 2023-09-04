@@ -13,9 +13,9 @@ public class H_GadgetBandage : H_GadgetBase
     [SerializeField] int healAmount;
     H_PlayerHealth playerHealth;
 
-    public override void CmdUseGadget()
+    public override void CmdUseGadgetPrimary()
     {
-        base.CmdUseGadget();
+        base.CmdUseGadgetPrimary();
 
         playerHealth = GetComponentInParent<H_PlayerHealth>();
 

@@ -11,9 +11,9 @@ public class H_GadgetSmokeGrenade : H_GadgetBase
     [SerializeField] GameObject smokeGrenadePrefab;
     [SerializeField] float throwForce = 1;
 
-    public override void CmdUseGadget()
+    public override void CmdUseGadgetPrimary()
     {
-        base.CmdUseGadget();
+        base.CmdUseGadgetPrimary();
 
         Transform dropPoint = GetComponentInParent<H_PlayerEquipment>().dropPoint;
 
