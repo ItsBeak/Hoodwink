@@ -26,4 +26,9 @@ public class H_GadgetSmokeGrenade : H_GadgetBase
 
         NetworkServer.Spawn(smokeGrenade);
     }
+
+    public override void UseGadgetSecondary()
+    {
+
+    }
 }

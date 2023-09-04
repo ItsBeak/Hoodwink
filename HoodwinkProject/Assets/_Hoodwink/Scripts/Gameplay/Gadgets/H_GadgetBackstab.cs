@@ -49,6 +49,11 @@ public class H_GadgetBackstab : H_GadgetBase
         }
     }
 
+    public override void UseGadgetSecondary()
+    {
+
+    }
+
     public override void RpcUseGadgetPrimary()
     {
         source.PlayOneShot(swingClips[Random.Range(0, swingClips.Length)]);
