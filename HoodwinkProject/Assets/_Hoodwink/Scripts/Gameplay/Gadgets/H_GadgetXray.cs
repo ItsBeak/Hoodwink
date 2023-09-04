@@ -24,11 +24,11 @@ public class H_GadgetXray : H_GadgetBase
     }
     public override void UseGadgetPrimary()
     {
-        if (isActive)
+        if (!isActive)
         {
             gadgetAnimator.SetTrigger("Equip");
         }
-        if (!isActive)
+        else
         {
             gadgetAnimator.SetTrigger("Remove");
         }
