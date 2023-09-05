@@ -162,11 +162,11 @@ public class H_ItemWeapon : H_ItemBase
                         if (enableDebugLogs)
                             Debug.LogWarning("Hit Object: " + hit.collider.name);
 
-                        var health = hit.collider.gameObject.GetComponentInParent<H_PlayerHealth>();
+                        var hitbox = hit.collider.gameObject.GetComponent<H_PlayerHitbox>();
 
-                        if (health)
+                        if (hitbox)
                         {
-                            health.Damage(damage);
+                            hitbox.OnHit(damage);
                             equipment.SpawnHitMarker();
                         }
                         else
