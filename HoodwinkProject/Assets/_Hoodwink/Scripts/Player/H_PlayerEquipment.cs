@@ -76,7 +76,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     public CinemachineVirtualCamera playerCamera;
     [HideInInspector] public float baseFOV;
     public H_Recoil cameraRecoil;
-    H_PlayerBrain brain;
+    [HideInInspector] public H_PlayerBrain brain;
     [HideInInspector] public H_PlayerAnimator animator;
     bool isDead;
 
@@ -140,18 +140,6 @@ public class H_PlayerEquipment : NetworkBehaviour
         else if (Input.GetKeyDown(gadgetKey))
         {
             ChangeSlotInput(EquipmentSlot.Gadget);
-
-            return;
-
-            if (!currentGadget)
-            {
-                gadgetAnchor.GetComponentInChildren<H_GadgetBase>();
-            }
-
-            if (currentGadget)
-            {
-                currentGadget.UseGadgetPrimary();
-            }
         }
     }
 
