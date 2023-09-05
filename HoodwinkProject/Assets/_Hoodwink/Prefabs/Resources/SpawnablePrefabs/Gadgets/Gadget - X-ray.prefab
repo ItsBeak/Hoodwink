@@ -73,14 +73,15 @@ MonoBehaviour:
   syncInterval: 0
   gadgetName: X-ray
   gadgetDescription: See people and objective items through walls
-  gadgetIcon: {fileID: 0}
+  gadgetIcon: {fileID: 21300000, guid: 13527793884104b46b7446fd7464c3ed, type: 3}
   cooldown: 5
   cooldownTimer: 0
-  _effect: {fileID: 6387045919156056375}
-  _xray: {fileID: 4087005458824211303}
+  equipment: {fileID: 0}
+  cameraEffect: {fileID: 6387045919156056375}
+  gadgetAnimator: {fileID: 4087005458824211303}
   XrayUpClips: []
   XrayDownClips: []
-  source: {fileID: 0}
+  source: {fileID: 4087005458824211298}
 --- !u!82 &4087005458824211298
 AudioSource:
   m_ObjectHideFlags: 0
@@ -215,7 +216,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4087005459089090946
 Transform:
   m_ObjectHideFlags: 0
@@ -313,7 +314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4087005459840805331
 Transform:
   m_ObjectHideFlags: 0
@@ -410,7 +411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4087005460007268765
 Transform:
   m_ObjectHideFlags: 0
@@ -419,7 +420,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4087005460007268766}
   m_LocalRotation: {x: -0.7071058, y: -0, z: -0, w: 0.7071078}
-  m_LocalPosition: {x: -0.09499931, y: 0, z: -0.04132}
+  m_LocalPosition: {x: -0.09499932, y: 0, z: -0.04132}
   m_LocalScale: {x: 0.05, y: 0.008672707, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children: []

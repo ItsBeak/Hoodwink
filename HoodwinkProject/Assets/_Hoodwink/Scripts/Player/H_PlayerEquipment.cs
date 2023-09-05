@@ -65,7 +65,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     public KeyCode primaryUseKey = KeyCode.Mouse0;
     public KeyCode secondaryUseKey = KeyCode.Mouse1;
     public KeyCode alternateUseKey = KeyCode.R;
-    public KeyCode gadgetUseKey = KeyCode.G;
+    public KeyCode gadgetKey = KeyCode.G;
     public KeyCode dropKey = KeyCode.Q;
 
     [HideInInspector] public bool isPrimaryUseKeyPressed = false;
@@ -137,8 +137,12 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             TryDropItem();
         }
-        else if (Input.GetKeyDown(gadgetUseKey))
+        else if (Input.GetKeyDown(gadgetKey))
         {
+            ChangeSlotInput(EquipmentSlot.Gadget);
+
+            return;
+
             if (!currentGadget)
             {
                 gadgetAnchor.GetComponentInChildren<H_GadgetBase>();
@@ -146,7 +150,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
             if (currentGadget)
             {
-                currentGadget.UseGadget();
+                currentGadget.UseGadgetPrimary();
             }
         }
     }
@@ -227,6 +231,10 @@ public class H_PlayerEquipment : NetworkBehaviour
 
             case EquipmentSlot.Holstered:
                 OnSlotHolstered();
+                break;
+
+            case EquipmentSlot.Gadget:
+                OnSlotGadget();
                 break;
         }
 
@@ -314,6 +322,16 @@ public class H_PlayerEquipment : NetworkBehaviour
             brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", false);
             brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", false);
             brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", true);
+        }
+    }
+
+    void OnSlotGadget()
+    {
+        if (isLocalPlayer)
+        {
+            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", false);
+            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", false);
+            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", false);
         }
     }
 
@@ -435,6 +453,8 @@ public class H_PlayerEquipment : NetworkBehaviour
         currentGadget.transform.parent = gadgetAnchor;
         currentGadget.transform.localPosition = Vector3.zero;
         currentGadget.transform.localRotation = Quaternion.identity;
+
+        currentGadget.GetComponent<H_GadgetBase>().Initialize();
     }
 
     public void SpawnHitMarker()
@@ -513,5 +533,6 @@ public enum EquipmentSlot
 {
     PrimaryItem,
     Sidearm,
-    Holstered
+    Holstered,
+    Gadget
 }
