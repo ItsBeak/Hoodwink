@@ -7,11 +7,10 @@ using UnityEngine;
 public class H_GadgetXray : H_GadgetBase
 {
     [Header("X-Ray Settings")]
-    [SerializeField] GameObject _effect;
-    [SerializeField] Animator _xray;
+    [SerializeField] GameObject cameraEffect;
+    [SerializeField] Animator gadgetAnimator;
 
-
-    bool active;
+    bool isActive;
 
     [Header("Audio Settings")]
     public AudioClip[] XrayUpClips;
@@ -20,35 +19,35 @@ public class H_GadgetXray : H_GadgetBase
 
     private void Start()
     {
-        //Get the camera and turn it off, had a mind fry and dont remember why i did this
-        Camera parent = GetComponentInChildren<Camera>();
-        _effect.gameObject.SetActive(false);
-        active = true;
+        cameraEffect.gameObject.SetActive(false);
+        isActive = false;
     }
-    public override void UseGadget()
+    public override void UseGadgetPrimary()
     {
-        //trigger the equip animation
-        if (active)
+        if (!isActive)
         {
-            _xray.SetTrigger("Equip");
+            gadgetAnimator.SetTrigger("Equip");
         }
-        //Trigger the remove animation
-        if (!active)
+        else
         {
-            _xray.SetTrigger("Remove");
+            gadgetAnimator.SetTrigger("Remove");
         }
     }
 
-    //Both activated in events within the animations
+    public override void UseGadgetSecondary()
+    {
+
+    }
+
     void XrayOn()
     {
-        _effect.gameObject.SetActive(true);
-        active = false;
+        cameraEffect.gameObject.SetActive(true);
+        isActive = true;
     }
     void XrayOff()
     {
-        _effect.gameObject.SetActive(false);
-        active = true;
+        cameraEffect.gameObject.SetActive(false);
+        isActive = false;
     }
 
 }

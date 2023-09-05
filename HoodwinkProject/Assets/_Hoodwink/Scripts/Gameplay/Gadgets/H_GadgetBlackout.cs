@@ -28,7 +28,7 @@ public class H_GadgetBlackout : H_GadgetBase
     }
 
     //if (Input.GetKeyDown(KeyCode.Q))
-    public override void UseGadget()
+    public override void UseGadgetPrimary()
     {
         _lerping = true;
     }

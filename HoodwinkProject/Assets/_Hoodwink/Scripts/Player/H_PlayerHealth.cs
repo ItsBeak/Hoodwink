@@ -42,6 +42,11 @@ public class H_PlayerHealth : NetworkBehaviour
         UpdateUI();
     }
 
+    public float GetHealth()
+    {
+        return currentHealth;
+    }
+
     private void OnHealthChanged(float oldHealth, float newHealth)
     {
         UpdateUI();
