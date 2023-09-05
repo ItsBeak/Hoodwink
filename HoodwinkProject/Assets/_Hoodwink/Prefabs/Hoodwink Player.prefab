@@ -4934,14 +4934,21 @@ MonoBehaviour:
   syncInterval: 0
   walkSpeed: 3
   runSpeed: 6
+  crouchSpeed: 2
   jumpForce: 4
   gravityForce: 20
   maxStaminaTime: 6
   staminaRechargeOffset: 1.5
   staminaRechargeSpeed: 2.5
+  isCrouching: 0
+  standingHeight: 1.8
+  crouchingHeight: 1.2
+  standingCameraHeight: 1.6
+  crouchingCameraHeight: 1
   lookSpeed: 1
   lookXLimit: 80
   playerCamera: {fileID: 3693447259070908494}
+  cameraBase: {fileID: 6530246134214341214}
   characterController: {fileID: 0}
   moveDirection: {x: 0, y: 0, z: 0}
   isRunning: 0
@@ -5121,7 +5128,7 @@ MonoBehaviour:
   primaryUseKey: 323
   secondaryUseKey: 324
   alternateUseKey: 114
-  gadgetUseKey: 103
+  gadgetKey: 103
   dropKey: 113
   isPrimaryUseKeyPressed: 0
   isSecondaryUseKeyPressed: 0
@@ -5129,6 +5136,7 @@ MonoBehaviour:
   playerCamera: {fileID: 8715472728634818221}
   baseFOV: 0
   cameraRecoil: {fileID: 6940700123682977131}
+  brain: {fileID: 0}
   animator: {fileID: 0}
 --- !u!114 &6220283844275577187
 MonoBehaviour:

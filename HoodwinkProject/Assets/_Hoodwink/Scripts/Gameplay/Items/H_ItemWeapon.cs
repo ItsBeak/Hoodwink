@@ -122,10 +122,12 @@ public class H_ItemWeapon : H_ItemBase
         equipment.SetAmmoUI(ammoLoaded, ammoPool, Mathf.Clamp(reloadTimer / reloadTime, 0, 1));
         reloadTimer -= 1 * Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.T))
         {
-            clientEffects.ToggleSilencer();
-            observerEffects.ToggleSilencer();
+            if (equipment.brain.currentAlignment == AgentAlignment.Spy)
+            {
+                ToggleSilencer();
+            }
         }
     }
 
@@ -239,6 +241,12 @@ public class H_ItemWeapon : H_ItemBase
 
         clientEffects.PlayReloadLocal();
         observerEffects.CmdPlayReload();
+    }
+
+    public void ToggleSilencer()
+    {
+        clientEffects.ToggleSilencer();
+        observerEffects.ToggleSilencer();
     }
 
     [Command]
