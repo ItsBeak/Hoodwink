@@ -11,6 +11,7 @@ public class H_GadgetBase : NetworkBehaviour
     public Sprite gadgetIcon;
     public float cooldown = 5f;
     [HideInInspector] public float cooldownTimer = 0;
+    [HideInInspector] public H_PlayerEquipment equipment;
 
     public virtual void Update()
     {
@@ -21,27 +22,71 @@ public class H_GadgetBase : NetworkBehaviour
         {
             cooldownTimer -= 1 * Time.deltaTime;
         }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && equipment.currentSlot == EquipmentSlot.Gadget)
+        {
+            UseGadgetPrimary();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1) && equipment.currentSlot == EquipmentSlot.Gadget)
+        {
+            UseGadgetSecondary();
+        }
     }
 
-    public virtual void UseGadget()
+    void ResetCooldown()
+    {
+        cooldownTimer = cooldown;
+    }
+
+    public virtual void UseGadgetPrimary()
     {
         if (cooldownTimer <= 0)
         {
-            CmdUseGadget();
-            cooldownTimer = cooldown;
+            CmdUseGadgetPrimary();
+            ResetCooldown();
+        }
+    }
+
+    public virtual void UseGadgetSecondary()
+    {
+        if (cooldownTimer <= 0)
+        {
+            CmdUseGadgetSecondary();
+            ResetCooldown();
         }
     }
 
     [Command(requiresAuthority = false)]
-    public virtual void CmdUseGadget()
+    public virtual void CmdUseGadgetPrimary()
     {
-        RpcUseGadget();
+        RpcUseGadgetPrimary();
     }
 
     [ClientRpc]
-    public virtual void RpcUseGadget()
+    public virtual void RpcUseGadgetPrimary()
     {
 
+    }
+
+    [Command(requiresAuthority = false)]
+    public virtual void CmdUseGadgetSecondary()
+    {
+        RpcUseGadgetSecondary();
+    }
+
+    [ClientRpc]
+    public virtual void RpcUseGadgetSecondary()
+    {
+
+    }
+
+    public virtual void Initialize()
+    {
+        if (!equipment)
+        {
+            equipment = GetComponentInParent<H_PlayerEquipment>();
+        }
     }
 
 }
