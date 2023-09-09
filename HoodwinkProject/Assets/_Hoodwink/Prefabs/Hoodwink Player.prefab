@@ -19099,9 +19099,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 15
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -19194,6 +19194,30 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6199962623901713894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7273285208915635647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04be3fa0f22da8143ae14e4775d9a105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blendWeight: 0.51
+  walkClips:
+  - {fileID: 8300000, guid: 14cdfad3eb2ed0a44b9441103357c60a, type: 3}
+  - {fileID: 8300000, guid: 8d7455e926ca2ee44bb38323eccab7c7, type: 3}
+  - {fileID: 8300000, guid: 0755afa785b964c499b2efc4c2f1b782, type: 3}
+  - {fileID: 8300000, guid: e28a5284b04c49744a4753fd4547339c, type: 3}
+  - {fileID: 8300000, guid: 56f9e76aa41327f48b55068a7396ae5a, type: 3}
+  runClips: []
+  crouchClips:
+  - {fileID: 8300000, guid: da27acff90af55e4381c670c5ef8d3ca, type: 3}
+  - {fileID: 8300000, guid: b99547f77d537514b8ce8fe4cff2d2a6, type: 3}
+  - {fileID: 8300000, guid: bd240bd01e36fd44c824719403233122, type: 3}
 --- !u!4 &7520100613183172192 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 32171879149289102, guid: a2135d9babfcfb340971d6d0bd3112bf,
