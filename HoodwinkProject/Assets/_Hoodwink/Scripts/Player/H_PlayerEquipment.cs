@@ -38,6 +38,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     public H_GadgetBase firstGadget;
     public Image firstGadgetCooldownUI;
     public Image firstGadgetIcon;
+    public Image firstGadgetInfoIcon;
     public TextMeshProUGUI firstGadgetNameText;
     public TextMeshProUGUI firstGadgetDescriptionText;
 
@@ -46,16 +47,15 @@ public class H_PlayerEquipment : NetworkBehaviour
     public H_GadgetBase secondGadget;
     public Image secondGadgetCooldownUI;
     public Image secondGadgetIcon;
+    public Image secondGadgetInfoIcon;
     public TextMeshProUGUI secondGadgetNameText;
     public TextMeshProUGUI secondGadgetDescriptionText;
 
-    [Header("Equipment UI Elements")]
-    public Image primarySlotUI;
-    public Image sidearmSlotUI;
-    public Image holsteredSlotUI;
-
     [Header("Ammo UI Elements")]
-    public Image reloadingImage;
+    public CanvasGroup reloadingGroup;
+    public Image reloadingImageLeft;
+    public Image reloadingImageRight;
+
     public TextMeshProUGUI ammoLoadedText, ammoPoolText;
 
     [Header("Interaction Settings")]
@@ -162,6 +162,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             firstGadgetCooldownUI.fillAmount = Mathf.Clamp(firstGadget.cooldownTimer / firstGadget.cooldown, 0, 1);
             firstGadgetIcon.sprite = firstGadget.gadgetIcon;
+            firstGadgetInfoIcon.sprite = firstGadget.gadgetIcon;
             firstGadgetIcon.color = Color.white;
             firstGadgetNameText.text = firstGadget.gadgetName;
             firstGadgetDescriptionText.text = firstGadget.gadgetDescription;
@@ -169,6 +170,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         else
         {
             firstGadgetIcon.sprite = null;
+            firstGadgetInfoIcon.sprite = null;
             firstGadgetIcon.color = Color.clear;
             firstGadgetCooldownUI.fillAmount = 0;
             firstGadgetNameText.text = "";
@@ -179,6 +181,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             secondGadgetCooldownUI.fillAmount = Mathf.Clamp(secondGadget.cooldownTimer / secondGadget.cooldown, 0, 1);
             secondGadgetIcon.sprite = secondGadget.gadgetIcon;
+            secondGadgetInfoIcon.sprite = secondGadget.gadgetIcon;
             secondGadgetIcon.color = Color.white;
             secondGadgetNameText.text = secondGadget.gadgetName;
             secondGadgetDescriptionText.text = secondGadget.gadgetDescription;
@@ -186,6 +189,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         else
         {
             secondGadgetIcon.sprite = null;
+            secondGadgetInfoIcon.sprite = null;
             secondGadgetIcon.color = Color.clear;
             secondGadgetCooldownUI.fillAmount = 0;
             secondGadgetNameText.text = "";
@@ -200,6 +204,8 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             focusedItemReadout.text = "";
         }
+
+        reloadingGroup.alpha = reloadingImageLeft.fillAmount != 0 ? 1 : 0;
     }
 
     private void FixedUpdate()
@@ -308,9 +314,9 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             primaryEquipPointClient.gameObject.SetActive(true);
 
-            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", true);
-            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", false);
-            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", false);
+            brain.playerUI.slotPrimaryAnimator.SetBool("isActive", true);
+            brain.playerUI.slotSidearmAnimator.SetBool("isActive", false);
+            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", false);
         }
     }
 
@@ -325,9 +331,9 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             sidearmEquipPointClient.gameObject.SetActive(true);
 
-            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", false);
-            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", true);
-            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", false);
+            brain.playerUI.slotPrimaryAnimator.SetBool("isActive", false);
+            brain.playerUI.slotSidearmAnimator.SetBool("isActive", true);
+            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", false);
         }
     }
 
@@ -341,9 +347,9 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             holsteredEquipPointClient.gameObject.SetActive(true);
 
-            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", false);
-            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", false);
-            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", true);
+            brain.playerUI.slotPrimaryAnimator.SetBool("isActive", false);
+            brain.playerUI.slotSidearmAnimator.SetBool("isActive", false);
+            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", true);
         }
     }
 
@@ -351,9 +357,19 @@ public class H_PlayerEquipment : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", false);
-            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", false);
-            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", false);
+            brain.playerUI.slotPrimaryAnimator.SetBool("isActive", false);
+            brain.playerUI.slotSidearmAnimator.SetBool("isActive", false);
+            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", false);
+
+            if (currentSlot == EquipmentSlot.FirstGadget)
+            {
+                brain.playerUI.roleAnimator.SetBool("isSecondGadget", false);
+            }
+
+            if (currentSlot == EquipmentSlot.SecondGadget)
+            {
+                brain.playerUI.roleAnimator.SetBool("isSecondGadget", true);
+            }
         }
     }
 
@@ -554,7 +570,8 @@ public class H_PlayerEquipment : NetworkBehaviour
         ammoLoadedText.text = ammoLoaded.ToString();
         ammoPoolText.text = ammoPool.ToString();
 
-        reloadingImage.fillAmount = reloadTime;
+        reloadingImageLeft.fillAmount = reloadTime;
+        reloadingImageRight.fillAmount = reloadTime;
     }
 
     public void ClearAmmoUI()
@@ -562,7 +579,8 @@ public class H_PlayerEquipment : NetworkBehaviour
         ammoLoadedText.text = "";
         ammoPoolText.text = "";
 
-        reloadingImage.fillAmount = 0;
+        reloadingImageLeft.fillAmount = 0;
+        reloadingImageRight.fillAmount = 0;
     }
 
 }
