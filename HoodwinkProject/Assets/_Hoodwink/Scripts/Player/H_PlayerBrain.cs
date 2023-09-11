@@ -32,9 +32,6 @@ public class H_PlayerBrain : NetworkBehaviour
     public GameObject spyIndicator;
     public LayerMask baseCullingMask, spyCullingMask;
 
-    [Header("Cosmetic Data")]
-    public Transform hatAnchor;
-
     [Header("Components")]
     public CinemachineVirtualCamera cam;
     public Image agentColourImage;

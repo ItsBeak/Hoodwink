@@ -33,13 +33,21 @@ public class H_PlayerEquipment : NetworkBehaviour
     [HideInInspector] public GameObject holsteredObserverObject;
     public Image holsteredItemIcon;
 
-    [Header("Gadget Settings")]
-    public Transform gadgetAnchor;
-    public H_GadgetBase currentGadget;
-    public Image gadgetCooldownUI;
-    public Image gadgetIcon;
-    public TextMeshProUGUI gadgetNameText;
-    public TextMeshProUGUI gadgetDescriptionText;
+    [Header("First Gadget Settings")]
+    public Transform firstGadgetAnchor;
+    public H_GadgetBase firstGadget;
+    public Image firstGadgetCooldownUI;
+    public Image firstGadgetIcon;
+    public TextMeshProUGUI firstGadgetNameText;
+    public TextMeshProUGUI firstGadgetDescriptionText;
+
+    [Header("Second Gadget Settings")]
+    public Transform secondGadgetAnchor;
+    public H_GadgetBase secondGadget;
+    public Image secondGadgetCooldownUI;
+    public Image secondGadgetIcon;
+    public TextMeshProUGUI secondGadgetNameText;
+    public TextMeshProUGUI secondGadgetDescriptionText;
 
     [Header("Equipment UI Elements")]
     public Image primarySlotUI;
@@ -65,7 +73,8 @@ public class H_PlayerEquipment : NetworkBehaviour
     public KeyCode primaryUseKey = KeyCode.Mouse0;
     public KeyCode secondaryUseKey = KeyCode.Mouse1;
     public KeyCode alternateUseKey = KeyCode.R;
-    public KeyCode gadgetKey = KeyCode.G;
+    public KeyCode firstGadgetKey = KeyCode.G;
+    public KeyCode secondGadgetKey = KeyCode.H;
     public KeyCode dropKey = KeyCode.Q;
 
     [HideInInspector] public bool isPrimaryUseKeyPressed = false;
@@ -137,29 +146,50 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             TryDropItem();
         }
-        else if (Input.GetKeyDown(gadgetKey))
+        else if (Input.GetKeyDown(firstGadgetKey))
         {
-            ChangeSlotInput(EquipmentSlot.Gadget);
+            ChangeSlotInput(EquipmentSlot.FirstGadget);
+        }
+        else if (Input.GetKeyDown(secondGadgetKey))
+        {
+            ChangeSlotInput(EquipmentSlot.SecondGadget);
         }
     }
 
     void UpdateUI()
     {
-        if (currentGadget)
+        if (firstGadget)
         {
-            gadgetCooldownUI.fillAmount = Mathf.Clamp(currentGadget.cooldownTimer / currentGadget.cooldown, 0, 1);
-            gadgetIcon.sprite = currentGadget.gadgetIcon;
-            gadgetIcon.color = Color.white;
-            gadgetNameText.text = currentGadget.gadgetName;
-            gadgetDescriptionText.text = currentGadget.gadgetDescription;
+            firstGadgetCooldownUI.fillAmount = Mathf.Clamp(firstGadget.cooldownTimer / firstGadget.cooldown, 0, 1);
+            firstGadgetIcon.sprite = firstGadget.gadgetIcon;
+            firstGadgetIcon.color = Color.white;
+            firstGadgetNameText.text = firstGadget.gadgetName;
+            firstGadgetDescriptionText.text = firstGadget.gadgetDescription;
         }
         else
         {
-            gadgetIcon.sprite = null;
-            gadgetIcon.color = Color.clear;
-            gadgetCooldownUI.fillAmount = 0;
-            gadgetNameText.text = "";
-            gadgetDescriptionText.text = "";
+            firstGadgetIcon.sprite = null;
+            firstGadgetIcon.color = Color.clear;
+            firstGadgetCooldownUI.fillAmount = 0;
+            firstGadgetNameText.text = "";
+            firstGadgetDescriptionText.text = "";
+        }
+
+        if (secondGadget)
+        {
+            secondGadgetCooldownUI.fillAmount = Mathf.Clamp(secondGadget.cooldownTimer / secondGadget.cooldown, 0, 1);
+            secondGadgetIcon.sprite = secondGadget.gadgetIcon;
+            secondGadgetIcon.color = Color.white;
+            secondGadgetNameText.text = secondGadget.gadgetName;
+            secondGadgetDescriptionText.text = secondGadget.gadgetDescription;
+        }
+        else
+        {
+            secondGadgetIcon.sprite = null;
+            secondGadgetIcon.color = Color.clear;
+            secondGadgetCooldownUI.fillAmount = 0;
+            secondGadgetNameText.text = "";
+            secondGadgetDescriptionText.text = "";
         }
 
         if (focusedItem && !isHoldingItem)
@@ -221,7 +251,11 @@ public class H_PlayerEquipment : NetworkBehaviour
                 OnSlotHolstered();
                 break;
 
-            case EquipmentSlot.Gadget:
+            case EquipmentSlot.FirstGadget:
+                OnSlotGadget();
+                break;
+
+            case EquipmentSlot.SecondGadget:
                 OnSlotGadget();
                 break;
         }
@@ -434,15 +468,31 @@ public class H_PlayerEquipment : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcEquipGadget(GameObject gadget)
+    public void RpcEquipFirstGadget(GameObject gadget)
     {
-        currentGadget = gadget.GetComponent<H_GadgetBase>();
+        firstGadget = gadget.GetComponent<H_GadgetBase>();
 
-        currentGadget.transform.parent = gadgetAnchor;
-        currentGadget.transform.localPosition = Vector3.zero;
-        currentGadget.transform.localRotation = Quaternion.identity;
+        firstGadget.transform.parent = firstGadgetAnchor;
+        firstGadget.transform.localPosition = Vector3.zero;
+        firstGadget.transform.localRotation = Quaternion.identity;
 
-        currentGadget.GetComponent<H_GadgetBase>().Initialize();
+        firstGadget.gadgetSlot = EquipmentSlot.FirstGadget;
+
+        firstGadget.GetComponent<H_GadgetBase>().Initialize();
+    }
+
+    [ClientRpc]
+    public void RpcEquipSecondGadget(GameObject gadget)
+    {
+        secondGadget = gadget.GetComponent<H_GadgetBase>();
+
+        secondGadget.transform.parent = secondGadgetAnchor;
+        secondGadget.transform.localPosition = Vector3.zero;
+        secondGadget.transform.localRotation = Quaternion.identity;
+
+        secondGadget.gadgetSlot = EquipmentSlot.SecondGadget;
+
+        secondGadget.GetComponent<H_GadgetBase>().Initialize();
     }
 
     public void SpawnHitMarker()
@@ -522,5 +572,6 @@ public enum EquipmentSlot
     PrimaryItem,
     Sidearm,
     Holstered,
-    Gadget
+    FirstGadget,
+    SecondGadget
 }

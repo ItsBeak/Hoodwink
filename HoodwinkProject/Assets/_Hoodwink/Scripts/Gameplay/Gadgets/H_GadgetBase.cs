@@ -13,6 +13,8 @@ public class H_GadgetBase : NetworkBehaviour
     [HideInInspector] public float cooldownTimer = 0;
     [HideInInspector] public H_PlayerEquipment equipment;
 
+    [HideInInspector] public EquipmentSlot gadgetSlot;
+
     public virtual void Update()
     {
         if (!isOwned)
@@ -23,12 +25,12 @@ public class H_GadgetBase : NetworkBehaviour
             cooldownTimer -= 1 * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && equipment.currentSlot == EquipmentSlot.Gadget)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && equipment.currentSlot == gadgetSlot)
         {
             UseGadgetPrimary();
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && equipment.currentSlot == EquipmentSlot.Gadget)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && equipment.currentSlot == gadgetSlot)
         {
             UseGadgetSecondary();
         }
