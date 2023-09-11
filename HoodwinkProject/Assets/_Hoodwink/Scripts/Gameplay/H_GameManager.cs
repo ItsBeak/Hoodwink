@@ -51,16 +51,14 @@ public class H_GameManager : NetworkBehaviour
     [Header("Default Sidearm Settings")]
     public GameObject defaultClientSidearm;
     public GameObject defaultObserverSidearm;
-    public GameObject boratGunClient; // remove these dear god
-    public GameObject boratGunObserver; // dont you forget to remove these
 
     [Header("Default Sidearm Settings")]
     public GameObject defaultClientHolstered;
     public GameObject defaultObserverHolstered;
 
     [Header("Gadgets")]
-    public GameObject[] spyGadgets;
-    public GameObject[] agentGadgets;
+    public List<GameObject> spyGadgets;
+    public List<GameObject> agentGadgets;
 
     [Header("Map Pool")]
     [Scene] public string[] maps;
@@ -384,7 +382,8 @@ public class H_GameManager : NetworkBehaviour
             player.coatColour = coatColours[Random.Range(0, coatColours.Length)];
             player.coatTrimColour = trimColours[Random.Range(0, trimColours.Length)];
 
-            NetworkServer.Destroy(player.equipment.currentGadget.gameObject);
+            NetworkServer.Destroy(player.equipment.firstGadget.gameObject);
+            NetworkServer.Destroy(player.equipment.secondGadget.gameObject);
 
             NetworkServer.Destroy(player.equipment.sidearmClientObject.gameObject);
             NetworkServer.Destroy(player.equipment.sidearmObserverObject.gameObject);
@@ -497,9 +496,22 @@ public class H_GameManager : NetworkBehaviour
                 roundSpiesRemaining--;
                 spiesLeft++;
 
-                GameObject newGadget = Instantiate(spyGadgets[Random.Range(0, spyGadgets.Length)]);
-                NetworkServer.Spawn(newGadget, roundPlayers[randomPlayerIndex].connectionToClient);
-                roundPlayers[randomPlayerIndex].equipment.RpcEquipGadget(newGadget);
+                List<GameObject> gadgetPool = new List<GameObject>();
+                gadgetPool = spyGadgets;
+
+                int gadgetIndex = Random.Range(0, gadgetPool.Count);
+
+                GameObject firstGadget = Instantiate(gadgetPool[gadgetIndex]);
+                NetworkServer.Spawn(firstGadget, roundPlayers[randomPlayerIndex].connectionToClient);
+                roundPlayers[randomPlayerIndex].equipment.RpcEquipFirstGadget(firstGadget);
+                gadgetPool.Remove(gadgetPool[gadgetIndex]);
+
+                gadgetIndex = Random.Range(0, gadgetPool.Count);
+
+                GameObject secondGadget = Instantiate(gadgetPool[gadgetIndex]);
+                NetworkServer.Spawn(secondGadget, roundPlayers[randomPlayerIndex].connectionToClient);
+                roundPlayers[randomPlayerIndex].equipment.RpcEquipSecondGadget(secondGadget);
+                gadgetPool.Remove(gadgetPool[gadgetIndex]);
             }
         }
 
@@ -511,44 +523,37 @@ public class H_GameManager : NetworkBehaviour
                 roundAgents.Add(roundPlayers[i]);
                 agentsLeft++;
 
-                GameObject newGadget = Instantiate(agentGadgets[Random.Range(0, agentGadgets.Length)]);
-                NetworkServer.Spawn(newGadget, roundPlayers[i].connectionToClient);
-                roundPlayers[i].equipment.RpcEquipGadget(newGadget);
+                List<GameObject> gadgetPool = new List<GameObject>();
+                gadgetPool = agentGadgets;
+
+                int gadgetIndex = Random.Range(0, gadgetPool.Count);
+
+                GameObject firstGadget = Instantiate(gadgetPool[gadgetIndex]);
+                NetworkServer.Spawn(firstGadget, roundPlayers[i].connectionToClient);
+                roundPlayers[i].equipment.RpcEquipFirstGadget(firstGadget);
+                gadgetPool.Remove(gadgetPool[gadgetIndex]);
+
+                gadgetIndex = Random.Range(0, gadgetPool.Count);
+
+                GameObject secondGadget = Instantiate(gadgetPool[gadgetIndex]);
+                NetworkServer.Spawn(secondGadget, roundPlayers[i].connectionToClient);
+                roundPlayers[i].equipment.RpcEquipSecondGadget(secondGadget);
+                gadgetPool.Remove(gadgetPool[gadgetIndex]);
+
             }
 
-            int boratChance = Random.Range(0, 100); // dear god remove this
-
-            if (boratChance == 50)
-            {
-                GameObject newClientSidearm = Instantiate(boratGunClient);
-                GameObject newObserverSidearm = Instantiate(boratGunObserver);
-
-                NetworkServer.Spawn(newClientSidearm, roundPlayers[i].connectionToClient);
-                NetworkServer.Spawn(newObserverSidearm, roundPlayers[i].connectionToClient);
-
-                roundPlayers[i].equipment.RpcEquipSidearm(newClientSidearm, newObserverSidearm);
-            }
-            else
-            {
-                GameObject newClientSidearm = Instantiate(defaultClientSidearm);
-                GameObject newObserverSidearm = Instantiate(defaultObserverSidearm);
-
-                NetworkServer.Spawn(newClientSidearm, roundPlayers[i].connectionToClient);
-                NetworkServer.Spawn(newObserverSidearm, roundPlayers[i].connectionToClient);
-
-                roundPlayers[i].equipment.RpcEquipSidearm(newClientSidearm, newObserverSidearm);
-            }
+            GameObject newClientSidearm = Instantiate(defaultClientSidearm);
+            GameObject newObserverSidearm = Instantiate(defaultObserverSidearm);
+            NetworkServer.Spawn(newClientSidearm, roundPlayers[i].connectionToClient);
+            NetworkServer.Spawn(newObserverSidearm, roundPlayers[i].connectionToClient);
+            roundPlayers[i].equipment.RpcEquipSidearm(newClientSidearm, newObserverSidearm);
 
             GameObject newClientHolstered = Instantiate(defaultClientHolstered);
             GameObject newObserverHolstered = Instantiate(defaultObserverHolstered);
-
             NetworkServer.Spawn(newClientHolstered, roundPlayers[i].connectionToClient);
             NetworkServer.Spawn(newObserverHolstered, roundPlayers[i].connectionToClient);
-
             roundPlayers[i].equipment.RpcEquipHolstered(newClientHolstered, newObserverHolstered);
-
         }
-
     }
 
     [ClientRpc]
