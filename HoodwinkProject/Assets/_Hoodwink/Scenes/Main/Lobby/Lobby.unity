@@ -6128,9 +6128,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
         type: 3}
+      propertyPath: allowServerToSkipGame
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: spyGadgets.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
       propertyPath: lobbySpawns.Array.size
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: allowServerToForceStart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: spyGadgets.Array.data[0]
+      value: 
+      objectReference: {fileID: 9045955919083193933, guid: 6c3a1abb2625ceb42a4520a2e9eca85a,
+        type: 3}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: spyGadgets.Array.data[1]
+      value: 
+      objectReference: {fileID: 9045955919083193933, guid: 6c3a1abb2625ceb42a4520a2e9eca85a,
+        type: 3}
+    - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
+        type: 3}
+      propertyPath: spyGadgets.Array.data[2]
+      value: 
+      objectReference: {fileID: 9045955919083193933, guid: 6c3a1abb2625ceb42a4520a2e9eca85a,
+        type: 3}
     - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
         type: 3}
       propertyPath: lobbySpawns.Array.data[0]
@@ -6174,7 +6207,7 @@ PrefabInstance:
     - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
         type: 3}
       propertyPath: overrideMinimumPlayerCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
         type: 3}

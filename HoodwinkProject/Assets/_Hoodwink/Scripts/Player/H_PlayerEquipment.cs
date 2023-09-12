@@ -17,7 +17,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Image primaryItemIcon;
     [HideInInspector, SyncVar] public bool isHoldingItem = false;
     H_ItemBase currentObject;
-    public Transform dropPoint;
 
     [Header("Sidearm Equipment Settings")]
     public Transform sidearmEquipPointClient;
@@ -76,6 +75,11 @@ public class H_PlayerEquipment : NetworkBehaviour
     public KeyCode firstGadgetKey = KeyCode.G;
     public KeyCode secondGadgetKey = KeyCode.H;
     public KeyCode dropKey = KeyCode.Q;
+
+    [Header("Item Spawn Locations")]
+    public Transform dropPoint;
+    public Transform placePoint;
+
 
     [HideInInspector] public bool isPrimaryUseKeyPressed = false;
     [HideInInspector] public bool isSecondaryUseKeyPressed = false;
