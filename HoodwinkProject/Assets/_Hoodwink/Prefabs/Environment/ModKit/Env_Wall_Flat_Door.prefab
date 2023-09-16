@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1047041337051358626}
   - component: {fileID: 4552784145301134697}
-  - component: {fileID: 6899886364006511593}
-  - component: {fileID: 5458070650725159045}
+  - component: {fileID: 6293243202976874963}
+  - component: {fileID: 8114820740955500169}
   m_Layer: 0
   m_Name: Env_Wall_Flat_Door
   m_TagString: Untagged
@@ -46,8 +46,34 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3, y: 3.25, z: 0.25}
-  m_Center: {x: 1.5, y: 1.625, z: 0}
+  m_Size: {x: 0.844048, y: 3.7751338, z: 0.25}
+  m_Center: {x: 2.577976, y: 1.8875669, z: 0}
+--- !u!65 &6293243202976874963
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6280887478319553607}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8349838, y: 3.758048, z: 0.25}
+  m_Center: {x: 0.43, y: 1.879024, z: 0}
+--- !u!65 &8114820740955500169
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6280887478319553607}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.9961019, y: 1.313014, z: 0.25}
+  m_Center: {x: 1.5026646, y: 3.101541, z: 0}
 --- !u!1001 &4533954880915477415
 PrefabInstance:
   m_ObjectHideFlags: 0
