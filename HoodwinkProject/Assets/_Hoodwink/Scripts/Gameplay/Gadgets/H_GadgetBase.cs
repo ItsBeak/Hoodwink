@@ -36,7 +36,7 @@ public class H_GadgetBase : NetworkBehaviour
         }
     }
 
-    void ResetCooldown()
+    public void ResetCooldown()
     {
         cooldownTimer = cooldown;
     }

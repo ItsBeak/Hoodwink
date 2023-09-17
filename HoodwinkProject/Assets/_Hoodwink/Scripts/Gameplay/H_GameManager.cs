@@ -497,21 +497,29 @@ public class H_GameManager : NetworkBehaviour
                 spiesLeft++;
 
                 List<GameObject> gadgetPool = new List<GameObject>();
-                gadgetPool = spyGadgets;
 
-                int gadgetIndex = Random.Range(0, gadgetPool.Count);
+                foreach (GameObject gadget in spyGadgets)
+                {
+                    gadgetPool.Add(gadget);
+                }
+
+                int gadgetIndex = Random.Range(0, gadgetPool.Count - 1);
+
+                Debug.Log("Getting gadget at " + gadgetIndex.ToString() + " of " + gadgetPool.Count);
 
                 GameObject firstGadget = Instantiate(gadgetPool[gadgetIndex]);
                 NetworkServer.Spawn(firstGadget, roundPlayers[randomPlayerIndex].connectionToClient);
                 roundPlayers[randomPlayerIndex].equipment.RpcEquipFirstGadget(firstGadget);
                 gadgetPool.Remove(gadgetPool[gadgetIndex]);
 
-                gadgetIndex = Random.Range(0, gadgetPool.Count);
+                gadgetIndex = Random.Range(0, gadgetPool.Count - 1);
 
                 GameObject secondGadget = Instantiate(gadgetPool[gadgetIndex]);
                 NetworkServer.Spawn(secondGadget, roundPlayers[randomPlayerIndex].connectionToClient);
                 roundPlayers[randomPlayerIndex].equipment.RpcEquipSecondGadget(secondGadget);
                 gadgetPool.Remove(gadgetPool[gadgetIndex]);
+
+                gadgetPool.Clear();
             }
         }
 
@@ -524,21 +532,27 @@ public class H_GameManager : NetworkBehaviour
                 agentsLeft++;
 
                 List<GameObject> gadgetPool = new List<GameObject>();
-                gadgetPool = agentGadgets;
 
-                int gadgetIndex = Random.Range(0, gadgetPool.Count);
+                foreach (GameObject gadget in agentGadgets)
+                {
+                    gadgetPool.Add(gadget);
+                }
+
+                int gadgetIndex = Random.Range(0, gadgetPool.Count - 1);
 
                 GameObject firstGadget = Instantiate(gadgetPool[gadgetIndex]);
                 NetworkServer.Spawn(firstGadget, roundPlayers[i].connectionToClient);
                 roundPlayers[i].equipment.RpcEquipFirstGadget(firstGadget);
                 gadgetPool.Remove(gadgetPool[gadgetIndex]);
 
-                gadgetIndex = Random.Range(0, gadgetPool.Count);
+                gadgetIndex = Random.Range(0, gadgetPool.Count - 1);
 
                 GameObject secondGadget = Instantiate(gadgetPool[gadgetIndex]);
                 NetworkServer.Spawn(secondGadget, roundPlayers[i].connectionToClient);
                 roundPlayers[i].equipment.RpcEquipSecondGadget(secondGadget);
                 gadgetPool.Remove(gadgetPool[gadgetIndex]);
+
+                gadgetPool.Clear();
 
             }
 
