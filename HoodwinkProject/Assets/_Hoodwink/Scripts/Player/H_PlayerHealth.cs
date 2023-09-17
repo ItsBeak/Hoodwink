@@ -26,6 +26,12 @@ public class H_PlayerHealth : NetworkBehaviour
     public H_HealthEffect healthEffects;
     H_Spectating spectating;
 
+    [Header("Hitboxes")]
+    public H_PlayerHitbox headHitbox;
+    public H_PlayerHitbox[] normalHitboxes;
+    public H_PlayerHitbox[] limbHitboxes;
+
+
     [Header("Debugging")]
     public bool enableDebugLogs;
 
@@ -38,8 +44,33 @@ public class H_PlayerHealth : NetworkBehaviour
 
         gameManager = FindObjectOfType<H_GameManager>();
 
+        SetupHitboxes();
+
         currentHealth = maxHealth;
         UpdateUI();
+    }
+
+    public void SetupHitboxes()
+    {
+        headHitbox.Setup(this);
+        headHitbox.hitboxType = H_PlayerHitbox.HitboxType.Head;
+
+        foreach (H_PlayerHitbox hit in normalHitboxes)
+        {
+            hit.Setup(this);
+            hit.hitboxType = H_PlayerHitbox.HitboxType.Normal;
+        }
+
+        foreach (H_PlayerHitbox hit in limbHitboxes)
+        {
+            hit.Setup(this);
+            hit.hitboxType = H_PlayerHitbox.HitboxType.Limb;
+        }
+    }
+
+    public float GetHealth()
+    {
+        return currentHealth;
     }
 
     private void OnHealthChanged(float oldHealth, float newHealth)

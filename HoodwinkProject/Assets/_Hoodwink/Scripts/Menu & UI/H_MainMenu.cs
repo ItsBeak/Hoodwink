@@ -18,7 +18,9 @@ public class H_MainMenu : MonoBehaviour
     public TMP_InputField codeInputField;
 
     [Header("Directors")]
-    public PlayableDirector preLoginDirector, loggedInDirector, customizationDirector, customizationEndDirector, optionsDirector, optionsEndDirector;
+    public PlayableDirector preLoginDirector, loggedInDirector, customizationDirector, customizationEndDirector, optionsDirector, optionsEndDirector, startGameDirector;
+
+    public float startGameDelay;
 
     bool playedLogIn = false;
 
@@ -75,6 +77,12 @@ public class H_MainMenu : MonoBehaviour
     }
 
     public void HostButton()
+    {
+        startGameDirector.gameObject.SetActive(true);
+        Invoke("StartHost", startGameDelay);
+    }
+
+    public void StartHost()
     {
         NetManager.StartHost();
     }

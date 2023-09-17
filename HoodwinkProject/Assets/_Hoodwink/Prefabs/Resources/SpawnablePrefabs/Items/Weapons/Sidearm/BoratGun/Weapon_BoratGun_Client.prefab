@@ -335,7 +335,7 @@ MonoBehaviour:
   bulletsPerShot: 1
   shootableLayers:
     serializedVersion: 2
-    m_Bits: 2049
+    m_Bits: 513
   maxAmmo: 9999
   clipSize: 7
   startingAmmo: 9999
@@ -358,10 +358,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  isSilenced: 0
   source: {fileID: 6386852748550406051}
   shootClips:
   - {fileID: 8300000, guid: 77e150c36be49fe498b5b2790a51f580, type: 3}
   - {fileID: 8300000, guid: 02a074e473a33904aa3aad612185b01f, type: 3}
+  shootSilencedClips: []
   reloadClip:
   - {fileID: 8300000, guid: 140f0d5e173e0fa4c855f0f165e93633, type: 3}
   dryFireClips:
@@ -370,11 +372,18 @@ MonoBehaviour:
   slide: {fileID: 2882428540424216098}
   slideTargetPosition: {x: -3, y: 0, z: 0}
   slideSpeed: 10
-  flashLight: {fileID: 4383013776872652072}
-  flashEffect: {fileID: 0}
-  flashBrightness: 400
-  flashSpeed: 1200
+  unsuppressedFlashLight: {fileID: 0}
+  unsuppressedFlash: {fileID: 0}
+  unsuppressedFlashBrightness: 0
+  unsuppressedFlashSpeed: 0
+  unsuppressedAudioDistance: 0
+  suppressedFlashLight: {fileID: 0}
+  suppressedFlash: {fileID: 0}
+  suppressedFlashBrightness: 0
+  suppressedFlashSpeed: 0
+  suppressedAudioDistance: 0
   casing: {fileID: 0}
+  silencer: {fileID: 0}
 --- !u!82 &6386852748550406051
 AudioSource:
   m_ObjectHideFlags: 0

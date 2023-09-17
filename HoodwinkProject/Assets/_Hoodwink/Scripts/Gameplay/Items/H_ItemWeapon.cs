@@ -121,6 +121,14 @@ public class H_ItemWeapon : H_ItemBase
         isReloading = reloadTimer > 0;
         equipment.SetAmmoUI(ammoLoaded, ammoPool, Mathf.Clamp(reloadTimer / reloadTime, 0, 1));
         reloadTimer -= 1 * Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (equipment.brain.currentAlignment == AgentAlignment.Spy)
+            {
+                ToggleSilencer();
+            }
+        }
     }
 
     public override void PrimaryUse()
@@ -154,11 +162,11 @@ public class H_ItemWeapon : H_ItemBase
                         if (enableDebugLogs)
                             Debug.LogWarning("Hit Object: " + hit.collider.name);
 
-                        var health = hit.collider.gameObject.GetComponentInParent<H_PlayerHealth>();
+                        var hitbox = hit.collider.gameObject.GetComponent<H_PlayerHitbox>();
 
-                        if (health)
+                        if (hitbox)
                         {
-                            health.Damage(damage);
+                            hitbox.OnHit(damage);
                             equipment.SpawnHitMarker();
                         }
                         else
@@ -233,6 +241,12 @@ public class H_ItemWeapon : H_ItemBase
 
         clientEffects.PlayReloadLocal();
         observerEffects.CmdPlayReload();
+    }
+
+    public void ToggleSilencer()
+    {
+        clientEffects.ToggleSilencer();
+        observerEffects.ToggleSilencer();
     }
 
     [Command]

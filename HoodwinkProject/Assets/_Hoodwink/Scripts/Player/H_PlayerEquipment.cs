@@ -17,7 +17,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Image primaryItemIcon;
     [HideInInspector, SyncVar] public bool isHoldingItem = false;
     H_ItemBase currentObject;
-    public Transform dropPoint;
 
     [Header("Sidearm Equipment Settings")]
     public Transform sidearmEquipPointClient;
@@ -33,21 +32,29 @@ public class H_PlayerEquipment : NetworkBehaviour
     [HideInInspector] public GameObject holsteredObserverObject;
     public Image holsteredItemIcon;
 
-    [Header("Gadget Settings")]
-    public Transform gadgetAnchor;
-    public H_GadgetBase currentGadget;
-    public Image gadgetCooldownUI;
-    public Image gadgetIcon;
-    public TextMeshProUGUI gadgetNameText;
-    public TextMeshProUGUI gadgetDescriptionText;
+    [Header("First Gadget Settings")]
+    public Transform firstGadgetAnchor;
+    public H_GadgetBase firstGadget;
+    public Image firstGadgetCooldownUI;
+    public Image firstGadgetIcon;
+    public Image firstGadgetInfoIcon;
+    public TextMeshProUGUI firstGadgetNameText;
+    public TextMeshProUGUI firstGadgetDescriptionText;
 
-    [Header("Equipment UI Elements")]
-    public Image primarySlotUI;
-    public Image sidearmSlotUI;
-    public Image holsteredSlotUI;
+    [Header("Second Gadget Settings")]
+    public Transform secondGadgetAnchor;
+    public H_GadgetBase secondGadget;
+    public Image secondGadgetCooldownUI;
+    public Image secondGadgetIcon;
+    public Image secondGadgetInfoIcon;
+    public TextMeshProUGUI secondGadgetNameText;
+    public TextMeshProUGUI secondGadgetDescriptionText;
 
     [Header("Ammo UI Elements")]
-    public Image reloadingImage;
+    public CanvasGroup reloadingGroup;
+    public Image reloadingImageLeft;
+    public Image reloadingImageRight;
+
     public TextMeshProUGUI ammoLoadedText, ammoPoolText;
 
     [Header("Interaction Settings")]
@@ -65,8 +72,14 @@ public class H_PlayerEquipment : NetworkBehaviour
     public KeyCode primaryUseKey = KeyCode.Mouse0;
     public KeyCode secondaryUseKey = KeyCode.Mouse1;
     public KeyCode alternateUseKey = KeyCode.R;
-    public KeyCode gadgetUseKey = KeyCode.G;
+    public KeyCode firstGadgetKey = KeyCode.G;
+    public KeyCode secondGadgetKey = KeyCode.H;
     public KeyCode dropKey = KeyCode.Q;
+
+    [Header("Item Spawn Locations")]
+    public Transform dropPoint;
+    public Transform placePoint;
+
 
     [HideInInspector] public bool isPrimaryUseKeyPressed = false;
     [HideInInspector] public bool isSecondaryUseKeyPressed = false;
@@ -76,7 +89,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     public CinemachineVirtualCamera playerCamera;
     [HideInInspector] public float baseFOV;
     public H_Recoil cameraRecoil;
-    H_PlayerBrain brain;
+    [HideInInspector] public H_PlayerBrain brain;
     [HideInInspector] public H_PlayerAnimator animator;
     bool isDead;
 
@@ -137,37 +150,54 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             TryDropItem();
         }
-        else if (Input.GetKeyDown(gadgetUseKey))
+        else if (Input.GetKeyDown(firstGadgetKey))
         {
-            if (!currentGadget)
-            {
-                gadgetAnchor.GetComponentInChildren<H_GadgetBase>();
-            }
-
-            if (currentGadget)
-            {
-                currentGadget.UseGadget();
-            }
+            ChangeSlotInput(EquipmentSlot.FirstGadget);
+        }
+        else if (Input.GetKeyDown(secondGadgetKey))
+        {
+            ChangeSlotInput(EquipmentSlot.SecondGadget);
         }
     }
 
     void UpdateUI()
     {
-        if (currentGadget)
+        if (firstGadget)
         {
-            gadgetCooldownUI.fillAmount = Mathf.Clamp(currentGadget.cooldownTimer / currentGadget.cooldown, 0, 1);
-            gadgetIcon.sprite = currentGadget.gadgetIcon;
-            gadgetIcon.color = Color.white;
-            gadgetNameText.text = currentGadget.gadgetName;
-            gadgetDescriptionText.text = currentGadget.gadgetDescription;
+            firstGadgetCooldownUI.fillAmount = Mathf.Clamp(firstGadget.cooldownTimer / firstGadget.cooldown, 0, 1);
+            firstGadgetIcon.sprite = firstGadget.gadgetIcon;
+            firstGadgetInfoIcon.sprite = firstGadget.gadgetIcon;
+            firstGadgetIcon.color = Color.white;
+            firstGadgetNameText.text = firstGadget.gadgetName;
+            firstGadgetDescriptionText.text = firstGadget.gadgetDescription;
         }
         else
         {
-            gadgetIcon.sprite = null;
-            gadgetIcon.color = Color.clear;
-            gadgetCooldownUI.fillAmount = 0;
-            gadgetNameText.text = "";
-            gadgetDescriptionText.text = "";
+            firstGadgetIcon.sprite = null;
+            firstGadgetInfoIcon.sprite = null;
+            firstGadgetIcon.color = Color.clear;
+            firstGadgetCooldownUI.fillAmount = 0;
+            firstGadgetNameText.text = "";
+            firstGadgetDescriptionText.text = "";
+        }
+
+        if (secondGadget)
+        {
+            secondGadgetCooldownUI.fillAmount = Mathf.Clamp(secondGadget.cooldownTimer / secondGadget.cooldown, 0, 1);
+            secondGadgetIcon.sprite = secondGadget.gadgetIcon;
+            secondGadgetInfoIcon.sprite = secondGadget.gadgetIcon;
+            secondGadgetIcon.color = Color.white;
+            secondGadgetNameText.text = secondGadget.gadgetName;
+            secondGadgetDescriptionText.text = secondGadget.gadgetDescription;
+        }
+        else
+        {
+            secondGadgetIcon.sprite = null;
+            secondGadgetInfoIcon.sprite = null;
+            secondGadgetIcon.color = Color.clear;
+            secondGadgetCooldownUI.fillAmount = 0;
+            secondGadgetNameText.text = "";
+            secondGadgetDescriptionText.text = "";
         }
 
         if (focusedItem && !isHoldingItem)
@@ -178,6 +208,8 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             focusedItemReadout.text = "";
         }
+
+        reloadingGroup.alpha = reloadingImageLeft.fillAmount != 0 ? 1 : 0;
     }
 
     private void FixedUpdate()
@@ -227,6 +259,14 @@ public class H_PlayerEquipment : NetworkBehaviour
 
             case EquipmentSlot.Holstered:
                 OnSlotHolstered();
+                break;
+
+            case EquipmentSlot.FirstGadget:
+                OnSlotGadget();
+                break;
+
+            case EquipmentSlot.SecondGadget:
+                OnSlotGadget();
                 break;
         }
 
@@ -278,9 +318,9 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             primaryEquipPointClient.gameObject.SetActive(true);
 
-            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", true);
-            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", false);
-            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", false);
+            brain.playerUI.slotPrimaryAnimator.SetBool("isActive", true);
+            brain.playerUI.slotSidearmAnimator.SetBool("isActive", false);
+            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", false);
         }
     }
 
@@ -295,9 +335,9 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             sidearmEquipPointClient.gameObject.SetActive(true);
 
-            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", false);
-            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", true);
-            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", false);
+            brain.playerUI.slotPrimaryAnimator.SetBool("isActive", false);
+            brain.playerUI.slotSidearmAnimator.SetBool("isActive", true);
+            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", false);
         }
     }
 
@@ -311,9 +351,29 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             holsteredEquipPointClient.gameObject.SetActive(true);
 
-            brain.playerUI.slotPrimaryAnimator.SetBool("HotBar 1", false);
-            brain.playerUI.slotSidearmAnimator.SetBool("HotBar 2", false);
-            brain.playerUI.slotHolsteredAnimator.SetBool("HotBar 3", true);
+            brain.playerUI.slotPrimaryAnimator.SetBool("isActive", false);
+            brain.playerUI.slotSidearmAnimator.SetBool("isActive", false);
+            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", true);
+        }
+    }
+
+    void OnSlotGadget()
+    {
+        if (isLocalPlayer)
+        {
+            brain.playerUI.slotPrimaryAnimator.SetBool("isActive", false);
+            brain.playerUI.slotSidearmAnimator.SetBool("isActive", false);
+            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", false);
+
+            if (currentSlot == EquipmentSlot.FirstGadget)
+            {
+                brain.playerUI.roleAnimator.SetBool("isSecondGadget", false);
+            }
+
+            if (currentSlot == EquipmentSlot.SecondGadget)
+            {
+                brain.playerUI.roleAnimator.SetBool("isSecondGadget", true);
+            }
         }
     }
 
@@ -428,13 +488,31 @@ public class H_PlayerEquipment : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcEquipGadget(GameObject gadget)
+    public void RpcEquipFirstGadget(GameObject gadget)
     {
-        currentGadget = gadget.GetComponent<H_GadgetBase>();
+        firstGadget = gadget.GetComponent<H_GadgetBase>();
 
-        currentGadget.transform.parent = gadgetAnchor;
-        currentGadget.transform.localPosition = Vector3.zero;
-        currentGadget.transform.localRotation = Quaternion.identity;
+        firstGadget.transform.parent = firstGadgetAnchor;
+        firstGadget.transform.localPosition = Vector3.zero;
+        firstGadget.transform.localRotation = Quaternion.identity;
+
+        firstGadget.gadgetSlot = EquipmentSlot.FirstGadget;
+
+        firstGadget.GetComponent<H_GadgetBase>().Initialize();
+    }
+
+    [ClientRpc]
+    public void RpcEquipSecondGadget(GameObject gadget)
+    {
+        secondGadget = gadget.GetComponent<H_GadgetBase>();
+
+        secondGadget.transform.parent = secondGadgetAnchor;
+        secondGadget.transform.localPosition = Vector3.zero;
+        secondGadget.transform.localRotation = Quaternion.identity;
+
+        secondGadget.gadgetSlot = EquipmentSlot.SecondGadget;
+
+        secondGadget.GetComponent<H_GadgetBase>().Initialize();
     }
 
     public void SpawnHitMarker()
@@ -496,7 +574,8 @@ public class H_PlayerEquipment : NetworkBehaviour
         ammoLoadedText.text = ammoLoaded.ToString();
         ammoPoolText.text = ammoPool.ToString();
 
-        reloadingImage.fillAmount = reloadTime;
+        reloadingImageLeft.fillAmount = reloadTime;
+        reloadingImageRight.fillAmount = reloadTime;
     }
 
     public void ClearAmmoUI()
@@ -504,7 +583,8 @@ public class H_PlayerEquipment : NetworkBehaviour
         ammoLoadedText.text = "";
         ammoPoolText.text = "";
 
-        reloadingImage.fillAmount = 0;
+        reloadingImageLeft.fillAmount = 0;
+        reloadingImageRight.fillAmount = 0;
     }
 
 }
@@ -513,5 +593,7 @@ public enum EquipmentSlot
 {
     PrimaryItem,
     Sidearm,
-    Holstered
+    Holstered,
+    FirstGadget,
+    SecondGadget
 }
