@@ -32,9 +32,6 @@ public class H_PlayerBrain : NetworkBehaviour
     public GameObject spyIndicator;
     public LayerMask baseCullingMask, spyCullingMask;
 
-    [Header("Cosmetic Data")]
-    public Transform hatAnchor;
-
     [Header("Components")]
     public CinemachineVirtualCamera cam;
     public Image agentColourImage;
@@ -170,13 +167,12 @@ public class H_PlayerBrain : NetworkBehaviour
     void UpdateAlignmentUI(AgentAlignment alignment)
     {
         playerUI.alignmentText.text = currentAlignment.ToString();
-        playerUI.alignmentFolderText.text = currentAlignment.ToString();
         spyIndicator.SetActive(false);
 
         if (alignment == AgentAlignment.Unassigned)
         {
             playerUI.alignmentBackground.color = alignmentColorUnassigned;
-            playerUI.roleAnimator.SetBool("hasRole", false);
+            playerUI.roleAnimator.SetTrigger("Reset");
 
             if (isLocalPlayer)
             {
@@ -186,7 +182,7 @@ public class H_PlayerBrain : NetworkBehaviour
         else if (alignment == AgentAlignment.Agent)
         {
             playerUI.alignmentBackground.color = alignmentColorAgent;
-            playerUI.roleAnimator.SetBool("hasRole", true);
+            playerUI.roleAnimator.SetTrigger("ID Card");
 
             if (isLocalPlayer)
             {
@@ -196,7 +192,7 @@ public class H_PlayerBrain : NetworkBehaviour
         else if (alignment == AgentAlignment.Spy)
         {
             playerUI.alignmentBackground.color = alignmentColorSpy;
-            playerUI.roleAnimator.SetBool("hasRole", true);
+            playerUI.roleAnimator.SetTrigger("ID Card");
             spyIndicator.SetActive(true);
 
             if (isLocalPlayer)

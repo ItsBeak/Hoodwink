@@ -16,11 +16,12 @@ public class H_PlayerUI : MonoBehaviour
     public Color alignmentColorUnassigned;
     public Color alignmentColorAgent;
     public Color alignmentColorSpy; 
-    public TextMeshProUGUI alignmentText, alignmentFolderText;
+    public TextMeshProUGUI alignmentText;
     public Image alignmentBackground;
 
     [Header("Player GUI")]
     public Animator folderAnimator;
+    public Animator gadgetCardsAnimator;
     public Animator slotPrimaryAnimator, slotSidearmAnimator, slotHolsteredAnimator, roleAnimator;
     public Image staminaBarImage;
 
@@ -62,7 +63,8 @@ public class H_PlayerUI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            folderAnimator.SetTrigger("open");
+            folderAnimator.SetBool("FolderOpen", !folderAnimator.GetBool("FolderOpen"));
+            gadgetCardsAnimator.SetBool("isOpen", folderAnimator.GetBool("FolderOpen"));
         }
 
     }
