@@ -8186,22 +8186,22 @@ MonoBehaviour:
   playerSettings:
   - playerCount: 3
     spyCount: 1
-    itemsToSpawn: 6
+    itemsToSpawn: 14
   - playerCount: 4
     spyCount: 1
-    itemsToSpawn: 6
+    itemsToSpawn: 14
   - playerCount: 5
     spyCount: 2
-    itemsToSpawn: 7
+    itemsToSpawn: 14
   - playerCount: 6
     spyCount: 2
-    itemsToSpawn: 7
+    itemsToSpawn: 14
   - playerCount: 7
     spyCount: 3
-    itemsToSpawn: 8
+    itemsToSpawn: 16
   - playerCount: 8
     spyCount: 3
-    itemsToSpawn: 8
+    itemsToSpawn: 16
   agentData:
   - agentName: Poppy
     agentColour: {r: 0.8352941, g: 0.22352941, b: 0.22352941, a: 1}
@@ -8246,17 +8246,18 @@ MonoBehaviour:
   - {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
   - {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
   - {r: 0.254717, g: 0.15713674, b: 0.12375402, a: 1}
-  defaultClientSidearm: {fileID: 586889395334819233, guid: 1db1dab97eb886b4cbd1ab7d4a22f0aa,
+  defaultClientSidearm: {fileID: 586889395334819233, guid: 60835dd1e698f814b85e61c376613276,
     type: 3}
-  defaultObserverSidearm: {fileID: 586889395334819233, guid: 1ebb3bde8cafb264eacea157dbe2a21e,
+  defaultObserverSidearm: {fileID: 586889395334819233, guid: 1523c182717e29b419bff51e6bcebd0b,
     type: 3}
   defaultClientHolstered: {fileID: 9167389897428647333, guid: 68a0894dece4aad4690f0259a7eaec87,
     type: 3}
-  defaultObserverHolstered: {fileID: 2612458019253353128, guid: 69cc63a6f7614c24eae206d2ddac4a52,
+  defaultObserverHolstered: {fileID: 2612458019253353128, guid: 6816ee0b8973c0949a066e0168638f01,
     type: 3}
   spyGadgets:
   - {fileID: 9045955919083193933, guid: 130e0e2c1613609488d89f9c2939d316, type: 3}
   - {fileID: 105026897594446512, guid: a7e632e9d8e68114d81a0bb26d2e5f73, type: 3}
+  - {fileID: 9045955919083193933, guid: 6c3a1abb2625ceb42a4520a2e9eca85a, type: 3}
   agentGadgets:
   - {fileID: 105026897594446512, guid: 636e207eeb223ba48b2a28516ede07d0, type: 3}
   - {fileID: 105026897594446512, guid: a10facdca015d7841aeca613bf955746, type: 3}
@@ -8271,7 +8272,7 @@ MonoBehaviour:
   enableDebugLogs: 1
   overrideMinimumPlayerCount: 1
   allowServerToSkipGame: 1
-  allowServerToForceStart: 0
+  allowServerToForceStart: 1
   overrideSettings:
     playerCount: -1
     spyCount: 1
@@ -8292,10 +8293,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   items:
-  - {fileID: 4572328729074933808, guid: cbf206711097a11469ea0d814b5d7195, type: 3}
-  faxMachinePrefab: {fileID: 5942521373019118780, guid: 509cba653bac3a24b9c8a0edd8b26f05,
+  - {fileID: 4572328729074933808, guid: 58fc16b84ab89004aa129d4fce2e2a71, type: 3}
+  faxMachinePrefab: {fileID: 5942521373019118780, guid: c17dc0e6f1b38b04d9c587c2ffef90ec,
     type: 3}
-  shredderPrefab: {fileID: 6481523145805246346, guid: da38953007d7e784aa715f68ba80deb5,
+  shredderPrefab: {fileID: 6481523145805246346, guid: f3fbb6bd462103744bf664a3ee214af2,
     type: 3}
   cleanupLayers:
     serializedVersion: 2
