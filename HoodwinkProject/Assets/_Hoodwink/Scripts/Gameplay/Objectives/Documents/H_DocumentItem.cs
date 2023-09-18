@@ -158,6 +158,25 @@ public class H_DocumentItem : H_ItemBase
 
     }
 
+    private void OnDestroy()
+    {
+        if (lastShredder)
+        {
+            lastShredder.CmdStopUse();
+            lastShredder = null;
+        }
+
+        if (lastFax)
+        {
+            lastFax.CmdStopUse();
+            lastFax = null;
+        }
+
+        timer = 0;
+        useTimerImage.fillAmount = 0;
+        isUsing = false;
+    }
+
     private void FixedUpdate()
     {
         if (!isOwned || !equipment) return;
