@@ -94,41 +94,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -7511558181221131132, guid: 0aeff43f17aea994d97109a34325848c,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2c5ddeac2d8ce014e9b416940c673cb7, type: 2}
     - target: {fileID: 919132149155446097, guid: 0aeff43f17aea994d97109a34325848c,
         type: 3}
       propertyPath: m_Name
       value: env_b&b_doorframe
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9bf7695343ecd8f45af378cfd8bb2316,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2c5ddeac2d8ce014e9b416940c673cb7, type: 2}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0aeff43f17aea994d97109a34325848c, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 9bf7695343ecd8f45af378cfd8bb2316, type: 3}
 --- !u!4 &1296101425446596397 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0aeff43f17aea994d97109a34325848c,
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9bf7695343ecd8f45af378cfd8bb2316,
     type: 3}
   m_PrefabInstance: {fileID: 1618503228157216966}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1925145688269616535 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0aeff43f17aea994d97109a34325848c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1618503228157216966}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &4806010948030189150
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925145688269616535}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2188749047396538952, guid: 0aeff43f17aea994d97109a34325848c, type: 3}
