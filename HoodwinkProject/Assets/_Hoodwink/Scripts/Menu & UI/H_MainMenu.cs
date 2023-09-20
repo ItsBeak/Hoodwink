@@ -49,12 +49,6 @@ public class H_MainMenu : MonoBehaviour
 
     private void Update()
     {
-       //loginButton.SetActive(!NetManager.isLoggedIn);
-       //hostButton.SetActive(NetManager.isLoggedIn);
-       //joinButton.SetActive(NetManager.isLoggedIn);
-       //codeInputField.gameObject.SetActive(NetManager.isLoggedIn);
-
-       //loginButton.GetComponent<Button>().interactable = !NetManager.isLoggingIn;
 
         if (Input.GetKeyDown(KeyCode.Space) && preLoginDirector.time < 9f)
         {
