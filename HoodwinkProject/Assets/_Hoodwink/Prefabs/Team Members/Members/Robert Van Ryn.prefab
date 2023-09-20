@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5106699820430697655}
+  - component: {fileID: 1524204789275139671}
+  - component: {fileID: 7573205942092184071}
   m_Layer: 0
   m_Name: Robert Van Ryn
   m_TagString: Untagged
@@ -32,6 +34,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1524204789275139671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5106699820430697652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0a2b12006fbad4eaa0830c7beefd6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  memberName: Robert Van Ryn
+  memberDescription: Art Co-Lead, Hard Surface, Materials
+  spotlight: {fileID: 0}
+  focusedBrightness: 15
+  unfocusedBrightness: 0
+--- !u!65 &7573205942092184071
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5106699820430697652}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 1.8, z: 0.5}
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1001 &4649429361835046696
 PrefabInstance:
   m_ObjectHideFlags: 0

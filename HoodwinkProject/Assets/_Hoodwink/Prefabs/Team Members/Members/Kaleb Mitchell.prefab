@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 260373119250610437}
+  - component: {fileID: 4866531874268724174}
+  - component: {fileID: 5362954378748754430}
   m_Layer: 0
   m_Name: Kaleb Mitchell
   m_TagString: Untagged
@@ -32,6 +34,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &4866531874268724174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260373119250610438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0a2b12006fbad4eaa0830c7beefd6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  memberName: Kaleb Mitchell
+  memberDescription: Hard Surface, Texturing & Particle Artist
+  spotlight: {fileID: 0}
+  focusedBrightness: 15
+  unfocusedBrightness: 0
+--- !u!65 &5362954378748754430
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260373119250610438}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4, y: 0.5, z: 0.5}
+  m_Center: {x: 0, y: 0.33, z: 0.09}
 --- !u!1 &6705195119588045249
 GameObject:
   m_ObjectHideFlags: 0
