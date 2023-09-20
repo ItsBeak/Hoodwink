@@ -427,6 +427,8 @@ public class H_GameManager : NetworkBehaviour
     IEnumerator InitializeLevel()
     {
         chosenScene = maps[Random.Range(0, maps.Length)];
+        Debug.Log("Loading Level: '" + chosenScene + "' out of " + maps.Length + " maps.");
+
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(chosenScene, LoadSceneMode.Additive);
 
@@ -503,7 +505,7 @@ public class H_GameManager : NetworkBehaviour
                     gadgetPool.Add(gadget);
                 }
 
-                int gadgetIndex = Random.Range(0, gadgetPool.Count - 1);
+                int gadgetIndex = Random.Range(0, gadgetPool.Count);
 
                 Debug.Log("Getting gadget at " + gadgetIndex.ToString() + " of " + gadgetPool.Count);
 
@@ -512,7 +514,7 @@ public class H_GameManager : NetworkBehaviour
                 roundPlayers[randomPlayerIndex].equipment.RpcEquipFirstGadget(firstGadget);
                 gadgetPool.Remove(gadgetPool[gadgetIndex]);
 
-                gadgetIndex = Random.Range(0, gadgetPool.Count - 1);
+                gadgetIndex = Random.Range(0, gadgetPool.Count);
 
                 GameObject secondGadget = Instantiate(gadgetPool[gadgetIndex]);
                 NetworkServer.Spawn(secondGadget, roundPlayers[randomPlayerIndex].connectionToClient);
@@ -538,14 +540,14 @@ public class H_GameManager : NetworkBehaviour
                     gadgetPool.Add(gadget);
                 }
 
-                int gadgetIndex = Random.Range(0, gadgetPool.Count - 1);
+                int gadgetIndex = Random.Range(0, gadgetPool.Count);
 
                 GameObject firstGadget = Instantiate(gadgetPool[gadgetIndex]);
                 NetworkServer.Spawn(firstGadget, roundPlayers[i].connectionToClient);
                 roundPlayers[i].equipment.RpcEquipFirstGadget(firstGadget);
                 gadgetPool.Remove(gadgetPool[gadgetIndex]);
 
-                gadgetIndex = Random.Range(0, gadgetPool.Count - 1);
+                gadgetIndex = Random.Range(0, gadgetPool.Count);
 
                 GameObject secondGadget = Instantiate(gadgetPool[gadgetIndex]);
                 NetworkServer.Spawn(secondGadget, roundPlayers[i].connectionToClient);
