@@ -16,27 +16,31 @@ public class H_TeamMemberDetails : MonoBehaviour
 
     public float focusedBrightness, unfocusedBrightness;
 
+    public AudioClip hoverClip;
+    AudioSource source;
+    [Range(0, 2)] public float pitch;
+
     void Start()
     {
         display = FindObjectOfType(typeof(H_TeamMemberDisplay)).GetComponent<H_TeamMemberDisplay>();
+        source = GetComponent<AudioSource>();
+        source.pitch = pitch;
     }
 
     private void OnMouseEnter()
     {
-        Debug.Log("Started hovering over " + name);
-
         if (display)
         {
             display.memberName.text = memberName;
             display.memberDescription.text = memberDescription;
             isHovered = true;
+
+            source.PlayOneShot(hoverClip);
         }
     }
 
     private void OnMouseExit()
     {
-        Debug.Log("Stopped overing over " + name);
-
         if (display)
         {
             display.memberName.text = "";
