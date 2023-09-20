@@ -61,6 +61,8 @@ public class H_PlayerBrain : NetworkBehaviour
 
         if (isLocalPlayer)
         {
+            H_TransitionManager.instance.FadeOut(0.25f);
+
             cam.enabled = true;
             playerUI.gameObject.SetActive(true);
 

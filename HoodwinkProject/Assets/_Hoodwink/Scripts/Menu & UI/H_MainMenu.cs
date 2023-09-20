@@ -78,6 +78,7 @@ public class H_MainMenu : MonoBehaviour
 
     public void StartHost()
     {
+        H_TransitionManager.instance.SetBlack();
         NetManager.StartHost();
     }
 
