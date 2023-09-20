@@ -6842,6 +6842,8 @@ GameObject:
   - component: {fileID: 6220283844275577187}
   - component: {fileID: 2631851041001039865}
   - component: {fileID: 8823686986365779589}
+  - component: {fileID: 1610642921328729223}
+  - component: {fileID: 3527419215085314174}
   m_Layer: 11
   m_Name: Hoodwink Player
   m_TagString: Player
@@ -7231,6 +7233,41 @@ MonoBehaviour:
   syncInterval: 0
   hatAnchor: {fileID: 7679669079450929049}
   hatIndex: 0
+--- !u!114 &1610642921328729223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2269030465652812220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 773b6370e09338b468b31bf0d77cad2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  roomName: WhoUpWinkin
+--- !u!114 &3527419215085314174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2269030465652812220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 827d91d53b445764b86e90aeafd1597e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  roomName: WhoUpWinkin
+  playbackPrefab: {fileID: 7505786655079601108, guid: ad94c4c0b2c4b194781921160ccb1986,
+    type: 3}
+  voiceTransmitLocation: {x: 0, y: 0, z: 0}
 --- !u!1 &2276840154210437441
 GameObject:
   m_ObjectHideFlags: 0
