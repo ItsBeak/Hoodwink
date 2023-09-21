@@ -206,7 +206,7 @@ public class H_GameManager : NetworkBehaviour
                     {
                         int randomAgent = Random.Range(0, availableAgents.Count);
 
-                        player.playerName = availableAgents[randomAgent].agentName;
+                        player.agentName = availableAgents[randomAgent].agentName;
                         player.coatColour = availableAgents[randomAgent].agentSecondaryColour;
                         player.coatTrimColour = availableAgents[randomAgent].agentColour;
 
@@ -229,7 +229,8 @@ public class H_GameManager : NetworkBehaviour
                     {
                         IntroCosmeticData newPlayer = new IntroCosmeticData();
 
-                        newPlayer.agentName = player.playerName;
+                        newPlayer.playerName = player.playerName;
+                        newPlayer.agentName = player.agentName;
                         newPlayer.agentColour = player.coatTrimColour;
                         newPlayer.agentSecondaryColour = player.coatColour;
                         newPlayer.agentHatIndex = player.hatIndex;
@@ -318,7 +319,7 @@ public class H_GameManager : NetworkBehaviour
     {
         serverPlayers.Add(player);
 
-        player.playerName = "Anonymous";
+        player.agentName = "Anonymous";
 
         player.coatColour = coatColours[Random.Range(0, coatColours.Length)];
         player.coatTrimColour = trimColours[Random.Range(0, trimColours.Length)];
@@ -456,7 +457,7 @@ public class H_GameManager : NetworkBehaviour
 
             player.TeleportPlayer(lobbySpawns[randomSpawn].position, lobbySpawns[randomSpawn].rotation);
 
-            player.playerName = "Anonymous";
+            player.agentName = "Anonymous";
             player.coatColour = coatColours[Random.Range(0, coatColours.Length)];
             player.coatTrimColour = trimColours[Random.Range(0, trimColours.Length)];
 
@@ -715,7 +716,7 @@ public class H_GameManager : NetworkBehaviour
 
             for (int i = 0; i < endData.Length; i++)
             {
-                endData[i].agentData.agentName = roundSpies[i].playerName;
+                endData[i].agentData.agentName = roundSpies[i].agentName;
                 endData[i].agentData.agentColour = roundSpies[i].coatTrimColour;
                 endData[i].agentData.agentSecondaryColour = roundSpies[i].coatColour;
                 endData[i].isDead = roundDeadPlayers.Contains(roundSpies[i]);
@@ -733,7 +734,7 @@ public class H_GameManager : NetworkBehaviour
 
             for (int i = 0; i < endData.Length; i++)
             {
-                endData[i].agentData.agentName = roundAgents[i].playerName;
+                endData[i].agentData.agentName = roundAgents[i].agentName;
                 endData[i].agentData.agentColour = roundAgents[i].coatTrimColour;
                 endData[i].agentData.agentSecondaryColour = roundAgents[i].coatColour;
                 endData[i].isDead = roundDeadPlayers.Contains(roundAgents[i]);
@@ -791,15 +792,15 @@ public class H_GameManager : NetworkBehaviour
     {
         if (roundSpies.Count == 1)
         {
-            spyInformation = "The spy is " + ColorWord(roundSpies[0].playerName, roundSpies[0].coatTrimColour);
+            spyInformation = "The spy is " + ColorWord(roundSpies[0].agentName, roundSpies[0].coatTrimColour);
         }
         else if (roundSpies.Count == 2)
         {
-            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].coatTrimColour) + " and " + ColorWord(roundSpies[1].playerName, roundSpies[1].coatTrimColour) + " are spies!";
+            spyInformation = ColorWord(roundSpies[0].agentName, roundSpies[0].coatTrimColour) + " and " + ColorWord(roundSpies[1].agentName, roundSpies[1].coatTrimColour) + " are spies!";
         }
         else if (roundSpies.Count == 3)
         {
-            spyInformation = ColorWord(roundSpies[0].playerName, roundSpies[0].coatTrimColour) + ", " + ColorWord(roundSpies[1].playerName, roundSpies[1].coatTrimColour) + " and " + ColorWord(roundSpies[2].playerName, roundSpies[2].coatTrimColour) + " are spies!";
+            spyInformation = ColorWord(roundSpies[0].agentName, roundSpies[0].coatTrimColour) + ", " + ColorWord(roundSpies[1].agentName, roundSpies[1].coatTrimColour) + " and " + ColorWord(roundSpies[2].agentName, roundSpies[2].coatTrimColour) + " are spies!";
         }
     }
     void OnSpyInformationChanged(string oldValue, string newValue)
@@ -814,7 +815,7 @@ public class H_GameManager : NetworkBehaviour
 
     IEnumerator PlayIntroCutscene(List<IntroCosmeticData> players)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.25f);
 
         introCamera.SetActive(true);
         H_TransitionManager.instance.SetClear();
@@ -829,7 +830,7 @@ public class H_GameManager : NetworkBehaviour
             coatRenderer.material.color = player.agentSecondaryColour;
             coatTrimRenderer.material.color = player.agentColour;
 
-            introPlayerName.text = "Hoodwinker";
+            introPlayerName.text = player.playerName;
             introPlayerAgentName.text = "as " + ColorWord("Agent " + player.agentName, player.agentColour);
 
             Instantiate(H_CosmeticManager.instance.hats[player.agentHatIndex].cosmeticPrefab, hatAnchor);
@@ -848,12 +849,11 @@ public class H_GameManager : NetworkBehaviour
                 GameObject.Destroy(child.gameObject);
             }
 
-            Debug.Log("Name " + player.agentName);
             yield return new WaitForSeconds(0.5f);
 
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.25f);
 
         introCamera.SetActive(false);
         playerUIGroup.alpha = 1;
@@ -932,6 +932,7 @@ public struct AgentData
 [System.Serializable]
 public struct IntroCosmeticData
 {
+    public string playerName;
     public string agentName;
     public Color agentColour;
     public Color agentSecondaryColour;

@@ -15,7 +15,8 @@ public class H_PlayerBrain : NetworkBehaviour
     public float speedMultiplier = 1;
 
     [Header("Player Cosmetic Data")]
-    [SyncVar(hook = nameof(OnNameChanged))] public string playerName;
+    [SyncVar(hook = nameof(OnPlayerNameChanged))] public string playerName;
+    [SyncVar(hook = nameof(OnAgentNameChanged))] public string agentName;
     [SyncVar(hook = nameof(SetCoatColour))] public Color coatColour;
     [SyncVar(hook = nameof(SetCoatTrimColour))] public Color coatTrimColour;
     [SyncVar(hook = nameof(SetPantsColour))] public Color pantsColour;
@@ -65,6 +66,7 @@ public class H_PlayerBrain : NetworkBehaviour
         int index;
         index = H_CosmeticManager.instance.currentHat.ID;
         CmdSetPlayerCosmetics(index);
+        CmdSetPlayerName(PlayerPrefs.GetString("C_SELECTED_NAME", "Hoodwinker"));
     }
 
     public override void OnStartClient()
@@ -152,7 +154,12 @@ public class H_PlayerBrain : NetworkBehaviour
         playerRenderer.material.SetColor("_ShoesColour", newColor);
     }
 
-    public void OnNameChanged(string oldName, string newName)
+    public void OnAgentNameChanged(string oldName, string newName)
+    {
+        agentNameText.text = newName;
+    }
+
+    public void OnPlayerNameChanged(string oldName, string newName)
     {
         agentNameText.text = newName;
     }
@@ -259,6 +266,12 @@ public class H_PlayerBrain : NetworkBehaviour
     void CmdSetPlayerCosmetics(int index)
     {
         hatIndex = index;
+    }
+
+    [Command]
+    void CmdSetPlayerName(string newName)
+    {
+        playerName = newName;
     }
 
     void OnSetHat(int oldHat, int newHat)
