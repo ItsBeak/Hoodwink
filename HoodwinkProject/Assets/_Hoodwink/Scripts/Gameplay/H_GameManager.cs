@@ -216,16 +216,27 @@ public class H_GameManager : NetworkBehaviour
                         availableAgents.RemoveAt(randomAgent);
                     }
 
-                    List<CosmeticData> players = new List<CosmeticData>();
+                    List<int> introIndexes = new List<int>();
+
+                    for (int i = 0; i < intros.Length; i++)
+                    {
+                        introIndexes.Add(i);
+                    }
+
+                    List<IntroCosmeticData> players = new List<IntroCosmeticData>();
 
                     foreach (var player in roundPlayers)
                     {
-                        CosmeticData newPlayer = new CosmeticData();
+                        IntroCosmeticData newPlayer = new IntroCosmeticData();
 
                         newPlayer.agentName = player.playerName;
                         newPlayer.agentColour = player.coatTrimColour;
                         newPlayer.agentSecondaryColour = player.coatColour;
                         newPlayer.agentHatIndex = player.hatIndex;
+
+                        int newIntroIndex = introIndexes[Random.Range(0, introIndexes.Count)];
+                        newPlayer.introIndex = newIntroIndex;
+                        introIndexes.Remove(newIntroIndex);
 
                         players.Add(newPlayer);
                     }
@@ -801,7 +812,7 @@ public class H_GameManager : NetworkBehaviour
         return "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + text + "</color>";
     }
 
-    IEnumerator PlayIntroCutscene(List<CosmeticData> players)
+    IEnumerator PlayIntroCutscene(List<IntroCosmeticData> players)
     {
         yield return new WaitForSeconds(1f);
 
@@ -823,7 +834,7 @@ public class H_GameManager : NetworkBehaviour
 
             Instantiate(H_CosmeticManager.instance.hats[player.agentHatIndex].cosmeticPrefab, hatAnchor);
 
-            introTimeline.playableAsset = intros[Random.Range(0, intros.Length)]; // swap out of a list so each player has a unique one
+            introTimeline.playableAsset = intros[player.introIndex];
 
             introTimeline.time = 0;
             introTimeline.Play();
@@ -862,7 +873,7 @@ public class H_GameManager : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    void CmdPlayIntro(List<CosmeticData> players)
+    void CmdPlayIntro(List<IntroCosmeticData> players)
     {
         RpcPlayIntro(players);
 
@@ -873,7 +884,7 @@ public class H_GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcPlayIntro(List<CosmeticData> players)
+    void RpcPlayIntro(List<IntroCosmeticData> players)
     {
         StartCoroutine(PlayIntroCutscene(players));
 
@@ -903,7 +914,7 @@ public class H_GameManager : NetworkBehaviour
         H_TransitionManager.instance.FadeOut(speed);
     }
 
-    void UpdateDisplayPlayer(CosmeticData player)
+    void UpdateDisplayPlayer(IntroCosmeticData player)
     {
 
     }
@@ -919,12 +930,13 @@ public struct AgentData
 }
 
 [System.Serializable]
-public struct CosmeticData
+public struct IntroCosmeticData
 {
     public string agentName;
     public Color agentColour;
     public Color agentSecondaryColour;
     public int agentHatIndex;
+    public int introIndex;
 }
 
 [System.Serializable]
