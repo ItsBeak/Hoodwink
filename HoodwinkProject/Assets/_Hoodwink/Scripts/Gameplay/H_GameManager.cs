@@ -76,6 +76,7 @@ public class H_GameManager : NetworkBehaviour
 
     [Header("Player Intro Settings")]
     public PlayableDirector introTimeline;
+    public PlayableAsset[] intros;
     public GameObject introCamera;
     public Transform hatAnchor;
     public TextMeshProUGUI introPlayerName, introPlayerAgentName;
@@ -559,8 +560,6 @@ public class H_GameManager : NetworkBehaviour
 
                 int gadgetIndex = Random.Range(0, gadgetPool.Count);
 
-                Debug.Log("Getting gadget at " + gadgetIndex.ToString() + " of " + gadgetPool.Count);
-
                 GameObject firstGadget = Instantiate(gadgetPool[gadgetIndex]);
                 NetworkServer.Spawn(firstGadget, roundPlayers[randomPlayerIndex].connectionToClient);
                 roundPlayers[randomPlayerIndex].equipment.RpcEquipFirstGadget(firstGadget);
@@ -824,6 +823,8 @@ public class H_GameManager : NetworkBehaviour
 
             Instantiate(H_CosmeticManager.instance.hats[player.agentHatIndex].cosmeticPrefab, hatAnchor);
 
+            introTimeline.playableAsset = intros[Random.Range(0, intros.Length)]; // swap out of a list so each player has a unique one
+
             introTimeline.time = 0;
             introTimeline.Play();
 
@@ -843,7 +844,6 @@ public class H_GameManager : NetworkBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        Debug.Log("All players shown, ending intro");
         introCamera.SetActive(false);
         playerUIGroup.alpha = 1;
         H_TransitionManager.instance.SetBlack();

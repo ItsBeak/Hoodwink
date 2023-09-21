@@ -167,14 +167,11 @@ public class H_PlayerBrain : NetworkBehaviour
     {
         currentAlignment = alignment;
         UpdateAlignmentUI(currentAlignment);
-        Debug.Log("Set role to: " + currentAlignment.ToString());
     }
 
 
     void OnAlignmentChanged(AgentAlignment oldRole, AgentAlignment newRole)
     {
-        Debug.Log("Set changed to: " + newRole.ToString());
-
         UpdateAlignmentUI(newRole);
     }
 
