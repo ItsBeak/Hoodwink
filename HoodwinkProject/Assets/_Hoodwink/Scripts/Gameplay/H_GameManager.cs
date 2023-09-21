@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Playables;
+using System;
+using Random = UnityEngine.Random;
 
 public class H_GameManager : NetworkBehaviour
 {
@@ -71,9 +74,16 @@ public class H_GameManager : NetworkBehaviour
     public float postGameLength;
     [SyncVar] float postGameTimer;
 
+    [Header("Player Intro Settings")]
+    public PlayableDirector introTimeline;
+    public GameObject introCamera;
+    public Transform hatAnchor;
+    public TextMeshProUGUI introPlayerName, introPlayerAgentName;
+
     [Header("Components")]
     public TextMeshProUGUI pingDisplay;
     public TextMeshProUGUI timerDisplay;
+    public CanvasGroup playerUIGroup;
     H_ObjectManager objectManager;
     H_RoundEndManager roundEndManager;
 
@@ -84,6 +94,8 @@ public class H_GameManager : NetworkBehaviour
     public bool allowServerToForceStart;
     public PlayerSettings overrideSettings;
     PlayerSettings currentSettings;
+
+    bool introStarted;
 
     private H_NetworkManager netManager;
 
@@ -164,8 +176,24 @@ public class H_GameManager : NetworkBehaviour
                 if (warmupTimer <= 0)
                 {
                     winConditionMet = false;
-                    currentRoundStage = RoundStage.Game;
                     AssignRoles();
+                    currentRoundStage = RoundStage.Intro;
+                }
+
+                break;
+            #endregion
+
+            #region Intro Update
+            case RoundStage.Intro:
+
+                timerDisplay.text = "Game starting...";
+
+                if (!isServer)
+                    return;
+
+                if (!introStarted)
+                {
+                    StartCoroutine(PlayIntroCutscene());
                 }
 
                 break;
@@ -358,6 +386,8 @@ public class H_GameManager : NetworkBehaviour
         ResetPlayerStates();
         ResetRoles();
 
+        H_TransitionManager.instance.FadeIn(0.25f);
+
         currentRoundStage = RoundStage.Warmup;
 
     }
@@ -409,6 +439,7 @@ public class H_GameManager : NetworkBehaviour
 
         evidencePercent = 0;
         spiesRevealed = false;
+        introStarted = false;
 
         spyInformation = "";
 
@@ -444,16 +475,11 @@ public class H_GameManager : NetworkBehaviour
 
         RpcLoadMap(chosenScene);
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(5);
 
         currentLevel = FindObjectOfType<H_LevelData>();
 
         Transform[] spawns = currentLevel.playerSpawnPoints;
-
-        foreach (AgentData agent in allAgents)
-        {
-            availableAgents.Add(agent);
-        }
 
         foreach (var player in roundPlayers)
         {
@@ -462,19 +488,9 @@ public class H_GameManager : NetworkBehaviour
             int randomSpawn = Random.Range(0, spawns.Length);
 
             player.TeleportPlayer(spawns[randomSpawn].position, spawns[randomSpawn].rotation);
-
-            int randomAgent = Random.Range(0, availableAgents.Count);
-
-            player.playerName = availableAgents[randomAgent].agentName;
-            player.coatColour = availableAgents[randomAgent].agentSecondaryColour;
-            player.coatTrimColour = availableAgents[randomAgent].agentColour;
-
-            player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
-            player.shoesColour = shoesColours[Random.Range(0, shoesColours.Length)];
-
-            availableAgents.RemoveAt(randomAgent);
-
         }
+
+
 
         Debug.Log("Spawning objects");
 
@@ -570,6 +586,9 @@ public class H_GameManager : NetworkBehaviour
             NetworkServer.Spawn(newObserverHolstered, roundPlayers[i].connectionToClient);
             roundPlayers[i].equipment.RpcEquipHolstered(newClientHolstered, newObserverHolstered);
         }
+
+
+
     }
 
     [ClientRpc]
@@ -747,6 +766,102 @@ public class H_GameManager : NetworkBehaviour
         return "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + text + "</color>";
     }
 
+    IEnumerator PlayIntroCutscene()
+    {
+        introStarted = true;
+
+        foreach (AgentData agent in allAgents)
+        {
+            availableAgents.Add(agent);
+        }
+
+        foreach (var player in roundPlayers)
+        {
+            int randomAgent = Random.Range(0, availableAgents.Count);
+
+            player.playerName = availableAgents[randomAgent].agentName;
+            player.coatColour = availableAgents[randomAgent].agentSecondaryColour;
+            player.coatTrimColour = availableAgents[randomAgent].agentColour;
+
+            player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
+            player.shoesColour = shoesColours[Random.Range(0, shoesColours.Length)];
+
+            availableAgents.RemoveAt(randomAgent);
+        }
+
+        List<CosmeticData> players = new List<CosmeticData>();
+
+        foreach (var player in roundPlayers)
+        {
+            CosmeticData newPlayer = new CosmeticData();
+
+            newPlayer.agentName = player.playerName;
+            newPlayer.agentColour = player.coatTrimColour;
+            newPlayer.agentSecondaryColour = player.coatColour;
+            newPlayer.agentHatIndex = player.hatIndex;
+
+            players.Add(newPlayer);
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        introCamera.SetActive(true);
+        H_TransitionManager.instance.SetClear();
+        playerUIGroup.alpha = 0;
+
+        foreach (var player in players)
+        {
+
+            //set cosmetics
+
+            //introPlayerName.text = 
+            introPlayerAgentName.text = "as " + ColorWord(player.agentName, player.agentColour);
+
+            Instantiate(H_CosmeticManager.instance.hats[player.agentHatIndex].cosmeticPrefab, hatAnchor);
+
+            introTimeline.time = 0;
+            introTimeline.Play();
+
+            yield return new WaitForSeconds((float)introTimeline.playableAsset.duration);
+
+            // clear hat
+
+            foreach (Transform child in hatAnchor.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            Debug.Log("Name " + player.agentName);
+            yield return new WaitForSeconds(0.5f);
+
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        Debug.Log("All players shown, ending intro");
+        introCamera.SetActive(false);
+        playerUIGroup.alpha = 1;
+        H_TransitionManager.instance.SetBlack();
+        H_TransitionManager.instance.FadeOut(0.5f);
+        currentRoundStage = RoundStage.Game;
+
+    }
+
+    void CmdPlayIntro(CosmeticData player)
+    {
+        RpcPlayIntro(player);
+    }
+
+    void RpcPlayIntro(CosmeticData player)
+    {
+
+    }
+
+    void UpdateDisplayPlayer(CosmeticData player)
+    {
+
+    }
+
 }
 
 [System.Serializable]
@@ -755,6 +870,15 @@ public struct AgentData
     public string agentName;
     public Color agentColour;
     public Color agentSecondaryColour;
+}
+
+[System.Serializable]
+public struct CosmeticData
+{
+    public string agentName;
+    public Color agentColour;
+    public Color agentSecondaryColour;
+    public int agentHatIndex;
 }
 
 [System.Serializable]
@@ -770,6 +894,7 @@ public enum RoundStage
 {
     Lobby,
     Warmup,
+    Intro,
     Game,
     PostGame,
 }

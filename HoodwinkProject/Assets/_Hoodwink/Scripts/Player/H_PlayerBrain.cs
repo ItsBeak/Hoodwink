@@ -3,6 +3,7 @@ using Mirror;
 using Cinemachine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class H_PlayerBrain : NetworkBehaviour
 {
@@ -13,13 +14,15 @@ public class H_PlayerBrain : NetworkBehaviour
     [HideInInspector] public bool isPaused;
     public float speedMultiplier = 1;
 
-    [Header("Player Data")]
+    [Header("Player Cosmetic Data")]
     [SyncVar(hook = nameof(OnNameChanged))] public string playerName;
     [SyncVar(hook = nameof(SetCoatColour))] public Color coatColour;
     [SyncVar(hook = nameof(SetCoatTrimColour))] public Color coatTrimColour;
     [SyncVar(hook = nameof(SetPantsColour))] public Color pantsColour;
     [SyncVar(hook = nameof(SetShoesColour))] public Color shoesColour;
     [SyncVar(hook = nameof(OnReadyChanged))] public bool isReady = false;
+    [SyncVar(hook = nameof(OnSetHat))] public int hatIndex;
+    public Transform hatAnchor;
 
     [Header("Alignment Data")]
     [SyncVar(hook = nameof(OnAlignmentChanged))]
@@ -55,6 +58,14 @@ public class H_PlayerBrain : NetworkBehaviour
             return netManager = NetworkManager.singleton as H_NetworkManager;
         }
     }
+
+    public override void OnStartLocalPlayer()
+    {
+        int index;
+        index = H_CosmeticManager.instance.currentHat.ID;
+        CmdSetPlayerCosmetics(index);
+    }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -244,6 +255,30 @@ public class H_PlayerBrain : NetworkBehaviour
         playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         coatRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         coatTrimRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+    }
+
+    [Command]
+    void CmdSetPlayerCosmetics(int index)
+    {
+        hatIndex = index;
+    }
+
+    void OnSetHat(int oldHat, int newHat)
+    {
+        foreach (Transform child in hatAnchor.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        Instantiate(H_CosmeticManager.instance.hats[newHat].cosmeticPrefab, hatAnchor);
+
+        if (isLocalPlayer)
+        {
+            foreach (Renderer rend in hatAnchor.GetComponentsInChildren<Renderer>())
+            {
+                rend.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+            }
+        }
     }
 
     public void ShowSpyIndicators()

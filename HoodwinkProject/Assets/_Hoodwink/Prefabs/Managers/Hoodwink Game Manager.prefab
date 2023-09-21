@@ -8134,6 +8134,7 @@ Transform:
   m_Children:
   - {fileID: 2727890674865983988}
   - {fileID: 4061860504776969113}
+  - {fileID: 1589158747736705264}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8267,8 +8268,14 @@ MonoBehaviour:
   warmupLength: 5
   roundLength: 300
   postGameLength: 10
+  introTimeline: {fileID: 0}
+  introCamera: {fileID: 0}
+  hatAnchor: {fileID: 0}
+  introPlayerName: {fileID: 0}
+  introPlayerAgentName: {fileID: 0}
   pingDisplay: {fileID: 7992946917195808622}
   timerDisplay: {fileID: 8632251401198278523}
+  playerUIGroup: {fileID: 7696306660566913037}
   enableDebugLogs: 1
   overrideMinimumPlayerCount: 1
   allowServerToSkipGame: 1
@@ -10212,6 +10219,37 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &8677597514681124440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1589158747736705264}
+  m_Layer: 0
+  m_Name: Intro Scene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1589158747736705264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8677597514681124440}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -40, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4271273356912507364}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8774702754224121146
 GameObject:
   m_ObjectHideFlags: 0
