@@ -21,6 +21,7 @@ public class H_PlayerBrain : NetworkBehaviour
     [SyncVar(hook = nameof(SetPantsColour))] public Color pantsColour;
     [SyncVar(hook = nameof(SetShoesColour))] public Color shoesColour;
     [SyncVar(hook = nameof(OnReadyChanged))] public bool isReady = false;
+    [SyncVar(hook = nameof(OnHudVisibilityChanged))] public bool isHudHidden = false;
     [SyncVar(hook = nameof(OnSetHat))] public int hatIndex;
     public Transform hatAnchor;
 
@@ -289,6 +290,11 @@ public class H_PlayerBrain : NetworkBehaviour
     public void HideSpyIndicators()
     {
         Camera.main.cullingMask = baseCullingMask;
+    }
+
+    void OnHudVisibilityChanged(bool oldValue, bool newValue)
+    {
+        playerUI.playerUI.alpha = isHudHidden ? 0 : 1;
     }
 }
 

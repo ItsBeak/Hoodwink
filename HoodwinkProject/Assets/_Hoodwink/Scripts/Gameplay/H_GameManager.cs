@@ -79,6 +79,7 @@ public class H_GameManager : NetworkBehaviour
     public GameObject introCamera;
     public Transform hatAnchor;
     public TextMeshProUGUI introPlayerName, introPlayerAgentName;
+    public Renderer playerRenderer, coatRenderer, coatTrimRenderer;
 
     [Header("Components")]
     public TextMeshProUGUI pingDisplay;
@@ -193,7 +194,42 @@ public class H_GameManager : NetworkBehaviour
 
                 if (!introStarted)
                 {
-                    StartCoroutine(PlayIntroCutscene());
+                    introStarted = true;
+
+                    foreach (AgentData agent in allAgents)
+                    {
+                        availableAgents.Add(agent);
+                    }
+
+                    foreach (var player in roundPlayers)
+                    {
+                        int randomAgent = Random.Range(0, availableAgents.Count);
+
+                        player.playerName = availableAgents[randomAgent].agentName;
+                        player.coatColour = availableAgents[randomAgent].agentSecondaryColour;
+                        player.coatTrimColour = availableAgents[randomAgent].agentColour;
+
+                        player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
+                        player.shoesColour = shoesColours[Random.Range(0, shoesColours.Length)];
+
+                        availableAgents.RemoveAt(randomAgent);
+                    }
+
+                    List<CosmeticData> players = new List<CosmeticData>();
+
+                    foreach (var player in roundPlayers)
+                    {
+                        CosmeticData newPlayer = new CosmeticData();
+
+                        newPlayer.agentName = player.playerName;
+                        newPlayer.agentColour = player.coatTrimColour;
+                        newPlayer.agentSecondaryColour = player.coatColour;
+                        newPlayer.agentHatIndex = player.hatIndex;
+
+                        players.Add(newPlayer);
+                    }
+
+                    CmdPlayIntro(players);
                 }
 
                 break;
@@ -386,7 +422,7 @@ public class H_GameManager : NetworkBehaviour
         ResetPlayerStates();
         ResetRoles();
 
-        H_TransitionManager.instance.FadeIn(0.25f);
+        CmdFadeIn(0.3f);
 
         currentRoundStage = RoundStage.Warmup;
 
@@ -766,43 +802,8 @@ public class H_GameManager : NetworkBehaviour
         return "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + text + "</color>";
     }
 
-    IEnumerator PlayIntroCutscene()
+    IEnumerator PlayIntroCutscene(List<CosmeticData> players)
     {
-        introStarted = true;
-
-        foreach (AgentData agent in allAgents)
-        {
-            availableAgents.Add(agent);
-        }
-
-        foreach (var player in roundPlayers)
-        {
-            int randomAgent = Random.Range(0, availableAgents.Count);
-
-            player.playerName = availableAgents[randomAgent].agentName;
-            player.coatColour = availableAgents[randomAgent].agentSecondaryColour;
-            player.coatTrimColour = availableAgents[randomAgent].agentColour;
-
-            player.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
-            player.shoesColour = shoesColours[Random.Range(0, shoesColours.Length)];
-
-            availableAgents.RemoveAt(randomAgent);
-        }
-
-        List<CosmeticData> players = new List<CosmeticData>();
-
-        foreach (var player in roundPlayers)
-        {
-            CosmeticData newPlayer = new CosmeticData();
-
-            newPlayer.agentName = player.playerName;
-            newPlayer.agentColour = player.coatTrimColour;
-            newPlayer.agentSecondaryColour = player.coatColour;
-            newPlayer.agentHatIndex = player.hatIndex;
-
-            players.Add(newPlayer);
-        }
-
         yield return new WaitForSeconds(1f);
 
         introCamera.SetActive(true);
@@ -814,8 +815,12 @@ public class H_GameManager : NetworkBehaviour
 
             //set cosmetics
 
-            //introPlayerName.text = 
-            introPlayerAgentName.text = "as " + ColorWord(player.agentName, player.agentColour);
+            playerRenderer.material.SetColor("_ShirtColour", Color.clear);
+            coatRenderer.material.color = player.agentSecondaryColour;
+            coatTrimRenderer.material.color = player.agentColour;
+
+            introPlayerName.text = "Hoodwinker";
+            introPlayerAgentName.text = "as " + ColorWord("Agent " + player.agentName, player.agentColour);
 
             Instantiate(H_CosmeticManager.instance.hats[player.agentHatIndex].cosmeticPrefab, hatAnchor);
 
@@ -843,18 +848,59 @@ public class H_GameManager : NetworkBehaviour
         playerUIGroup.alpha = 1;
         H_TransitionManager.instance.SetBlack();
         H_TransitionManager.instance.FadeOut(0.5f);
-        currentRoundStage = RoundStage.Game;
+
+        if (isServer)
+        {
+            currentRoundStage = RoundStage.Game;
+
+            foreach (var player in roundPlayers)
+            {
+                player.isHudHidden = false;
+            }
+        }
 
     }
 
-    void CmdPlayIntro(CosmeticData player)
+    [Command(requiresAuthority = false)]
+    void CmdPlayIntro(List<CosmeticData> players)
     {
-        RpcPlayIntro(player);
+        RpcPlayIntro(players);
+
+        foreach (var player in roundPlayers)
+        {
+            player.isHudHidden = true;
+        }
     }
 
-    void RpcPlayIntro(CosmeticData player)
+    [ClientRpc]
+    void RpcPlayIntro(List<CosmeticData> players)
     {
+        StartCoroutine(PlayIntroCutscene(players));
 
+    }
+
+    [Command(requiresAuthority = false)]
+    void CmdFadeIn(float speed)
+    {
+        RpcFadeIn(speed);
+    }
+
+    [ClientRpc]
+    void RpcFadeIn(float speed)
+    {
+        H_TransitionManager.instance.FadeIn(speed);
+    }
+
+    [Command(requiresAuthority = false)]
+    void CmdFadeOut(float speed)
+    {
+        RpcFadeOut(speed);
+    }
+
+    [ClientRpc]
+    void RpcFadeOut(float speed)
+    {
+        H_TransitionManager.instance.FadeOut(speed);
     }
 
     void UpdateDisplayPlayer(CosmeticData player)

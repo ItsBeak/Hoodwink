@@ -43,6 +43,8 @@ public class H_TransitionManager : MonoBehaviour
         StartCoroutine(FadeOutPanel(speed));
     }
 
+
+
     public IEnumerator FadeInPanel(float fadeSpeed)
     {
         while (fadePanel.color.a < 1)
