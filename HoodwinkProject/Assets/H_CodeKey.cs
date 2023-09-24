@@ -12,7 +12,7 @@ public class H_CodeKey : NetworkBehaviour
         GenerateKey();
     }
 
-    private void GenerateKey()
+    public void GenerateKey()
     {
         key = GenerateRandomKey();
 
