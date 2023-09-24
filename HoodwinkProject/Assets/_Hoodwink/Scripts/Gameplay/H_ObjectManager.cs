@@ -12,6 +12,8 @@ public class H_ObjectManager : NetworkBehaviour
 
     public GameObject faxMachinePrefab;
     public GameObject shredderPrefab;
+    public GameObject computerPrefab;
+    public GameObject keyMachinePrefab;
 
     [Header("Level Cleanup Settings")]
     public LayerMask cleanupLayers;
@@ -51,6 +53,13 @@ public class H_ObjectManager : NetworkBehaviour
         GameObject faxMachine = Instantiate(faxMachinePrefab, currentLevel.documentObjectives[randomShredderSet].faxLocation.position, currentLevel.documentObjectives[randomShredderSet].faxLocation.rotation);
         NetworkServer.Spawn(faxMachine);
 
+        int randomComputerSet = Random.Range(0, currentLevel.computerObjectives.Length);
+
+        GameObject computer = Instantiate(computerPrefab, currentLevel.computerObjectives[randomComputerSet].computerLocation.position, currentLevel.computerObjectives[randomComputerSet].computerLocation.rotation);
+        NetworkServer.Spawn(computer);
+
+        GameObject keyMachine = Instantiate(keyMachinePrefab, currentLevel.computerObjectives[randomComputerSet].keyMachineLocation.position, currentLevel.computerObjectives[randomComputerSet].keyMachineLocation.rotation);
+        NetworkServer.Spawn(keyMachine);
     }
 
     [Server]

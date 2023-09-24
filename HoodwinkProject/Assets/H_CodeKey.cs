@@ -15,6 +15,9 @@ public class H_CodeKey : NetworkBehaviour
     private void GenerateKey()
     {
         key = GenerateRandomKey();
+
+        H_CodeComputer computer = FindObjectOfType<H_CodeComputer>();
+        computer.OnKeyReceieved(key);
     }
 
     private string GenerateRandomKey()
@@ -22,7 +25,7 @@ public class H_CodeKey : NetworkBehaviour
         string newKey = "";
         for (int i = 0; i < 6; i++)
         {
-            newKey += Random.Range(0, 10).ToString();
+            newKey += Random.Range(1, 9).ToString();
         }
         return newKey;
     }
