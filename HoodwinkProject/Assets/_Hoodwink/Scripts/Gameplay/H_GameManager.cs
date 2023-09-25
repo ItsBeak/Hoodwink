@@ -522,6 +522,8 @@ public class H_GameManager : NetworkBehaviour
         if (enableDebugLogs)
             Debug.LogWarning("Level Loaded: " + chosenScene);
 
+        LightProbes.Tetrahedralize();
+
         RpcLoadMap(chosenScene);
 
         yield return new WaitForSeconds(5);
@@ -642,7 +644,10 @@ public class H_GameManager : NetworkBehaviour
     void RpcLoadMap(string scene)
     {
         if (!isServer)
+        {
             SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+            LightProbes.Tetrahedralize();
+        }
     }
 
     [ClientRpc]
