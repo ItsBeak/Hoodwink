@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TMPro;
 
 public class H_GadgetBase : NetworkBehaviour
 {
@@ -14,6 +15,11 @@ public class H_GadgetBase : NetworkBehaviour
     [HideInInspector] public H_PlayerEquipment equipment;
 
     [HideInInspector] public EquipmentSlot gadgetSlot;
+
+    [Header("UI Components")]
+    public bool usePrompt;
+    public string prompt;
+    public TextMeshProUGUI promptReadout;
 
     public virtual void Update()
     {
@@ -34,6 +40,8 @@ public class H_GadgetBase : NetworkBehaviour
         {
             UseGadgetSecondary();
         }
+
+        UpdateUI();
     }
 
     public void ResetCooldown()
@@ -91,4 +99,23 @@ public class H_GadgetBase : NetworkBehaviour
         }
     }
 
+    void UpdateUI()
+    {
+        if (usePrompt)
+        {
+            if (cooldownTimer <= 0 && equipment.currentSlot == gadgetSlot)
+            {
+                promptReadout.text = prompt;
+
+            }
+            else
+            {
+                promptReadout.text = "";
+            }
+        }
+        else
+        {
+            promptReadout.text = "";
+        }
+    }
 }
