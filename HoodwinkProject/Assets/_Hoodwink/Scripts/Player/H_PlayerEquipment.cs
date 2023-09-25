@@ -59,9 +59,9 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     [Header("Interaction Settings")]
     public float interactionRange = 2f;
-    public TextMeshProUGUI focusedItemReadout;
+    public TextMeshProUGUI interactionReadout;
     public LayerMask interactableLayers;
-    H_WorldItem focusedItem;
+    H_IInteractable focusedInteractable;
 
     [Header("Hit Markers")]
     public Transform hitmarkerParent;
@@ -200,15 +200,6 @@ public class H_PlayerEquipment : NetworkBehaviour
             secondGadgetDescriptionText.text = "";
         }
 
-        if (focusedItem && !isHoldingItem)
-        {
-            focusedItemReadout.text = "Press " + interactKey + " to pickup " + focusedItem.itemName;
-        }
-        else
-        {
-            focusedItemReadout.text = "";
-        }
-
         reloadingGroup.alpha = reloadingImageLeft.fillAmount != 0 ? 1 : 0;
     }
 
@@ -220,20 +211,23 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, interactionRange, interactableLayers) && !isHoldingItem)
         {
-            H_WorldItem item = hit.collider.GetComponent<H_WorldItem>();
+            var interactable = hit.collider.GetComponent<H_IInteractable>();
 
-            if (item != null)
+            if (interactable != null)
             {
-                focusedItem = item;
+                focusedInteractable = interactable;
+                interactionReadout.text = "Press " + interactKey + " to " + focusedInteractable.InteractableVerb + focusedInteractable.InteractableName;
             }
             else
             {
-                focusedItem = null;
+                focusedInteractable = null;
+                interactionReadout.text = "";
             }
         }
         else
         {
-            focusedItem = null;
+            focusedInteractable = null;
+            interactionReadout.text = "";
         }
     }
 
@@ -379,10 +373,9 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     public void TryInteract()
     {
-        if (focusedItem != null)
+        if (focusedInteractable != null)
         {
-            CmdTryPickUpItem(focusedItem.netIdentity);
-            CmdChangeSlot(EquipmentSlot.PrimaryItem);
+            focusedInteractable.OnInteract(netIdentity);
         }
     }
 
@@ -400,17 +393,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public void RpcTryDropItem()
     {
         TryDropItem();
-    }
-
-    [Command]
-    private void CmdTryPickUpItem(NetworkIdentity itemIdentity)
-    {
-        H_WorldItem item = itemIdentity.GetComponent<H_WorldItem>();
-
-        if (item != null)
-        {
-            item.PickUpItem(netIdentity);
-        }
     }
 
     [Command(requiresAuthority = false)]
@@ -436,6 +418,8 @@ public class H_PlayerEquipment : NetworkBehaviour
     [ClientRpc]
     public void RpcEquipPrimary(GameObject clientObject, GameObject observerObject)
     {
+        CmdChangeSlot(EquipmentSlot.PrimaryItem);
+
         primaryClientObject = clientObject;
         primaryObserverObject = observerObject;
 

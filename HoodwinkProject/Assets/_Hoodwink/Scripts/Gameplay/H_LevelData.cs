@@ -10,6 +10,7 @@ public class H_LevelData : MonoBehaviour
     public Transform[] itemSpawnPoints;
 
     public DocumentObjectives[] documentObjectives;
+    public ComputerObjectives[] computerObjectives;
 
     [Header("Level Cleanup Settings")]
     public Vector3 cleanupCentre;
@@ -27,4 +28,11 @@ public struct DocumentObjectives
 {
     public Transform shredderLocation;
     public Transform faxLocation;
+}
+
+[Serializable]
+public struct ComputerObjectives
+{
+    public Transform computerLocation;
+    public Transform keyMachineLocation;
 }
