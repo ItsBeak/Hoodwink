@@ -9,10 +9,13 @@ public class H_PlayerCosmetics : MonoBehaviour
 
     [Header("Main Renderers")]
     public Renderer playerRenderer;
-    public Renderer jacketRenderer, pantsRenderer, socksRenderer, shoesRenderer;
+    public Renderer jacketRenderer, pantsRenderer;
 
     [Header("Secondary Renderers")]
+    public Renderer vestRenderer;
+    public Renderer[] collarRenderers;
     public Renderer[] tieRenderers;
+    public Renderer[] pocketRenderers;
 
     public void SetHat(int hatIndex)
     {
@@ -40,16 +43,35 @@ public class H_PlayerCosmetics : MonoBehaviour
 
     public void SetPantsColour(Color newColor)
     {
-        //pantsRenderer.material.SetColor("_PantsColour", newColor);
         pantsRenderer.material.color = newColor;
+    }
+
+    public void SetVestColour(Color newColor)
+    {
+        vestRenderer.material.color = newColor;
+    }
+
+    public void SetCollarColour(Color newColor)
+    {
+        foreach (var collar in collarRenderers)
+        {
+            collar.material.color = newColor;
+        }
     }
 
     public void SetTieColour(Color newColor)
     {
         foreach (var tie in tieRenderers)
         {
-            //tie.material.SetColor("_TieColour", newColor);
             tie.material.color = newColor;
+        }
+    }
+
+    public void SetPocketColour(Color newColor)
+    {
+        foreach (var pocket in pocketRenderers)
+        {
+            pocket.material.color = newColor;
         }
     }
 

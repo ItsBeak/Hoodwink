@@ -19,7 +19,6 @@ public class H_PlayerBrain : NetworkBehaviour
     [SyncVar(hook = nameof(OnAgentDataChanged))] public AgentData agentData;
     [SyncVar(hook = nameof(OnReadyChanged))] public bool isReady = false;
     [SyncVar(hook = nameof(OnHudVisibilityChanged))] public bool isHudHidden = false;
-    [SyncVar(hook = nameof(OnHatChanged))] public int hatIndex;
     //[SyncVar] public IntroCosmeticData cosmeticData;
 
     [Header("Alignment Data")]
@@ -127,18 +126,21 @@ public class H_PlayerBrain : NetworkBehaviour
         speedMultiplier = amount;
     }
 
-    public void OnHatChanged(int oldHatIndex, int newHatIndex)
-    {
-        cosmetics.SetHat(newHatIndex);
-    }
-
     public void OnAgentDataChanged(AgentData oldData, AgentData newData)
     {
         agentNameText.text = newData.agentName;
 
         agentColourImage.color = newData.primaryColour;
 
+        cosmetics.SetHat(newData.hatIndex);
+
         cosmetics.SetJacketColour(newData.primaryColour);
+        cosmetics.SetPantsColour(newData.pantsColour);
+        cosmetics.SetVestColour(newData.vestColour);
+        cosmetics.SetTieColour(newData.primaryColour);
+        cosmetics.SetCollarColour(newData.secondaryColour);
+        cosmetics.SetPocketColour(newData.secondaryColour);
+
     }
 
     public void OnPlayerNameChanged(string oldName, string newName)
@@ -247,7 +249,7 @@ public class H_PlayerBrain : NetworkBehaviour
     [Command]
     void CmdSetPlayerCosmetics(int index)
     {
-        hatIndex = index;
+        agentData.hatIndex = index;
     }
 
     [Command]
