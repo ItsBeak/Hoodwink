@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TMPro;
 
 public class H_GadgetBase : NetworkBehaviour
 {
@@ -13,6 +14,13 @@ public class H_GadgetBase : NetworkBehaviour
     [HideInInspector] public float cooldownTimer = 0;
     [HideInInspector] public H_PlayerEquipment equipment;
 
+    [HideInInspector] public EquipmentSlot gadgetSlot;
+
+    [Header("UI Components")]
+    public bool usePrompt;
+    public string prompt;
+    public TextMeshProUGUI promptReadout;
+
     public virtual void Update()
     {
         if (!isOwned)
@@ -23,18 +31,20 @@ public class H_GadgetBase : NetworkBehaviour
             cooldownTimer -= 1 * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && equipment.currentSlot == EquipmentSlot.Gadget)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && equipment.currentSlot == gadgetSlot)
         {
             UseGadgetPrimary();
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && equipment.currentSlot == EquipmentSlot.Gadget)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && equipment.currentSlot == gadgetSlot)
         {
             UseGadgetSecondary();
         }
+
+        UpdateUI();
     }
 
-    void ResetCooldown()
+    public void ResetCooldown()
     {
         cooldownTimer = cooldown;
     }
@@ -89,4 +99,23 @@ public class H_GadgetBase : NetworkBehaviour
         }
     }
 
+    void UpdateUI()
+    {
+        if (usePrompt)
+        {
+            if (cooldownTimer <= 0 && equipment.currentSlot == gadgetSlot)
+            {
+                promptReadout.text = prompt;
+
+            }
+            else
+            {
+                promptReadout.text = "";
+            }
+        }
+        else
+        {
+            promptReadout.text = "";
+        }
+    }
 }
