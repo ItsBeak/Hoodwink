@@ -16,11 +16,7 @@ public class H_PlayerBrain : NetworkBehaviour
 
     [Header("Player Cosmetic Data")]
     [SyncVar(hook = nameof(OnPlayerNameChanged))] public string playerName;
-    [SyncVar(hook = nameof(OnAgentNameChanged))] public string agentName;
-    [SyncVar(hook = nameof(OnPrimaryColourChanged))] public Color agentPrimaryColour;
-    [SyncVar(hook = nameof(OnSecondaryColourChanged))] public Color agentSecondaryColour;
-    [SyncVar(hook = nameof(OnPantsColourChanged))] public Color pantsColour;
-    [SyncVar(hook = nameof(OnShoesColourChanged))] public Color shoesColour;
+    [SyncVar(hook = nameof(OnAgentDataChanged))] public AgentData agentData;
     [SyncVar(hook = nameof(OnReadyChanged))] public bool isReady = false;
     [SyncVar(hook = nameof(OnHudVisibilityChanged))] public bool isHudHidden = false;
     [SyncVar(hook = nameof(OnHatChanged))] public int hatIndex;
@@ -136,31 +132,13 @@ public class H_PlayerBrain : NetworkBehaviour
         cosmetics.SetHat(newHatIndex);
     }
 
-    public void OnPrimaryColourChanged(Color oldColor, Color newColor)
+    public void OnAgentDataChanged(AgentData oldData, AgentData newData)
     {
-        cosmetics.SetJacketColour(newColor);
-        agentColourImage.color = newColor;
-    }
+        agentNameText.text = newData.agentName;
 
-    public void OnSecondaryColourChanged(Color oldColor, Color newColor)
-    {
-        cosmetics.SetTieColour(newColor);
-        cosmetics.SetSocksColour(newColor);
-    }
+        agentColourImage.color = newData.primaryColour;
 
-    public void OnPantsColourChanged(Color oldColor, Color newColor)
-    {
-        cosmetics.SetPantsColour(newColor);
-    }
-
-    public void OnShoesColourChanged(Color oldColor, Color newColor)
-    {
-        cosmetics.SetShoesColour(newColor);
-    }
-
-    public void OnAgentNameChanged(string oldName, string newName)
-    {
-        agentNameText.text = newName;
+        cosmetics.SetJacketColour(newData.primaryColour);
     }
 
     public void OnPlayerNameChanged(string oldName, string newName)

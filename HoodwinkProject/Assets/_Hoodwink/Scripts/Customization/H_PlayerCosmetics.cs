@@ -44,18 +44,6 @@ public class H_PlayerCosmetics : MonoBehaviour
         pantsRenderer.material.color = newColor;
     }
 
-    public void SetSocksColour(Color newColor)
-    {
-        //socksRenderer.material.SetColor("_SocksColour", newColor);
-        socksRenderer.material.color = newColor;
-    }
-
-    public void SetShoesColour(Color newColor)
-    {
-        //shoesRenderer.material.SetColor("_ShoesColour", newColor);
-        shoesRenderer.material.color = newColor;
-    }
-
     public void SetTieColour(Color newColor)
     {
         foreach (var tie in tieRenderers)
