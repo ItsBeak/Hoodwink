@@ -3,6 +3,7 @@ using Mirror;
 using Cinemachine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class H_PlayerBrain : NetworkBehaviour
 {
@@ -13,13 +14,17 @@ public class H_PlayerBrain : NetworkBehaviour
     [HideInInspector] public bool isPaused;
     public float speedMultiplier = 1;
 
-    [Header("Player Data")]
-    [SyncVar(hook = nameof(OnNameChanged))] public string playerName;
+    [Header("Player Cosmetic Data")]
+    [SyncVar(hook = nameof(OnPlayerNameChanged))] public string playerName;
+    [SyncVar(hook = nameof(OnAgentNameChanged))] public string agentName;
     [SyncVar(hook = nameof(SetCoatColour))] public Color coatColour;
     [SyncVar(hook = nameof(SetCoatTrimColour))] public Color coatTrimColour;
     [SyncVar(hook = nameof(SetPantsColour))] public Color pantsColour;
     [SyncVar(hook = nameof(SetShoesColour))] public Color shoesColour;
     [SyncVar(hook = nameof(OnReadyChanged))] public bool isReady = false;
+    [SyncVar(hook = nameof(OnHudVisibilityChanged))] public bool isHudHidden = false;
+    [SyncVar(hook = nameof(OnSetHat))] public int hatIndex;
+    public Transform hatAnchor;
 
     [Header("Alignment Data")]
     [SyncVar(hook = nameof(OnAlignmentChanged))]
@@ -55,12 +60,23 @@ public class H_PlayerBrain : NetworkBehaviour
             return netManager = NetworkManager.singleton as H_NetworkManager;
         }
     }
+
+    public override void OnStartLocalPlayer()
+    {
+        int index;
+        index = H_CosmeticManager.instance.currentHat.ID;
+        CmdSetPlayerCosmetics(index);
+        CmdSetPlayerName(PlayerPrefs.GetString("C_SELECTED_NAME", "Hoodwinker"));
+    }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
 
         if (isLocalPlayer)
         {
+            H_TransitionManager.instance.FadeOut(0.25f);
+
             cam.enabled = true;
             playerUI.gameObject.SetActive(true);
 
@@ -138,7 +154,12 @@ public class H_PlayerBrain : NetworkBehaviour
         playerRenderer.material.SetColor("_ShoesColour", newColor);
     }
 
-    public void OnNameChanged(string oldName, string newName)
+    public void OnAgentNameChanged(string oldName, string newName)
+    {
+        agentNameText.text = newName;
+    }
+
+    public void OnPlayerNameChanged(string oldName, string newName)
     {
         agentNameText.text = newName;
     }
@@ -153,14 +174,11 @@ public class H_PlayerBrain : NetworkBehaviour
     {
         currentAlignment = alignment;
         UpdateAlignmentUI(currentAlignment);
-        Debug.Log("Set role to: " + currentAlignment.ToString());
     }
 
 
     void OnAlignmentChanged(AgentAlignment oldRole, AgentAlignment newRole)
     {
-        Debug.Log("Set changed to: " + newRole.ToString());
-
         UpdateAlignmentUI(newRole);
     }
 
@@ -244,6 +262,36 @@ public class H_PlayerBrain : NetworkBehaviour
         coatTrimRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
 
+    [Command]
+    void CmdSetPlayerCosmetics(int index)
+    {
+        hatIndex = index;
+    }
+
+    [Command]
+    void CmdSetPlayerName(string newName)
+    {
+        playerName = newName;
+    }
+
+    void OnSetHat(int oldHat, int newHat)
+    {
+        foreach (Transform child in hatAnchor.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        Instantiate(H_CosmeticManager.instance.hats[newHat].cosmeticPrefab, hatAnchor);
+
+        if (isLocalPlayer)
+        {
+            foreach (Renderer rend in hatAnchor.GetComponentsInChildren<Renderer>())
+            {
+                rend.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+            }
+        }
+    }
+
     public void ShowSpyIndicators()
     {
         Camera.main.cullingMask = spyCullingMask;
@@ -252,6 +300,11 @@ public class H_PlayerBrain : NetworkBehaviour
     public void HideSpyIndicators()
     {
         Camera.main.cullingMask = baseCullingMask;
+    }
+
+    void OnHudVisibilityChanged(bool oldValue, bool newValue)
+    {
+        playerUI.playerUI.alpha = isHudHidden ? 0 : 1;
     }
 }
 
