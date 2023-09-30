@@ -74,7 +74,7 @@ public class H_PlayerBrain : NetworkBehaviour
             cam.enabled = true;
             playerUI.gameObject.SetActive(true);
 
-            HideLocalPlayer();
+            cosmetics.HidePlayer();
 
             foreach (GameObject ob in hideForLocalPlayer)
             {
@@ -230,20 +230,6 @@ public class H_PlayerBrain : NetworkBehaviour
         transform.position = position;
         transform.rotation = rotation;
         Physics.SyncTransforms();
-    }
-
-    public void HideLocalPlayer()
-    {
-        //playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-        //coatRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-        //coatTrimRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-    }
-
-    public void ShowLocalPlayer()
-    {
-        //playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        //coatRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        //coatTrimRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
 
     [Command]
