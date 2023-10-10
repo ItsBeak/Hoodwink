@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: dust
-  m_Shader: {fileID: -6465566751694194690, guid: 75c29e093cbac3f4e9178b4c538118ae,
+  m_Shader: {fileID: -6465566751694194690, guid: f43a46da5abfc1b44a7463ff95d6d44a,
     type: 3}
   m_ValidKeywords:
   - _SURFACE_TYPE_TRANSPARENT
@@ -33,7 +33,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_AC91166D:
-        m_Texture: {fileID: 2800000, guid: 11e39c1b591ab1e43a91ddec451c45e8, type: 3}
+        m_Texture: {fileID: 2800000, guid: d581d27918021f94fab4fa79a79930f8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DistortionVectorMap:
@@ -108,6 +108,8 @@ Material:
     - _IncludeIndirectLighting: 1
     - _OpaqueCullMode: 2
     - _RenderQueueType: 4
+    - _Soft_Particle_Amount: 0.2
+    - _Soft_Particles: 0
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 0
