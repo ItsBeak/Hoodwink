@@ -80,7 +80,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform dropPoint;
     public Transform placePoint;
 
-
     [HideInInspector] public bool isPrimaryUseKeyPressed = false;
     [HideInInspector] public bool isSecondaryUseKeyPressed = false;
     [HideInInspector] public bool isAlternateUseKeyPressed = false;
@@ -91,6 +90,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     public H_Recoil cameraRecoil;
     [HideInInspector] public H_PlayerBrain brain;
     [HideInInspector] public H_PlayerAnimator animator;
+    [HideInInspector] public H_PlayerController controller;
     bool isDead;
 
     void Start()
@@ -105,6 +105,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         brain = GetComponent<H_PlayerBrain>();
         animator = GetComponent<H_PlayerAnimator>();
+        controller = GetComponent<H_PlayerController>();
 
         primaryEquipPointObserver.gameObject.SetActive(false);
         sidearmEquipPointObserver.gameObject.SetActive(false);

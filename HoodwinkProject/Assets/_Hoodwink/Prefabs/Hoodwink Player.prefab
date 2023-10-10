@@ -6943,6 +6943,7 @@ MonoBehaviour:
   cameraBase: {fileID: 6530246134214341214}
   characterController: {fileID: 0}
   moveDirection: {x: 0, y: 0, z: 0}
+  isMoving: 0
   isRunning: 0
 --- !u!143 &8005283740787475027
 CharacterController:
@@ -7139,6 +7140,7 @@ MonoBehaviour:
   cameraRecoil: {fileID: 6940700123682977131}
   brain: {fileID: 0}
   animator: {fileID: 0}
+  controller: {fileID: 0}
 --- !u!114 &6220283844275577187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19538,7 +19540,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7988371428347945721
 RectTransform:
   m_ObjectHideFlags: 0

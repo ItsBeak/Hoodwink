@@ -2,6 +2,8 @@ using UnityEngine;
 using Mirror;
 using System;
 using Random = UnityEngine.Random;
+using Cinemachine.Utility;
+using TMPro;
 
 public class H_ItemWeapon : H_ItemBase
 {
@@ -49,10 +51,25 @@ public class H_ItemWeapon : H_ItemBase
     H_WeaponEffects observerEffects;
 
     [Header("Bullet Settings")]
-    [Range(0f, 1f)]
-    public float bulletSpread;
     public int bulletsPerShot = 1;
     public LayerMask shootableLayers;
+
+    [Header("Spread Settings")]
+    [Range(0f, 3f)] public float defaultBulletSpread;
+    [Range(0f, 3f)] public float aimedBulletSpread;
+    [Range(0f, 3f)] public float movingBulletSpread;
+    public float perShotBloom;
+    public float maxBloom;
+    public float bloomRecoveryMultiplier = 1;
+
+    public bool drawDebugSpreadRays;
+    float bulletSpread;
+    float bulletBloom = 0;
+
+    [Header("Crosshair Settings")]
+    public float crosshairOffset;
+    public float crosshairMultiplier;
+    public RectTransform crosshairPieceTop, crosshairPieceBottom, crosshairPieceLeft, crosshairPieceRight;
 
     [Header("Ammo Settings")]
     public int maxAmmo;
@@ -64,9 +81,6 @@ public class H_ItemWeapon : H_ItemBase
     [HideInInspector] public int ammoLoaded;
     [HideInInspector] public int ammoPool;
     bool lockTrigger = false;
-
-    //[Header("Animation")]
-    //public Animator anim;
 
     [Header("Debugging")]
     public bool enableDebugLogs;
@@ -89,6 +103,8 @@ public class H_ItemWeapon : H_ItemBase
 
         ammoPool = startingAmmo;
         ammoLoaded = clipSize;
+
+        bulletSpread = defaultBulletSpread;
 
         Debug.Log("Initializing sidearm");
     }
@@ -122,6 +138,17 @@ public class H_ItemWeapon : H_ItemBase
         equipment.SetAmmoUI(ammoLoaded, ammoPool, Mathf.Clamp(reloadTimer / reloadTime, 0, 1));
         reloadTimer -= 1 * Time.deltaTime;
 
+        if (equipment.controller.isMoving)
+        {
+            bulletSpread = Mathf.Lerp(bulletSpread, movingBulletSpread, Time.deltaTime * 3);
+        }
+        else
+        {
+            bulletSpread = Mathf.Lerp(bulletSpread, defaultBulletSpread, Time.deltaTime * 2);
+        }
+
+        bulletBloom = Mathf.Lerp(bulletBloom, 0, Time.deltaTime * bloomRecoveryMultiplier);
+
         if (Input.GetKeyDown(KeyCode.T))
         {
             if (equipment.brain.currentAlignment == AgentAlignment.Spy)
@@ -129,6 +156,15 @@ public class H_ItemWeapon : H_ItemBase
                 ToggleSilencer();
             }
         }
+
+        float spread = crosshairOffset + ((bulletSpread + bulletBloom) * crosshairMultiplier);
+
+        Vector3 spreadVector = new Vector3(0, spread, 0);
+
+        crosshairPieceTop.localPosition = spreadVector;
+        crosshairPieceBottom.localPosition = spreadVector;
+        crosshairPieceLeft.localPosition = spreadVector;
+        crosshairPieceRight.localPosition = spreadVector;
     }
 
     public override void PrimaryUse()
@@ -147,10 +183,10 @@ public class H_ItemWeapon : H_ItemBase
             {
                 RaycastHit hit;
 
-                Vector3 bulletDirection = new Vector3(0, 0, 1);
+                Vector3 bulletDirection = new Vector3(0, 0, 10);
 
-                bulletDirection.x += Random.Range(-bulletSpread * 0.1f, bulletSpread * 0.1f);
-                bulletDirection.y += Random.Range(-bulletSpread * 0.1f, bulletSpread * 0.1f);
+                bulletDirection.x += Random.Range(-bulletSpread + -bulletBloom, bulletSpread + bulletBloom);
+                bulletDirection.y += Random.Range(-bulletSpread + -bulletBloom, bulletSpread + bulletBloom);
 
                 bulletDirection = equipment.playerCamera.transform.localToWorldMatrix * bulletDirection;
 
@@ -181,6 +217,9 @@ public class H_ItemWeapon : H_ItemBase
                     }
                 }
             }
+
+            bulletBloom += perShotBloom;
+            Mathf.Clamp(bulletBloom, 0, maxBloom);
 
             if (isAiming)
             {
@@ -260,6 +299,38 @@ public class H_ItemWeapon : H_ItemBase
     {
         GameObject newBulletHole = GameObject.Instantiate(bulletHolePrefab, position, Quaternion.identity);
         newBulletHole.transform.LookAt(position + normal);
+    }
+
+    private void OnDrawGizmos()
+    {   
+        if (drawDebugSpreadRays)
+        {
+            Gizmos.color = Color.red;
+
+            Vector3 rayDir = new Vector3(0, 0, 10);
+            rayDir.x = bulletSpread + bulletBloom;
+            rayDir = equipment.playerCamera.transform.localToWorldMatrix * rayDir;
+            rayDir += equipment.playerCamera.transform.position;
+            Gizmos.DrawLine(equipment.playerCamera.transform.position, rayDir);
+
+            rayDir = new Vector3(0, 0, 10);
+            rayDir.x = -bulletSpread + -bulletBloom;
+            rayDir = equipment.playerCamera.transform.localToWorldMatrix * rayDir;
+            rayDir += equipment.playerCamera.transform.position;
+            Gizmos.DrawLine(equipment.playerCamera.transform.position, rayDir);
+
+            rayDir = new Vector3(0, 0, 10);
+            rayDir.y = bulletSpread + bulletBloom;
+            rayDir = equipment.playerCamera.transform.localToWorldMatrix * rayDir;
+            rayDir += equipment.playerCamera.transform.position;
+            Gizmos.DrawLine(equipment.playerCamera.transform.position, rayDir);
+
+            rayDir = new Vector3(0, 0, 10);
+            rayDir.y = -bulletSpread + -bulletBloom;
+            rayDir = equipment.playerCamera.transform.localToWorldMatrix * rayDir;
+            rayDir += equipment.playerCamera.transform.position;
+            Gizmos.DrawLine(equipment.playerCamera.transform.position, rayDir);
+        }
     }
 
 }
