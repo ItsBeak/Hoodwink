@@ -242,6 +242,15 @@ public class H_PlayerBrain : NetworkBehaviour
         agentData.hatIndex = hatID;
         agentData.suitIndex = suitID;
         agentData.vestIndex = vestID;
+        RpcUpdateCosmetics();
+    }
+
+    [ClientRpc]
+    void RpcUpdateCosmetics()
+    {
+        cosmetics.SetHat(agentData.hatIndex);
+        cosmetics.ToggleSuit(agentData.suitIndex);
+        cosmetics.ToggleVest(agentData.vestIndex);
     }
 
     [Command]
