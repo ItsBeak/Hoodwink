@@ -215,8 +215,24 @@ public class H_PlayerEquipment : NetworkBehaviour
 
             if (interactable != null)
             {
-                focusedInteractable = interactable;
-                interactionReadout.text = "Press " + interactKey + " to " + focusedInteractable.InteractableVerb + focusedInteractable.InteractableName;
+                if (hit.collider.CompareTag("SpyOnly"))
+                {
+                    if (brain.currentAlignment == AgentAlignment.Spy)
+                    {
+                        focusedInteractable = interactable;
+                        interactionReadout.text = "Press " + interactKey + " to " + focusedInteractable.InteractableVerb + focusedInteractable.InteractableName;
+                    }
+                    else
+                    {
+                        focusedInteractable = null;
+                        interactionReadout.text = "";
+                    }
+                }
+                else
+                {
+                    focusedInteractable = interactable;
+                    interactionReadout.text = "Press " + interactKey + " to " + focusedInteractable.InteractableVerb + focusedInteractable.InteractableName;
+                }
             }
             else
             {
