@@ -2,10 +2,13 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Mirror;
 using SteamAudio;
+using System;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public class H_PlayerCosmetics : MonoBehaviour
 {
     public Transform hatAnchor;
+    public CosmeticSet[] suits, vests;
 
     [Header("Main Renderers")]
     public Renderer playerRenderer;
@@ -33,6 +36,48 @@ public class H_PlayerCosmetics : MonoBehaviour
             foreach (Renderer rend in hatAnchor.GetComponentsInChildren<Renderer>())
             {
                 rend.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+            }
+        }
+    }
+
+    public void ToggleSuit(int index)
+    {
+        for (int i = 0; i < suits.Length; i++)
+        {
+            if (i == index)
+            {
+                foreach (GameObject part in suits[i].cosmeticParts)
+                {
+                    part.SetActive(true);
+                }
+            }
+            else
+            {
+                foreach (GameObject part in suits[i].cosmeticParts)
+                {
+                    part.SetActive(false);
+                }
+            }
+        }
+    }
+
+    public void ToggleVest(int index)
+    {
+        for (int i = 0; i < vests.Length; i++)
+        {
+            if (i == index)
+            {
+                foreach (GameObject part in vests[i].cosmeticParts)
+                {
+                    part.SetActive(true);
+                }
+            }
+            else
+            {
+                foreach (GameObject part in vests[i].cosmeticParts)
+                {
+                    part.SetActive(false);
+                }
             }
         }
     }
@@ -151,4 +196,10 @@ public class H_PlayerCosmetics : MonoBehaviour
 
     }
 
+}
+
+[Serializable]
+public class CosmeticSet
+{
+    public GameObject[] cosmeticParts;
 }

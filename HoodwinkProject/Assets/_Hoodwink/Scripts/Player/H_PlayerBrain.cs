@@ -57,9 +57,12 @@ public class H_PlayerBrain : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        int index;
-        index = H_CosmeticManager.instance.currentHat.ID;
-        CmdSetPlayerCosmetics(index);
+        int hatIndex, suitIndex, vestIndex;
+        hatIndex = H_CosmeticManager.instance.currentHat.ID;
+        suitIndex = H_CosmeticManager.instance.currentSuitCut;
+        vestIndex = H_CosmeticManager.instance.currentVestCut;
+
+        CmdSetPlayerCosmetics(hatIndex, suitIndex, vestIndex);
         CmdSetPlayerName(PlayerPrefs.GetString("C_SELECTED_NAME", "Hoodwinker"));
     }
 
@@ -133,6 +136,8 @@ public class H_PlayerBrain : NetworkBehaviour
         agentColourImage.color = newData.primaryColour;
 
         cosmetics.SetHat(newData.hatIndex);
+        cosmetics.ToggleSuit(newData.suitIndex);
+        cosmetics.ToggleVest(newData.vestIndex);
 
         cosmetics.SetJacketColour(newData.primaryColour);
         cosmetics.SetPantsColour(newData.pantsColour);
@@ -140,7 +145,6 @@ public class H_PlayerBrain : NetworkBehaviour
         cosmetics.SetTieColour(newData.primaryColour);
         cosmetics.SetCollarColour(newData.secondaryColour);
         cosmetics.SetPocketColour(newData.secondaryColour);
-
     }
 
     public void OnPlayerNameChanged(string oldName, string newName)
@@ -233,9 +237,11 @@ public class H_PlayerBrain : NetworkBehaviour
     }
 
     [Command]
-    void CmdSetPlayerCosmetics(int index)
+    void CmdSetPlayerCosmetics(int hatID, int suitID, int vestID)
     {
-        agentData.hatIndex = index;
+        agentData.hatIndex = hatID;
+        agentData.suitIndex = suitID;
+        agentData.vestIndex = vestID;
     }
 
     [Command]

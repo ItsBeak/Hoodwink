@@ -224,12 +224,6 @@ public class H_GameManager : NetworkBehaviour
                     {
                         IntroCosmeticData newPlayer = new IntroCosmeticData();
 
-                        //newPlayer.playerName = player.playerName;
-                        //newPlayer.agentName = player.agentName;
-                        //newPlayer.agentPrimaryColour = player.agentSecondaryColour;
-                        //newPlayer.agentSecondaryColour = player.agentPrimaryColour;
-                        //newPlayer.agentHatIndex = player.hatIndex;
-
                         int newIntroIndex = introIndexes[Random.Range(0, introIndexes.Count)];
                         newPlayer.introIndex = newIntroIndex;
                         introIndexes.Remove(newIntroIndex);
@@ -958,6 +952,8 @@ public struct AgentData
     public Color pantsColour, vestColour, tieColour;
 
     public int hatIndex;
+    public int suitIndex;
+    public int vestIndex;
 }
 
 [System.Serializable]

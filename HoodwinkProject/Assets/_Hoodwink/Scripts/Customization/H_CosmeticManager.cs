@@ -10,7 +10,11 @@ public class H_CosmeticManager : MonoBehaviour
 
     public Cosmetic[] hats;
 
+    public AgentData[] agentColours;
+
+
     public Cosmetic currentHat;
+    public int currentSuitCut, currentVestCut;
 
     void Awake()
     {
@@ -31,6 +35,8 @@ public class H_CosmeticManager : MonoBehaviour
     public void SaveCosmetics()
     {
         PlayerPrefs.SetInt("C_SELECTED_HAT", currentHat.ID);
+        PlayerPrefs.SetInt("C_SELECTED_SUIT", currentSuitCut);
+        PlayerPrefs.SetInt("C_SELECTED_VEST", currentVestCut);
 
         PlayerPrefs.Save();
     }
@@ -38,11 +44,24 @@ public class H_CosmeticManager : MonoBehaviour
     public void LoadCustomCharacter()
     {
         currentHat = hats[PlayerPrefs.GetInt("C_SELECTED_HAT", 0)];
+        currentSuitCut = PlayerPrefs.GetInt("C_SELECTED_SUIT", 0);
+        currentVestCut = PlayerPrefs.GetInt("C_SELECTED_VEST", 0);
+
     }
 
     public void SetHat(int index)
     {
         currentHat = hats[index];
+    }
+
+    public void SetSuit(int index)
+    {
+        currentSuitCut = index;
+    }
+
+    public void SetVest(int index)
+    {
+        currentVestCut = index;
     }
 
 }
