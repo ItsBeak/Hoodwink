@@ -70,6 +70,7 @@ public class H_ItemWeapon : H_ItemBase
     public float crosshairOffset;
     public float crosshairMultiplier;
     public RectTransform crosshairPieceTop, crosshairPieceBottom, crosshairPieceLeft, crosshairPieceRight;
+    public CanvasGroup crosshairFade;
 
     [Header("Ammo Settings")]
     public int maxAmmo;
@@ -140,11 +141,29 @@ public class H_ItemWeapon : H_ItemBase
 
         if (equipment.controller.isMoving)
         {
-            bulletSpread = Mathf.Lerp(bulletSpread, movingBulletSpread, Time.deltaTime * 3);
+            if (isAiming)
+            {
+                bulletSpread = Mathf.Lerp(bulletSpread, Mathf.Lerp(movingBulletSpread, aimedBulletSpread, 0.5f), Time.deltaTime * 4);
+                crosshairFade.alpha = Mathf.Lerp(crosshairFade.alpha, 0.2f, Time.deltaTime * 6);
+            }
+            else
+            {
+                bulletSpread = Mathf.Lerp(bulletSpread, movingBulletSpread, Time.deltaTime * 4);
+                crosshairFade.alpha = Mathf.Lerp(crosshairFade.alpha, 1f, Time.deltaTime * 6);
+            }
         }
         else
         {
-            bulletSpread = Mathf.Lerp(bulletSpread, defaultBulletSpread, Time.deltaTime * 2);
+            if (isAiming)
+            {
+                bulletSpread = Mathf.Lerp(bulletSpread, aimedBulletSpread, Time.deltaTime * 3.5f);
+                crosshairFade.alpha = Mathf.Lerp(crosshairFade.alpha, 0f, Time.deltaTime * 6);
+            }
+            else
+            {
+                bulletSpread = Mathf.Lerp(bulletSpread, defaultBulletSpread, Time.deltaTime * 3);
+                crosshairFade.alpha = Mathf.Lerp(crosshairFade.alpha, 1f, Time.deltaTime * 6);
+            }
         }
 
         bulletBloom = Mathf.Lerp(bulletBloom, 0, Time.deltaTime * bloomRecoveryMultiplier);
@@ -165,6 +184,8 @@ public class H_ItemWeapon : H_ItemBase
         crosshairPieceBottom.localPosition = spreadVector;
         crosshairPieceLeft.localPosition = spreadVector;
         crosshairPieceRight.localPosition = spreadVector;
+
+        equipment.slowPlayer = isAiming;
     }
 
     public override void PrimaryUse()
@@ -220,6 +241,7 @@ public class H_ItemWeapon : H_ItemBase
 
             bulletBloom += perShotBloom;
             Mathf.Clamp(bulletBloom, 0, maxBloom);
+            crosshairFade.alpha += 0.2f;
 
             if (isAiming)
             {
