@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.Playables;
 using System;
 using Random = UnityEngine.Random;
+using System.Threading;
 
 public class H_GameManager : NetworkBehaviour
 {
@@ -657,11 +658,22 @@ public class H_GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcLoadMap(string scene)
+    void RpcLoadMap(string sceneName)
+    {
+        StartCoroutine(LoadMap(sceneName));
+    }
+
+    IEnumerator LoadMap(string sceneName)
     {
         if (!isServer)
         {
-            SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
+
             LightProbes.Tetrahedralize();
         }
     }

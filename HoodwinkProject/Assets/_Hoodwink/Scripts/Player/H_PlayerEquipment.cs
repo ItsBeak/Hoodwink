@@ -1,5 +1,6 @@
 using Cinemachine;
 using Mirror;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -91,7 +92,9 @@ public class H_PlayerEquipment : NetworkBehaviour
     [HideInInspector] public H_PlayerBrain brain;
     [HideInInspector] public H_PlayerAnimator animator;
     [HideInInspector] public H_PlayerController controller;
+    public Animator itemsAnimator;
     bool isDead;
+    bool isBusy;
 
     void Start()
     {
@@ -113,7 +116,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         baseFOV = playerCamera.m_Lens.FieldOfView;
 
-        ChangeSlotInput(EquipmentSlot.Holstered);
+        StartCoroutine(ChangeSlotInput(EquipmentSlot.Holstered));
     }
 
     void Update()
@@ -127,21 +130,24 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void CheckForKeypresses()
     {
+        if (isBusy)
+            return;
+
         isPrimaryUseKeyPressed = Input.GetKey(primaryUseKey);
         isSecondaryUseKeyPressed = Input.GetKey(secondaryUseKey);
         isAlternateUseKeyPressed = Input.GetKey(alternateUseKey);
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && currentSlot != EquipmentSlot.PrimaryItem)
         {
-            ChangeSlotInput(EquipmentSlot.PrimaryItem);
+            StartCoroutine(ChangeSlotInput(EquipmentSlot.PrimaryItem));
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && currentSlot != EquipmentSlot.Sidearm)
         {
-            ChangeSlotInput(EquipmentSlot.Sidearm);
+            StartCoroutine(ChangeSlotInput(EquipmentSlot.Sidearm));
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && currentSlot != EquipmentSlot.Holstered)
         {
-            ChangeSlotInput(EquipmentSlot.Holstered);
+            StartCoroutine(ChangeSlotInput(EquipmentSlot.Holstered));
         }
         else if (Input.GetKeyDown(interactKey))
         {
@@ -151,13 +157,13 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             TryDropItem();
         }
-        else if (Input.GetKeyDown(firstGadgetKey))
+        else if (Input.GetKeyDown(firstGadgetKey) && currentSlot != EquipmentSlot.FirstGadget)
         {
-            ChangeSlotInput(EquipmentSlot.FirstGadget);
+            StartCoroutine(ChangeSlotInput(EquipmentSlot.FirstGadget));
         }
-        else if (Input.GetKeyDown(secondGadgetKey))
+        else if (Input.GetKeyDown(secondGadgetKey) && currentSlot != EquipmentSlot.SecondGadget)
         {
-            ChangeSlotInput(EquipmentSlot.SecondGadget);
+            StartCoroutine(ChangeSlotInput(EquipmentSlot.SecondGadget));
         }
     }
 
@@ -250,11 +256,18 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void OnEquipmentChanged(EquipmentSlot oldSlot, EquipmentSlot newSlot)
     {
-        ChangeSlot(newSlot);
+        StartCoroutine(ChangeSlot(newSlot));
     }
 
-    void ChangeSlot(EquipmentSlot newSlot)
+    IEnumerator ChangeSlot(EquipmentSlot newSlot)
     {
+        RaiseItems();
+        Debug.Log("Raising items");
+
+        yield return new WaitForSeconds(0.15f);
+
+        isBusy = false;
+
         ClearSlots();
         ClearAmmoUI();
 
@@ -285,8 +298,28 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     }
 
-    void ChangeSlotInput(EquipmentSlot selectedSlot)
+    //void ChangeSlotInput(EquipmentSlot selectedSlot)
+    //{
+    //    if (isHoldingItem)
+    //    {
+    //        if (currentObject.dropOnSwap)
+    //        {
+    //            TryDropItem();
+    //        }
+    //    }
+    //
+    //    CmdChangeSlot(selectedSlot);
+    //}
+
+    IEnumerator ChangeSlotInput(EquipmentSlot selectedSlot)
     {
+        isBusy = true;
+
+        LowerItems();
+        Debug.Log("Lowering items");
+
+        yield return new WaitForSeconds(0.15f);
+
         if (isHoldingItem)
         {
             if (currentObject.dropOnSwap)
@@ -586,6 +619,16 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         reloadingImageLeft.fillAmount = 0;
         reloadingImageRight.fillAmount = 0;
+    }
+
+    public void LowerItems()
+    {
+        itemsAnimator.SetBool("isLowered", true);
+    }
+
+    public void RaiseItems()
+    {
+        itemsAnimator.SetBool("isLowered", false);
     }
 
 }

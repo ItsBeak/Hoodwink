@@ -184,8 +184,6 @@ public class H_ItemWeapon : H_ItemBase
         crosshairPieceBottom.localPosition = spreadVector;
         crosshairPieceLeft.localPosition = spreadVector;
         crosshairPieceRight.localPosition = spreadVector;
-
-        equipment.slowPlayer = isAiming;
     }
 
     public override void PrimaryUse()
@@ -354,5 +352,4 @@ public class H_ItemWeapon : H_ItemBase
             Gizmos.DrawLine(equipment.playerCamera.transform.position, rayDir);
         }
     }
-
 }
