@@ -40,6 +40,7 @@ public class H_PlayerController : NetworkBehaviour
 
     [HideInInspector] public Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
+    [HideInInspector] public bool isMoving = false;
     [HideInInspector] public bool isRunning = false;
     
 
@@ -86,6 +87,8 @@ public class H_PlayerController : NetworkBehaviour
         }
 
         characterController.Move(moveDirection * Time.deltaTime);
+
+        isMoving = Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0;
 
     }
 

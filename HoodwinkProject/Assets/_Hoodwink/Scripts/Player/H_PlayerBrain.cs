@@ -16,15 +16,10 @@ public class H_PlayerBrain : NetworkBehaviour
 
     [Header("Player Cosmetic Data")]
     [SyncVar(hook = nameof(OnPlayerNameChanged))] public string playerName;
-    [SyncVar(hook = nameof(OnAgentNameChanged))] public string agentName;
-    [SyncVar(hook = nameof(SetCoatColour))] public Color coatColour;
-    [SyncVar(hook = nameof(SetCoatTrimColour))] public Color coatTrimColour;
-    [SyncVar(hook = nameof(SetPantsColour))] public Color pantsColour;
-    [SyncVar(hook = nameof(SetShoesColour))] public Color shoesColour;
+    [SyncVar(hook = nameof(OnAgentDataChanged))] public AgentData agentData;
     [SyncVar(hook = nameof(OnReadyChanged))] public bool isReady = false;
     [SyncVar(hook = nameof(OnHudVisibilityChanged))] public bool isHudHidden = false;
-    [SyncVar(hook = nameof(OnSetHat))] public int hatIndex;
-    public Transform hatAnchor;
+    //[SyncVar] public IntroCosmeticData cosmeticData;
 
     [Header("Alignment Data")]
     [SyncVar(hook = nameof(OnAlignmentChanged))]
@@ -44,10 +39,9 @@ public class H_PlayerBrain : NetworkBehaviour
     public TextMeshProUGUI readyText;
     public H_PlayerEquipment equipment;
     public H_PlayerUI playerUI;
+    public H_PlayerCosmetics cosmetics;
 
     [Header("Rendering")]
-    public Renderer playerRenderer;
-    public Renderer coatRenderer, coatTrimRenderer;
     public GameObject[] hideForLocalPlayer;
 
     private H_NetworkManager netManager;
@@ -63,9 +57,12 @@ public class H_PlayerBrain : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        int index;
-        index = H_CosmeticManager.instance.currentHat.ID;
-        CmdSetPlayerCosmetics(index);
+        int hatIndex, suitIndex, vestIndex;
+        hatIndex = H_CosmeticManager.instance.currentHat.ID;
+        suitIndex = H_CosmeticManager.instance.currentSuitCut;
+        vestIndex = H_CosmeticManager.instance.currentVestCut;
+
+        CmdSetPlayerCosmetics(hatIndex, suitIndex, vestIndex);
         CmdSetPlayerName(PlayerPrefs.GetString("C_SELECTED_NAME", "Hoodwinker"));
     }
 
@@ -80,7 +77,7 @@ public class H_PlayerBrain : NetworkBehaviour
             cam.enabled = true;
             playerUI.gameObject.SetActive(true);
 
-            HideLocalPlayer();
+            cosmetics.HidePlayer();
 
             foreach (GameObject ob in hideForLocalPlayer)
             {
@@ -132,31 +129,22 @@ public class H_PlayerBrain : NetworkBehaviour
         speedMultiplier = amount;
     }
 
-    public void SetCoatColour(Color oldColor, Color newColor)
+    public void OnAgentDataChanged(AgentData oldData, AgentData newData)
     {
-        playerRenderer.material.SetColor("_ShirtColour", Color.clear);
-        coatRenderer.material.color = newColor;
-    }
+        agentNameText.text = newData.agentName;
 
-    public void SetCoatTrimColour(Color oldColor, Color newColor)
-    {
-        coatTrimRenderer.material.color = newColor;
-        agentColourImage.color = newColor;
-    }
+        agentColourImage.color = newData.primaryColour;
 
-    public void SetPantsColour(Color oldColor, Color newColor)
-    {
-        playerRenderer.material.SetColor("_PantsColour", newColor);
-    }
+        cosmetics.SetHat(newData.hatIndex);
+        cosmetics.ToggleSuit(newData.suitIndex);
+        cosmetics.ToggleVest(newData.vestIndex);
 
-    public void SetShoesColour(Color oldColor, Color newColor)
-    {
-        playerRenderer.material.SetColor("_ShoesColour", newColor);
-    }
-
-    public void OnAgentNameChanged(string oldName, string newName)
-    {
-        agentNameText.text = newName;
+        cosmetics.SetJacketColour(newData.primaryColour);
+        cosmetics.SetPantsColour(newData.pantsColour);
+        cosmetics.SetVestColour(newData.vestColour);
+        cosmetics.SetTieColour(newData.primaryColour);
+        cosmetics.SetCollarColour(newData.secondaryColour);
+        cosmetics.SetPocketColour(newData.secondaryColour);
     }
 
     public void OnPlayerNameChanged(string oldName, string newName)
@@ -248,48 +236,27 @@ public class H_PlayerBrain : NetworkBehaviour
         Physics.SyncTransforms();
     }
 
-    public void HideLocalPlayer()
-    {
-        playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-        coatRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-        coatTrimRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-    }
-
-    public void ShowLocalPlayer()
-    {
-        playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        coatRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        coatTrimRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-    }
-
     [Command]
-    void CmdSetPlayerCosmetics(int index)
+    void CmdSetPlayerCosmetics(int hatID, int suitID, int vestID)
     {
-        hatIndex = index;
+        agentData.hatIndex = hatID;
+        agentData.suitIndex = suitID;
+        agentData.vestIndex = vestID;
+        RpcUpdateCosmetics();
+    }
+
+    [ClientRpc]
+    void RpcUpdateCosmetics()
+    {
+        cosmetics.SetHat(agentData.hatIndex);
+        cosmetics.ToggleSuit(agentData.suitIndex);
+        cosmetics.ToggleVest(agentData.vestIndex);
     }
 
     [Command]
     void CmdSetPlayerName(string newName)
     {
         playerName = newName;
-    }
-
-    void OnSetHat(int oldHat, int newHat)
-    {
-        foreach (Transform child in hatAnchor.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-
-        Instantiate(H_CosmeticManager.instance.hats[newHat].cosmeticPrefab, hatAnchor);
-
-        if (isLocalPlayer)
-        {
-            foreach (Renderer rend in hatAnchor.GetComponentsInChildren<Renderer>())
-            {
-                rend.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
-            }
-        }
     }
 
     public void ShowSpyIndicators()
