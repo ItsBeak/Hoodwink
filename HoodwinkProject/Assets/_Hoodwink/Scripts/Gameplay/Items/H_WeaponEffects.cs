@@ -42,6 +42,8 @@ public class H_WeaponEffects : NetworkBehaviour
 
     [Header("Silencer")]
     public GameObject silencer;
+    public AudioSource silencerSource;
+    public AudioClip addSilencerClip, removeSilencerClip;
 
 
     void Start()
@@ -83,10 +85,12 @@ public class H_WeaponEffects : NetworkBehaviour
         if (newSilenced)
         {
             source.maxDistance = suppressedAudioDistance;
+            silencerSource.PlayOneShot(addSilencerClip);
         }
         else
         {
             source.maxDistance = unsuppressedAudioDistance;
+            silencerSource.PlayOneShot(removeSilencerClip);
         }
     }
 

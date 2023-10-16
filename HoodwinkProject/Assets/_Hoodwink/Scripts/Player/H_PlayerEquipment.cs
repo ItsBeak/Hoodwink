@@ -266,7 +266,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         yield return new WaitForSeconds(0.15f);
 
-        isBusy = false;
+        SetBusy(false);
 
         ClearSlots();
         ClearAmmoUI();
@@ -313,7 +313,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     IEnumerator ChangeSlotInput(EquipmentSlot selectedSlot)
     {
-        isBusy = true;
+        SetBusy(true);
 
         LowerItems();
         Debug.Log("Lowering items");
@@ -629,6 +629,16 @@ public class H_PlayerEquipment : NetworkBehaviour
     public void RaiseItems()
     {
         itemsAnimator.SetBool("isLowered", false);
+    }
+
+    public void SetBusy(bool state)
+    {
+        isBusy = state;
+    }
+
+    public bool CheckBusy()
+    {
+        return isBusy;
     }
 
 }

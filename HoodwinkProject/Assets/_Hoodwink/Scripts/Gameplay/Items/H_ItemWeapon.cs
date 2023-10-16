@@ -4,6 +4,7 @@ using System;
 using Random = UnityEngine.Random;
 using Cinemachine.Utility;
 using TMPro;
+using System.Collections;
 
 public class H_ItemWeapon : H_ItemBase
 {
@@ -114,7 +115,7 @@ public class H_ItemWeapon : H_ItemBase
     {
         base.Update();
 
-        if (!isOwned || !equipment)
+        if (!isOwned || !equipment || equipment.CheckBusy())
             return;
 
         if (waitForSecondaryKeyReleased)
@@ -172,7 +173,7 @@ public class H_ItemWeapon : H_ItemBase
         {
             if (equipment.brain.currentAlignment == AgentAlignment.Spy)
             {
-                ToggleSilencer();
+                StartCoroutine(SilencerChange());
             }
         }
 
@@ -352,4 +353,20 @@ public class H_ItemWeapon : H_ItemBase
             Gizmos.DrawLine(equipment.playerCamera.transform.position, rayDir);
         }
     }
+
+    IEnumerator SilencerChange()
+    {
+        equipment.SetBusy(true);
+        equipment.LowerItems();
+
+        yield return new WaitForSeconds(0.5f);
+
+        ToggleSilencer();
+
+        yield return new WaitForSeconds(6.5f);
+
+        equipment.SetBusy(false);
+        equipment.RaiseItems();
+    }
+
 }
