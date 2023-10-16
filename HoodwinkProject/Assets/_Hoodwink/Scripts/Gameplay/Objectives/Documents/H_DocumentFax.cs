@@ -185,8 +185,8 @@ public class H_DocumentFax : NetworkBehaviour
         Quaternion rotation = rejectionOutputPosition.rotation;
         GameObject document = Instantiate(documentPrefab, position, rotation);
 
-        document.GetComponent<Rigidbody>().AddTorque(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
-        document.GetComponent<Rigidbody>().AddForce(rejectionOutputPosition.forward, ForceMode.Impulse);
+        document.GetComponent<Rigidbody>().AddTorque(Random.Range(-2.5f, 2.5f), Random.Range(-2.5f, 2.5f), Random.Range(-2.5f, 2.5f));
+        document.GetComponent<Rigidbody>().AddForce(rejectionOutputPosition.forward * 4, ForceMode.Impulse);
 
         NetworkServer.Spawn(document);
 
