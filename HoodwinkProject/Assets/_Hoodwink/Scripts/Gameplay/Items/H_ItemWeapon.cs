@@ -78,8 +78,6 @@ public class H_ItemWeapon : H_ItemBase
     public int clipSize;
     public int startingAmmo;
     public float reloadTime;
-    float reloadTimer;
-    bool isReloading;
     [HideInInspector] public int ammoLoaded;
     [HideInInspector] public int ammoPool;
     bool lockTrigger = false;
@@ -136,9 +134,7 @@ public class H_ItemWeapon : H_ItemBase
             lockTrigger = false;
         }
 
-        isReloading = reloadTimer > 0;
-        equipment.SetAmmoUI(ammoLoaded, ammoPool, Mathf.Clamp(reloadTimer / reloadTime, 0, 1));
-        reloadTimer -= 1 * Time.deltaTime;
+        equipment.SetAmmoUI(ammoLoaded, ammoPool);
 
         if (equipment.controller.isMoving)
         {
@@ -189,7 +185,7 @@ public class H_ItemWeapon : H_ItemBase
 
     public override void PrimaryUse()
     {
-        if (lockTrigger || isReloading)
+        if (lockTrigger)
             return;
         if (enableDebugLogs)
             Debug.Log("Shooting");
@@ -279,19 +275,22 @@ public class H_ItemWeapon : H_ItemBase
 
     public override void AlternateUse()
     {
-        if (ammoLoaded == clipSize || ammoPool == 0 || isReloading)
+        if (ammoLoaded == clipSize || ammoPool == 0)
         {
             return;
         }
 
         base.AlternateUse();
 
-        LoadAmmo();
+        StartCoroutine(Reload());
     }
 
-    void LoadAmmo()
+    IEnumerator Reload()
     {
-        reloadTimer = reloadTime;
+        equipment.SetBusy(true);
+        equipment.LowerItems();
+
+        yield return new WaitForSeconds(0.25f);
 
         while (ammoLoaded < clipSize && ammoPool > 0)
         {
@@ -301,6 +300,11 @@ public class H_ItemWeapon : H_ItemBase
 
         clientEffects.PlayReloadLocal();
         observerEffects.CmdPlayReload();
+
+        yield return new WaitForSeconds(reloadTime);
+
+        equipment.SetBusy(false);
+        equipment.RaiseItems();
     }
 
     public void ToggleSilencer()
@@ -363,7 +367,7 @@ public class H_ItemWeapon : H_ItemBase
 
         ToggleSilencer();
 
-        yield return new WaitForSeconds(6.5f);
+        yield return new WaitForSeconds(4.5f);
 
         equipment.SetBusy(false);
         equipment.RaiseItems();

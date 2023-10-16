@@ -298,19 +298,6 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     }
 
-    //void ChangeSlotInput(EquipmentSlot selectedSlot)
-    //{
-    //    if (isHoldingItem)
-    //    {
-    //        if (currentObject.dropOnSwap)
-    //        {
-    //            TryDropItem();
-    //        }
-    //    }
-    //
-    //    CmdChangeSlot(selectedSlot);
-    //}
-
     IEnumerator ChangeSlotInput(EquipmentSlot selectedSlot)
     {
         SetBusy(true);
@@ -603,13 +590,10 @@ public class H_PlayerEquipment : NetworkBehaviour
         ClearHolsteredSlot();
     }
 
-    public void SetAmmoUI(int ammoLoaded, int ammoPool, float reloadTime)
+    public void SetAmmoUI(int ammoLoaded, int ammoPool)
     {
         ammoLoadedText.text = ammoLoaded.ToString();
         ammoPoolText.text = ammoPool.ToString();
-
-        reloadingImageLeft.fillAmount = reloadTime;
-        reloadingImageRight.fillAmount = reloadTime;
     }
 
     public void ClearAmmoUI()
