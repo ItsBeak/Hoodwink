@@ -15,18 +15,9 @@ public class H_DocumentItem : H_ItemBase
     H_DocumentShredder focusedShredder;
     H_DocumentFax focusedFax;
 
-    H_DocumentShredder lastShredder;
-    H_DocumentFax lastFax;
-
-    bool isUsing;
-    bool isDone;
-
     [Space(10)]
     [Header("Document Components")]
     public TextMeshProUGUI focusReadout;
-    public Image useTimerImage;
-    public float useTime;
-    float timer = 0;
 
     public override void Initialize()
     {
@@ -36,6 +27,19 @@ public class H_DocumentItem : H_ItemBase
         ownerIsSpy = brain.currentAlignment == AgentAlignment.Spy;
     }
 
+    public override void PrimaryUse()
+    {
+        if (focusedFax)
+        {
+            if (!focusedFax.containsDocument)
+            {
+                focusedFax.CmdAddDocument();
+                CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);
+                equipment.ClearCurrentObject();
+            }
+        }
+    }
+
     public override void Update()
     {
         if (!isOwned || !equipment) return;
@@ -43,138 +47,6 @@ public class H_DocumentItem : H_ItemBase
         base.Update();
 
         UpdateUI();
-
-        if (waitForPrimaryKeyReleased && !isDone)
-        {
-            if (focusedShredder && ownerIsSpy)
-            {
-            
-                if (focusedShredder.inUseBy == 0)
-                {
-                    if (!isUsing)
-                    {
-                        isUsing = true;
-                        lastShredder = focusedShredder;
-                        focusedShredder.CmdStartUse(netIdentity.netId);
-                    }
-                }
-                else if (focusedShredder.inUseBy == netIdentity.netId)
-                {
-                    timer += Time.deltaTime;
-
-                    if (timer >= useTime)
-                    {
-                        isDone = true;
-                        focusedShredder.CmdShredDocument();
-
-                        CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);
-                        equipment.ClearCurrentObject();
-
-                        isUsing = false;
-                        focusedShredder.CmdStopUse();
-                    }
-
-                    useTimerImage.fillAmount = timer / useTime;
-                }
-                else
-                {
-                    isUsing = false;
-                }
-            }
-            else if (focusedFax)
-            {
-                if (focusedFax.inUseBy == 0)
-                {
-                    if (!isUsing)
-                    {
-                        isUsing = true;
-                        lastFax = focusedFax;
-                        focusedFax.CmdStartUse(netIdentity.netId);
-                    }
-                }
-                else if (focusedFax.inUseBy == netIdentity.netId)
-                {
-                    timer += Time.deltaTime;
-
-                    if (timer >= useTime)
-                    {
-                        isDone = true;
-                        focusedFax.CmdFaxdDocument();
-
-                        CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);
-                        equipment.ClearCurrentObject();
-
-                        isUsing = false;
-                        focusedFax.CmdStopUse();
-                    }
-
-                    useTimerImage.fillAmount = timer / useTime;
-                }
-                else
-                {
-                    isUsing = false;
-                }
-            }
-            else
-            {
-                if (lastShredder)
-                {
-                    isUsing = false;
-                    lastShredder.CmdStopUse();
-                    lastShredder = null;
-                }
-
-                if (lastFax)
-                {
-                    isUsing = false;
-                    lastFax.CmdStopUse();
-                    lastFax = null;
-                }
-
-                timer = 0;
-                useTimerImage.fillAmount = 0;
-                isUsing = false;
-            }
-
-        }
-        else
-        {
-            if (lastShredder)
-            {
-                lastShredder.CmdStopUse();
-                lastShredder = null;
-            }
-
-            if (lastFax)
-            {
-                lastFax.CmdStopUse();
-                lastFax = null;
-            }
-
-            timer = 0;
-            useTimerImage.fillAmount = 0;
-            isUsing = false;
-        }
-
-    }
-
-    private void OnDestroy()
-    {
-        if (lastShredder)
-        {
-            lastShredder.CmdStopUse();
-            lastShredder = null;
-        }
-
-        if (lastFax)
-        {
-            lastFax.CmdStopUse();
-            lastFax = null;
-        }
-
-        timer = 0;
-        useTimerImage.fillAmount = 0;
-        isUsing = false;
     }
 
     private void FixedUpdate()
@@ -233,13 +105,13 @@ public class H_DocumentItem : H_ItemBase
         else if (focusedFax)
         {
             
-            if (waitForPrimaryKeyReleased)
+            if (focusedFax.containsDocument)
             {
-                focusReadout.text = "Faxing";
+                focusReadout.text = "Fax machine already contains document";
             }
             else
             {
-                focusReadout.text = "Hold " + equipment.primaryUseKey + " to fax documents";
+                focusReadout.text = "Press " + equipment.primaryUseKey + " to insert documents";
             }
             
         }
