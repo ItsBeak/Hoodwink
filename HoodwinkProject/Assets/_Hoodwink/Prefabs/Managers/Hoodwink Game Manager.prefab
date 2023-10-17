@@ -9366,21 +9366,27 @@ MonoBehaviour:
   - playerCount: 3
     spyCount: 1
     itemsToSpawn: 14
+    phonesToSpawn: 2
   - playerCount: 4
     spyCount: 1
     itemsToSpawn: 14
+    phonesToSpawn: 2
   - playerCount: 5
     spyCount: 2
     itemsToSpawn: 14
+    phonesToSpawn: 2
   - playerCount: 6
     spyCount: 2
     itemsToSpawn: 14
+    phonesToSpawn: 2
   - playerCount: 7
     spyCount: 3
     itemsToSpawn: 16
+    phonesToSpawn: 2
   - playerCount: 8
     spyCount: 3
     itemsToSpawn: 16
+    phonesToSpawn: 2
   agentData:
   - agentName: Poppy
     primaryColour: {r: 0.8352941, g: 0.22352941, b: 0.22352941, a: 1}
@@ -9515,6 +9521,9 @@ MonoBehaviour:
   warmupLength: 5
   roundLength: 300
   postGameLength: 10
+  minimumPhoneTime: 30
+  maximumPhoneTime: 40
+  allPhones: []
   introTimeline: {fileID: 5494471232114942951}
   intros:
   - {fileID: 11400000, guid: 7ca7a81f231a3af4aa11379c79a458b4, type: 2}
@@ -9543,6 +9552,7 @@ MonoBehaviour:
     playerCount: -1
     spyCount: 1
     itemsToSpawn: 20
+    phonesToSpawn: 2
 --- !u!114 &7971697025386248749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9567,6 +9577,8 @@ MonoBehaviour:
   computerPrefab: {fileID: 4826764800930160482, guid: 6cd2176a800c09a438cf384836fdd482,
     type: 3}
   keyMachinePrefab: {fileID: 7654102710424926125, guid: 6dcf43a67e6748449af36fa18d4e56ff,
+    type: 3}
+  phonePrefab: {fileID: 3470717902566997561, guid: 206268b215960dd4c969998a5d1756ec,
     type: 3}
   cleanupLayers:
     serializedVersion: 2

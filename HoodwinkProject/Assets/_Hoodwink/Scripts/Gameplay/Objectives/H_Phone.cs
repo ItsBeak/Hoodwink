@@ -99,7 +99,7 @@ public class H_Phone : NetworkBehaviour, H_IInteractable
     }
 
     [Server]
-    void Ring()
+    public void Ring()
     {
         if (!isActive && !isRinging)
         {
@@ -134,13 +134,4 @@ public class H_Phone : NetworkBehaviour, H_IInteractable
         isOnCall = false;
         isActive = false;
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            Ring();
-        }
-    }
-
 }

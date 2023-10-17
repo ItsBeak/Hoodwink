@@ -75,6 +75,13 @@ public class H_GameManager : NetworkBehaviour
     public float postGameLength;
     [SyncVar] float postGameTimer;
 
+    [Header("Phone Settings")]
+    public float minimumPhoneTime;
+    public float maximumPhoneTime;
+    float phoneTimer;
+    bool isPhoneActive;
+    H_Phone[] allPhones;
+
     [Header("Player Intro Settings")]
     public PlayableDirector introTimeline;
     public PlayableAsset[] intros;
@@ -95,6 +102,7 @@ public class H_GameManager : NetworkBehaviour
     public bool overrideMinimumPlayerCount;
     public bool allowServerToSkipGame;
     public bool allowServerToForceStart;
+    public bool allowDebugOverrideKeys;
     public PlayerSettings overrideSettings;
     PlayerSettings currentSettings;
 
@@ -235,6 +243,11 @@ public class H_GameManager : NetworkBehaviour
                     CmdPlayIntro(players);
                 }
 
+                allPhones = GameObject.FindObjectsOfType<H_Phone>();
+
+                phoneTimer = Random.Range(minimumPhoneTime, maximumPhoneTime);
+                isPhoneActive = false;
+
                 break;
             #endregion
 
@@ -247,6 +260,34 @@ public class H_GameManager : NetworkBehaviour
                     return;
 
                 roundTimer -= 1 * Time.deltaTime;
+
+                bool phoneActive = false;
+
+                foreach (var phone in allPhones)
+                {
+                    if (phone.isActive)
+                    {
+                        phoneActive = true;
+                    }
+                }
+
+                isPhoneActive = phoneActive;
+
+                if (!isPhoneActive)
+                {
+                    phoneTimer -= 1 * Time.deltaTime;
+
+                    if (phoneTimer <= 0)
+                    {
+                        allPhones[Random.Range(0, allPhones.Length)].Ring();
+
+                        isPhoneActive=true;
+
+                        phoneTimer = Random.Range(minimumPhoneTime, maximumPhoneTime);
+
+                        Debug.Log("Ringing new phone");
+                    }
+                }
 
                 if (Input.GetKeyDown(KeyCode.Backspace) && allowServerToSkipGame)
                 {
@@ -293,13 +334,17 @@ public class H_GameManager : NetworkBehaviour
             default: break;
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L) && allowDebugOverrideKeys)
         {
             CmdUpdateEvidence(10);
         }
-        else if (Input.GetKeyDown(KeyCode.K))
+        else if (Input.GetKeyDown(KeyCode.K) && allowDebugOverrideKeys)
         {
             CmdUpdateEvidence(-10);
+        }
+        else if (Input.GetKeyDown(KeyCode.M) && allowDebugOverrideKeys)
+        {
+            allPhones[Random.Range(0, allPhones.Length)].Ring();
         }
 
     }
@@ -983,6 +1028,7 @@ public class PlayerSettings
     public int spyCount;
 
     public int itemsToSpawn;
+    public int phonesToSpawn = 2;
 }
 
 public enum RoundStage
