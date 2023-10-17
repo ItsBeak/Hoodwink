@@ -5,6 +5,7 @@ public class H_DocumentFaxButton : MonoBehaviour, H_IInteractable
 {
     public string itemName;
     public string itemVerb;
+    public bool itemEnabled;
 
     bool isButtonActive;
     Renderer rend;
@@ -18,6 +19,11 @@ public class H_DocumentFaxButton : MonoBehaviour, H_IInteractable
     public string InteractableVerb
     {
         get { return itemVerb; }
+    }
+
+    public bool InteractableEnabled
+    {
+        get { return itemEnabled; }
     }
 
     H_DocumentFax faxMachine;
