@@ -38,6 +38,15 @@ public class H_DocumentItem : H_ItemBase
                 equipment.ClearCurrentObject();
             }
         }
+        else if (focusedShredder)
+        {
+            if (!focusedShredder.containsDocument)
+            {
+                focusedShredder.CmdAddDocument();
+                CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);
+                equipment.ClearCurrentObject();
+            }
+        }
     }
 
     public override void Update()
@@ -92,13 +101,13 @@ public class H_DocumentItem : H_ItemBase
         {
             if (ownerIsSpy)
             {
-                if (waitForPrimaryKeyReleased)
+                if (focusedShredder.containsDocument)
                 {
-                    focusReadout.text = "Shredding";
+                    focusReadout.text = "Shredder already contains document";
                 }
                 else
                 {
-                    focusReadout.text = "Hold " + equipment.primaryUseKey + " to shred documents";
+                    focusReadout.text = "Press " + equipment.primaryUseKey + " to shred documents";
                 }
             }
         }
