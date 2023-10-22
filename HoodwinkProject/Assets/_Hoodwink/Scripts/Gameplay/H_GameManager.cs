@@ -82,13 +82,13 @@ public class H_GameManager : NetworkBehaviour
     bool isPhoneActive;
     H_Phone[] allPhones;
 
-    [Header("Player Intro Settings")]
-    public PlayableDirector introTimeline;
-    public PlayableAsset[] intros;
-    public GameObject introCamera;
-    public Transform hatAnchor;
-    public TextMeshProUGUI introPlayerName, introPlayerAgentName;
-    public Renderer playerRenderer, coatRenderer, coatTrimRenderer;
+    //[Header("Player Intro Settings")]
+    //public PlayableDirector introTimeline;
+    //public PlayableAsset[] intros;
+    //public GameObject introCamera;
+    //public Transform hatAnchor;
+    //public TextMeshProUGUI introPlayerName, introPlayerAgentName;
+    //public Renderer playerRenderer, coatRenderer, coatTrimRenderer;
 
     [Header("Components")]
     public TextMeshProUGUI pingDisplay;
@@ -188,6 +188,7 @@ public class H_GameManager : NetworkBehaviour
                 {
                     winConditionMet = false;
                     AssignRoles();
+
                     currentRoundStage = RoundStage.Intro;
                 }
 
@@ -206,47 +207,56 @@ public class H_GameManager : NetworkBehaviour
                 {
                     introStarted = true;
 
-                    foreach (AgentData agent in allAgents)
-                    {
-                        availableAgents.Add(agent);
-                    }
+                    allPhones = GameObject.FindObjectsOfType<H_Phone>();
+
+                    phoneTimer = Random.Range(minimumPhoneTime, maximumPhoneTime);
+                    isPhoneActive = false;
 
                     foreach (var player in roundPlayers)
                     {
-                        int randomAgent = Random.Range(0, availableAgents.Count);
+                        player.isHudHidden = true;
 
-                        SetPlayerData(player, availableAgents[randomAgent]);
 
-                        availableAgents.RemoveAt(randomAgent);
+                        if (player.currentAlignment == AgentAlignment.Agent)
+                        {
+                            IntroCosmeticData playerData = new IntroCosmeticData();
+
+                            playerData.playerName = player.playerName;
+                            playerData.agentData = player.agentData;
+
+                            player.RpcPlayAgentIntro(playerData);
+                            Debug.Log("Playing agent intro on player: " + player.playerName);
+
+                        }
+                        else if (player.currentAlignment == AgentAlignment.Spy)
+                        {
+                            List<IntroCosmeticData> playerData = new List<IntroCosmeticData>();
+
+                            IntroCosmeticData localPlayer = new IntroCosmeticData();
+
+                            localPlayer.playerName = player.playerName;
+                            localPlayer.agentData = player.agentData;
+
+                            playerData.Add(localPlayer);
+
+                            foreach (var otherSpy in roundSpies)
+                            {
+                                if (otherSpy != player)
+                                {
+                                    IntroCosmeticData otherSpyData = new IntroCosmeticData();
+
+                                    otherSpyData.playerName = otherSpy.playerName;
+                                    otherSpyData.agentData = otherSpy.agentData;
+
+                                    playerData.Add(otherSpyData);
+                                }
+                            }
+
+                            player.RpcPlaySpyIntro(playerData);
+                            Debug.Log("Playing spy intro on player: " + player.playerName);
+                        }
                     }
-
-                    List<int> introIndexes = new List<int>();
-
-                    for (int i = 0; i < intros.Length; i++)
-                    {
-                        introIndexes.Add(i);
-                    }
-
-                    List<IntroCosmeticData> players = new List<IntroCosmeticData>();
-
-                    foreach (var player in roundPlayers)
-                    {
-                        IntroCosmeticData newPlayer = new IntroCosmeticData();
-
-                        int newIntroIndex = introIndexes[Random.Range(0, introIndexes.Count)];
-                        newPlayer.introIndex = newIntroIndex;
-                        introIndexes.Remove(newIntroIndex);
-
-                        players.Add(newPlayer);
-                    }
-
-                    CmdPlayIntro(players);
                 }
-
-                allPhones = GameObject.FindObjectsOfType<H_Phone>();
-
-                phoneTimer = Random.Range(minimumPhoneTime, maximumPhoneTime);
-                isPhoneActive = false;
 
                 break;
             #endregion
@@ -262,6 +272,14 @@ public class H_GameManager : NetworkBehaviour
                 roundTimer -= 1 * Time.deltaTime;
 
                 bool phoneActive = false;
+
+                if (allPhones.Length == 0)
+                {
+                    allPhones = GameObject.FindObjectsOfType<H_Phone>();
+
+                    phoneTimer = Random.Range(minimumPhoneTime, maximumPhoneTime);
+                    isPhoneActive = false;
+                }
 
                 foreach (var phone in allPhones)
                 {
@@ -614,6 +632,20 @@ public class H_GameManager : NetworkBehaviour
     [Server]
     private void AssignRoles()
     {
+        foreach (AgentData agent in allAgents)
+        {
+            availableAgents.Add(agent);
+        }
+
+        foreach (var player in roundPlayers)
+        {
+            int randomAgent = Random.Range(0, availableAgents.Count);
+
+            SetPlayerData(player, availableAgents[randomAgent]);
+
+            availableAgents.RemoveAt(randomAgent);
+        }
+
         roundSpiesRemaining = currentSettings.spyCount;
 
         while (roundSpiesRemaining > 0)
@@ -891,83 +923,6 @@ public class H_GameManager : NetworkBehaviour
         return "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + text + "</color>";
     }
 
-    IEnumerator PlayIntroCutscene(List<IntroCosmeticData> players)
-    {
-        yield return new WaitForSeconds(0.25f);
-
-        introCamera.SetActive(true);
-        H_TransitionManager.instance.SetClear();
-        playerUIGroup.alpha = 0;
-
-        foreach (var player in players)
-        {
-
-            //set cosmetics
-
-            playerRenderer.material.SetColor("_ShirtColour", Color.clear);
-            //coatRenderer.material.color = player.agentSecondaryColour;
-            //coatTrimRenderer.material.color = player.agentPrimaryColour;
-
-            introPlayerName.text = player.playerName;
-            //introPlayerAgentName.text = "as " + ColorWord("Agent " + player.agentName, player.agentPrimaryColour);
-
-            //Instantiate(H_CosmeticManager.instance.hats[player.agentHatIndex].cosmeticPrefab, hatAnchor);
-
-            introTimeline.playableAsset = intros[player.introIndex];
-
-            introTimeline.time = 0;
-            introTimeline.Play();
-
-            yield return new WaitForSeconds((float)introTimeline.playableAsset.duration);
-
-            // clear hat
-
-            foreach (Transform child in hatAnchor.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-
-            yield return new WaitForSeconds(0.5f);
-
-        }
-
-        yield return new WaitForSeconds(0.25f);
-
-        introCamera.SetActive(false);
-        playerUIGroup.alpha = 1;
-        H_TransitionManager.instance.SetBlack();
-        H_TransitionManager.instance.FadeOut(0.5f);
-
-        if (isServer)
-        {
-            currentRoundStage = RoundStage.Game;
-
-            foreach (var player in roundPlayers)
-            {
-                player.isHudHidden = false;
-            }
-        }
-
-    }
-
-    [Command(requiresAuthority = false)]
-    void CmdPlayIntro(List<IntroCosmeticData> players)
-    {
-        RpcPlayIntro(players);
-
-        foreach (var player in roundPlayers)
-        {
-            player.isHudHidden = true;
-        }
-    }
-
-    [ClientRpc]
-    void RpcPlayIntro(List<IntroCosmeticData> players)
-    {
-        StartCoroutine(PlayIntroCutscene(players));
-
-    }
-
     [Command(requiresAuthority = false)]
     void CmdFadeIn(float speed)
     {
@@ -991,12 +946,6 @@ public class H_GameManager : NetworkBehaviour
     {
         H_TransitionManager.instance.FadeOut(speed);
     }
-
-    void UpdateDisplayPlayer(IntroCosmeticData player)
-    {
-
-    }
-
 }
 
 [System.Serializable]
@@ -1011,14 +960,6 @@ public struct AgentData
     public int hatIndex;
     public int suitIndex;
     public int vestIndex;
-}
-
-[System.Serializable]
-public struct IntroCosmeticData
-{
-    public string playerName;
-    public AgentData agentData;
-    public int introIndex;
 }
 
 [System.Serializable]

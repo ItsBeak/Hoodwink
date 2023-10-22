@@ -22,9 +22,15 @@ public class H_CosmeticDisplay : MonoBehaviour
     public Renderer[] pocketRenderers;
     public Renderer[] undershirtRenderers;
 
+    [Header("Settings")]
+    public bool usePlayerPrefs = true;
+
     private void Start()
     {
-        RefreshCosmetics();
+        if (usePlayerPrefs)
+        {
+            RefreshCosmetics();
+        }
     }
 
     public void RefreshCosmetics()
@@ -33,15 +39,25 @@ public class H_CosmeticDisplay : MonoBehaviour
         suitIndex = PlayerPrefs.GetInt("C_SELECTED_SUIT", 0);
         vestIndex = PlayerPrefs.GetInt("C_SELECTED_VEST", 0);
 
+        ClearHat();
+
+        SetHat(hatIndex);
+
+        ToggleSuit(suitIndex);
+        ToggleVest(vestIndex);
+    }
+
+    public void SetHat(int index)
+    {
+        Instantiate(H_CosmeticManager.instance.hats[index].cosmeticPrefab, hatAnchor);
+    }
+
+    public void ClearHat()
+    {
         foreach (Transform child in hatAnchor.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
-
-        Instantiate(H_CosmeticManager.instance.hats[hatIndex].cosmeticPrefab, hatAnchor);
-        ToggleSuit(suitIndex);
-        ToggleVest(vestIndex);
-
     }
 
     public void ToggleSuit(int index)
@@ -86,7 +102,7 @@ public class H_CosmeticDisplay : MonoBehaviour
         }
     }
 
-    public void PreviewColour(ColourData colourData)
+    public void SetColour(ColourData colourData)
     {
         SetJacketColour(colourData.primaryColour);
         SetPantsColour(colourData.pantsColour);

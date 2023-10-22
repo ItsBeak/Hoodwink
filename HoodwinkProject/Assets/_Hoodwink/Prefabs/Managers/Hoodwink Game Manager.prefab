@@ -6027,7 +6027,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7121284392565770493
 Transform:
   m_ObjectHideFlags: 0
@@ -9523,24 +9523,6 @@ MonoBehaviour:
   postGameLength: 10
   minimumPhoneTime: 30
   maximumPhoneTime: 40
-  allPhones: []
-  introTimeline: {fileID: 5494471232114942951}
-  intros:
-  - {fileID: 11400000, guid: 7ca7a81f231a3af4aa11379c79a458b4, type: 2}
-  - {fileID: 11400000, guid: 128fc5523e6c7134b9f6b047b784fdd7, type: 2}
-  - {fileID: 11400000, guid: 792153129a51eab44b9fb79a619a417a, type: 2}
-  - {fileID: 11400000, guid: 46b772a3ecc02d049932ceab16f39dda, type: 2}
-  - {fileID: 11400000, guid: 76f431fbb86fea443bac2e76a8f89bc9, type: 2}
-  - {fileID: 11400000, guid: 66ce176a6aaff5b4d97d7876fb9a8d77, type: 2}
-  - {fileID: 11400000, guid: 9b0a4c1fea8e27b4dad03684d5a54e27, type: 2}
-  - {fileID: 11400000, guid: 4a3dac214db7f5e409e7be2a1d0ba6bd, type: 2}
-  introCamera: {fileID: 9182049449589302051}
-  hatAnchor: {fileID: 1218508492935832748}
-  introPlayerName: {fileID: 4678832959705809729}
-  introPlayerAgentName: {fileID: 7598128475520929714}
-  playerRenderer: {fileID: 3514896780908177692}
-  coatRenderer: {fileID: 7280100771478488264}
-  coatTrimRenderer: {fileID: 3721943428509496783}
   pingDisplay: {fileID: 7992946917195808622}
   timerDisplay: {fileID: 8632251401198278523}
   playerUIGroup: {fileID: 7696306660566913037}
@@ -9548,6 +9530,7 @@ MonoBehaviour:
   overrideMinimumPlayerCount: 1
   allowServerToSkipGame: 1
   allowServerToForceStart: 1
+  allowDebugOverrideKeys: 0
   overrideSettings:
     playerCount: -1
     spyCount: 1
@@ -9918,7 +9901,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 79.57747
+  m_Intensity: 63.661976
   m_Range: 10
   m_SpotAngle: 90
   m_InnerSpotAngle: 9
@@ -10890,7 +10873,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 63.661976
+  m_Intensity: 31.830988
   m_Range: 10
   m_SpotAngle: 90
   m_InnerSpotAngle: 9
@@ -12121,7 +12104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1589158747736705264
 Transform:
   m_ObjectHideFlags: 0
@@ -13536,18 +13519,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4120130584841631269}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &3514896780908177692 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 714611158006832953, guid: a2135d9babfcfb340971d6d0bd3112bf,
-    type: 3}
-  m_PrefabInstance: {fileID: 4120130584841631269}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &3721943428509496783 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 759801172786496490, guid: a2135d9babfcfb340971d6d0bd3112bf,
-    type: 3}
-  m_PrefabInstance: {fileID: 4120130584841631269}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4514609645021057486 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a2135d9babfcfb340971d6d0bd3112bf,
@@ -13557,12 +13528,6 @@ Transform:
 --- !u!4 &5387754455894186323 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8352069346627743606, guid: a2135d9babfcfb340971d6d0bd3112bf,
-    type: 3}
-  m_PrefabInstance: {fileID: 4120130584841631269}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &7280100771478488264 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6639917616623317741, guid: a2135d9babfcfb340971d6d0bd3112bf,
     type: 3}
   m_PrefabInstance: {fileID: 4120130584841631269}
   m_PrefabAsset: {fileID: 0}

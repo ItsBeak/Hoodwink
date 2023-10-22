@@ -4,6 +4,7 @@ using Cinemachine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 public class H_PlayerBrain : NetworkBehaviour
 {
@@ -272,6 +273,24 @@ public class H_PlayerBrain : NetworkBehaviour
     void OnHudVisibilityChanged(bool oldValue, bool newValue)
     {
         playerUI.playerUI.alpha = isHudHidden ? 0 : 1;
+    }
+
+    [ClientRpc]
+    public void RpcPlayAgentIntro(IntroCosmeticData player)
+    {
+        if (isLocalPlayer)
+        {
+            H_CinematicManager.instance.PlayAgentIntro(player);
+        }
+    }
+
+    [ClientRpc]
+    public void RpcPlaySpyIntro(List<IntroCosmeticData> players)
+    {
+        if (isLocalPlayer)
+        {
+            H_CinematicManager.instance.PlaySpyIntro(players);
+        }
     }
 }
 

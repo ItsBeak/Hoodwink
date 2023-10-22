@@ -39,7 +39,7 @@ public class H_CustomizationMenu : MonoBehaviour
 
     public void PreviewColour(int index)
     {
-        display.PreviewColour(colourPreviews[index]);
+        display.SetColour(colourPreviews[index]);
     }
 
     void SaveAndRefresh()
