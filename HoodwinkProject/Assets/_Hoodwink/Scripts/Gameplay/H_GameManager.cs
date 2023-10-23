@@ -530,6 +530,7 @@ public class H_GameManager : NetworkBehaviour
         {
             player.isReady = false;
             player.equipment.RpcTryDropItem();
+            player.equipment.RpcSetBusy(false);
         }
 
         foreach (var player in roundPlayers)

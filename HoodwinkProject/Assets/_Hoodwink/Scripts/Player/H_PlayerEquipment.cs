@@ -623,6 +623,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         isBusy = state;
     }
 
+    [ClientRpc]
+    public void RpcSetBusy(bool state)
+    {
+        isBusy = state;
+    }
     public bool CheckBusy()
     {
         return isBusy;
