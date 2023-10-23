@@ -15,12 +15,11 @@ public class H_CinematicManager : NetworkBehaviour
 
     [Header("Agent Intro Settings")]
     public H_CosmeticDisplay agentDisplay;
-    public TextMeshProUGUI introPlayerName, introPlayerAgentName, introPlayerRole;
+    public TextMeshProUGUI agentPlayerName, agentPlayerAgentName, agentPlayerRole;
 
     [Header("Agent Intro Settings")]
     public H_CosmeticDisplay spyDisplay;
     public H_CosmeticDisplay firstSpyTeammateDisplay, secondSpyTeammateDisplay;
-
     public TextMeshProUGUI spyPlayerName, spyPlayerAgentName, spyPlayerRole;
     public TextMeshProUGUI firstSpyPlayerName, firstSpyPlayerAgentName;
     public TextMeshProUGUI secondSpyPlayerName, secondSpyPlayerAgentName;
@@ -65,9 +64,9 @@ public class H_CinematicManager : NetworkBehaviour
         agentDisplay.ToggleSuit(player.agentData.suitIndex);
         agentDisplay.ToggleVest(player.agentData.vestIndex);
 
-        introPlayerName.text = player.playerName;
-        introPlayerAgentName.text = H_GameManager.ColorWord(player.agentData.agentName, player.agentData.primaryColour);
-        introPlayerRole.text = "You are an " + H_GameManager.ColorWord("Agent", Color.green);
+        agentPlayerName.text = player.playerName;
+        agentPlayerAgentName.text = "Agent " + H_GameManager.ColorWord(player.agentData.agentName, player.agentData.primaryColour);
+        agentPlayerRole.text = "You are an " + H_GameManager.ColorWord("Agent", Color.green);
 
         agentIntroTimeline.Play();
 
@@ -110,7 +109,7 @@ public class H_CinematicManager : NetworkBehaviour
         spyDisplay.ToggleVest(players[0].agentData.vestIndex);
 
         spyPlayerName.text = players[0].playerName;
-        spyPlayerAgentName.text = H_GameManager.ColorWord(players[0].agentData.agentName, players[0].agentData.primaryColour);
+        spyPlayerAgentName.text = "Agent " + H_GameManager.ColorWord(players[0].agentData.agentName, players[0].agentData.primaryColour);
 
         if (players.Count == 1)
         {
@@ -130,7 +129,7 @@ public class H_CinematicManager : NetworkBehaviour
         {
             spyPlayerRole.text = "You are " + H_GameManager.ColorWord("Spies", Color.red);
 
-            if (players.Count == 2)
+            if (players.Count == 2 || players.Count == 3)
             {
                 firstSpyTeammateDisplay.gameObject.SetActive(true);
 
