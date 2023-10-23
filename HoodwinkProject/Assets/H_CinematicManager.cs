@@ -48,7 +48,6 @@ public class H_CinematicManager : NetworkBehaviour
 
     IEnumerator PlayAgentIntroCutscene(IntroCosmeticData player)
     {
-        H_TransitionManager.instance.SetClear();
         H_GameManager.instance.playerUIGroup.alpha = 0;
 
         ColourData playerColours = new ColourData();
@@ -69,6 +68,7 @@ public class H_CinematicManager : NetworkBehaviour
         agentPlayerRole.text = "You are an " + H_GameManager.ColorWord("Agent", Color.green);
 
         agentIntroTimeline.Play();
+        H_TransitionManager.instance.SetClear();
 
         yield return new WaitForSeconds((float)agentIntroTimeline.playableAsset.duration);
 
@@ -92,7 +92,6 @@ public class H_CinematicManager : NetworkBehaviour
 
     IEnumerator PlaySpyIntroCutscene(List<IntroCosmeticData> players)
     {
-        H_TransitionManager.instance.SetClear();
         H_GameManager.instance.playerUIGroup.alpha = 0;
 
         ColourData playerColours = new ColourData();
@@ -173,6 +172,7 @@ public class H_CinematicManager : NetworkBehaviour
         }
 
         spyIntroTimeline.Play();
+        H_TransitionManager.instance.SetClear();
 
         yield return new WaitForSeconds((float)spyIntroTimeline.playableAsset.duration);
 
