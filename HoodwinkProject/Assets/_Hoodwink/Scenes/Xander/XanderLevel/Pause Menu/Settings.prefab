@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8085173786181977142}
   - component: {fileID: 8687664250393657895}
   - component: {fileID: 792305046}
+  - component: {fileID: 4512072}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -96,7 +97,7 @@ MonoBehaviour:
       - m_Target: {fileID: 8687664250393657895}
         m_TargetAssemblyTypeName: MusicSlider, Assembly-CSharp
         m_MethodName: SetLevel
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -130,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vol: {fileID: 24100000, guid: d4a4bc356bb5b2e47a6aa6c8e8ce30ae, type: 2}
+  audioSlider: {fileID: 8085173786181977142}
 --- !u!114 &792305046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +146,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handle: {fileID: 8565124888924409286}
   slider: {fileID: 8085173786181977142}
+--- !u!114 &4512072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58759416974140741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 14
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8687664250393657895}
+          m_TargetAssemblyTypeName: MusicSlider, Assembly-CSharp
+          m_MethodName: SaveSettings
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &78087833850851379
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,9 +760,9 @@ RectTransform:
   m_Father: {fileID: 6777335969982551350}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -185, y: -180}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 350, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &201948192032555859
@@ -1233,9 +1264,9 @@ RectTransform:
   m_Father: {fileID: 6341878834834698543}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -185, y: -75}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 350, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8882839905250187831
@@ -1300,6 +1331,7 @@ GameObject:
   - component: {fileID: 6902987132495861590}
   - component: {fileID: 5486765970758169309}
   - component: {fileID: 3566007498129578291}
+  - component: {fileID: 97971895}
   m_Layer: 5
   m_Name: Toggle (1)
   m_TagString: Untagged
@@ -1374,7 +1406,31 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 97971895}
+        m_TargetAssemblyTypeName: Fullscreen, Assembly-CSharp
+        m_MethodName: Toggle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 353964952}
+        m_TargetAssemblyTypeName: DisplaySettings, Assembly-CSharp
+        m_MethodName: SaveSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!222 &3566007498129578291
 CanvasRenderer:
@@ -1384,6 +1440,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1210802891951796871}
   m_CullTransparentMesh: 1
+--- !u!114 &97971895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210802891951796871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e79badfbd38b8b94181ed54bc7b769c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fTog: {fileID: 5486765970758169309}
 --- !u!1 &1377183223664665665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1608,6 +1677,7 @@ GameObject:
   - component: {fileID: 2969470380056920316}
   - component: {fileID: 2923539209045281256}
   - component: {fileID: 1287699868}
+  - component: {fileID: 1469981373}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -1692,7 +1762,7 @@ MonoBehaviour:
       - m_Target: {fileID: 2923539209045281256}
         m_TargetAssemblyTypeName: VoiceSlider, Assembly-CSharp
         m_MethodName: SetLevel
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1726,6 +1796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vol: {fileID: 24100000, guid: d4a4bc356bb5b2e47a6aa6c8e8ce30ae, type: 2}
+  audioSlider: {fileID: 2969470380056920316}
 --- !u!114 &1287699868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1740,6 +1811,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handle: {fileID: 2700831845330989995}
   slider: {fileID: 2969470380056920316}
+--- !u!114 &1469981373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491235394250615821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 14
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2923539209045281256}
+          m_TargetAssemblyTypeName: VoiceSlider, Assembly-CSharp
+          m_MethodName: SaveSettings
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1610046411404085402
 GameObject:
   m_ObjectHideFlags: 0
@@ -1808,8 +1908,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Mouse Sensitivity
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5aa3f039f9e3978409975a86328e7ec9, type: 2}
+  m_sharedMaterial: {fileID: -4810788914738682627, guid: 5aa3f039f9e3978409975a86328e7ec9,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1833,7 +1934,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.25
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2186,9 +2287,9 @@ RectTransform:
   m_Father: {fileID: 6777335969982551350}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -185, y: -75}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 350, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5809698910566836693
@@ -2265,9 +2366,9 @@ RectTransform:
   m_Father: {fileID: 6341878834834698543}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -185, y: -285}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 350, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1813099909977973675
@@ -2619,8 +2720,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Invert Mouse
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5aa3f039f9e3978409975a86328e7ec9, type: 2}
+  m_sharedMaterial: {fileID: -4810788914738682627, guid: 5aa3f039f9e3978409975a86328e7ec9,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2644,7 +2746,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3065,9 +3167,9 @@ RectTransform:
   m_Father: {fileID: 6341878834834698543}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -185, y: -180}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 350, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5648764775049976520
@@ -3121,6 +3223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolutionD: {fileID: 2629492921567504780}
+  currentResolutionIndex: 0
 --- !u!1 &2256546665976668016
 GameObject:
   m_ObjectHideFlags: 0
@@ -4042,8 +4145,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Toggle microphone
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5aa3f039f9e3978409975a86328e7ec9, type: 2}
+  m_sharedMaterial: {fileID: -4810788914738682627, guid: 5aa3f039f9e3978409975a86328e7ec9,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4067,7 +4171,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.35
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4214,8 +4318,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Master Volume
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5aa3f039f9e3978409975a86328e7ec9, type: 2}
+  m_sharedMaterial: {fileID: -4810788914738682627, guid: 5aa3f039f9e3978409975a86328e7ec9,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4239,7 +4344,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5664,6 +5769,7 @@ GameObject:
   - component: {fileID: 50579064442970265}
   - component: {fileID: 2255659249116542141}
   - component: {fileID: 839610858}
+  - component: {fileID: 972945739}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -5748,7 +5854,7 @@ MonoBehaviour:
       - m_Target: {fileID: 2255659249116542141}
         m_TargetAssemblyTypeName: SFXSlider, Assembly-CSharp
         m_MethodName: SetLevel
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5782,6 +5888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vol: {fileID: 24100000, guid: d4a4bc356bb5b2e47a6aa6c8e8ce30ae, type: 2}
+  audioSlider: {fileID: 50579064442970265}
 --- !u!114 &839610858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5796,6 +5903,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handle: {fileID: 8776920119818136962}
   slider: {fileID: 50579064442970265}
+--- !u!114 &972945739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4673116253172738697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 14
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2255659249116542141}
+          m_TargetAssemblyTypeName: SFXSlider, Assembly-CSharp
+          m_MethodName: SaveSettings
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4710929567759231765
 GameObject:
   m_ObjectHideFlags: 0
@@ -5864,8 +6000,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Toggle Sprint
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5aa3f039f9e3978409975a86328e7ec9, type: 2}
+  m_sharedMaterial: {fileID: -4810788914738682627, guid: 5aa3f039f9e3978409975a86328e7ec9,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5889,7 +6026,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5999,8 +6136,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 100
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5aa3f039f9e3978409975a86328e7ec9, type: 2}
+  m_sharedMaterial: {fileID: -4810788914738682627, guid: 5aa3f039f9e3978409975a86328e7ec9,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6894,6 +7032,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 353964952}
+        m_TargetAssemblyTypeName: DisplaySettings, Assembly-CSharp
+        m_MethodName: SaveSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!1 &5441711121268331824
 GameObject:
@@ -6963,8 +7113,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Voice Volume
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5aa3f039f9e3978409975a86328e7ec9, type: 2}
+  m_sharedMaterial: {fileID: -4810788914738682627, guid: 5aa3f039f9e3978409975a86328e7ec9,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6988,7 +7139,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8145,6 +8296,7 @@ GameObject:
   - component: {fileID: 975396631826406205}
   - component: {fileID: 3091109670776935313}
   - component: {fileID: 527242536393326191}
+  - component: {fileID: 955508010705149513}
   m_Layer: 5
   m_Name: Audio Tray
   m_TagString: Untagged
@@ -8226,6 +8378,32 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &955508010705149513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6938187039471094630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 15
+    m_Right: 15
+    m_Top: 20
+    m_Bottom: 20
+  m_ChildAlignment: 0
+  m_Spacing: -200
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &7135678087214257552
 GameObject:
   m_ObjectHideFlags: 0
@@ -8505,9 +8683,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7369224353343207586}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &2657247152083005850
 MonoBehaviour:
@@ -8522,8 +8700,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
+    m_Left: 15
+    m_Right: 15
     m_Top: 20
     m_Bottom: 20
   m_ChildAlignment: 0
@@ -8814,9 +8992,9 @@ RectTransform:
   m_Father: {fileID: 6777335969982551350}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -185, y: -390}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 350, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4698623660234402038
@@ -9096,9 +9274,9 @@ RectTransform:
   m_Father: {fileID: 6777335969982551350}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -185, y: -285}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 350, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6998522239841935007
@@ -9207,8 +9385,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Music Volume
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5aa3f039f9e3978409975a86328e7ec9, type: 2}
+  m_sharedMaterial: {fileID: -4810788914738682627, guid: 5aa3f039f9e3978409975a86328e7ec9,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9232,7 +9411,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9545,6 +9724,7 @@ GameObject:
   - component: {fileID: 1495558349896630561}
   - component: {fileID: 5553461662180093763}
   - component: {fileID: 5199789975901414805}
+  - component: {fileID: 28920945}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -9629,7 +9809,7 @@ MonoBehaviour:
       - m_Target: {fileID: 5553461662180093763}
         m_TargetAssemblyTypeName: AudioSlider, Assembly-CSharp
         m_MethodName: SetLevel
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9663,6 +9843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vol: {fileID: 24100000, guid: d4a4bc356bb5b2e47a6aa6c8e8ce30ae, type: 2}
+  audioSlider: {fileID: 1495558349896630561}
 --- !u!114 &5199789975901414805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9677,6 +9858,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handle: {fileID: 5824603511988039055}
   slider: {fileID: 1495558349896630561}
+--- !u!114 &28920945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7913599411241155551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 14
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5553461662180093763}
+          m_TargetAssemblyTypeName: AudioSlider, Assembly-CSharp
+          m_MethodName: SaveSettings
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7953340573007157786
 GameObject:
   m_ObjectHideFlags: 0
@@ -9897,8 +10107,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: SFX Volume
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5aa3f039f9e3978409975a86328e7ec9, type: 2}
+  m_sharedMaterial: {fileID: -4810788914738682627, guid: 5aa3f039f9e3978409975a86328e7ec9,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9922,7 +10133,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10439,6 +10650,8 @@ GameObject:
   - component: {fileID: 2585610479142438878}
   - component: {fileID: 6310799331703627738}
   - component: {fileID: 8233321893679379906}
+  - component: {fileID: 3451402819875611025}
+  - component: {fileID: 353964952}
   m_Layer: 5
   m_Name: Graphics Tray
   m_TagString: Untagged
@@ -10519,6 +10732,47 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3451402819875611025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8676655071229412940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 15
+    m_Right: 15
+    m_Top: 20
+    m_Bottom: 20
+  m_ChildAlignment: 0
+  m_Spacing: -200
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
+--- !u!114 &353964952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8676655071229412940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69d21a5aabd41440a308d68a0af78b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fTog: {fileID: 5486765970758169309}
+  rDropdown: {fileID: 2629492921567504780}
+  firstRun: 0
 --- !u!1 &8776920119818136962
 GameObject:
   m_ObjectHideFlags: 0
