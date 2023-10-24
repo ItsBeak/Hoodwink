@@ -22,11 +22,11 @@ public class H_GameManager : NetworkBehaviour
     public Image evidenceImage;
     [SyncVar] bool spiesRevealed = false;
 
-    public List<H_PlayerBrain> serverPlayers;
-    public List<H_PlayerBrain> roundPlayers;
-    public List<H_PlayerBrain> roundDeadPlayers;
-    public List<H_PlayerBrain> roundAgents;
-    public List<H_PlayerBrain> roundSpies;
+    [HideInInspector] public List<H_PlayerBrain> serverPlayers;
+    [HideInInspector] public List<H_PlayerBrain> roundPlayers;
+    [HideInInspector] public List<H_PlayerBrain> roundDeadPlayers;
+    [HideInInspector] public List<H_PlayerBrain> roundAgents;
+    [HideInInspector] public List<H_PlayerBrain> roundSpies;
     int agentsLeft = 0;
     int spiesLeft = 0;
 
@@ -81,14 +81,6 @@ public class H_GameManager : NetworkBehaviour
     float phoneTimer;
     bool isPhoneActive;
     H_Phone[] allPhones;
-
-    //[Header("Player Intro Settings")]
-    //public PlayableDirector introTimeline;
-    //public PlayableAsset[] intros;
-    //public GameObject introCamera;
-    //public Transform hatAnchor;
-    //public TextMeshProUGUI introPlayerName, introPlayerAgentName;
-    //public Renderer playerRenderer, coatRenderer, coatTrimRenderer;
 
     [Header("Components")]
     public TextMeshProUGUI pingDisplay;
@@ -620,6 +612,8 @@ public class H_GameManager : NetworkBehaviour
             int randomSpawn = Random.Range(0, spawns.Length);
 
             player.TeleportPlayer(spawns[randomSpawn].position, spawns[randomSpawn].rotation);
+
+            player.equipment.currentSlot = EquipmentSlot.Holstered;
         }
 
 
@@ -645,6 +639,10 @@ public class H_GameManager : NetworkBehaviour
             SetPlayerData(player, availableAgents[randomAgent]);
 
             availableAgents.RemoveAt(randomAgent);
+
+            player.equipment.currentSlot = EquipmentSlot.Holstered;
+            player.RpcSetCanMove(false);
+            player.equipment.RpcSetBusy(true);
         }
 
         roundSpiesRemaining = currentSettings.spyCount;

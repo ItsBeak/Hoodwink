@@ -85,6 +85,8 @@ public class H_CinematicManager : NetworkBehaviour
             foreach (var p in H_GameManager.instance.roundPlayers)
             {
                 p.isHudHidden = false;
+                p.RpcSetCanMove(true);
+                p.equipment.SetBusy(false);
             }
         }
 
@@ -191,6 +193,8 @@ public class H_CinematicManager : NetworkBehaviour
             foreach (var p in H_GameManager.instance.roundPlayers)
             {
                 p.isHudHidden = false;
+                p.RpcSetCanMove(true);
+                p.equipment.SetBusy(false);
             }
         }
 

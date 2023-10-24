@@ -265,7 +265,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     IEnumerator ChangeSlot(EquipmentSlot newSlot)
     {
         RaiseItems();
-        Debug.Log("Raising items");
+        //Debug.Log("Raising items");
 
         yield return new WaitForSeconds(0.15f);
 
@@ -306,7 +306,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         SetBusy(true);
 
         LowerItems();
-        Debug.Log("Lowering items");
+        //Debug.Log("Lowering items");
 
         yield return new WaitForSeconds(0.15f);
 

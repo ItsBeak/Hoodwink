@@ -110,6 +110,12 @@ public class H_PlayerBrain : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void RpcSetCanMove(bool state)
+    {
+        SetCanMove(state);
+    }
+
     public void SetCanMove(bool state)
     {
         canMove = state;
