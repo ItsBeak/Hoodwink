@@ -380,6 +380,10 @@ public class H_GameManager : NetworkBehaviour
         newData.vestColour = data.vestColour;
         newData.tieColour = data.tieColour;
 
+        newData.hatIndex = player.agentData.hatIndex;
+        newData.vestIndex = player.agentData.vestIndex;
+        newData.suitIndex = player.agentData.suitIndex;
+
         player.agentData = newData;
     }
 
@@ -395,6 +399,10 @@ public class H_GameManager : NetworkBehaviour
         newData.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
         newData.vestColour = vestColours[Random.Range(0, vestColours.Length)];
         newData.tieColour = tieColours[Random.Range(0, tieColours.Length)];
+
+        newData.hatIndex = player.agentData.hatIndex;
+        newData.vestIndex = player.agentData.vestIndex;
+        newData.suitIndex = player.agentData.suitIndex;
 
         player.agentData = newData;
     }
