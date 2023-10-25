@@ -186,8 +186,6 @@ public class H_CinematicManager : NetworkBehaviour
         H_TransitionManager.instance.SetBlack();
         H_TransitionManager.instance.FadeOut(0.5f);
 
-
-
         if (isServer)
         {
             H_GameManager.instance.currentRoundStage = RoundStage.Game;

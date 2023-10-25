@@ -21,6 +21,8 @@ public class H_GameManager : NetworkBehaviour
     public TextMeshProUGUI revealedSpiesText;
     public Image evidenceImage;
     [SyncVar] bool spiesRevealed = false;
+    [SyncVar] bool evidenceCompleted = false;
+    bool gameStarted = false;
 
     [HideInInspector] public List<H_PlayerBrain> serverPlayers;
     [HideInInspector] public List<H_PlayerBrain> roundPlayers;
@@ -208,7 +210,6 @@ public class H_GameManager : NetworkBehaviour
                     {
                         player.isHudHidden = true;
 
-
                         if (player.currentAlignment == AgentAlignment.Agent)
                         {
                             IntroCosmeticData playerData = new IntroCosmeticData();
@@ -255,6 +256,15 @@ public class H_GameManager : NetworkBehaviour
 
             #region Game Stage Update
             case RoundStage.Game:
+
+                if (!gameStarted)
+                {
+                    gameStarted = true;
+                    foreach (var player in roundPlayers)
+                    {
+                        player.equipment.RpcSetBusy(false);
+                    }
+                }
 
                 timerDisplay.text = "In game, time left: " + Mathf.RoundToInt(roundTimer + 0.5f).ToString();
 
@@ -307,14 +317,12 @@ public class H_GameManager : NetworkBehaviour
                 if (winConditionMet)
                 {
                     currentRoundStage = RoundStage.PostGame;
-                    //RpcShowRoundResults();
                 }
 
                 if (roundTimer <= 0)
                 {
                     CheckWinConditions();
                     currentRoundStage = RoundStage.PostGame;
-                    //RpcShowRoundResults();
                 }
 
                 break;
@@ -570,6 +578,7 @@ public class H_GameManager : NetworkBehaviour
         evidencePercent = 0;
         spiesRevealed = false;
         introStarted = false;
+        evidenceCompleted = false;
 
         spyInformation = "";
 
@@ -817,33 +826,16 @@ public class H_GameManager : NetworkBehaviour
         if (winConditionMet)
             return;
 
-        if (agentsLeft == 0 && spiesLeft == 0)
+        if (agentsLeft == 0 && spiesLeft == 0)            // draw
         {
             winCondition = WinConditions.Draw;
             winConditionMet = true;
+
             Debug.Log("Win Condition Met: Draw");
         }
-        else if (spiesLeft == 0)
+        else if (agentsLeft == 0)            // spies win - agents eliminated
         {
-            winCondition = WinConditions.GoodWin;
-            winConditionMet = true;
-            Debug.Log("Win Condition Met: Agents Win");
-
-            RoundEndData[] endData = new RoundEndData[roundSpies.Count];
-
-            for (int i = 0; i < endData.Length; i++)
-            {
-                endData[i].agentData.agentName = roundSpies[i].agentData.agentName;
-                endData[i].agentData.primaryColour = roundSpies[i].agentData.primaryColour;
-                endData[i].agentData.secondaryColour = roundSpies[i].agentData.secondaryColour;
-                endData[i].isDead = roundDeadPlayers.Contains(roundSpies[i]);
-            }
-
-            roundEndManager.RpcSetAgentCards(endData, "Spies Eliminated");
-        }
-        else if (agentsLeft == 0)
-        {
-            winCondition = WinConditions.EvilWin;
+            winCondition = WinConditions.AgentsEliminated;
             winConditionMet = true;
             Debug.Log("Win Condition Met: Spies Win");
 
@@ -858,15 +850,38 @@ public class H_GameManager : NetworkBehaviour
             }
 
             roundEndManager.RpcSetAgentCards(endData, "Agents Eliminated");
-
         }
-        else if (roundTimer <= 0)
+        else if (spiesLeft == 0)            // agents win - spies eliminated
+        {
+            winCondition = WinConditions.SpiesEliminated;
+            winConditionMet = true;
+
+            Debug.Log("Win Condition Met: Agents Win");
+
+            RoundEndData[] endData = new RoundEndData[roundSpies.Count];
+
+            for (int i = 0; i < endData.Length; i++)
+            {
+                endData[i].agentData.agentName = roundSpies[i].agentData.agentName;
+                endData[i].agentData.primaryColour = roundSpies[i].agentData.primaryColour;
+                endData[i].agentData.secondaryColour = roundSpies[i].agentData.secondaryColour;
+                endData[i].isDead = roundDeadPlayers.Contains(roundSpies[i]);
+            }
+
+            roundEndManager.RpcSetAgentCards(endData, "Spies Eliminated");
+        }
+        else if (evidenceCompleted)            // agents win - evidence gathered
+        {
+            winCondition = WinConditions.EvidenceCompleted;
+            winConditionMet = true;
+            Debug.Log("Win Condition Met: Evidence Completed");
+        }
+        else if (roundTimer <= 0)            // spies win - time limit reached
         {
             winCondition = WinConditions.TimeOut;
             winConditionMet = true;
             Debug.Log("Win Condition Met: Time Ran Out");
         }
-
     }
 
     [Command(requiresAuthority = false)]
@@ -898,9 +913,17 @@ public class H_GameManager : NetworkBehaviour
             }
             else
             {
-                evidenceText.text = "Evidence Gathered: " + evidencePercent.ToString() + "%";
+                if (!spiesRevealed)
+                {
+                    evidenceText.text = "Evidence Gathered: " + evidencePercent.ToString() + "%";
+                }
+                else
+                {
+                    evidenceText.text = "Evidence Transferred: " + (100 - evidencePercent).ToString() + "%";
+                }
 
                 evidenceImage.fillAmount = (float)evidencePercent / 100;
+
             }
         }
     }
@@ -919,10 +942,33 @@ public class H_GameManager : NetworkBehaviour
         {
             spyInformation = ColorWord(roundSpies[0].agentData.agentName, roundSpies[0].agentData.primaryColour) + ", " + ColorWord(roundSpies[1].agentData.agentName, roundSpies[1].agentData.primaryColour) + " and " + ColorWord(roundSpies[2].agentData.agentName, roundSpies[2].agentData.primaryColour) + " are spies!";
         }
+
+        StartCoroutine(DrainEvidence());
+
     }
+
     void OnSpyInformationChanged(string oldValue, string newValue)
     {
         revealedSpiesText.text = newValue;
+    }
+
+    IEnumerator DrainEvidence()
+    {
+        Debug.Log("Started draining evidence");
+
+        yield return new WaitForSeconds(5);
+
+        while (evidencePercent > 0)
+        {
+            evidencePercent--;
+            yield return new WaitForSeconds(0.316f);
+        }
+
+        Debug.Log("Evidence drained");
+        evidenceCompleted = true;
+
+        CheckWinConditions();
+
     }
 
     public static string ColorWord(string text, Color color)
@@ -990,8 +1036,9 @@ public enum RoundStage
 
 public enum WinConditions
 {
-    GoodWin,
-    EvilWin,
+    AgentsEliminated,
+    SpiesEliminated,
+    EvidenceCompleted,
     TimeOut,
     Draw
 }
