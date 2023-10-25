@@ -37,6 +37,10 @@ public class Resolution : MonoBehaviour
             {
                 string resolutionOption = filteredResolutions[i].width + "x" + filteredResolutions[i].height + " " + filteredResolutions[i].refreshRate + " Hz";
                 options.Add(resolutionOption);
+                if (filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height)
+                {
+                     currentResolutionIndex = i;
+                }
             }
 
             resolutionD.AddOptions(options);
@@ -48,8 +52,6 @@ public class Resolution : MonoBehaviour
     {
             UnityEngine.Resolution resolution = filteredResolutions[resolutionIndex];
             Screen.SetResolution(resolution.width, resolution.height, true);
-
-
     }
 
 }

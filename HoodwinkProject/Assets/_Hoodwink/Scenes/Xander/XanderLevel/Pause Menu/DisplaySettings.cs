@@ -8,8 +8,8 @@ public class DisplaySettings : MonoBehaviour
 
     private int fullscreen;
     [SerializeField] private Toggle fTog;
-    [SerializeField] private TMP_Dropdown rDropdown;
-    private int resolutionDropdown;
+    [SerializeField] private TMP_Dropdown quality;
+    private int qualityAm;
 
 
     private void Awake()
@@ -28,27 +28,25 @@ public class DisplaySettings : MonoBehaviour
             fullscreen = 1;
         }
     }
-    void ChangeRes()
+    void changeQuality()
     {
-        resolutionDropdown = rDropdown.value;
+        qualityAm = quality.value;
     }
+
     public void SaveSettings()
     {
         ChangefTog();
-        ChangeRes();
+        changeQuality();
         PlayerPrefs.SetInt("fullscreen", fullscreen);
-        PlayerPrefs.SetInt("dropdown", resolutionDropdown);
-        Debug.Log("save" + resolutionDropdown + " " + rDropdown.value);
+        PlayerPrefs.SetInt("quality", qualityAm);
+
     }
     void LoadSettings()
     {
         fullscreen = PlayerPrefs.GetInt("fullscreen", 1);
- 
-        resolutionDropdown = PlayerPrefs.GetInt("dropdown", 19);
+        qualityAm = PlayerPrefs.GetInt("quality", 2);
 
-        rDropdown.value = resolutionDropdown;
-        Debug.Log("Load" + resolutionDropdown + " " + rDropdown.value);
-
+        quality.value = qualityAm;
         if (fullscreen == 0)
         {
             fTog.isOn = false;
