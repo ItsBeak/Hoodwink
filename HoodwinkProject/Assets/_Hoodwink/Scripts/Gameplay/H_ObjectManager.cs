@@ -14,6 +14,7 @@ public class H_ObjectManager : NetworkBehaviour
     public GameObject shredderPrefab;
     public GameObject computerPrefab;
     public GameObject keyMachinePrefab;
+    public GameObject phonePrefab;
 
     [Header("Level Cleanup Settings")]
     public LayerMask cleanupLayers;
@@ -60,6 +61,25 @@ public class H_ObjectManager : NetworkBehaviour
 
         GameObject keyMachine = Instantiate(keyMachinePrefab, currentLevel.computerObjectives[randomComputerSet].keyMachineLocation.position, currentLevel.computerObjectives[randomComputerSet].keyMachineLocation.rotation);
         NetworkServer.Spawn(keyMachine);
+
+        List<Transform> phoneSpawns = new List<Transform>();
+
+        foreach (Transform point in currentLevel.phoneSpawnPoints)
+        {
+            phoneSpawns.Add(point);
+        }
+
+        for (int i = 0; i < newSettings.phonesToSpawn; i++)
+        {
+            int spawnPoint = Random.Range(0, phoneSpawns.Count);
+
+            GameObject newItem = Instantiate(phonePrefab, phoneSpawns[spawnPoint].position, phoneSpawns[spawnPoint].rotation);
+            NetworkServer.Spawn(newItem);
+            phoneSpawns.Remove(phoneSpawns[spawnPoint]);
+
+            if (enableDebugLogs)
+                Debug.Log("Spawning phone");
+        }
     }
 
     [Server]

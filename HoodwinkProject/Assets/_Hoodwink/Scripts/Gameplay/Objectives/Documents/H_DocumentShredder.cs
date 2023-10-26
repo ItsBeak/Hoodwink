@@ -2,18 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using static UnityEngine.ParticleSystem;
 
 public class H_DocumentShredder : NetworkBehaviour
 {
 
-    [SyncVar] public uint inUseBy = 0;
     public int scoreChange;
+    [Range(0, 2)]public float scoreChangeInterval;
+
+    [Header("Effects")]
+    public ParticleSystem particles;
 
     [Header("Audio")]
     public AudioClip useClip;
     public AudioClip stopUseClip;
 
     AudioSource source;
+
+    [Header("SyncVars")]
+    [SyncVar(hook = nameof(OnDocumentChanged))] public bool containsDocument;
 
     [Header("Debugging")]
     public bool enableDebugLogs;
@@ -24,47 +31,50 @@ public class H_DocumentShredder : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    public void CmdShredDocument()
+    public void CmdAddDocument()
     {
-        H_GameManager.instance.CmdUpdateEvidence(scoreChange);
-        inUseBy = 0;
+        StartCoroutine(ActivateShredder());
+    }
+
+    void OnDocumentChanged(bool oldState, bool newState)
+    {
+        if (newState)
+        {
+            source.PlayOneShot(useClip);
+            particles.Play();
+        }
+        else
+        {
+            source.PlayOneShot(stopUseClip);
+            particles.Stop();
+        }
+    }
+
+    IEnumerator ActivateShredder()
+    {
+        containsDocument = true;
+
+        int scoreLeft = scoreChange;
 
         if (enableDebugLogs)
-            Debug.Log("A document has been shredded");
-    }
+            Debug.Log("Shredder started");
 
-    [Command(requiresAuthority = false)]
-    public void CmdStartUse(uint playerID)
-    {
-        inUseBy = playerID;
+        while (scoreLeft > 0)
+        {
+            yield return new WaitForSeconds(scoreChangeInterval);
 
-        RpcStartUse();
+            H_GameManager.instance.CmdUpdateEvidence(-1);
+            scoreLeft--;
 
-        if (enableDebugLogs)
-            Debug.Log("The shredder is being used by: " + playerID);
-    }
-
-    [Command(requiresAuthority = false)]
-    public void CmdStopUse()
-    {
-        inUseBy = 0;
-
-        RpcStopUse();
+            if (enableDebugLogs)
+                Debug.Log("Removed evidence");
+        }
 
         if (enableDebugLogs)
-            Debug.Log("The shredder is not being used");
-    }
+            Debug.Log("Shredder completed");
 
-    [ClientRpc]
-    public void RpcStartUse()
-    {
-        source.PlayOneShot(useClip);
-    }
+        containsDocument = false;
 
-    [ClientRpc]
-    public void RpcStopUse()
-    {
-        source.Stop();
-        source.PlayOneShot(stopUseClip);
+        yield return null;
     }
 }

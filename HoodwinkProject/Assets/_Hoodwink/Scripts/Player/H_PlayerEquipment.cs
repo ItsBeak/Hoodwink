@@ -1,5 +1,6 @@
 using Cinemachine;
 using Mirror;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -80,7 +81,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform dropPoint;
     public Transform placePoint;
 
-
     [HideInInspector] public bool isPrimaryUseKeyPressed = false;
     [HideInInspector] public bool isSecondaryUseKeyPressed = false;
     [HideInInspector] public bool isAlternateUseKeyPressed = false;
@@ -91,7 +91,10 @@ public class H_PlayerEquipment : NetworkBehaviour
     public H_Recoil cameraRecoil;
     [HideInInspector] public H_PlayerBrain brain;
     [HideInInspector] public H_PlayerAnimator animator;
+    [HideInInspector] public H_PlayerController controller;
+    public Animator itemsAnimator;
     bool isDead;
+    bool isBusy;
 
     void Start()
     {
@@ -105,6 +108,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         brain = GetComponent<H_PlayerBrain>();
         animator = GetComponent<H_PlayerAnimator>();
+        controller = GetComponent<H_PlayerController>();
 
         primaryEquipPointObserver.gameObject.SetActive(false);
         sidearmEquipPointObserver.gameObject.SetActive(false);
@@ -112,7 +116,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         baseFOV = playerCamera.m_Lens.FieldOfView;
 
-        ChangeSlotInput(EquipmentSlot.Holstered);
+        StartCoroutine(ChangeSlotInput(EquipmentSlot.Holstered));
     }
 
     void Update()
@@ -126,21 +130,24 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void CheckForKeypresses()
     {
+        if (isBusy)
+            return;
+
         isPrimaryUseKeyPressed = Input.GetKey(primaryUseKey);
         isSecondaryUseKeyPressed = Input.GetKey(secondaryUseKey);
         isAlternateUseKeyPressed = Input.GetKey(alternateUseKey);
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && currentSlot != EquipmentSlot.PrimaryItem)
         {
-            ChangeSlotInput(EquipmentSlot.PrimaryItem);
+            StartCoroutine(ChangeSlotInput(EquipmentSlot.PrimaryItem));
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && currentSlot != EquipmentSlot.Sidearm)
         {
-            ChangeSlotInput(EquipmentSlot.Sidearm);
+            StartCoroutine(ChangeSlotInput(EquipmentSlot.Sidearm));
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && currentSlot != EquipmentSlot.Holstered)
         {
-            ChangeSlotInput(EquipmentSlot.Holstered);
+            StartCoroutine(ChangeSlotInput(EquipmentSlot.Holstered));
         }
         else if (Input.GetKeyDown(interactKey))
         {
@@ -150,13 +157,13 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             TryDropItem();
         }
-        else if (Input.GetKeyDown(firstGadgetKey))
+        else if (Input.GetKeyDown(firstGadgetKey) && currentSlot != EquipmentSlot.FirstGadget)
         {
-            ChangeSlotInput(EquipmentSlot.FirstGadget);
+            StartCoroutine(ChangeSlotInput(EquipmentSlot.FirstGadget));
         }
-        else if (Input.GetKeyDown(secondGadgetKey))
+        else if (Input.GetKeyDown(secondGadgetKey) && currentSlot != EquipmentSlot.SecondGadget)
         {
-            ChangeSlotInput(EquipmentSlot.SecondGadget);
+            StartCoroutine(ChangeSlotInput(EquipmentSlot.SecondGadget));
         }
     }
 
@@ -215,8 +222,27 @@ public class H_PlayerEquipment : NetworkBehaviour
 
             if (interactable != null)
             {
-                focusedInteractable = interactable;
-                interactionReadout.text = "Press " + interactKey + " to " + focusedInteractable.InteractableVerb + focusedInteractable.InteractableName;
+                if (interactable.InteractableEnabled)
+                {
+                    if (hit.collider.CompareTag("SpyOnly"))
+                    {
+                        if (brain.currentAlignment == AgentAlignment.Spy)
+                        {
+                            focusedInteractable = interactable;
+                            interactionReadout.text = "Press " + interactKey + " to " + focusedInteractable.InteractableVerb + focusedInteractable.InteractableName;
+                        }
+                        else
+                        {
+                            focusedInteractable = null;
+                            interactionReadout.text = "";
+                        }
+                    }
+                    else
+                    {
+                        focusedInteractable = interactable;
+                        interactionReadout.text = "Press " + interactKey + " to " + focusedInteractable.InteractableVerb + focusedInteractable.InteractableName;
+                    }
+                }
             }
             else
             {
@@ -233,11 +259,18 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void OnEquipmentChanged(EquipmentSlot oldSlot, EquipmentSlot newSlot)
     {
-        ChangeSlot(newSlot);
+        StartCoroutine(ChangeSlot(newSlot));
     }
 
-    void ChangeSlot(EquipmentSlot newSlot)
+    IEnumerator ChangeSlot(EquipmentSlot newSlot)
     {
+        RaiseItems();
+        //Debug.Log("Raising items");
+
+        yield return new WaitForSeconds(0.15f);
+
+        SetBusy(false);
+
         ClearSlots();
         ClearAmmoUI();
 
@@ -268,8 +301,15 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     }
 
-    void ChangeSlotInput(EquipmentSlot selectedSlot)
+    IEnumerator ChangeSlotInput(EquipmentSlot selectedSlot)
     {
+        SetBusy(true);
+
+        LowerItems();
+        //Debug.Log("Lowering items");
+
+        yield return new WaitForSeconds(0.15f);
+
         if (isHoldingItem)
         {
             if (currentObject.dropOnSwap)
@@ -553,13 +593,10 @@ public class H_PlayerEquipment : NetworkBehaviour
         ClearHolsteredSlot();
     }
 
-    public void SetAmmoUI(int ammoLoaded, int ammoPool, float reloadTime)
+    public void SetAmmoUI(int ammoLoaded, int ammoPool)
     {
         ammoLoadedText.text = ammoLoaded.ToString();
         ammoPoolText.text = ammoPool.ToString();
-
-        reloadingImageLeft.fillAmount = reloadTime;
-        reloadingImageRight.fillAmount = reloadTime;
     }
 
     public void ClearAmmoUI()
@@ -569,6 +606,31 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         reloadingImageLeft.fillAmount = 0;
         reloadingImageRight.fillAmount = 0;
+    }
+
+    public void LowerItems()
+    {
+        itemsAnimator.SetBool("isLowered", true);
+    }
+
+    public void RaiseItems()
+    {
+        itemsAnimator.SetBool("isLowered", false);
+    }
+
+    public void SetBusy(bool state)
+    {
+        isBusy = state;
+    }
+
+    [ClientRpc]
+    public void RpcSetBusy(bool state)
+    {
+        isBusy = state;
+    }
+    public bool CheckBusy()
+    {
+        return isBusy;
     }
 
 }
