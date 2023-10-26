@@ -13,7 +13,7 @@ public class SliderAmountText : MonoBehaviour
     public void SliderAmountSet()
     {
         temp = _slider.value;
-        temp = Mathf.Round(temp / 1.5f) * 1.5f;
-        _amount.text = "" + temp * 100;
+        temp = Mathf.Round(temp  * 100 / 1.5f) * 1.5f;
+        _amount.text = "" + temp;
     }
 }
