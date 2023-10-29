@@ -2,6 +2,9 @@ using UnityEngine;
 using Mirror;
 using System;
 using Random = UnityEngine.Random;
+using Cinemachine.Utility;
+using TMPro;
+using System.Collections;
 
 public class H_ItemWeapon : H_ItemBase
 {
@@ -49,24 +52,35 @@ public class H_ItemWeapon : H_ItemBase
     H_WeaponEffects observerEffects;
 
     [Header("Bullet Settings")]
-    [Range(0f, 1f)]
-    public float bulletSpread;
     public int bulletsPerShot = 1;
     public LayerMask shootableLayers;
+
+    [Header("Spread Settings")]
+    [Range(0f, 3f)] public float defaultBulletSpread;
+    [Range(0f, 3f)] public float aimedBulletSpread;
+    [Range(0f, 3f)] public float movingBulletSpread;
+    public float perShotBloom;
+    public float maxBloom;
+    public float bloomRecoveryMultiplier = 1;
+
+    public bool drawDebugSpreadRays;
+    float bulletSpread;
+    float bulletBloom = 0;
+
+    [Header("Crosshair Settings")]
+    public float crosshairOffset;
+    public float crosshairMultiplier;
+    public RectTransform crosshairPieceTop, crosshairPieceBottom, crosshairPieceLeft, crosshairPieceRight;
+    public CanvasGroup crosshairFade;
 
     [Header("Ammo Settings")]
     public int maxAmmo;
     public int clipSize;
     public int startingAmmo;
     public float reloadTime;
-    float reloadTimer;
-    bool isReloading;
     [HideInInspector] public int ammoLoaded;
     [HideInInspector] public int ammoPool;
     bool lockTrigger = false;
-
-    //[Header("Animation")]
-    //public Animator anim;
 
     [Header("Debugging")]
     public bool enableDebugLogs;
@@ -90,6 +104,8 @@ public class H_ItemWeapon : H_ItemBase
         ammoPool = startingAmmo;
         ammoLoaded = clipSize;
 
+        bulletSpread = defaultBulletSpread;
+
         Debug.Log("Initializing sidearm");
     }
 
@@ -97,7 +113,7 @@ public class H_ItemWeapon : H_ItemBase
     {
         base.Update();
 
-        if (!isOwned || !equipment)
+        if (!isOwned || !equipment || equipment.CheckBusy())
             return;
 
         if (waitForSecondaryKeyReleased)
@@ -118,22 +134,58 @@ public class H_ItemWeapon : H_ItemBase
             lockTrigger = false;
         }
 
-        isReloading = reloadTimer > 0;
-        equipment.SetAmmoUI(ammoLoaded, ammoPool, Mathf.Clamp(reloadTimer / reloadTime, 0, 1));
-        reloadTimer -= 1 * Time.deltaTime;
+        equipment.SetAmmoUI(ammoLoaded, ammoPool);
+
+        if (equipment.controller.isMoving)
+        {
+            if (isAiming)
+            {
+                bulletSpread = Mathf.Lerp(bulletSpread, Mathf.Lerp(movingBulletSpread, aimedBulletSpread, 0.5f), Time.deltaTime * 4);
+                crosshairFade.alpha = Mathf.Lerp(crosshairFade.alpha, 0.2f, Time.deltaTime * 6);
+            }
+            else
+            {
+                bulletSpread = Mathf.Lerp(bulletSpread, movingBulletSpread, Time.deltaTime * 4);
+                crosshairFade.alpha = Mathf.Lerp(crosshairFade.alpha, 1f, Time.deltaTime * 6);
+            }
+        }
+        else
+        {
+            if (isAiming)
+            {
+                bulletSpread = Mathf.Lerp(bulletSpread, aimedBulletSpread, Time.deltaTime * 3.5f);
+                crosshairFade.alpha = Mathf.Lerp(crosshairFade.alpha, 0f, Time.deltaTime * 6);
+            }
+            else
+            {
+                bulletSpread = Mathf.Lerp(bulletSpread, defaultBulletSpread, Time.deltaTime * 3);
+                crosshairFade.alpha = Mathf.Lerp(crosshairFade.alpha, 1f, Time.deltaTime * 6);
+            }
+        }
+
+        bulletBloom = Mathf.Lerp(bulletBloom, 0, Time.deltaTime * bloomRecoveryMultiplier);
 
         if (Input.GetKeyDown(KeyCode.T))
         {
             if (equipment.brain.currentAlignment == AgentAlignment.Spy)
             {
-                ToggleSilencer();
+                StartCoroutine(SilencerChange());
             }
         }
+
+        float spread = crosshairOffset + ((bulletSpread + bulletBloom) * crosshairMultiplier);
+
+        Vector3 spreadVector = new Vector3(0, spread, 0);
+
+        crosshairPieceTop.localPosition = spreadVector;
+        crosshairPieceBottom.localPosition = spreadVector;
+        crosshairPieceLeft.localPosition = spreadVector;
+        crosshairPieceRight.localPosition = spreadVector;
     }
 
     public override void PrimaryUse()
     {
-        if (lockTrigger || isReloading)
+        if (lockTrigger)
             return;
         if (enableDebugLogs)
             Debug.Log("Shooting");
@@ -147,10 +199,10 @@ public class H_ItemWeapon : H_ItemBase
             {
                 RaycastHit hit;
 
-                Vector3 bulletDirection = new Vector3(0, 0, 1);
+                Vector3 bulletDirection = new Vector3(0, 0, 10);
 
-                bulletDirection.x += Random.Range(-bulletSpread * 0.1f, bulletSpread * 0.1f);
-                bulletDirection.y += Random.Range(-bulletSpread * 0.1f, bulletSpread * 0.1f);
+                bulletDirection.x += Random.Range(-bulletSpread + -bulletBloom, bulletSpread + bulletBloom);
+                bulletDirection.y += Random.Range(-bulletSpread + -bulletBloom, bulletSpread + bulletBloom);
 
                 bulletDirection = equipment.playerCamera.transform.localToWorldMatrix * bulletDirection;
 
@@ -181,6 +233,10 @@ public class H_ItemWeapon : H_ItemBase
                     }
                 }
             }
+
+            bulletBloom += perShotBloom;
+            Mathf.Clamp(bulletBloom, 0, maxBloom);
+            crosshairFade.alpha += 0.2f;
 
             if (isAiming)
             {
@@ -219,19 +275,22 @@ public class H_ItemWeapon : H_ItemBase
 
     public override void AlternateUse()
     {
-        if (ammoLoaded == clipSize || ammoPool == 0 || isReloading)
+        if (ammoLoaded == clipSize || ammoPool == 0)
         {
             return;
         }
 
         base.AlternateUse();
 
-        LoadAmmo();
+        StartCoroutine(Reload());
     }
 
-    void LoadAmmo()
+    IEnumerator Reload()
     {
-        reloadTimer = reloadTime;
+        equipment.SetBusy(true);
+        equipment.LowerItems();
+
+        yield return new WaitForSeconds(0.25f);
 
         while (ammoLoaded < clipSize && ammoPool > 0)
         {
@@ -241,6 +300,11 @@ public class H_ItemWeapon : H_ItemBase
 
         clientEffects.PlayReloadLocal();
         observerEffects.CmdPlayReload();
+
+        yield return new WaitForSeconds(reloadTime);
+
+        equipment.SetBusy(false);
+        equipment.RaiseItems();
     }
 
     public void ToggleSilencer()
@@ -260,6 +324,53 @@ public class H_ItemWeapon : H_ItemBase
     {
         GameObject newBulletHole = GameObject.Instantiate(bulletHolePrefab, position, Quaternion.identity);
         newBulletHole.transform.LookAt(position + normal);
+    }
+
+    private void OnDrawGizmos()
+    {   
+        if (drawDebugSpreadRays)
+        {
+            Gizmos.color = Color.red;
+
+            Vector3 rayDir = new Vector3(0, 0, 10);
+            rayDir.x = bulletSpread + bulletBloom;
+            rayDir = equipment.playerCamera.transform.localToWorldMatrix * rayDir;
+            rayDir += equipment.playerCamera.transform.position;
+            Gizmos.DrawLine(equipment.playerCamera.transform.position, rayDir);
+
+            rayDir = new Vector3(0, 0, 10);
+            rayDir.x = -bulletSpread + -bulletBloom;
+            rayDir = equipment.playerCamera.transform.localToWorldMatrix * rayDir;
+            rayDir += equipment.playerCamera.transform.position;
+            Gizmos.DrawLine(equipment.playerCamera.transform.position, rayDir);
+
+            rayDir = new Vector3(0, 0, 10);
+            rayDir.y = bulletSpread + bulletBloom;
+            rayDir = equipment.playerCamera.transform.localToWorldMatrix * rayDir;
+            rayDir += equipment.playerCamera.transform.position;
+            Gizmos.DrawLine(equipment.playerCamera.transform.position, rayDir);
+
+            rayDir = new Vector3(0, 0, 10);
+            rayDir.y = -bulletSpread + -bulletBloom;
+            rayDir = equipment.playerCamera.transform.localToWorldMatrix * rayDir;
+            rayDir += equipment.playerCamera.transform.position;
+            Gizmos.DrawLine(equipment.playerCamera.transform.position, rayDir);
+        }
+    }
+
+    IEnumerator SilencerChange()
+    {
+        equipment.SetBusy(true);
+        equipment.LowerItems();
+
+        yield return new WaitForSeconds(0.5f);
+
+        ToggleSilencer();
+
+        yield return new WaitForSeconds(4.5f);
+
+        equipment.SetBusy(false);
+        equipment.RaiseItems();
     }
 
 }

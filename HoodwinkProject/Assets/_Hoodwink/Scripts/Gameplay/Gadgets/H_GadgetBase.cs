@@ -20,10 +20,20 @@ public class H_GadgetBase : NetworkBehaviour
     public bool usePrompt;
     public string prompt;
     public TextMeshProUGUI promptReadout;
+    bool isInitialized;
+    public virtual void Initialize()
+    {
+        if (!equipment)
+        {
+            equipment = GetComponentInParent<H_PlayerEquipment>();
+        }
+
+        isInitialized = true;
+    }
 
     public virtual void Update()
     {
-        if (!isOwned)
+        if (!isOwned || !isInitialized)
             return;
 
         if (cooldownTimer > 0)
@@ -89,14 +99,6 @@ public class H_GadgetBase : NetworkBehaviour
     public virtual void RpcUseGadgetSecondary()
     {
 
-    }
-
-    public virtual void Initialize()
-    {
-        if (!equipment)
-        {
-            equipment = GetComponentInParent<H_PlayerEquipment>();
-        }
     }
 
     void UpdateUI()

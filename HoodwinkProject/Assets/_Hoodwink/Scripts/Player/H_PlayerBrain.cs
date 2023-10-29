@@ -4,6 +4,7 @@ using Cinemachine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 public class H_PlayerBrain : NetworkBehaviour
 {
@@ -57,9 +58,12 @@ public class H_PlayerBrain : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        int index;
-        index = H_CosmeticManager.instance.currentHat.ID;
-        CmdSetPlayerCosmetics(index);
+        int hatIndex, suitIndex, vestIndex;
+        hatIndex = H_CosmeticManager.instance.currentHat.ID;
+        suitIndex = H_CosmeticManager.instance.currentSuitCut;
+        vestIndex = H_CosmeticManager.instance.currentVestCut;
+
+        CmdSetPlayerCosmetics(hatIndex, suitIndex, vestIndex);
         CmdSetPlayerName(PlayerPrefs.GetString("C_SELECTED_NAME", "Hoodwinker"));
     }
 
@@ -106,6 +110,12 @@ public class H_PlayerBrain : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void RpcSetCanMove(bool state)
+    {
+        SetCanMove(state);
+    }
+
     public void SetCanMove(bool state)
     {
         canMove = state;
@@ -133,6 +143,8 @@ public class H_PlayerBrain : NetworkBehaviour
         agentColourImage.color = newData.primaryColour;
 
         cosmetics.SetHat(newData.hatIndex);
+        cosmetics.ToggleSuit(newData.suitIndex);
+        cosmetics.ToggleVest(newData.vestIndex);
 
         cosmetics.SetJacketColour(newData.primaryColour);
         cosmetics.SetPantsColour(newData.pantsColour);
@@ -140,7 +152,6 @@ public class H_PlayerBrain : NetworkBehaviour
         cosmetics.SetTieColour(newData.primaryColour);
         cosmetics.SetCollarColour(newData.secondaryColour);
         cosmetics.SetPocketColour(newData.secondaryColour);
-
     }
 
     public void OnPlayerNameChanged(string oldName, string newName)
@@ -233,9 +244,20 @@ public class H_PlayerBrain : NetworkBehaviour
     }
 
     [Command]
-    void CmdSetPlayerCosmetics(int index)
+    void CmdSetPlayerCosmetics(int hatID, int suitID, int vestID)
     {
-        agentData.hatIndex = index;
+        agentData.hatIndex = hatID;
+        agentData.suitIndex = suitID;
+        agentData.vestIndex = vestID;
+        RpcUpdateCosmetics();
+    }
+
+    [ClientRpc]
+    void RpcUpdateCosmetics()
+    {
+        cosmetics.SetHat(agentData.hatIndex);
+        cosmetics.ToggleSuit(agentData.suitIndex);
+        cosmetics.ToggleVest(agentData.vestIndex);
     }
 
     [Command]
@@ -257,6 +279,24 @@ public class H_PlayerBrain : NetworkBehaviour
     void OnHudVisibilityChanged(bool oldValue, bool newValue)
     {
         playerUI.playerUI.alpha = isHudHidden ? 0 : 1;
+    }
+
+    [ClientRpc]
+    public void RpcPlayAgentIntro(IntroCosmeticData player)
+    {
+        if (isLocalPlayer)
+        {
+            H_CinematicManager.instance.PlayAgentIntro(player);
+        }
+    }
+
+    [ClientRpc]
+    public void RpcPlaySpyIntro(List<IntroCosmeticData> players)
+    {
+        if (isLocalPlayer)
+        {
+            H_CinematicManager.instance.PlaySpyIntro(players);
+        }
     }
 }
 

@@ -2,10 +2,13 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Mirror;
 using SteamAudio;
+using System;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public class H_PlayerCosmetics : MonoBehaviour
 {
     public Transform hatAnchor;
+    public CosmeticSet[] suits, vests;
 
     [Header("Main Renderers")]
     public Renderer playerRenderer;
@@ -16,6 +19,8 @@ public class H_PlayerCosmetics : MonoBehaviour
     public Renderer[] collarRenderers;
     public Renderer[] tieRenderers;
     public Renderer[] pocketRenderers;
+    public Renderer[] undershirtRenderers;
+    public Renderer[] extraRenderers;
 
     public void SetHat(int hatIndex)
     {
@@ -35,9 +40,50 @@ public class H_PlayerCosmetics : MonoBehaviour
         }
     }
 
+    public void ToggleSuit(int index)
+    {
+        for (int i = 0; i < suits.Length; i++)
+        {
+            if (i == index)
+            {
+                foreach (GameObject part in suits[i].cosmeticParts)
+                {
+                    part.SetActive(true);
+                }
+            }
+            else
+            {
+                foreach (GameObject part in suits[i].cosmeticParts)
+                {
+                    part.SetActive(false);
+                }
+            }
+        }
+    }
+
+    public void ToggleVest(int index)
+    {
+        for (int i = 0; i < vests.Length; i++)
+        {
+            if (i == index)
+            {
+                foreach (GameObject part in vests[i].cosmeticParts)
+                {
+                    part.SetActive(true);
+                }
+            }
+            else
+            {
+                foreach (GameObject part in vests[i].cosmeticParts)
+                {
+                    part.SetActive(false);
+                }
+            }
+        }
+    }
+
     public void SetJacketColour(Color newColor)
     {
-        //jacketRenderer.material.SetColor("_JacketColour", newColor);
         jacketRenderer.material.color = newColor;
     }
 
@@ -75,6 +121,14 @@ public class H_PlayerCosmetics : MonoBehaviour
         }
     }
 
+    public void SetUndershirtColour(Color newColor)
+    {
+        foreach (var undershirt in undershirtRenderers)
+        {
+            undershirt.material.color = newColor;
+        }
+    }
+
     public void HidePlayer()
     {
         playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
@@ -96,29 +150,56 @@ public class H_PlayerCosmetics : MonoBehaviour
         {
             pocket.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
         }
+
+        foreach (var undershirt in undershirtRenderers)
+        {
+            undershirt.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+        }
+
+        foreach (var extra in extraRenderers)
+        {
+            extra.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+        }
     }
 
     public void ShowPlayer()
     {
-        playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-        jacketRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-        pantsRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-        vestRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+        playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        jacketRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        pantsRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        vestRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
 
         foreach (var collar in collarRenderers)
         {
-            collar.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+            collar.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
 
         foreach (var tie in tieRenderers)
         {
-            tie.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+            tie.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
 
         foreach (var pocket in pocketRenderers)
         {
-            pocket.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+            pocket.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
+
+        foreach (var undershirt in undershirtRenderers)
+        {
+            undershirt.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        }
+
+        foreach (var extra in extraRenderers)
+        {
+            extra.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        }
+
     }
 
+}
+
+[Serializable]
+public class CosmeticSet
+{
+    public GameObject[] cosmeticParts;
 }
