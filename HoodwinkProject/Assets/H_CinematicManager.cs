@@ -11,20 +11,22 @@ public class H_CinematicManager : NetworkBehaviour
 {
     public static H_CinematicManager instance { get; private set; }
 
-    [Header("Intro Settings")]
+    [Header("Timelines")]
     public PlayableDirector agentIntroTimeline;
     public PlayableDirector spyIntroTimeline;
 
-    [Header("Agent Intro Settings")]
+    [Header("Agent Intro")]
     public H_CosmeticDisplay agentDisplay;
     public TextMeshProUGUI agentPlayerName, agentPlayerAgentName, agentPlayerRole;
 
-    [Header("Agent Intro Settings")]
+    [Header("Spy Intro")]
     public H_CosmeticDisplay spyDisplay;
     public H_CosmeticDisplay firstSpyTeammateDisplay, secondSpyTeammateDisplay;
     public TextMeshProUGUI spyPlayerName, spyPlayerAgentName, spyPlayerRole;
     public TextMeshProUGUI firstSpyPlayerName, firstSpyPlayerAgentName;
     public TextMeshProUGUI secondSpyPlayerName, secondSpyPlayerAgentName;
+
+
 
     private void Awake()
     {
