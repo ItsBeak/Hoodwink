@@ -3838,6 +3838,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05bf49272770de4bbc4b8b87bbba2e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &175574200 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1547979017415019641, guid: c2ecb2fe2619da14ebf9b988cdca1aff,
+    type: 3}
+  m_PrefabInstance: {fileID: 175574197}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &185847074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5361,6 +5367,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05bf49272770de4bbc4b8b87bbba2e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &235413753 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1547979017415019641, guid: c2ecb2fe2619da14ebf9b988cdca1aff,
+    type: 3}
+  m_PrefabInstance: {fileID: 235413750}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &240686082
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8115,6 +8127,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05bf49272770de4bbc4b8b87bbba2e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &349130461 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1547979017415019641, guid: c2ecb2fe2619da14ebf9b988cdca1aff,
+    type: 3}
+  m_PrefabInstance: {fileID: 349130458}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &351613837
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51726,7 +51744,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0.8537736, b: 0.8537736, a: 1}
-  m_Intensity: 0
+  m_Intensity: 63.661976
   m_Range: 10
   m_SpotAngle: 90
   m_InnerSpotAngle: 9
@@ -55885,7 +55903,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1873196907}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10, y: 0, z: 0}
+  m_LocalPosition: {x: 20, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -56195,6 +56213,12 @@ PlayableDirector:
     value: {fileID: 146851629}
   - key: {fileID: -7646594150593765274, guid: f6e8a80e4d645e845aa8610dc86bc65f, type: 2}
     value: {fileID: 1873196909}
+  - key: {fileID: -520221727900419225, guid: f6e8a80e4d645e845aa8610dc86bc65f, type: 2}
+    value: {fileID: 175574200}
+  - key: {fileID: 2034882070889926847, guid: f6e8a80e4d645e845aa8610dc86bc65f, type: 2}
+    value: {fileID: 2004484397}
+  - key: {fileID: 1115851926502179229, guid: f6e8a80e4d645e845aa8610dc86bc65f, type: 2}
+    value: {fileID: 349130461}
   m_ExposedReferences:
     m_References:
     - 462c94923ab6cce44a694fc6e7138043: {fileID: 0}
@@ -56964,7 +56988,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 0
+  m_Intensity: 19.894367
   m_Range: 10
   m_SpotAngle: 90
   m_InnerSpotAngle: 9
@@ -59292,7 +59316,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961240927}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 0}
+  m_LocalPosition: {x: 40, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -59616,6 +59640,8 @@ PlayableDirector:
     value: {fileID: 1961240929}
   - key: {fileID: -8316444452163263137, guid: 9a121e5ec1cd92e4c8e942ad5340ca12, type: 2}
     value: {fileID: 1110539397}
+  - key: {fileID: -5870257143454151185, guid: 9a121e5ec1cd92e4c8e942ad5340ca12, type: 2}
+    value: {fileID: 235413753}
   m_ExposedReferences:
     m_References:
     - 462c94923ab6cce44a694fc6e7138043: {fileID: 0}
@@ -60734,6 +60760,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05bf49272770de4bbc4b8b87bbba2e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2004484397 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1547979017415019641, guid: c2ecb2fe2619da14ebf9b988cdca1aff,
+    type: 3}
+  m_PrefabInstance: {fileID: 2004484394}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2006715441
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64229,7 +64261,7 @@ PrefabInstance:
     - target: {fileID: 2136860022944069705, guid: 0ea601b3248ed8845b72d41fc38b06cc,
         type: 3}
       propertyPath: field of view
-      value: 22.672955
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2136860022944069706, guid: 0ea601b3248ed8845b72d41fc38b06cc,
         type: 3}
@@ -64239,7 +64271,7 @@ PrefabInstance:
     - target: {fileID: 2136860022944069706, guid: 0ea601b3248ed8845b72d41fc38b06cc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2136860022944069706, guid: 0ea601b3248ed8845b72d41fc38b06cc,
         type: 3}
@@ -64249,7 +64281,7 @@ PrefabInstance:
     - target: {fileID: 2136860022944069706, guid: 0ea601b3248ed8845b72d41fc38b06cc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.1939692
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2136860022944069706, guid: 0ea601b3248ed8845b72d41fc38b06cc,
         type: 3}
