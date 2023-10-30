@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 6e4ae4064600d784cac1e41a9e6f2e59, type: 3}
   m_ValidKeywords:
   - _DISABLE_SSR_TRANSPARENT
-  - _MAPPING_TRIPLANAR
+  - _MAPPING_PLANAR
   - _MASKMAP
   - _NORMALMAP
   - _NORMALMAP_TANGENT_SPACE
@@ -36,7 +36,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _BaseColorMap:
         m_Texture: {fileID: 2800000, guid: b5a71649d7e87d041bcdc4b0a7ccc83e, type: 3}
-        m_Scale: {x: 0.5, y: 0.5}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
         m_Texture: {fileID: 0}
@@ -72,7 +72,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: b5a71649d7e87d041bcdc4b0a7ccc83e, type: 3}
-        m_Scale: {x: 0.5, y: 0.5}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
         m_Texture: {fileID: 2800000, guid: bcd6f02e8a6998145a0d8b8c276abfd5, type: 3}
@@ -224,7 +224,7 @@ Material:
     - _TransparentSortPriority: 0
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
-    - _UVBase: 5
+    - _UVBase: 4
     - _UVDetail: 0
     - _UVEmissive: 0
     - _UseEmissiveIntensity: 0
