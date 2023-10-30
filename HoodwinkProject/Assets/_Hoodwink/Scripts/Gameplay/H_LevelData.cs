@@ -8,6 +8,7 @@ public class H_LevelData : MonoBehaviour
     public Transform[] playerSpawnPoints;
 
     public Transform[] itemSpawnPoints;
+    public Transform[] phoneSpawnPoints;
 
     public DocumentObjectives[] documentObjectives;
     public ComputerObjectives[] computerObjectives;

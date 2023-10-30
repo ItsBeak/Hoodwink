@@ -34,7 +34,7 @@ public class H_RoundEndManager : NetworkBehaviour
             agentCards[i].canvasGroup.alpha = 1;
             agentCards[i].deceasedStamp.alpha = agents[i].isDead ? 1 : 0;
             agentCards[i].agentName.text = agents[i].agentData.agentName;
-            agentCards[i].agentColour.color = agents[i].agentData.agentColour;
+            agentCards[i].agentColour.color = agents[i].agentData.primaryColour;
         }
 
         director.time = 0;
