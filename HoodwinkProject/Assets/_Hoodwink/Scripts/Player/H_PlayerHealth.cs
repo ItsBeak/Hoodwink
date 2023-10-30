@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using TMPro;
+using Unity.VisualScripting;
 
 public class H_PlayerHealth : NetworkBehaviour
 {
@@ -102,7 +103,7 @@ public class H_PlayerHealth : NetworkBehaviour
             if (newState)
             {
                 spectating.EnableSpectating();
-                brain.ShowLocalPlayer();
+                brain.cosmetics.ShowPlayer();
                 brain.equipment.SetDead(newState);
                 brain.playerUI.ShowSpectatorUI();
                 animator.playerAnimator.SetBool("isDead", true);
@@ -111,7 +112,7 @@ public class H_PlayerHealth : NetworkBehaviour
             else
             {
                 spectating.DisableSpectating();
-                brain.HideLocalPlayer();
+                brain.cosmetics.HidePlayer();
                 brain.equipment.SetDead(newState);
                 brain.playerUI.ShowGameUI();
                 animator.playerAnimator.SetBool("isDead", false);

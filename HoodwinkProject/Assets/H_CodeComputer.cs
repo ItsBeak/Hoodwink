@@ -6,17 +6,23 @@ using UnityEngine;
 
 public class H_CodeComputer : NetworkBehaviour
 {
+    public int scoreChange;
+
     string key = "000000";
     [SyncVar] int currentSequenceIndex = 0;
     [SyncVar(hook = nameof(OnFailedAttemptsChanged))] int failedAttempts = 0;
     [SyncVar(hook = nameof(OnEnteredKeyChanged))] string enteredKey = "";
-    [SyncVar] bool completed = false;
+    [SyncVar] bool isCompleted = false;
+    [SyncVar(hook = nameof(OnSabotaged))] bool isSabotaged = false;
     public TextMeshPro sequenceText;
+    public GameObject sabotageEffects;
 
     AudioSource source;
     public AudioClip successClip, failClip, resetClip, buttonClip;
 
     public GameObject failLight01, failLight02, failLight03, successLight;
+
+    public bool enableDebugLogs;
 
     private void Start()
     {
@@ -28,18 +34,20 @@ public class H_CodeComputer : NetworkBehaviour
     {
         RpcPressButton();
 
-        if (completed)
+        if (isCompleted || isSabotaged)
         {
             return;
         }
 
-        Debug.Log("Comparing key " + digit + " to correct sequence " + int.Parse(key[currentSequenceIndex].ToString()));
+        if (enableDebugLogs)
+            Debug.Log("Comparing key " + digit + " to correct sequence " + int.Parse(key[currentSequenceIndex].ToString()));
 
         if (digit == int.Parse(key[currentSequenceIndex].ToString()))
         {
             enteredKey += digit.ToString();
 
-            Debug.Log("Updating key to: " + enteredKey + " out of " + key);
+            if (enableDebugLogs)
+                Debug.Log("Updating key to: " + enteredKey + " out of " + key);
 
             currentSequenceIndex++;
 
@@ -64,6 +72,11 @@ public class H_CodeComputer : NetworkBehaviour
     void OnEnteredKeyChanged(string oldKey, string newKey)
     {
         sequenceText.text = newKey;
+    }
+
+    void OnSabotaged(bool oldValue, bool newValue)
+    {
+        sabotageEffects.SetActive(newValue);
     }
 
     void OnFailedAttemptsChanged(int oldFails, int newFails)
@@ -96,14 +109,18 @@ public class H_CodeComputer : NetworkBehaviour
 
     void Complete()
     {
-        Debug.Log("Completed sequence");
-        completed = true;
+        if (enableDebugLogs)
+            Debug.Log("Completed sequence");
+
+        isCompleted = true;
+        H_GameManager.instance.CmdUpdateEvidence(scoreChange);
         RpcComplete();
     }
 
     void Fail()
     {
-        Debug.Log("Failed sequence");
+        if (enableDebugLogs)
+            Debug.Log("Failed sequence");
 
         currentSequenceIndex = 0;
         enteredKey = "";
@@ -120,6 +137,21 @@ public class H_CodeComputer : NetworkBehaviour
             RpcFail();
         }
 
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdSabotage()
+    {
+        if (!isSabotaged && !isCompleted)
+        {
+            isSabotaged = true;
+            Invoke("DisableSabotage", 30f);
+        }
+    }
+
+    void DisableSabotage()
+    {
+        isSabotaged = false;
     }
 
     void ResetKey()
