@@ -190,6 +190,7 @@ public class H_PlayerBrain : NetworkBehaviour
             if (isLocalPlayer)
             {
                 HideSpyIndicators();
+                playerUI.ShowHotbar(false);
             }
         }
         else if (alignment == AgentAlignment.Agent)
@@ -200,6 +201,8 @@ public class H_PlayerBrain : NetworkBehaviour
             if (isLocalPlayer)
             {
                 HideSpyIndicators();
+                playerUI.ShowGadgets(false);
+                playerUI.ShowHotbar(true);
             }
         }
         else if (alignment == AgentAlignment.Spy)
@@ -211,6 +214,8 @@ public class H_PlayerBrain : NetworkBehaviour
             if (isLocalPlayer)
             {
                 ShowSpyIndicators();
+                playerUI.ShowGadgets(true);
+                playerUI.ShowHotbar(true);
             }
         }
     }

@@ -63,30 +63,17 @@ public class H_PlayerPunch : NetworkBehaviour
         damageCollider.enabled = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Hit(H_PlayerHealth health)
     {
-        GameObject hitObject = other.gameObject;
+        clientEffects.CmdPlayHit();
 
-        if (hitObject.GetComponent<NetworkIdentity>())
+        if (isLocalPlayer)
         {
-            if (!hitObject.GetComponent<NetworkIdentity>().isLocalPlayer)
-            {
-                var health = hitObject.GetComponent<H_PlayerHealth>();
-
-                if (health)
-                {
-                    clientEffects.CmdPlayHit();
-
-                    if (isLocalPlayer)
-                    {
-                        clientEffects.PlayHitLocal();
-                    }
-
-                    health.Damage(attackDamage);
-
-                    damageCollider.enabled = false;
-                }
-            }
+            clientEffects.PlayHitLocal();
         }
+
+        health.Damage(attackDamage);
+
+        damageCollider.enabled = false;
     }
 }
