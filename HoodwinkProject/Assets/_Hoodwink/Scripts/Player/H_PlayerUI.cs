@@ -17,13 +17,13 @@ public class H_PlayerUI : MonoBehaviour
     public Color alignmentColorUnassigned;
     public Color alignmentColorAgent;
     public Color alignmentColorSpy; 
-    public TextMeshProUGUI alignmentText;
+    public TextMeshProUGUI alignmentText, alignmentTextShadow;
     public Image alignmentBackground;
 
     [Header("Player GUI")]
     public Animator folderAnimator;
     public Animator gadgetCardsAnimator;
-    public Animator slotPrimaryAnimator, slotSidearmAnimator, slotFirstGadgetAnimator, slotSecondGadgetAnimator, roleAnimator;
+    public Animator slotPrimaryAnimator, slotSidearmAnimator, slotFirstGadgetAnimator, slotSecondGadgetAnimator;
 
     public GameObject firstGadget, secondGadget;
 
