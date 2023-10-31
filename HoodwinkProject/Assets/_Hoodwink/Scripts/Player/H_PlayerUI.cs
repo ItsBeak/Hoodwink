@@ -22,7 +22,7 @@ public class H_PlayerUI : MonoBehaviour
     [Header("Player GUI")]
     public Animator folderAnimator;
     public Animator gadgetCardsAnimator;
-    public Animator slotPrimaryAnimator, slotSidearmAnimator, slotHolsteredAnimator, roleAnimator;
+    public Animator slotPrimaryAnimator, slotSidearmAnimator, slotFirstGadgetAnimator, slotSecondGadgetAnimator, roleAnimator;
     public Image staminaBarImage;
 
     [Header("Components")]

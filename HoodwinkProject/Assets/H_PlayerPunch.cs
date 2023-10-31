@@ -1,12 +1,9 @@
-using UnityEngine;
 using Mirror;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-using System;
-using Random = UnityEngine.Random;
-
-[RequireComponent(typeof(BoxCollider))]
-public class H_ItemMelee : H_ItemBase
+public class H_PlayerPunch : NetworkBehaviour
 {
     public int attackDamage = 1;
     public float attackLength;
@@ -17,51 +14,49 @@ public class H_ItemMelee : H_ItemBase
     bool canAttack;
 
     [Header("Effects")]
-    H_MeleeEffects clientEffects;
-    H_MeleeEffects observerEffects;
+    public H_MeleeEffects clientEffects;
 
-    BoxCollider damageCollider;
+    public BoxCollider damageCollider;
     H_PlayerAnimator animator;
+    H_PlayerEquipment equipment;
 
-    public override void Initialize()
+    public void Start()
     {
-        base.Initialize();
+        animator = GetComponent<H_PlayerAnimator>();
+        equipment = GetComponent<H_PlayerEquipment>();
 
-        clientEffects = GetComponent<H_MeleeEffects>();
-        //observerEffects = equipment.holsteredEquipPointObserver.GetComponentInChildren<H_MeleeEffects>();
-        animator = equipment.transform.GetComponent<H_PlayerAnimator>();
-
-        damageCollider = GetComponent<BoxCollider>();
         attackTimer = attackCooldown;
         damageCollider.enabled = false;
-
     }
 
-    public override void Update()
+    public void Update()
     {
-        base.Update();
+        if (!isLocalPlayer)
+            return;
 
         attackTimer -= Time.deltaTime;
         canAttack = attackTimer <= 0;
-    }
 
-    public override void PrimaryUse()
-    {
-        base.PrimaryUse();
-
-        if (canAttack)
+        if (equipment.isPrimaryUseKeyPressed && equipment.currentSlot == EquipmentSlot.PrimaryItem && !equipment.primaryClientObject && canAttack)
         {
-            StartCoroutine(Attack());
-            attackTimer = attackCooldown;
-            animator.CmdPlayPunchAnimation();
-            clientEffects.PlaySwingLocal();
-            observerEffects.CmdPlaySwing();
+            if (H_GameManager.instance.currentRoundStage == RoundStage.Game)
+            {
+                StartCoroutine(Attack());
+                attackTimer = attackCooldown;
+                animator.CmdPlayPunchAnimation();
+                clientEffects.CmdPlaySwing();
 
+                if (isLocalPlayer)
+                {
+                    clientEffects.PlaySwingLocal();
+                }
+            }
         }
     }
 
     IEnumerator Attack()
     {
+        Debug.Log("Punching");
         yield return new WaitForSeconds(attackDelay);
         damageCollider.enabled = true;
         yield return new WaitForSeconds(attackLength);
@@ -80,8 +75,12 @@ public class H_ItemMelee : H_ItemBase
 
                 if (health)
                 {
-                    clientEffects.PlayHitLocal();
-                    observerEffects.CmdPlayHit();
+                    clientEffects.CmdPlayHit();
+
+                    if (isLocalPlayer)
+                    {
+                        clientEffects.PlayHitLocal();
+                    }
 
                     health.Damage(attackDamage);
 
