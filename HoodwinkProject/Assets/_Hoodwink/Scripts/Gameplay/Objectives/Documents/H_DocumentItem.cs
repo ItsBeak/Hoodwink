@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.UI;
 using System.Reflection;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class H_DocumentItem : H_ItemBase
 {
@@ -31,7 +32,7 @@ public class H_DocumentItem : H_ItemBase
     {
         if (focusedFax)
         {
-            if (!focusedFax.containsDocument)
+            if (!focusedFax.containsDocument && focusedFax.documentsSent < 4 && !focusedFax.isOnCooldown)
             {
                 focusedFax.CmdAddDocument();
                 CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);
@@ -114,9 +115,13 @@ public class H_DocumentItem : H_ItemBase
         else if (focusedFax)
         {
             
-            if (focusedFax.containsDocument)
+            if (focusedFax.containsDocument || focusedFax.isOnCooldown)
             {
                 focusReadout.text = "Fax machine already contains document";
+            }
+            else if (focusedFax.documentsSent == 4)
+            {
+                focusReadout.text = "Fax machine cannot send more documents";
             }
             else
             {

@@ -75,6 +75,14 @@ public class H_DocumentShredder : NetworkBehaviour
 
         containsDocument = false;
 
+        foreach (var faxMachine in GameObject.FindObjectsOfType<H_DocumentFax>())
+        {
+            if (faxMachine.documentsSent > 0)
+            {
+                faxMachine.documentsSent--;
+            }
+        }
+
         yield return null;
     }
 }

@@ -97,7 +97,7 @@ public class H_PlayerController : NetworkBehaviour
         moveDirection.x = brain.canMove ? Input.GetAxis("Horizontal") : 0;
         moveDirection.z = brain.canMove ? Input.GetAxis("Vertical") : 0;
 
-        isCrouching = Input.GetKey(KeyCode.LeftControl);
+        //isCrouching = Input.GetKey(KeyCode.LeftControl);
     }
 
     void Direction()

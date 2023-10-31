@@ -16,23 +16,20 @@ public class H_PlayerAnimator : NetworkBehaviour
 
     void Update()
     {
+        if (!isLocalPlayer)
+            return;
+
         playerAnimator.SetBool("isSidearm", equipment.currentSlot == EquipmentSlot.Sidearm && equipment.sidearmClientObject);
+        playerAnimator.SetBool("isItem", equipment.currentSlot == EquipmentSlot.PrimaryItem && equipment.primaryClientObject);
 
         if (playerController.isRunning)
         {
             playerAnimator.SetFloat("movementState", 1);
         }
-        else if (false)
-        {
-            //playerAnimator.SetFloat("movementState", 0.0f);
-        }
         else
         {
-            playerAnimator.SetFloat("movementState", 0.5f);
+            playerAnimator.SetFloat("movementState", 0f);
         }
-
-        if (!isLocalPlayer)
-            return;
 
         playerAnimator.SetFloat("moveX", Input.GetAxis("Horizontal"));
         playerAnimator.SetFloat("moveY", Input.GetAxis("Vertical"));

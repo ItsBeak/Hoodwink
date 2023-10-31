@@ -11,6 +11,7 @@ public class H_PlayerUI : MonoBehaviour
     public CanvasGroup playerUI;
     public CanvasGroup spectatorUI;
     public CanvasGroup pauseUI;
+    public CanvasGroup hotbar;
 
     [Header("Alignment Data")]
     public Color alignmentColorUnassigned;
@@ -22,7 +23,10 @@ public class H_PlayerUI : MonoBehaviour
     [Header("Player GUI")]
     public Animator folderAnimator;
     public Animator gadgetCardsAnimator;
-    public Animator slotPrimaryAnimator, slotSidearmAnimator, slotHolsteredAnimator, roleAnimator;
+    public Animator slotPrimaryAnimator, slotSidearmAnimator, slotFirstGadgetAnimator, slotSecondGadgetAnimator, roleAnimator;
+
+    public GameObject firstGadget, secondGadget;
+
     public Image staminaBarImage;
 
     [Header("Components")]
@@ -143,6 +147,17 @@ public class H_PlayerUI : MonoBehaviour
     {
         spectatedAgentText.color = agentColour;
         spectatedAgentText.text = agentName;
+    }
+
+    public void ShowHotbar(bool state)
+    {
+        hotbar.alpha = state ? 1 : 0;
+    }
+
+    public void ShowGadgets(bool state)
+    {
+        firstGadget.SetActive(state);
+        secondGadget.SetActive(state);
     }
 
 }
