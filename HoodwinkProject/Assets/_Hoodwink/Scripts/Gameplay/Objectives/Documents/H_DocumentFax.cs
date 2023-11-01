@@ -14,7 +14,7 @@ public class H_DocumentFax : NetworkBehaviour
 
     [Header("Fax Settings")]
     public float faxCompleteCooldown;
-    bool isOnCooldown;
+    [HideInInspector] public bool isOnCooldown;
 
     [Header("Document Settings")]
     public GameObject documentPrefab;
@@ -31,6 +31,10 @@ public class H_DocumentFax : NetworkBehaviour
     [SyncVar(hook = nameof(OnDocumentChanged))] public bool containsDocument;
     [SyncVar] bool isCompleted = false;
     [SyncVar] int sequenceCount = 0;
+    [SyncVar(hook = nameof(OnSentChanged))] public int documentsSent;
+
+    public Renderer[] sentLights;
+    public Material lightOn, lightOff;
 
     [Header("Debugging")]
     public bool enableDebugLogs;
@@ -66,6 +70,37 @@ public class H_DocumentFax : NetworkBehaviour
                 ClearButtons();
             }
         }
+    }
+
+    void OnSentChanged(int oldAmount, int newAmount)
+    {
+        if (newAmount == 1)
+        {
+            sentLights[0].material = lightOn;
+            sentLights[1].material = lightOff;
+            sentLights[2].material = lightOff;
+            sentLights[3].material = lightOff;
+
+        }
+
+        if (newAmount == 2)
+        {
+            sentLights[1].material = lightOn;
+            sentLights[2].material = lightOff;
+            sentLights[3].material = lightOff;
+        }
+
+        if (newAmount == 3)
+        {
+            sentLights[2].material = lightOn;
+            sentLights[3].material = lightOff;
+        }
+
+        if (newAmount == 4)
+        {
+            sentLights[3].material = lightOn;
+        }
+
     }
 
     [Command(requiresAuthority = false)]
@@ -148,10 +183,8 @@ public class H_DocumentFax : NetworkBehaviour
         if (!containsDocument)
             return;
 
-        H_GameManager.instance.CmdUpdateEvidence(scoreChange);
-
-        if (enableDebugLogs)
-            Debug.Log("A document has been faxed");
+        //H_GameManager.instance.CmdUpdateEvidence(scoreChange);
+        StartCoroutine(FaxCompleting());
 
         sequenceCount = 0;
 
@@ -160,6 +193,27 @@ public class H_DocumentFax : NetworkBehaviour
         ClearButtons();
 
         RpcComplete();
+
+        documentsSent++;
+    }
+
+    IEnumerator FaxCompleting()
+    {
+        int scoreLeft = scoreChange;
+
+        if (enableDebugLogs)
+            Debug.Log("Fax started");
+
+        while (scoreLeft > 0)
+        {
+            yield return new WaitForSeconds(0.35f);
+
+            H_GameManager.instance.CmdUpdateEvidence(1);
+            scoreLeft--;
+
+            if (enableDebugLogs)
+                Debug.Log("Removed evidence");
+        }
     }
 
     [ClientRpc]

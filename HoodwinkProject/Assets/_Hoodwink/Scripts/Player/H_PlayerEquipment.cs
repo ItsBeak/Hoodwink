@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class H_PlayerEquipment : NetworkBehaviour
 {
     [SyncVar(hook = nameof(OnEquipmentChanged))]
-    public EquipmentSlot currentSlot = EquipmentSlot.Holstered;
+    public EquipmentSlot currentSlot = EquipmentSlot.PrimaryItem;
 
     [Header("Primary Equipment Settings")]
     public Transform primaryEquipPointClient;
@@ -25,13 +25,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     [HideInInspector] public GameObject sidearmClientObject;
     [HideInInspector] public GameObject sidearmObserverObject;
     public Image sidearmItemIcon;
-
-    [Header("Holstered Equipment Settings")]
-    public Transform holsteredEquipPointClient;
-    public Transform holsteredEquipPointObserver;
-    [HideInInspector] public GameObject holsteredClientObject;
-    [HideInInspector] public GameObject holsteredObserverObject;
-    public Image holsteredItemIcon;
 
     [Header("First Gadget Settings")]
     public Transform firstGadgetAnchor;
@@ -52,9 +45,9 @@ public class H_PlayerEquipment : NetworkBehaviour
     public TextMeshProUGUI secondGadgetDescriptionText;
 
     [Header("Ammo UI Elements")]
-    public CanvasGroup reloadingGroup;
-    public Image reloadingImageLeft;
-    public Image reloadingImageRight;
+    //public CanvasGroup reloadingGroup;
+    //public Image reloadingImageLeft;
+    //public Image reloadingImageRight;
 
     public TextMeshProUGUI ammoLoadedText, ammoPoolText;
 
@@ -102,7 +95,6 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             primaryEquipPointClient.gameObject.SetActive(false);
             sidearmEquipPointClient.gameObject.SetActive(false);
-            holsteredEquipPointClient.gameObject.SetActive(false);
             return;
         }
 
@@ -112,11 +104,10 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         primaryEquipPointObserver.gameObject.SetActive(false);
         sidearmEquipPointObserver.gameObject.SetActive(false);
-        holsteredEquipPointObserver.gameObject.SetActive(false);
 
         baseFOV = playerCamera.m_Lens.FieldOfView;
 
-        StartCoroutine(ChangeSlotInput(EquipmentSlot.Holstered));
+        StartCoroutine(ChangeSlotInput(EquipmentSlot.PrimaryItem));
     }
 
     void Update()
@@ -145,10 +136,6 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             StartCoroutine(ChangeSlotInput(EquipmentSlot.Sidearm));
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && currentSlot != EquipmentSlot.Holstered)
-        {
-            StartCoroutine(ChangeSlotInput(EquipmentSlot.Holstered));
-        }
         else if (Input.GetKeyDown(interactKey))
         {
             TryInteract();
@@ -157,11 +144,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             TryDropItem();
         }
-        else if (Input.GetKeyDown(firstGadgetKey) && currentSlot != EquipmentSlot.FirstGadget)
+        else if (Input.GetKeyDown(firstGadgetKey) && currentSlot != EquipmentSlot.FirstGadget && brain.currentAlignment == AgentAlignment.Spy)
         {
             StartCoroutine(ChangeSlotInput(EquipmentSlot.FirstGadget));
         }
-        else if (Input.GetKeyDown(secondGadgetKey) && currentSlot != EquipmentSlot.SecondGadget)
+        else if (Input.GetKeyDown(secondGadgetKey) && currentSlot != EquipmentSlot.SecondGadget && brain.currentAlignment == AgentAlignment.Spy)
         {
             StartCoroutine(ChangeSlotInput(EquipmentSlot.SecondGadget));
         }
@@ -207,7 +194,7 @@ public class H_PlayerEquipment : NetworkBehaviour
             secondGadgetDescriptionText.text = "";
         }
 
-        reloadingGroup.alpha = reloadingImageLeft.fillAmount != 0 ? 1 : 0;
+        //reloadingGroup.alpha = reloadingImageLeft.fillAmount != 0 ? 1 : 0;
     }
 
     private void FixedUpdate()
@@ -284,10 +271,6 @@ public class H_PlayerEquipment : NetworkBehaviour
                 OnSlotSidearm();
                 break;
 
-            case EquipmentSlot.Holstered:
-                OnSlotHolstered();
-                break;
-
             case EquipmentSlot.FirstGadget:
                 OnSlotGadget();
                 break;
@@ -321,7 +304,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         CmdChangeSlot(selectedSlot);
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     void CmdChangeSlot(EquipmentSlot selectedSlot)
     {
         currentSlot = selectedSlot;
@@ -331,14 +314,12 @@ public class H_PlayerEquipment : NetworkBehaviour
     {
         primaryEquipPointObserver.gameObject.SetActive(false);
         sidearmEquipPointObserver.gameObject.SetActive(false);
-        holsteredEquipPointObserver.gameObject.SetActive(false);
 
         if (!isLocalPlayer)
             return;
 
         primaryEquipPointClient.gameObject.SetActive(false);
         sidearmEquipPointClient.gameObject.SetActive(false);
-        holsteredEquipPointClient.gameObject.SetActive(false);
     }
 
     void OnSlotPrimary()
@@ -350,11 +331,14 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
         else
         {
+            SetBusy(false);
+
             primaryEquipPointClient.gameObject.SetActive(true);
 
             brain.playerUI.slotPrimaryAnimator.SetBool("isActive", true);
             brain.playerUI.slotSidearmAnimator.SetBool("isActive", false);
-            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", false);
+            brain.playerUI.slotFirstGadgetAnimator.SetBool("isActive", false);
+            brain.playerUI.slotSecondGadgetAnimator.SetBool("isActive", false);
         }
     }
 
@@ -367,27 +351,14 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
         else
         {
+            SetBusy(false);
+
             sidearmEquipPointClient.gameObject.SetActive(true);
 
             brain.playerUI.slotPrimaryAnimator.SetBool("isActive", false);
             brain.playerUI.slotSidearmAnimator.SetBool("isActive", true);
-            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", false);
-        }
-    }
-
-    void OnSlotHolstered()
-    {
-        if (!isLocalPlayer)
-        {
-            holsteredEquipPointObserver.gameObject.SetActive(true);
-        }
-        else
-        {
-            holsteredEquipPointClient.gameObject.SetActive(true);
-
-            brain.playerUI.slotPrimaryAnimator.SetBool("isActive", false);
-            brain.playerUI.slotSidearmAnimator.SetBool("isActive", false);
-            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", true);
+            brain.playerUI.slotFirstGadgetAnimator.SetBool("isActive", false);
+            brain.playerUI.slotSecondGadgetAnimator.SetBool("isActive", false);
         }
     }
 
@@ -397,16 +368,19 @@ public class H_PlayerEquipment : NetworkBehaviour
         {
             brain.playerUI.slotPrimaryAnimator.SetBool("isActive", false);
             brain.playerUI.slotSidearmAnimator.SetBool("isActive", false);
-            brain.playerUI.slotHolsteredAnimator.SetBool("isActive", false);
+
+            SetBusy(false);
 
             if (currentSlot == EquipmentSlot.FirstGadget)
             {
-                brain.playerUI.roleAnimator.SetBool("isSecondGadget", false);
+                brain.playerUI.slotFirstGadgetAnimator.SetBool("isActive", true);
+                brain.playerUI.slotSecondGadgetAnimator.SetBool("isActive", false);
             }
 
             if (currentSlot == EquipmentSlot.SecondGadget)
             {
-                brain.playerUI.roleAnimator.SetBool("isSecondGadget", true);
+                brain.playerUI.slotFirstGadgetAnimator.SetBool("isActive", false);
+                brain.playerUI.slotSecondGadgetAnimator.SetBool("isActive", true);
             }
         }
     }
@@ -495,23 +469,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcEquipHolstered(GameObject clientObject, GameObject observerObject)
-    {
-        holsteredClientObject = clientObject;
-        holsteredObserverObject = observerObject;
-
-        holsteredClientObject.transform.parent = holsteredEquipPointClient;
-        holsteredClientObject.transform.localPosition = Vector3.zero;
-        holsteredClientObject.transform.localRotation = Quaternion.identity;
-
-        holsteredObserverObject.transform.parent = holsteredEquipPointObserver;
-        holsteredObserverObject.transform.localPosition = Vector3.zero;
-        holsteredObserverObject.transform.localRotation = Quaternion.identity;
-
-        holsteredClientObject.GetComponent<H_ItemBase>().Initialize();
-    }
-
-    [ClientRpc]
     public void RpcEquipFirstGadget(GameObject gadget)
     {
         firstGadget = gadget.GetComponent<H_GadgetBase>();
@@ -570,11 +527,6 @@ public class H_PlayerEquipment : NetworkBehaviour
         sidearmItemIcon.sprite = null;
     }
 
-    public void ClearHolsteredSlot()
-    {
-        holsteredItemIcon.sprite = null;
-    }
-
     [ClientRpc]
     public void RpcClearPrimarySlot()
     {
@@ -585,12 +537,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public void RpcClearSidearmSlot()
     {
         ClearSidearmSlot();
-    }
-
-    [ClientRpc]
-    public void RpcClearHolsteredSlot()
-    {
-        ClearHolsteredSlot();
     }
 
     public void SetAmmoUI(int ammoLoaded, int ammoPool)
@@ -604,8 +550,8 @@ public class H_PlayerEquipment : NetworkBehaviour
         ammoLoadedText.text = "";
         ammoPoolText.text = "";
 
-        reloadingImageLeft.fillAmount = 0;
-        reloadingImageRight.fillAmount = 0;
+        //reloadingImageLeft.fillAmount = 0;
+        //reloadingImageRight.fillAmount = 0;
     }
 
     public void LowerItems()
@@ -633,13 +579,19 @@ public class H_PlayerEquipment : NetworkBehaviour
         return isBusy;
     }
 
+    [ClientRpc]
+    public void RpcSetPrimary()
+    {
+        StartCoroutine(ChangeSlotInput(EquipmentSlot.PrimaryItem));
+        OnSlotPrimary();
+    }
+
 }
 
 public enum EquipmentSlot
 {
     PrimaryItem,
     Sidearm,
-    Holstered,
     FirstGadget,
     SecondGadget
 }
