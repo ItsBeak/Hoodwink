@@ -11,7 +11,7 @@ public class H_LevelData : MonoBehaviour
     public Transform[] phoneSpawnPoints;
 
     public DocumentObjectives[] documentObjectives;
-    public ComputerObjectives[] computerObjectives;
+    //public ComputerObjectives[] computerObjectives;
 
     [Header("Level Cleanup Settings")]
     public Vector3 cleanupCentre;
@@ -27,8 +27,8 @@ public class H_LevelData : MonoBehaviour
 [Serializable]
 public struct DocumentObjectives
 {
-    public Transform shredderLocation;
-    public Transform faxLocation;
+    public Transform[] shredderLocations;
+    public Transform[] faxLocations;
 }
 
 [Serializable]

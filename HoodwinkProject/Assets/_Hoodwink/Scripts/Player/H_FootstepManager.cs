@@ -37,7 +37,7 @@ public class H_FootstepManager : MonoBehaviour
     void CrouchStep(AnimationEvent evt)
     {
         if (evt.animatorClipInfo.weight > blendWeight)
-        {
+        {   
             source.PlayOneShot(crouchClips[Random.Range(0, crouchClips.Length)]);
         }
     }

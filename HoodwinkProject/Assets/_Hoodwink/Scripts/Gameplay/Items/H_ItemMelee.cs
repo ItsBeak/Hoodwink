@@ -28,7 +28,7 @@ public class H_ItemMelee : H_ItemBase
         base.Initialize();
 
         clientEffects = GetComponent<H_MeleeEffects>();
-        observerEffects = equipment.holsteredEquipPointObserver.GetComponentInChildren<H_MeleeEffects>();
+        //observerEffects = equipment.holsteredEquipPointObserver.GetComponentInChildren<H_MeleeEffects>();
         animator = equipment.transform.GetComponent<H_PlayerAnimator>();
 
         damageCollider = GetComponent<BoxCollider>();
