@@ -449,6 +449,12 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         currentObject = primaryClientObject.GetComponent<H_ItemBase>();
         currentObject.Initialize();
+
+        if (isLocalPlayer)
+        {
+            RaiseItems();
+
+        }
     }
 
     [ClientRpc]
