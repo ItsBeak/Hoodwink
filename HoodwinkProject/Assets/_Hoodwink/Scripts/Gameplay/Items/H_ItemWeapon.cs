@@ -82,6 +82,11 @@ public class H_ItemWeapon : H_ItemBase
     [HideInInspector] public int ammoPool;
     bool lockTrigger = false;
 
+    [Header("Ammo UI")]
+    public TextMeshProUGUI ammoFillText;
+    public TextMeshProUGUI ammoShadowText;
+
+
     [Header("Debugging")]
     public bool enableDebugLogs;
 
@@ -134,7 +139,9 @@ public class H_ItemWeapon : H_ItemBase
             lockTrigger = false;
         }
 
-        equipment.SetAmmoUI(ammoLoaded, ammoPool);
+        ammoFillText.text = ammoLoaded + "/" + ammoPool;
+        ammoShadowText.text = ammoLoaded + "/" + ammoPool;
+
 
         if (equipment.controller.isMoving)
         {
@@ -371,6 +378,12 @@ public class H_ItemWeapon : H_ItemBase
 
         equipment.SetBusy(false);
         equipment.RaiseItems();
+    }
+
+    public void ClearAmmoUI()
+    {
+        ammoFillText.text = "";
+        ammoShadowText.text = "";
     }
 
 }
