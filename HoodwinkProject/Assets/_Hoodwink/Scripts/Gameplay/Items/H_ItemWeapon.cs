@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 using Cinemachine.Utility;
 using TMPro;
 using System.Collections;
+using UnityEngine.UI;
 
 public class H_ItemWeapon : H_ItemBase
 {
@@ -85,7 +86,8 @@ public class H_ItemWeapon : H_ItemBase
     [Header("Ammo UI")]
     public TextMeshProUGUI ammoFillText;
     public TextMeshProUGUI ammoShadowText;
-
+    public GameObject silencerUIParent;
+    public Image silencerIcon;
 
     [Header("Debugging")]
     public bool enableDebugLogs;
@@ -139,10 +141,6 @@ public class H_ItemWeapon : H_ItemBase
             lockTrigger = false;
         }
 
-        ammoFillText.text = ammoLoaded + "/" + ammoPool;
-        ammoShadowText.text = ammoLoaded + "/" + ammoPool;
-
-
         if (equipment.controller.isMoving)
         {
             if (isAiming)
@@ -188,6 +186,12 @@ public class H_ItemWeapon : H_ItemBase
         crosshairPieceBottom.localPosition = spreadVector;
         crosshairPieceLeft.localPosition = spreadVector;
         crosshairPieceRight.localPosition = spreadVector;
+
+        silencerUIParent.SetActive(equipment.brain.currentAlignment == AgentAlignment.Spy ? true : false);
+
+        ammoFillText.text = ammoLoaded + "/" + ammoPool;
+        ammoShadowText.text = ammoLoaded + "/" + ammoPool;
+
     }
 
     public override void PrimaryUse()
