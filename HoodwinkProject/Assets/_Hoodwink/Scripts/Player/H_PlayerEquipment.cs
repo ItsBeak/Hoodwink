@@ -15,7 +15,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform primaryEquipPointObserver;
     [HideInInspector] public GameObject primaryClientObject;
     [HideInInspector] public GameObject primaryObserverObject;
-    public Image primaryItemIcon;
     [HideInInspector, SyncVar] public bool isHoldingItem = false;
     H_ItemBase currentObject;
 
@@ -24,7 +23,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform sidearmEquipPointObserver;
     [HideInInspector] public GameObject sidearmClientObject;
     [HideInInspector] public GameObject sidearmObserverObject;
-    public Image sidearmItemIcon;
 
     [Header("First Gadget Settings")]
     public Transform firstGadgetAnchor;
@@ -44,10 +42,10 @@ public class H_PlayerEquipment : NetworkBehaviour
     public TextMeshProUGUI secondGadgetNameText;
     public TextMeshProUGUI secondGadgetDescriptionText;
 
-    [Header("Ammo UI Elements")]
-    //public CanvasGroup reloadingGroup;
-    //public Image reloadingImageLeft;
-    //public Image reloadingImageRight;
+    [Header("UI Elements")]
+    public Image primaryItemIcon;
+    public Image sidearmItemIcon;
+    public Sprite blankSlotSprite, fistSprite;
 
     public TextMeshProUGUI ammoLoadedText, ammoPoolText;
 
@@ -521,16 +519,17 @@ public class H_PlayerEquipment : NetworkBehaviour
     {
         isHoldingItem = false;
         currentObject = null;
+        ClearPrimarySlot();
     }
 
     public void ClearPrimarySlot()
     {
-        primaryItemIcon.sprite = null;
+        primaryItemIcon.sprite = fistSprite;
     }
 
     public void ClearSidearmSlot()
     {
-        sidearmItemIcon.sprite = null;
+        sidearmItemIcon.sprite = blankSlotSprite;
     }
 
     [ClientRpc]
