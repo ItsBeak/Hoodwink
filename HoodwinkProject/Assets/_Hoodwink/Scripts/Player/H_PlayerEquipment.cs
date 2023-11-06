@@ -212,7 +212,7 @@ public class H_PlayerEquipment : NetworkBehaviour
                         if (brain.currentAlignment == AgentAlignment.Spy)
                         {
                             focusedInteractable = interactable;
-                            interactionReadout.text = "Press " + interactKey + " to " + focusedInteractable.InteractableVerb + focusedInteractable.InteractableName;
+                            interactionReadout.text = "Press " + interactKey + " to " + focusedInteractable.InteractableVerb + " " + focusedInteractable.InteractableName;
                         }
                         else
                         {
@@ -223,7 +223,7 @@ public class H_PlayerEquipment : NetworkBehaviour
                     else
                     {
                         focusedInteractable = interactable;
-                        interactionReadout.text = "Press " + interactKey + " to " + focusedInteractable.InteractableVerb + focusedInteractable.InteractableName;
+                        interactionReadout.text = "Press " + interactKey + " to " + focusedInteractable.InteractableVerb + " " + focusedInteractable.InteractableName;
                     }
                 }
             }
@@ -248,7 +248,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     IEnumerator ChangeSlot(EquipmentSlot newSlot)
     {
         RaiseItems();
-        //Debug.Log("Raising items");
 
         yield return new WaitForSeconds(0.15f);
 
@@ -284,7 +283,6 @@ public class H_PlayerEquipment : NetworkBehaviour
         SetBusy(true);
 
         LowerItems();
-        //Debug.Log("Lowering items");
 
         yield return new WaitForSeconds(0.15f);
 
