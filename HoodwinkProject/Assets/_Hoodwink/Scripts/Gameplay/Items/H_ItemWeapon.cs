@@ -4,6 +4,8 @@ using System;
 using Random = UnityEngine.Random;
 using Cinemachine.Utility;
 using TMPro;
+using System.Collections;
+using UnityEngine.UI;
 
 public class H_ItemWeapon : H_ItemBase
 {
@@ -77,11 +79,15 @@ public class H_ItemWeapon : H_ItemBase
     public int clipSize;
     public int startingAmmo;
     public float reloadTime;
-    float reloadTimer;
-    bool isReloading;
     [HideInInspector] public int ammoLoaded;
     [HideInInspector] public int ammoPool;
     bool lockTrigger = false;
+
+    [Header("Ammo UI")]
+    public TextMeshProUGUI ammoFillText;
+    public TextMeshProUGUI ammoShadowText;
+    public GameObject silencerUIParent;
+    public Image silencerIcon;
 
     [Header("Debugging")]
     public bool enableDebugLogs;
@@ -114,7 +120,7 @@ public class H_ItemWeapon : H_ItemBase
     {
         base.Update();
 
-        if (!isOwned || !equipment)
+        if (!isOwned || !equipment || equipment.CheckBusy())
             return;
 
         if (waitForSecondaryKeyReleased)
@@ -134,10 +140,6 @@ public class H_ItemWeapon : H_ItemBase
         {
             lockTrigger = false;
         }
-
-        isReloading = reloadTimer > 0;
-        equipment.SetAmmoUI(ammoLoaded, ammoPool, Mathf.Clamp(reloadTimer / reloadTime, 0, 1));
-        reloadTimer -= 1 * Time.deltaTime;
 
         if (equipment.controller.isMoving)
         {
@@ -172,7 +174,7 @@ public class H_ItemWeapon : H_ItemBase
         {
             if (equipment.brain.currentAlignment == AgentAlignment.Spy)
             {
-                ToggleSilencer();
+                StartCoroutine(SilencerChange());
             }
         }
 
@@ -184,11 +186,17 @@ public class H_ItemWeapon : H_ItemBase
         crosshairPieceBottom.localPosition = spreadVector;
         crosshairPieceLeft.localPosition = spreadVector;
         crosshairPieceRight.localPosition = spreadVector;
+
+        silencerUIParent.SetActive(equipment.brain.currentAlignment == AgentAlignment.Spy ? true : false);
+
+        ammoFillText.text = ammoLoaded + "/" + ammoPool;
+        ammoShadowText.text = ammoLoaded + "/" + ammoPool;
+
     }
 
     public override void PrimaryUse()
     {
-        if (lockTrigger || isReloading)
+        if (lockTrigger)
             return;
         if (enableDebugLogs)
             Debug.Log("Shooting");
@@ -278,19 +286,22 @@ public class H_ItemWeapon : H_ItemBase
 
     public override void AlternateUse()
     {
-        if (ammoLoaded == clipSize || ammoPool == 0 || isReloading)
+        if (ammoLoaded == clipSize || ammoPool == 0)
         {
             return;
         }
 
         base.AlternateUse();
 
-        LoadAmmo();
+        StartCoroutine(Reload());
     }
 
-    void LoadAmmo()
+    IEnumerator Reload()
     {
-        reloadTimer = reloadTime;
+        equipment.SetBusy(true);
+        equipment.LowerItems();
+
+        yield return new WaitForSeconds(0.25f);
 
         while (ammoLoaded < clipSize && ammoPool > 0)
         {
@@ -300,6 +311,11 @@ public class H_ItemWeapon : H_ItemBase
 
         clientEffects.PlayReloadLocal();
         observerEffects.CmdPlayReload();
+
+        yield return new WaitForSeconds(reloadTime);
+
+        equipment.SetBusy(false);
+        equipment.RaiseItems();
     }
 
     public void ToggleSilencer()
@@ -352,4 +368,26 @@ public class H_ItemWeapon : H_ItemBase
             Gizmos.DrawLine(equipment.playerCamera.transform.position, rayDir);
         }
     }
+
+    IEnumerator SilencerChange()
+    {
+        equipment.SetBusy(true);
+        equipment.LowerItems();
+
+        yield return new WaitForSeconds(0.5f);
+
+        ToggleSilencer();
+
+        yield return new WaitForSeconds(4.5f);
+
+        equipment.SetBusy(false);
+        equipment.RaiseItems();
+    }
+
+    public void ClearAmmoUI()
+    {
+        ammoFillText.text = "";
+        ammoShadowText.text = "";
+    }
+
 }

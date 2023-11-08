@@ -22,6 +22,8 @@ public class H_CodeComputer : NetworkBehaviour
 
     public GameObject failLight01, failLight02, failLight03, successLight;
 
+    public bool enableDebugLogs;
+
     private void Start()
     {
         source = GetComponent<AudioSource>();    
@@ -37,13 +39,15 @@ public class H_CodeComputer : NetworkBehaviour
             return;
         }
 
-        Debug.Log("Comparing key " + digit + " to correct sequence " + int.Parse(key[currentSequenceIndex].ToString()));
+        if (enableDebugLogs)
+            Debug.Log("Comparing key " + digit + " to correct sequence " + int.Parse(key[currentSequenceIndex].ToString()));
 
         if (digit == int.Parse(key[currentSequenceIndex].ToString()))
         {
             enteredKey += digit.ToString();
 
-            Debug.Log("Updating key to: " + enteredKey + " out of " + key);
+            if (enableDebugLogs)
+                Debug.Log("Updating key to: " + enteredKey + " out of " + key);
 
             currentSequenceIndex++;
 
@@ -105,7 +109,9 @@ public class H_CodeComputer : NetworkBehaviour
 
     void Complete()
     {
-        Debug.Log("Completed sequence");
+        if (enableDebugLogs)
+            Debug.Log("Completed sequence");
+
         isCompleted = true;
         H_GameManager.instance.CmdUpdateEvidence(scoreChange);
         RpcComplete();
@@ -113,7 +119,8 @@ public class H_CodeComputer : NetworkBehaviour
 
     void Fail()
     {
-        Debug.Log("Failed sequence");
+        if (enableDebugLogs)
+            Debug.Log("Failed sequence");
 
         currentSequenceIndex = 0;
         enteredKey = "";

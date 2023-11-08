@@ -17,7 +17,7 @@ public class H_PlayerHealth : NetworkBehaviour
 
     [Header("Components")]
     public Image healthBarImage;
-    public TextMeshProUGUI textReadout;
+    public TextMeshProUGUI textReadout, textReadoutShadow;
 
     H_PlayerEquipment equipment;
     H_PlayerController controller;
@@ -124,6 +124,7 @@ public class H_PlayerHealth : NetworkBehaviour
     {
         healthBarImage.fillAmount = Mathf.Clamp01(currentHealth / maxHealth);
         textReadout.text = isDead || currentHealth == 0 ? "Dead" : currentHealth.ToString() + "/" + maxHealth.ToString();
+        textReadoutShadow.text = textReadout.text;
     }
 
     private void OnDeath()

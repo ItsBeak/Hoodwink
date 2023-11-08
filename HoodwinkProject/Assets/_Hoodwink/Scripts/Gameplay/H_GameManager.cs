@@ -21,12 +21,14 @@ public class H_GameManager : NetworkBehaviour
     public TextMeshProUGUI revealedSpiesText;
     public Image evidenceImage;
     [SyncVar] bool spiesRevealed = false;
+    [SyncVar] bool evidenceCompleted = false;
+    bool gameStarted = false;
 
-    public List<H_PlayerBrain> serverPlayers;
-    public List<H_PlayerBrain> roundPlayers;
-    public List<H_PlayerBrain> roundDeadPlayers;
-    public List<H_PlayerBrain> roundAgents;
-    public List<H_PlayerBrain> roundSpies;
+    [HideInInspector] public List<H_PlayerBrain> serverPlayers;
+    [HideInInspector] public List<H_PlayerBrain> roundPlayers;
+    [HideInInspector] public List<H_PlayerBrain> roundDeadPlayers;
+    [HideInInspector] public List<H_PlayerBrain> roundAgents;
+    [HideInInspector] public List<H_PlayerBrain> roundSpies;
     int agentsLeft = 0;
     int spiesLeft = 0;
 
@@ -56,13 +58,9 @@ public class H_GameManager : NetworkBehaviour
     public GameObject defaultClientSidearm;
     public GameObject defaultObserverSidearm;
 
-    [Header("Default Sidearm Settings")]
-    public GameObject defaultClientHolstered;
-    public GameObject defaultObserverHolstered;
-
     [Header("Gadgets")]
     public List<GameObject> spyGadgets;
-    public List<GameObject> agentGadgets;
+    //public List<GameObject> agentGadgets;
 
     [Header("Map Pool")]
     [Scene] public string[] maps;
@@ -75,13 +73,12 @@ public class H_GameManager : NetworkBehaviour
     public float postGameLength;
     [SyncVar] float postGameTimer;
 
-    [Header("Player Intro Settings")]
-    public PlayableDirector introTimeline;
-    public PlayableAsset[] intros;
-    public GameObject introCamera;
-    public Transform hatAnchor;
-    public TextMeshProUGUI introPlayerName, introPlayerAgentName;
-    public Renderer playerRenderer, coatRenderer, coatTrimRenderer;
+    [Header("Phone Settings")]
+    public float minimumPhoneTime;
+    public float maximumPhoneTime;
+    float phoneTimer;
+    bool isPhoneActive;
+    H_Phone[] allPhones;
 
     [Header("Components")]
     public TextMeshProUGUI pingDisplay;
@@ -95,6 +92,7 @@ public class H_GameManager : NetworkBehaviour
     public bool overrideMinimumPlayerCount;
     public bool allowServerToSkipGame;
     public bool allowServerToForceStart;
+    public bool allowDebugOverrideKeys;
     public PlayerSettings overrideSettings;
     PlayerSettings currentSettings;
 
@@ -180,6 +178,7 @@ public class H_GameManager : NetworkBehaviour
                 {
                     winConditionMet = false;
                     AssignRoles();
+
                     currentRoundStage = RoundStage.Intro;
                 }
 
@@ -198,41 +197,54 @@ public class H_GameManager : NetworkBehaviour
                 {
                     introStarted = true;
 
-                    foreach (AgentData agent in allAgents)
-                    {
-                        availableAgents.Add(agent);
-                    }
+                    allPhones = GameObject.FindObjectsOfType<H_Phone>();
+
+                    phoneTimer = Random.Range(minimumPhoneTime, maximumPhoneTime);
+                    isPhoneActive = false;
 
                     foreach (var player in roundPlayers)
                     {
-                        int randomAgent = Random.Range(0, availableAgents.Count);
+                        player.isHudHidden = true;
 
-                        SetPlayerData(player, availableAgents[randomAgent]);
+                        if (player.currentAlignment == AgentAlignment.Agent)
+                        {
+                            IntroCosmeticData playerData = new IntroCosmeticData();
 
-                        availableAgents.RemoveAt(randomAgent);
+                            playerData.playerName = player.playerName;
+                            playerData.agentData = player.agentData;
+
+                            player.RpcPlayAgentIntro(playerData);
+                            Debug.Log("Playing agent intro on player: " + player.playerName);
+
+                        }
+                        else if (player.currentAlignment == AgentAlignment.Spy)
+                        {
+                            List<IntroCosmeticData> playerData = new List<IntroCosmeticData>();
+
+                            IntroCosmeticData localPlayer = new IntroCosmeticData();
+
+                            localPlayer.playerName = player.playerName;
+                            localPlayer.agentData = player.agentData;
+
+                            playerData.Add(localPlayer);
+
+                            foreach (var otherSpy in roundSpies)
+                            {
+                                if (otherSpy != player)
+                                {
+                                    IntroCosmeticData otherSpyData = new IntroCosmeticData();
+
+                                    otherSpyData.playerName = otherSpy.playerName;
+                                    otherSpyData.agentData = otherSpy.agentData;
+
+                                    playerData.Add(otherSpyData);
+                                }
+                            }
+
+                            player.RpcPlaySpyIntro(playerData);
+                            Debug.Log("Playing spy intro on player: " + player.playerName);
+                        }
                     }
-
-                    List<int> introIndexes = new List<int>();
-
-                    for (int i = 0; i < intros.Length; i++)
-                    {
-                        introIndexes.Add(i);
-                    }
-
-                    List<IntroCosmeticData> players = new List<IntroCosmeticData>();
-
-                    foreach (var player in roundPlayers)
-                    {
-                        IntroCosmeticData newPlayer = new IntroCosmeticData();
-
-                        int newIntroIndex = introIndexes[Random.Range(0, introIndexes.Count)];
-                        newPlayer.introIndex = newIntroIndex;
-                        introIndexes.Remove(newIntroIndex);
-
-                        players.Add(newPlayer);
-                    }
-
-                    CmdPlayIntro(players);
                 }
 
                 break;
@@ -241,12 +253,57 @@ public class H_GameManager : NetworkBehaviour
             #region Game Stage Update
             case RoundStage.Game:
 
+                if (!gameStarted)
+                {
+                    gameStarted = true;
+                    foreach (var player in roundPlayers)
+                    {
+                        player.equipment.RpcSetBusy(false);
+                    }
+                }
+
                 timerDisplay.text = "In game, time left: " + Mathf.RoundToInt(roundTimer + 0.5f).ToString();
 
                 if (!isServer)
                     return;
 
                 roundTimer -= 1 * Time.deltaTime;
+
+                bool phoneActive = false;
+
+                if (allPhones.Length == 0)
+                {
+                    allPhones = GameObject.FindObjectsOfType<H_Phone>();
+
+                    phoneTimer = Random.Range(minimumPhoneTime, maximumPhoneTime);
+                    isPhoneActive = false;
+                }
+
+                foreach (var phone in allPhones)
+                {
+                    if (phone.isActive)
+                    {
+                        phoneActive = true;
+                    }
+                }
+
+                isPhoneActive = phoneActive;
+
+                if (!isPhoneActive)
+                {
+                    phoneTimer -= 1 * Time.deltaTime;
+
+                    if (phoneTimer <= 0)
+                    {
+                        allPhones[Random.Range(0, allPhones.Length)].Ring();
+
+                        isPhoneActive=true;
+
+                        phoneTimer = Random.Range(minimumPhoneTime, maximumPhoneTime);
+
+                        Debug.Log("Ringing new phone");
+                    }
+                }
 
                 if (Input.GetKeyDown(KeyCode.Backspace) && allowServerToSkipGame)
                 {
@@ -256,14 +313,12 @@ public class H_GameManager : NetworkBehaviour
                 if (winConditionMet)
                 {
                     currentRoundStage = RoundStage.PostGame;
-                    //RpcShowRoundResults();
                 }
 
                 if (roundTimer <= 0)
                 {
                     CheckWinConditions();
                     currentRoundStage = RoundStage.PostGame;
-                    //RpcShowRoundResults();
                 }
 
                 break;
@@ -293,13 +348,17 @@ public class H_GameManager : NetworkBehaviour
             default: break;
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L) && allowDebugOverrideKeys)
         {
             CmdUpdateEvidence(10);
         }
-        else if (Input.GetKeyDown(KeyCode.K))
+        else if (Input.GetKeyDown(KeyCode.K) && allowDebugOverrideKeys)
         {
             CmdUpdateEvidence(-10);
+        }
+        else if (Input.GetKeyDown(KeyCode.M) && allowDebugOverrideKeys)
+        {
+            allPhones[Random.Range(0, allPhones.Length)].Ring();
         }
 
     }
@@ -325,6 +384,10 @@ public class H_GameManager : NetworkBehaviour
         newData.vestColour = data.vestColour;
         newData.tieColour = data.tieColour;
 
+        newData.hatIndex = player.agentData.hatIndex;
+        newData.vestIndex = player.agentData.vestIndex;
+        newData.suitIndex = player.agentData.suitIndex;
+
         player.agentData = newData;
     }
 
@@ -340,6 +403,10 @@ public class H_GameManager : NetworkBehaviour
         newData.pantsColour = pantsColours[Random.Range(0, pantsColours.Length)];
         newData.vestColour = vestColours[Random.Range(0, vestColours.Length)];
         newData.tieColour = tieColours[Random.Range(0, tieColours.Length)];
+
+        newData.hatIndex = player.agentData.hatIndex;
+        newData.vestIndex = player.agentData.vestIndex;
+        newData.suitIndex = player.agentData.suitIndex;
 
         player.agentData = newData;
     }
@@ -467,6 +534,7 @@ public class H_GameManager : NetworkBehaviour
         {
             player.isReady = false;
             player.equipment.RpcTryDropItem();
+            player.equipment.RpcSetBusy(false);
         }
 
         foreach (var player in roundPlayers)
@@ -478,17 +546,16 @@ public class H_GameManager : NetworkBehaviour
 
             ResetPlayerColours(player);
 
-            NetworkServer.Destroy(player.equipment.firstGadget.gameObject);
-            NetworkServer.Destroy(player.equipment.secondGadget.gameObject);
+            if (player.currentAlignment == AgentAlignment.Spy)
+            {
+                NetworkServer.Destroy(player.equipment.firstGadget.gameObject);
+                NetworkServer.Destroy(player.equipment.secondGadget.gameObject);
+            }
 
             NetworkServer.Destroy(player.equipment.sidearmClientObject.gameObject);
             NetworkServer.Destroy(player.equipment.sidearmObserverObject.gameObject);
 
-            NetworkServer.Destroy(player.equipment.holsteredClientObject.gameObject);
-            NetworkServer.Destroy(player.equipment.holsteredObserverObject.gameObject);
-
             player.equipment.RpcClearSidearmSlot();
-            player.equipment.RpcClearHolsteredSlot();
         }
 
         roundPlayers.Clear();
@@ -506,6 +573,7 @@ public class H_GameManager : NetworkBehaviour
         evidencePercent = 0;
         spiesRevealed = false;
         introStarted = false;
+        evidenceCompleted = false;
 
         spyInformation = "";
 
@@ -556,6 +624,9 @@ public class H_GameManager : NetworkBehaviour
             int randomSpawn = Random.Range(0, spawns.Length);
 
             player.TeleportPlayer(spawns[randomSpawn].position, spawns[randomSpawn].rotation);
+
+            player.equipment.currentSlot = EquipmentSlot.PrimaryItem;
+            player.equipment.RpcSetPrimary();
         }
 
 
@@ -569,6 +640,24 @@ public class H_GameManager : NetworkBehaviour
     [Server]
     private void AssignRoles()
     {
+        foreach (AgentData agent in allAgents)
+        {
+            availableAgents.Add(agent);
+        }
+
+        foreach (var player in roundPlayers)
+        {
+            int randomAgent = Random.Range(0, availableAgents.Count);
+
+            SetPlayerData(player, availableAgents[randomAgent]);
+
+            availableAgents.RemoveAt(randomAgent);
+
+            player.equipment.currentSlot = EquipmentSlot.PrimaryItem;
+            player.RpcSetCanMove(false);
+            player.equipment.RpcSetBusy(true);
+        }
+
         roundSpiesRemaining = currentSettings.spyCount;
 
         while (roundSpiesRemaining > 0)
@@ -615,28 +704,28 @@ public class H_GameManager : NetworkBehaviour
                 roundAgents.Add(roundPlayers[i]);
                 agentsLeft++;
 
-                List<GameObject> gadgetPool = new List<GameObject>();
-
-                foreach (GameObject gadget in agentGadgets)
-                {
-                    gadgetPool.Add(gadget);
-                }
-
-                int gadgetIndex = Random.Range(0, gadgetPool.Count);
-
-                GameObject firstGadget = Instantiate(gadgetPool[gadgetIndex]);
-                NetworkServer.Spawn(firstGadget, roundPlayers[i].connectionToClient);
-                roundPlayers[i].equipment.RpcEquipFirstGadget(firstGadget);
-                gadgetPool.Remove(gadgetPool[gadgetIndex]);
-
-                gadgetIndex = Random.Range(0, gadgetPool.Count);
-
-                GameObject secondGadget = Instantiate(gadgetPool[gadgetIndex]);
-                NetworkServer.Spawn(secondGadget, roundPlayers[i].connectionToClient);
-                roundPlayers[i].equipment.RpcEquipSecondGadget(secondGadget);
-                gadgetPool.Remove(gadgetPool[gadgetIndex]);
-
-                gadgetPool.Clear();
+                //List<GameObject> gadgetPool = new List<GameObject>();
+                //
+                //foreach (GameObject gadget in agentGadgets)
+                //{
+                //    gadgetPool.Add(gadget);
+                //}
+                //
+                //int gadgetIndex = Random.Range(0, gadgetPool.Count);
+                //
+                //GameObject firstGadget = Instantiate(gadgetPool[gadgetIndex]);
+                //NetworkServer.Spawn(firstGadget, roundPlayers[i].connectionToClient);
+                //roundPlayers[i].equipment.RpcEquipFirstGadget(firstGadget);
+                //gadgetPool.Remove(gadgetPool[gadgetIndex]);
+                //
+                //gadgetIndex = Random.Range(0, gadgetPool.Count);
+                //
+                //GameObject secondGadget = Instantiate(gadgetPool[gadgetIndex]);
+                //NetworkServer.Spawn(secondGadget, roundPlayers[i].connectionToClient);
+                //roundPlayers[i].equipment.RpcEquipSecondGadget(secondGadget);
+                //gadgetPool.Remove(gadgetPool[gadgetIndex]);
+                //
+                //gadgetPool.Clear();
 
             }
 
@@ -645,12 +734,6 @@ public class H_GameManager : NetworkBehaviour
             NetworkServer.Spawn(newClientSidearm, roundPlayers[i].connectionToClient);
             NetworkServer.Spawn(newObserverSidearm, roundPlayers[i].connectionToClient);
             roundPlayers[i].equipment.RpcEquipSidearm(newClientSidearm, newObserverSidearm);
-
-            GameObject newClientHolstered = Instantiate(defaultClientHolstered);
-            GameObject newObserverHolstered = Instantiate(defaultObserverHolstered);
-            NetworkServer.Spawn(newClientHolstered, roundPlayers[i].connectionToClient);
-            NetworkServer.Spawn(newObserverHolstered, roundPlayers[i].connectionToClient);
-            roundPlayers[i].equipment.RpcEquipHolstered(newClientHolstered, newObserverHolstered);
         }
 
 
@@ -733,33 +816,16 @@ public class H_GameManager : NetworkBehaviour
         if (winConditionMet)
             return;
 
-        if (agentsLeft == 0 && spiesLeft == 0)
+        if (agentsLeft == 0 && spiesLeft == 0)            // draw
         {
             winCondition = WinConditions.Draw;
             winConditionMet = true;
+
             Debug.Log("Win Condition Met: Draw");
         }
-        else if (spiesLeft == 0)
+        else if (agentsLeft == 0)            // spies win - agents eliminated
         {
-            winCondition = WinConditions.GoodWin;
-            winConditionMet = true;
-            Debug.Log("Win Condition Met: Agents Win");
-
-            RoundEndData[] endData = new RoundEndData[roundSpies.Count];
-
-            for (int i = 0; i < endData.Length; i++)
-            {
-                endData[i].agentData.agentName = roundSpies[i].agentData.agentName;
-                endData[i].agentData.primaryColour = roundSpies[i].agentData.primaryColour;
-                endData[i].agentData.secondaryColour = roundSpies[i].agentData.secondaryColour;
-                endData[i].isDead = roundDeadPlayers.Contains(roundSpies[i]);
-            }
-
-            roundEndManager.RpcSetAgentCards(endData, "Spies Eliminated");
-        }
-        else if (agentsLeft == 0)
-        {
-            winCondition = WinConditions.EvilWin;
+            winCondition = WinConditions.AgentsEliminated;
             winConditionMet = true;
             Debug.Log("Win Condition Met: Spies Win");
 
@@ -774,15 +840,38 @@ public class H_GameManager : NetworkBehaviour
             }
 
             roundEndManager.RpcSetAgentCards(endData, "Agents Eliminated");
-
         }
-        else if (roundTimer <= 0)
+        else if (spiesLeft == 0)            // agents win - spies eliminated
+        {
+            winCondition = WinConditions.SpiesEliminated;
+            winConditionMet = true;
+
+            Debug.Log("Win Condition Met: Agents Win");
+
+            RoundEndData[] endData = new RoundEndData[roundSpies.Count];
+
+            for (int i = 0; i < endData.Length; i++)
+            {
+                endData[i].agentData.agentName = roundSpies[i].agentData.agentName;
+                endData[i].agentData.primaryColour = roundSpies[i].agentData.primaryColour;
+                endData[i].agentData.secondaryColour = roundSpies[i].agentData.secondaryColour;
+                endData[i].isDead = roundDeadPlayers.Contains(roundSpies[i]);
+            }
+
+            roundEndManager.RpcSetAgentCards(endData, "Spies Eliminated");
+        }
+        else if (evidenceCompleted)            // agents win - evidence gathered
+        {
+            winCondition = WinConditions.EvidenceCompleted;
+            winConditionMet = true;
+            Debug.Log("Win Condition Met: Evidence Completed");
+        }
+        else if (roundTimer <= 0)            // spies win - time limit reached
         {
             winCondition = WinConditions.TimeOut;
             winConditionMet = true;
             Debug.Log("Win Condition Met: Time Ran Out");
         }
-
     }
 
     [Command(requiresAuthority = false)]
@@ -814,9 +903,17 @@ public class H_GameManager : NetworkBehaviour
             }
             else
             {
-                evidenceText.text = "Evidence Gathered: " + evidencePercent.ToString() + "%";
+                if (!spiesRevealed)
+                {
+                    evidenceText.text = "Evidence Gathered: " + evidencePercent.ToString() + "%";
+                }
+                else
+                {
+                    evidenceText.text = "Evidence Transferred: " + (100 - evidencePercent).ToString() + "%";
+                }
 
                 evidenceImage.fillAmount = (float)evidencePercent / 100;
+
             }
         }
     }
@@ -835,92 +932,38 @@ public class H_GameManager : NetworkBehaviour
         {
             spyInformation = ColorWord(roundSpies[0].agentData.agentName, roundSpies[0].agentData.primaryColour) + ", " + ColorWord(roundSpies[1].agentData.agentName, roundSpies[1].agentData.primaryColour) + " and " + ColorWord(roundSpies[2].agentData.agentName, roundSpies[2].agentData.primaryColour) + " are spies!";
         }
+
+        StartCoroutine(DrainEvidence());
+
     }
+
     void OnSpyInformationChanged(string oldValue, string newValue)
     {
         revealedSpiesText.text = newValue;
     }
 
+    IEnumerator DrainEvidence()
+    {
+        Debug.Log("Started draining evidence");
+
+        yield return new WaitForSeconds(5);
+
+        while (evidencePercent > 0)
+        {
+            evidencePercent--;
+            yield return new WaitForSeconds(0.316f);
+        }
+
+        Debug.Log("Evidence drained");
+        evidenceCompleted = true;
+
+        CheckWinConditions();
+
+    }
+
     public static string ColorWord(string text, Color color)
     {
         return "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + text + "</color>";
-    }
-
-    IEnumerator PlayIntroCutscene(List<IntroCosmeticData> players)
-    {
-        yield return new WaitForSeconds(0.25f);
-
-        introCamera.SetActive(true);
-        H_TransitionManager.instance.SetClear();
-        playerUIGroup.alpha = 0;
-
-        foreach (var player in players)
-        {
-
-            //set cosmetics
-
-            playerRenderer.material.SetColor("_ShirtColour", Color.clear);
-            //coatRenderer.material.color = player.agentSecondaryColour;
-            //coatTrimRenderer.material.color = player.agentPrimaryColour;
-
-            introPlayerName.text = player.playerName;
-            //introPlayerAgentName.text = "as " + ColorWord("Agent " + player.agentName, player.agentPrimaryColour);
-
-            //Instantiate(H_CosmeticManager.instance.hats[player.agentHatIndex].cosmeticPrefab, hatAnchor);
-
-            introTimeline.playableAsset = intros[player.introIndex];
-
-            introTimeline.time = 0;
-            introTimeline.Play();
-
-            yield return new WaitForSeconds((float)introTimeline.playableAsset.duration);
-
-            // clear hat
-
-            foreach (Transform child in hatAnchor.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-
-            yield return new WaitForSeconds(0.5f);
-
-        }
-
-        yield return new WaitForSeconds(0.25f);
-
-        introCamera.SetActive(false);
-        playerUIGroup.alpha = 1;
-        H_TransitionManager.instance.SetBlack();
-        H_TransitionManager.instance.FadeOut(0.5f);
-
-        if (isServer)
-        {
-            currentRoundStage = RoundStage.Game;
-
-            foreach (var player in roundPlayers)
-            {
-                player.isHudHidden = false;
-            }
-        }
-
-    }
-
-    [Command(requiresAuthority = false)]
-    void CmdPlayIntro(List<IntroCosmeticData> players)
-    {
-        RpcPlayIntro(players);
-
-        foreach (var player in roundPlayers)
-        {
-            player.isHudHidden = true;
-        }
-    }
-
-    [ClientRpc]
-    void RpcPlayIntro(List<IntroCosmeticData> players)
-    {
-        StartCoroutine(PlayIntroCutscene(players));
-
     }
 
     [Command(requiresAuthority = false)]
@@ -946,12 +989,6 @@ public class H_GameManager : NetworkBehaviour
     {
         H_TransitionManager.instance.FadeOut(speed);
     }
-
-    void UpdateDisplayPlayer(IntroCosmeticData player)
-    {
-
-    }
-
 }
 
 [System.Serializable]
@@ -969,20 +1006,13 @@ public struct AgentData
 }
 
 [System.Serializable]
-public struct IntroCosmeticData
-{
-    public string playerName;
-    public AgentData agentData;
-    public int introIndex;
-}
-
-[System.Serializable]
 public class PlayerSettings
 {
     public int playerCount;
     public int spyCount;
 
     public int itemsToSpawn;
+    public int phonesToSpawn = 2;
 }
 
 public enum RoundStage
@@ -996,8 +1026,9 @@ public enum RoundStage
 
 public enum WinConditions
 {
-    GoodWin,
-    EvilWin,
+    AgentsEliminated,
+    SpiesEliminated,
+    EvidenceCompleted,
     TimeOut,
     Draw
 }
