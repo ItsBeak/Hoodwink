@@ -52,6 +52,10 @@ public class H_ItemWeapon : H_ItemBase
     H_WeaponEffects clientEffects;
     H_WeaponEffects observerEffects;
 
+    [Header("Animations")]
+    public Animator viewmodelAnimator;
+    public Renderer jacketRenderer;
+
     [Header("Bullet Settings")]
     public int bulletsPerShot = 1;
     public LayerMask shootableLayers;
@@ -114,6 +118,11 @@ public class H_ItemWeapon : H_ItemBase
         bulletSpread = defaultBulletSpread;
 
         Debug.Log("Initializing sidearm");
+
+        if (jacketRenderer)
+        {
+            //jacketRenderer.material.color = equipment.brain.agentData.primaryColour;
+        }
     }
 
     public override void Update()
@@ -192,6 +201,8 @@ public class H_ItemWeapon : H_ItemBase
         ammoFillText.text = ammoLoaded + "/" + ammoPool;
         ammoShadowText.text = ammoLoaded + "/" + ammoPool;
 
+        if (viewmodelAnimator)
+            viewmodelAnimator.SetBool("isAiming", isAiming);
     }
 
     public override void PrimaryUse()
@@ -299,7 +310,9 @@ public class H_ItemWeapon : H_ItemBase
     IEnumerator Reload()
     {
         equipment.SetBusy(true);
-        equipment.LowerItems();
+
+        if (viewmodelAnimator)
+            viewmodelAnimator.SetTrigger("Reload");
 
         yield return new WaitForSeconds(0.25f);
 
@@ -315,7 +328,6 @@ public class H_ItemWeapon : H_ItemBase
         yield return new WaitForSeconds(reloadTime);
 
         equipment.SetBusy(false);
-        equipment.RaiseItems();
     }
 
     public void ToggleSilencer()
@@ -372,7 +384,6 @@ public class H_ItemWeapon : H_ItemBase
     IEnumerator SilencerChange()
     {
         equipment.SetBusy(true);
-        equipment.LowerItems();
 
         yield return new WaitForSeconds(0.5f);
 
@@ -381,7 +392,6 @@ public class H_ItemWeapon : H_ItemBase
         yield return new WaitForSeconds(4.5f);
 
         equipment.SetBusy(false);
-        equipment.RaiseItems();
     }
 
     public void ClearAmmoUI()

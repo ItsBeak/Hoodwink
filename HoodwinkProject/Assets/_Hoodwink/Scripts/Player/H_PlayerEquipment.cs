@@ -81,7 +81,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     [HideInInspector] public H_PlayerBrain brain;
     [HideInInspector] public H_PlayerAnimator animator;
     [HideInInspector] public H_PlayerController controller;
-    public Animator itemsAnimator;
     bool isDead;
     bool isBusy;
 
@@ -247,7 +246,24 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     IEnumerator ChangeSlot(EquipmentSlot newSlot)
     {
-        RaiseItems();
+        switch (newSlot)
+        {
+            case EquipmentSlot.PrimaryItem:
+                animator.fistsAnimator.SetTrigger("Raise");
+                break;
+
+            case EquipmentSlot.Sidearm:
+                //animator.fistsAnimator.SetTrigger("Raise");
+                break;
+
+            case EquipmentSlot.FirstGadget:
+                //animator.fistsAnimator.SetTrigger("Raise");
+                break;
+
+            case EquipmentSlot.SecondGadget:
+                //animator.fistsAnimator.SetTrigger("Raise");
+                break;
+        }
 
         yield return new WaitForSeconds(0.15f);
 
@@ -282,7 +298,24 @@ public class H_PlayerEquipment : NetworkBehaviour
     {
         SetBusy(true);
 
-        LowerItems();
+        switch (selectedSlot)
+        {
+            case EquipmentSlot.PrimaryItem:
+                animator.fistsAnimator.SetTrigger("Lower");
+                break;
+
+            case EquipmentSlot.Sidearm:
+                //animator.fistsAnimator.SetTrigger("Lower");
+                break;
+
+            case EquipmentSlot.FirstGadget:
+                //animator.fistsAnimator.SetTrigger("Lower");
+                break;
+
+            case EquipmentSlot.SecondGadget:
+                //animator.fistsAnimator.SetTrigger("Lower");
+                break;
+        }
 
         yield return new WaitForSeconds(0.15f);
 
@@ -313,6 +346,8 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         primaryEquipPointClient.gameObject.SetActive(false);
         sidearmEquipPointClient.gameObject.SetActive(false);
+        firstGadget.HideGadget();
+        secondGadget.HideGadget();
     }
 
     void OnSlotPrimary()
@@ -366,12 +401,16 @@ public class H_PlayerEquipment : NetworkBehaviour
 
             if (currentSlot == EquipmentSlot.FirstGadget)
             {
+                firstGadget.ShowGadget();
+
                 brain.playerUI.slotFirstGadgetAnimator.SetBool("isActive", true);
                 brain.playerUI.slotSecondGadgetAnimator.SetBool("isActive", false);
             }
 
             if (currentSlot == EquipmentSlot.SecondGadget)
             {
+                secondGadget.ShowGadget();
+
                 brain.playerUI.slotFirstGadgetAnimator.SetBool("isActive", false);
                 brain.playerUI.slotSecondGadgetAnimator.SetBool("isActive", true);
             }
@@ -442,12 +481,6 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         currentObject = primaryClientObject.GetComponent<H_ItemBase>();
         currentObject.Initialize();
-
-        if (isLocalPlayer)
-        {
-            RaiseItems();
-
-        }
     }
 
     [ClientRpc]
@@ -537,16 +570,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public void RpcClearSidearmSlot()
     {
         ClearSidearmSlot();
-    }
-
-    public void LowerItems()
-    {
-        itemsAnimator.SetBool("isLowered", true);
-    }
-
-    public void RaiseItems()
-    {
-        itemsAnimator.SetBool("isLowered", false);
     }
 
     public void SetBusy(bool state)

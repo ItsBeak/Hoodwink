@@ -1,0 +1,567 @@
+fileFormatVersion: 2
+guid: 5681f6d76b187054f9da28f6f35c0f17
+ModelImporter:
+  serializedVersion: 21300
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftUpperLeg' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: PlayerCharacter_FirstPerson__(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_Mesh
+      parentName: PlayerCharacter_FirstPerson__(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.01, y: 0.01, z: 0.01}
+    - name: Head_Low
+      parentName: PlayerCharacter_Mesh
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Buttons_Cuffs_Low
+      parentName: PlayerCharacter_Mesh
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Undershirt_Cuffs_Low
+      parentName: PlayerCharacter_Mesh
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Jacket_Low
+      parentName: PlayerCharacter_Mesh
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_Root_JNT
+      parentName: PlayerCharacter_FirstPerson__(Clone)
+      position: {x: -6.938894e-20, y: -1.4210854e-16, z: 0}
+      rotation: {x: -0, y: -0, z: -0.7069855, w: 0.70722806}
+      scale: {x: 0.009999998, y: 0.009999998, z: 0.01}
+    - name: PlayerCharacter_Pelvis1_JNT
+      parentName: PlayerCharacter_Root_JNT
+      position: {x: -99.82575, y: 1.0734657e-15, z: 1.9374574e-16}
+      rotation: {x: 0.0000034337863, y: 0.020014323, z: -0.00017151237, w: 0.9997997}
+      scale: {x: 1.0000001, y: 1, z: 1.0000001}
+    - name: PlayerCharacter_Spine1_JNT
+      parentName: PlayerCharacter_Pelvis1_JNT
+      position: {x: -14.810895, y: 2.1845026e-12, z: 0.22543332}
+      rotation: {x: 3.5697667e-11, y: -0.07622902, z: 0.000000001120597, w: 0.9970904}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1}
+    - name: PlayerCharacter_Chest1_JNT
+      parentName: PlayerCharacter_Spine1_JNT
+      position: {x: -17.490402, y: 2.6047359e-12, z: 1.8162373}
+      rotation: {x: -0, y: -0, z: 4.163336e-17, w: 1}
+      scale: {x: 0.9999998, y: 1, z: 1}
+    - name: PlayerCharacter_Neck1_JNT
+      parentName: PlayerCharacter_Chest1_JNT
+      position: {x: -20.052235, y: 2.979214e-12, z: 2.7951548}
+      rotation: {x: -0.7013909, y: 0.08972678, z: 0.08972683, w: 0.7013908}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1.0000001}
+    - name: PlayerCharacter_Head1_JNT
+      parentName: PlayerCharacter_Neck1_JNT
+      position: {x: -10.533357, y: -2.220446e-15, z: 1.5352243e-12}
+      rotation: {x: 0.00000005960463, y: 0.00000007450579, z: -0.062361885, w: 0.9980536}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1}
+    - name: PlayerCharacter_HatJoint1_JNT
+      parentName: PlayerCharacter_Head1_JNT
+      position: {x: -17.431353, y: 9.769963e-15, z: 2.6021383e-12}
+      rotation: {x: 0.7056212, y: -0.045812134, z: -0.045812134, w: 0.7056212}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_RightShoulderBlade1_JNT
+      parentName: PlayerCharacter_Chest1_JNT
+      position: {x: -6.2073646, y: 6.517072, z: 0.039655093}
+      rotation: {x: 0.58267164, y: 0.8107582, z: -0.032831743, w: -0.04568371}
+      scale: {x: 1, y: 1.0000006, z: 1.0000004}
+    - name: PlayerCharacter_RightShoulder1_JNT_FK
+      parentName: PlayerCharacter_RightShoulderBlade1_JNT
+      position: {x: 10.778142, y: -0.00033425933, z: -1.0658141e-14}
+      rotation: {x: -0.5709559, y: -0.41714433, z: 0.41714433, w: 0.5709559}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_RightElbow1_JNT_FK
+      parentName: PlayerCharacter_RightShoulder1_JNT_FK
+      position: {x: 27.37334, y: 4.9864736e-15, z: 0.00033091125}
+      rotation: {x: 0.70367146, y: 0.036907256, z: 0.06961632, w: 0.706143}
+      scale: {x: 0.99999976, y: 0.9999995, z: 0.9999996}
+    - name: PlayerCharacter_RightWrist1_JNT_FK
+      parentName: PlayerCharacter_RightElbow1_JNT_FK
+      position: {x: 28.97741, y: 0.000110828, z: 0.000022699092}
+      rotation: {x: -0.6562879, y: -0.04772802, z: -0.029606603, w: 0.7524172}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_RightShoulder1_JNT_IK
+      parentName: PlayerCharacter_RightShoulderBlade1_JNT
+      position: {x: 10.778142, y: -0.00033425933, z: -1.0658141e-14}
+      rotation: {x: 0.5600378, y: 0.4221863, z: -0.5496132, w: -0.45391825}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_RightElbow1_JNT_IK
+      parentName: PlayerCharacter_RightShoulder1_JNT_IK
+      position: {x: 27.37334, y: 4.9864736e-15, z: 0.00033091125}
+      rotation: {x: -0.7113774, y: -0.04659736, z: 0.10664269, w: -0.6931077}
+      scale: {x: 1.0000001, y: 0.9999999, z: 0.9999996}
+    - name: PlayerCharacter_RightWrist1_JNT_IK
+      parentName: PlayerCharacter_RightElbow1_JNT_IK
+      position: {x: 28.97741, y: 0.000110828, z: 0.000022699092}
+      rotation: {x: -0.5076198, y: 0.090799235, z: -0.16572705, w: 0.8406023}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_RightShoulder1_JNT
+      parentName: PlayerCharacter_RightShoulderBlade1_JNT
+      position: {x: 10.778142, y: -0.00033425933, z: -1.0658141e-14}
+      rotation: {x: -0.69537175, y: -0.12828915, z: 0.12828915, w: 0.6953718}
+      scale: {x: 1, y: 0.99999976, z: 0.9999999}
+    - name: PlayerCharacter_RightElbow1_JNT
+      parentName: PlayerCharacter_RightShoulder1_JNT
+      position: {x: 27.37334, y: 0, z: 0.00033091125}
+      rotation: {x: 0.7048617, y: 0.024554012, z: 0.023688441, w: 0.7085239}
+      scale: {x: 1.0000001, y: 1.0000013, z: 1.0000015}
+    - name: PlayerCharacter_RightWrist1_JNT
+      parentName: PlayerCharacter_RightElbow1_JNT
+      position: {x: 28.97741, y: 0.000110828, z: 0.000022699092}
+      rotation: {x: -0.6562879, y: -0.047728006, z: -0.029606527, w: 0.75241727}
+      scale: {x: 1.000001, y: 1.0000001, z: 1.0000005}
+    - name: PlayerCharacer_RightPalm_JNT
+      parentName: PlayerCharacter_RightWrist1_JNT
+      position: {x: 4.177583, y: 0.1255728, z: 2.1164374}
+      rotation: {x: 0.51800925, y: 0.5465113, z: 0.42403048, w: -0.50317985}
+      scale: {x: 1.0000013, y: 1.000001, z: 0.9999998}
+    - name: PlayerCharacter_Left_ItemControler
+      parentName: PlayerCharacer_RightPalm_JNT
+      position: {x: -1.2410905, y: 5.3722, z: -1.3926102}
+      rotation: {x: 0.27321622, y: 0.32665065, z: 0.10417074, w: 0.89877737}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_RightPinkyKnuckle1_JNT3
+      parentName: PlayerCharacer_RightPalm_JNT
+      position: {x: -1.9387848, y: 3.0894213, z: -2.9134114}
+      rotation: {x: -0.548017, y: -0.48005503, z: -0.4107959, w: -0.54815257}
+      scale: {x: 1.0000001, y: 0.9999998, z: 0.99999994}
+    - name: PlayerCharacter_RightPinkyMiddle1_JNT
+      parentName: PlayerCharacter_RightPinkyKnuckle1_JNT3
+      position: {x: 2.6855268, y: -0.22176296, z: -0.024537118}
+      rotation: {x: 0.011580878, y: -0.02344191, z: -0.011473828, w: 0.9995923}
+      scale: {x: 1.0000005, y: 1.0000004, z: 1.0000002}
+    - name: PlayerCharacter_RightPinkyTip1_JNT
+      parentName: PlayerCharacter_RightPinkyMiddle1_JNT
+      position: {x: 2.337791, y: -0.13736099, z: 0.058745187}
+      rotation: {x: -0.026932362, y: -0.12210533, z: 0.005816846, w: 0.9921347}
+      scale: {x: 1.0000002, y: 0.9999998, z: 1.0000004}
+    - name: PlayerCharacter_RightRingKnuckle1_JNT2
+      parentName: PlayerCharacer_RightPalm_JNT
+      position: {x: -1.6188351, y: 3.9394443, z: -1.7518305}
+      rotation: {x: -0.5124364, y: -0.52907676, z: -0.40308756, w: -0.5431458}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000004}
+    - name: PlayerCharacter_RightRingMiddle1_JNT
+      parentName: PlayerCharacter_RightRingKnuckle1_JNT2
+      position: {x: 3.6893153, y: -0.20165758, z: -0.14449711}
+      rotation: {x: 0.015200546, y: 0.007618661, z: -0.015600076, w: 0.9997338}
+      scale: {x: 0.9999997, y: 1, z: 0.99999946}
+    - name: PlayerCharacter_RightRingTip1_JNT
+      parentName: PlayerCharacter_RightRingMiddle1_JNT
+      position: {x: 2.7627904, y: -0.05424597, z: 0.13494955}
+      rotation: {x: -0.027385373, y: -0.034934446, z: -0.0030381733, w: 0.9990097}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000002}
+    - name: PlayerCharacter_RightMiddleKnuckle1_JNT1
+      parentName: PlayerCharacer_RightPalm_JNT
+      position: {x: -1.6156508, y: 4.4853215, z: 0.19973922}
+      rotation: {x: -0.51951635, y: -0.51547766, z: -0.39283028, w: -0.55683935}
+      scale: {x: 1.0000006, y: 1.0000004, z: 1.0000005}
+    - name: PlayerCharacter_RightMiddleMiddle1_JNT
+      parentName: PlayerCharacter_RightMiddleKnuckle1_JNT1
+      position: {x: 4.1068583, y: -0.051056825, z: -0.08966994}
+      rotation: {x: 0.011198336, y: -0.043962397, z: -0.006918129, w: 0.9989465}
+      scale: {x: 1.0000008, y: 1.0000001, z: 1.000001}
+    - name: PlayerCharacter_RightMiddleTip1_JNT
+      parentName: PlayerCharacter_RightMiddleMiddle1_JNT
+      position: {x: 3.5708542, y: -0.007673869, z: -0.11805392}
+      rotation: {x: -0.027385306, y: -0.034934416, z: -0.0030381423, w: 0.9990097}
+      scale: {x: 1.0000004, y: 0.99999976, z: 0.9999998}
+    - name: PlayerCharacter_RightIndexKnuckle1_JNT
+      parentName: PlayerCharacer_RightPalm_JNT
+      position: {x: -0.55830115, y: 4.2476387, z: 2.6520474}
+      rotation: {x: -0.53756994, y: -0.4966214, z: -0.4124398, w: -0.54247504}
+      scale: {x: 1.0000004, y: 1.0000001, z: 1.0000004}
+    - name: PlayerCharacter_RightIndexMiddle1_JNT
+      parentName: PlayerCharacter_RightIndexKnuckle1_JNT
+      position: {x: 4.106811, y: -0.051058073, z: -0.08968961}
+      rotation: {x: 0.011207842, y: -0.026601406, z: -0.007311191, w: 0.99955666}
+      scale: {x: 0.9999999, y: 1.0000002, z: 0.99999994}
+    - name: PlayerCharacter_RightIndexTip1_JNT
+      parentName: PlayerCharacter_RightIndexMiddle1_JNT
+      position: {x: 3.192699, y: 0.000009512876, z: 0.000053230662}
+      rotation: {x: -0.027385399, y: -0.034934334, z: -0.003038105, w: 0.9990097}
+      scale: {x: 1.0000001, y: 0.99999994, z: 0.99999994}
+    - name: PlayerCharacter_RightThumbKnuckle1_JNT
+      parentName: PlayerCharacer_RightPalm_JNT
+      position: {x: 0.17861071, y: -1.8425586, z: 4.090834}
+      rotation: {x: -0.10360546, y: 0.17837623, z: -0.5773453, w: -0.79001284}
+      scale: {x: 1.0000006, y: 0.99999946, z: 1.0000001}
+    - name: PlayerCharacter_RightThumbMiddle1_JNT
+      parentName: PlayerCharacter_RightThumbKnuckle1_JNT
+      position: {x: 3.430956, y: 0.05889154, z: 0.854466}
+      rotation: {x: 0.0019617367, y: -0.105647564, z: -0.00858681, w: 0.9943647}
+      scale: {x: 0.9999999, y: 1.0000002, z: 1.0000004}
+    - name: PlayerCharacter_RightThumbTip1_JNT
+      parentName: PlayerCharacter_RightThumbMiddle1_JNT
+      position: {x: 2.738643, y: 0.054502554, z: -0.092184365}
+      rotation: {x: 0.06263645, y: -0.023370352, z: -0.015268055, w: 0.997646}
+      scale: {x: 0.99999946, y: 0.9999999, z: 1.0000005}
+    - name: PlayerCharacter_LeftShoulderBlade1_JNT
+      parentName: PlayerCharacter_Chest1_JNT
+      position: {x: -6.207292, y: -6.448572, z: 0.039646894}
+      rotation: {x: -0.018234003, y: 0.07582462, z: 0.59840125, w: 0.79739213}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: PlayerCharacter_LeftShoulder1_JNT_IK
+      parentName: PlayerCharacter_LeftShoulderBlade1_JNT
+      position: {x: -10.3832855, y: 1.4210855e-14, z: -2.8899152}
+      rotation: {x: -0.12302228, y: -0.01200104, z: 0.5976219, w: 0.7921929}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_LeftElbow1_JNT_IK
+      parentName: PlayerCharacter_LeftShoulder1_JNT_IK
+      position: {x: -27.373028, y: 0, z: 0}
+      rotation: {x: 0.10404101, y: 0.009613654, z: 0.015688917, w: 0.99440277}
+      scale: {x: 1.0000001, y: 0.99999976, z: 1}
+    - name: PlayerCharacter_LeftWrist1_JNT_IK
+      parentName: PlayerCharacter_LeftElbow1_JNT_IK
+      position: {x: -28.977407, y: -0.0001089368, z: -0.000022511462}
+      rotation: {x: -0.570989, y: -0.04736023, z: -0.016475532, w: 0.81942487}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_LeftShoulder1_JNT_FK
+      parentName: PlayerCharacter_LeftShoulderBlade1_JNT
+      position: {x: -10.3832855, y: 1.4210855e-14, z: -2.8899152}
+      rotation: {x: 0.000000004103656, y: 0.0000000038439034, z: 0.58993113, w: 0.8074536}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_LeftElbow1_JNT_FK
+      parentName: PlayerCharacter_LeftShoulder1_JNT_FK
+      position: {x: -27.373028, y: 0, z: 0}
+      rotation: {x: -0.0017475819, y: 0.07532351, z: 0.02312875, w: 0.9968894}
+      scale: {x: 0.99999994, y: 1.0000001, z: 0.9999999}
+    - name: PlayerCharacter_LeftWrist1_JNT_FK
+      parentName: PlayerCharacter_LeftElbow1_JNT_FK
+      position: {x: -28.977407, y: -0.0001089368, z: -0.000022511462}
+      rotation: {x: -0.6562879, y: -0.04772802, z: -0.029606603, w: 0.7524172}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_LeftShoulder1_JNT
+      parentName: PlayerCharacter_LeftShoulderBlade1_JNT
+      position: {x: -10.3832855, y: 2.842171e-14, z: -2.8899152}
+      rotation: {x: 0.038580753, y: -0.05280646, z: 0.16449808, w: 0.98420703}
+      scale: {x: 1, y: 1, z: 0.9999999}
+    - name: PlayerCharacter_LeftElbow1_JNT
+      parentName: PlayerCharacter_LeftShoulder1_JNT
+      position: {x: -27.373028, y: 0, z: 0}
+      rotation: {x: -0.0025193158, y: 0.031772472, z: -0.00040021443, w: 0.9994919}
+      scale: {x: 1.0000004, y: 0.99999964, z: 0.9999997}
+    - name: PlayerCharacter_LeftWrist1_JNT
+      parentName: PlayerCharacter_LeftElbow1_JNT
+      position: {x: -28.977407, y: -0.0001089368, z: -0.000022511462}
+      rotation: {x: -0.6562879, y: -0.04772811, z: -0.029606534, w: 0.75241727}
+      scale: {x: 1.0000008, y: 1.000001, z: 1.0000015}
+    - name: PlayerCharacer_LeftPalm_JNT
+      parentName: PlayerCharacter_LeftWrist1_JNT
+      position: {x: -4.177583, y: -0.1255728, z: -2.1164374}
+      rotation: {x: 0.5180092, y: 0.5465115, z: 0.42403045, w: -0.50317985}
+      scale: {x: 1.0000008, y: 0.9999999, z: 1.0000017}
+    - name: PlayerCharacter_LeftPinkyKnuckle1_JNT3
+      parentName: PlayerCharacer_LeftPalm_JNT
+      position: {x: 2.1985996, y: -3.0603342, z: 3.7285116}
+      rotation: {x: -0.5552811, y: -0.46053973, z: -0.43296126, w: -0.54047257}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1.0000001}
+    - name: PlayerCharacter_LeftPinkyMiddle1_JNT
+      parentName: PlayerCharacter_LeftPinkyKnuckle1_JNT3
+      position: {x: -2.6855268, y: 0.22176296, z: 0.024537118}
+      rotation: {x: 0.011581203, y: -0.0234348, z: -0.0114740785, w: 0.9995925}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
+    - name: PlayerCharacter_LeftPinkyTip1_JNT
+      parentName: PlayerCharacter_LeftPinkyMiddle1_JNT
+      position: {x: -2.337791, y: 0.13736099, z: -0.058745187}
+      rotation: {x: -0.026932571, y: -0.122105315, z: 0.005816744, w: 0.99213463}
+      scale: {x: 0.99999994, y: 1, z: 1}
+    - name: PlayerCharacter_LeftRingKnuckle1_JNT2
+      parentName: PlayerCharacer_LeftPalm_JNT
+      position: {x: 1.6188351, y: -3.9394443, z: 1.7518305}
+      rotation: {x: -0.52842313, y: -0.5060631, z: -0.42593622, w: -0.5322101}
+      scale: {x: 0.99999976, y: 1, z: 0.9999999}
+    - name: PlayerCharacter_LeftRingMiddle1_JNT
+      parentName: PlayerCharacter_LeftRingKnuckle1_JNT2
+      position: {x: -3.6893153, y: 0.20165758, z: 0.14449711}
+      rotation: {x: 0.015200423, y: 0.007619464, z: -0.015600162, w: 0.99973375}
+      scale: {x: 1.0000005, y: 1.0000005, z: 1.0000005}
+    - name: PlayerCharacter_LeftRingTip1_JNT
+      parentName: PlayerCharacter_LeftRingMiddle1_JNT
+      position: {x: -2.7627904, y: 0.05424597, z: -0.13494955}
+      rotation: {x: -0.027385198, y: -0.034934334, z: -0.0030382355, w: 0.9990097}
+      scale: {x: 1.0000001, y: 1.0000005, z: 0.9999998}
+    - name: PlayerCharacter_LeftMiddleKnuckle1_JNT1
+      parentName: PlayerCharacer_LeftPalm_JNT
+      position: {x: 1.479317, y: -4.506595, z: -0.79212266}
+      rotation: {x: -0.52254665, y: -0.5055055, z: -0.40966868, w: -0.55098164}
+      scale: {x: 0.9999997, y: 0.99999994, z: 0.99999976}
+    - name: PlayerCharacter_LeftMiddleMiddle1_JNT
+      parentName: PlayerCharacter_LeftMiddleKnuckle1_JNT1
+      position: {x: -4.1068583, y: 0.051056825, z: 0.08966994}
+      rotation: {x: 0.011198544, y: -0.043966774, z: -0.0069179344, w: 0.99894625}
+      scale: {x: 0.9999999, y: 0.9999996, z: 1.0000001}
+    - name: PlayerCharacter_LeftMiddleTip1_JNT
+      parentName: PlayerCharacter_LeftMiddleMiddle1_JNT
+      position: {x: -3.5708542, y: 0.007673869, z: 0.11805392}
+      rotation: {x: -0.02738528, y: -0.034934368, z: -0.0030381805, w: 0.9990097}
+      scale: {x: 1.0000002, y: 1.0000001, z: 0.9999999}
+    - name: PlayerCharacter_LeftIndexKnuckle1_JNT
+      parentName: PlayerCharacer_LeftPalm_JNT
+      position: {x: 0.8112305, y: -4.592039, z: -3.2606628}
+      rotation: {x: -0.5334661, y: -0.49274045, z: -0.4172188, w: -0.54639655}
+      scale: {x: 1.0000001, y: 1.0000005, z: 1.0000001}
+    - name: PlayerCharacter_LeftIndexMiddle1_JNT
+      parentName: PlayerCharacter_LeftIndexKnuckle1_JNT
+      position: {x: -4.106811, y: 0.051058073, z: 0.08968961}
+      rotation: {x: 0.011207693, y: -0.026607616, z: -0.0073109525, w: 0.9995564}
+      scale: {x: 1.0000002, y: 0.9999999, z: 1.0000001}
+    - name: PlayerCharacter_LeftIndexTip1_JNT
+      parentName: PlayerCharacter_LeftIndexMiddle1_JNT
+      position: {x: -3.192699, y: -0.000009512876, z: -0.000053230662}
+      rotation: {x: -0.02738529, y: -0.034934364, z: -0.0030382224, w: 0.9990097}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000004}
+    - name: PlayerCharacter_LeftThumbKnuckle1_JNT
+      parentName: PlayerCharacer_LeftPalm_JNT
+      position: {x: -0.17861071, y: 1.8425585, z: -4.0908346}
+      rotation: {x: 0.10915572, y: -0.20611991, z: 0.5827968, w: 0.77842635}
+      scale: {x: 1.0000006, y: 1.0000005, z: 1.0000007}
+    - name: PlayerCharacter_LeftThumbMiddle1_JNT
+      parentName: PlayerCharacter_LeftThumbKnuckle1_JNT
+      position: {x: -3.4309556, y: -0.0588915, z: -0.8544654}
+      rotation: {x: -0.01047314, y: -0.26533243, z: 0.031207368, w: 0.9635949}
+      scale: {x: 1.0000002, y: 1.0000007, z: 1.0000006}
+    - name: PlayerCharacter_LeftThumbTip1_JNT
+      parentName: PlayerCharacter_LeftThumbMiddle1_JNT
+      position: {x: -2.5607147, y: 0.15831716, z: 0.9640063}
+      rotation: {x: 0.06785967, y: 0.17904778, z: -0.063301764, w: 0.97945386}
+      scale: {x: 1.0000001, y: 0.99999976, z: 0.9999998}
+    - name: PlayerCharacer_LeftHip1_JNT
+      parentName: PlayerCharacter_Pelvis1_JNT
+      position: {x: 1.8418157, y: -9.096508, z: 4.2579017}
+      rotation: {x: -0.99912536, y: 0.00004045949, z: -0.041802514, w: 0.0010734472}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000005}
+    - name: PlayerCharacer_LeftKnee1_JNT
+      parentName: PlayerCharacer_LeftHip1_JNT
+      position: {x: 46.03224, y: 0, z: -0.0000074686145}
+      rotation: {x: 0.70455056, y: -0.060071092, z: 0.060071092, w: 0.70455056}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacer_LeftAnkle1_JNT
+      parentName: PlayerCharacer_LeftKnee1_JNT
+      position: {x: 46.22406, y: -0.5654823, z: 0.0000826519}
+      rotation: {x: -0.00090311177, y: -0.000581713, z: -0.6153419, w: 0.7882597}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacer_LeftToes1_JNT
+      parentName: PlayerCharacer_LeftAnkle1_JNT
+      position: {x: 12.521232, y: 0.000008042511, z: -2.060574e-13}
+      rotation: {x: -0.000000018251136, y: 0.000000026702635, z: -0.82558227, w: 0.5642819}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacer_RightHip1_JNT
+      parentName: PlayerCharacter_Pelvis1_JNT
+      position: {x: 1.8418052, y: 9.16501, z: 4.257902}
+      rotation: {x: -0.027968584, y: 0.7112309, z: 0.7017166, w: 0.031021286}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000005}
+    - name: PlayerCharacer_RightKnee1_JNT
+      parentName: PlayerCharacer_RightHip1_JNT
+      position: {x: -46.032288, y: -7.5495166e-15, z: 0}
+      rotation: {x: 0.9963974, y: 0.084807344, z: 1.35976105e-14, w: -1.095893e-15}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacer_RightAnkle1_JNT
+      parentName: PlayerCharacer_RightKnee1_JNT
+      position: {x: -46.22402, y: -0.56548226, z: -1.7763568e-15}
+      rotation: {x: 0.7882756, y: 0.6152818, z: -0.001570752, w: 0.0068886043}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacer_RightToes1_JNT
+      parentName: PlayerCharacer_RightAnkle1_JNT
+      position: {x: -12.521249, y: 7.993606e-15, z: 0}
+      rotation: {x: 0.58377475, y: 0.39900756, z: 0.58377475, w: -0.39900756}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_LeftCoatFlapBack1_JNT
+      parentName: PlayerCharacter_Pelvis1_JNT
+      position: {x: -3.6184955, y: -1.7554278, z: -7.187783}
+      rotation: {x: -0.9982178, y: 0.004393376, z: 0.059448246, w: -0.002821148}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000001}
+    - name: PlayerCharacter_LeftCoatFlapBack2_JNT
+      parentName: PlayerCharacter_LeftCoatFlapBack1_JNT
+      position: {x: 9.490166, y: -0.0000036531665, z: 0.0000283104}
+      rotation: {x: -0.0022506155, y: 0.104139574, z: 0.021488965, w: 0.994328}
+      scale: {x: 1.0000007, y: 1.0000001, z: 1.0000012}
+    - name: PlayerCharacter_LeftCoatFlapBack3_JNT
+      parentName: PlayerCharacter_LeftCoatFlapBack2_JNT
+      position: {x: 9.020185, y: 0.0000033229358, z: 0.0000069085727}
+      rotation: {x: -0, y: -0, z: -3.6379783e-10, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PlayerCharacter_LeftCoatFlapSide1_JNT
+      parentName: PlayerCharacter_Pelvis1_JNT
+      position: {x: -6.1881757, y: -16.954348, z: 7.07041}
+      rotation: {x: 0.0008761481, y: -0.019995136, z: -0.043767307, w: 0.9988412}
+      scale: {x: 0.99999976, y: 1.0000002, z: 0.99999976}
+    - name: PlayerCharacter_LeftCoatFlapSide2_JNT
+      parentName: PlayerCharacter_LeftCoatFlapSide1_JNT
+      position: {x: 12.164132, y: -0.00012391349, z: 8.881784e-16}
+      rotation: {x: -6.938895e-18, y: 2.775558e-17, z: -0.0017456712, w: 0.9999985}
+      scale: {x: 0.99999994, y: 1.0000005, z: 1}
+    - name: PlayerCharacter_LeftCoatFlapSide3_JNT
+      parentName: PlayerCharacter_LeftCoatFlapSide2_JNT
+      position: {x: 11.023989, y: -0.18036269, z: 0}
+      rotation: {x: 6.2450045e-17, y: -6.938894e-18, z: 0.045520037, w: 0.9989635}
+      scale: {x: 1.000001, y: 1.0000005, z: 1}
+    - name: PlayerCharacter_LeftCoatFlapFront1_JNT
+      parentName: PlayerCharacter_Pelvis1_JNT
+      position: {x: -4.6043916, y: -4.556058, z: 19.626053}
+      rotation: {x: -0.000029736493, y: -0.03851904, z: 0.0005853513, w: 0.9992577}
+      scale: {x: 1.0000007, y: 1.0000008, z: 1}
+    - name: PlayerCharacter_LeftCoatFlapFront2_JNT
+      parentName: PlayerCharacter_LeftCoatFlapFront1_JNT
+      position: {x: 12.079589, y: 0.00000080655207, z: 0.000045663393}
+      rotation: {x: 0.0009640977, y: 0.050743185, z: -0.093133874, w: 0.9943592}
+      scale: {x: 0.9999999, y: 0.9999998, z: 1.0000001}
+    - name: PlayerCharacter_LeftCoatFlapFront3_JNT
+      parentName: PlayerCharacter_LeftCoatFlapFront2_JNT
+      position: {x: 7.962347, y: 0.032285437, z: -0.0070006084}
+      rotation: {x: -0.00008442066, y: 0.004309391, z: 0.019585898, w: 0.9997989}
+      scale: {x: 0.99999964, y: 0.9999998, z: 0.99999994}
+    - name: PlayerCharacter_RightCoatFlapBack1_JNT
+      parentName: PlayerCharacter_Pelvis1_JNT
+      position: {x: -3.6186883, y: 1.8239307, z: -7.1877956}
+      rotation: {x: 0.059448242, y: -0.0028211419, z: 0.99821776, w: -0.0043934593}
+      scale: {x: 1.0000001, y: 1.0000007, z: 0.9999992}
+    - name: PlayerCharacter_RightCoatFlapBack2_JNT
+      parentName: PlayerCharacter_RightCoatFlapBack1_JNT
+      position: {x: -9.490339, y: -1.7763568e-15, z: -3.5527137e-15}
+      rotation: {x: -0.002250608, y: 0.10413957, z: 0.021488884, w: 0.99432796}
+      scale: {x: 1.0000007, y: 0.99999964, z: 1.0000005}
+    - name: PlayerCharacter_RightCoatFlapBack3_JNT
+      parentName: PlayerCharacter_RightCoatFlapBack2_JNT
+      position: {x: -9.020217, y: -1.3322676e-14, z: 2.6645353e-15}
+      rotation: {x: -0.0000000055879354, y: -0.000000007450581, z: -0.70710677, w: 0.7071068}
+      scale: {x: 0.99999994, y: 0.99999976, z: 1.0000001}
+    - name: PlayerCharacter_RightCoatFlapSide1_JNT
+      parentName: PlayerCharacter_Pelvis1_JNT
+      position: {x: -6.1886744, y: 17.0229, z: 7.070389}
+      rotation: {x: -0.043767404, y: 0.9988412, z: -0.0008761508, w: 0.019995136}
+      scale: {x: 1.0000004, y: 1.0000005, z: 1.0000013}
+    - name: PlayerCharacter_RightCoatFlapSide2_JNT
+      parentName: PlayerCharacter_RightCoatFlapSide1_JNT
+      position: {x: -12.164633, y: 1.4210855e-14, z: -1.4897379e-15}
+      rotation: {x: 2.4487196e-19, y: -1.1230202e-18, z: -0.0017456115, w: 0.9999985}
+      scale: {x: 0.99999976, y: 1.0000004, z: 0.99999934}
+    - name: PlayerCharacter_RightCoatFlapSide3_JNT
+      parentName: PlayerCharacter_RightCoatFlapSide2_JNT
+      position: {x: -11.023932, y: 0.18041283, z: 3.574509e-16}
+      rotation: {x: -0.6741863, y: -0.73856133, z: -1.1855073e-17, w: -7.2876994e-17}
+      scale: {x: 0.99999934, y: 0.9999994, z: 0.99999934}
+    - name: PlayerCharacter_RightCoatFlapFront1_JNT
+      parentName: PlayerCharacter_Pelvis1_JNT
+      position: {x: -4.6043267, y: 4.6245613, z: 19.626055}
+      rotation: {x: -0.026823118, y: 0.70656097, z: 0.7066029, w: 0.02765095}
+      scale: {x: 1.0000002, y: 0.9999999, z: 1.0000005}
+    - name: PlayerCharacter_RightCoatFlapFront2_JNT
+      parentName: PlayerCharacter_RightCoatFlapFront1_JNT
+      position: {x: -12.079515, y: 7.1054274e-15, z: -5.3290705e-15}
+      rotation: {x: 0.0019577595, y: 0.0736404, z: 0.05071453, w: 0.99599266}
+      scale: {x: 1.0000007, y: 1.0000006, z: 1.0000002}
+    - name: PlayerCharacter_RightCoatFlapFront3_JNT
+      parentName: PlayerCharacter_RightCoatFlapFront2_JNT
+      position: {x: -7.9575076, y: -0.0069272514, z: 0.27958453}
+      rotation: {x: -0.7071003, y: -0.0030477643, z: 0.0030478043, w: 0.7071002}
+      scale: {x: 0.9999997, y: 1, z: 0.99999976}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

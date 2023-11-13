@@ -43,6 +43,8 @@ public class H_PlayerPunch : NetworkBehaviour
         {
             if (H_GameManager.instance.currentRoundStage == RoundStage.Game)
             {
+                GetComponent<H_PlayerAnimator>().jacketRenderer.material.color = equipment.brain.agentData.primaryColour;
+
                 StartCoroutine(Attack());
                 attackTimer = attackCooldown;
                 animator.CmdPlayPunchAnimation();
@@ -58,10 +60,17 @@ public class H_PlayerPunch : NetworkBehaviour
 
     IEnumerator Attack()
     {
+        animator.fistsAnimator.SetBool("hitObject", false);
+
+        animator.fistsAnimator.SetTrigger("Punch");
         Debug.Log("Punching");
+
         yield return new WaitForSeconds(attackDelay);
+
         damageCollider.enabled = true;
+
         yield return new WaitForSeconds(attackLength);
+
         damageCollider.enabled = false;
     }
 
@@ -75,6 +84,8 @@ public class H_PlayerPunch : NetworkBehaviour
         }
 
         health.Damage(attackDamage);
+
+        animator.fistsAnimator.SetBool("hitObject", true);
 
         damageCollider.enabled = false;
     }

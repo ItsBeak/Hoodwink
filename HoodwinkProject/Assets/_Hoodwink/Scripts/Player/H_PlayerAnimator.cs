@@ -7,6 +7,9 @@ public class H_PlayerAnimator : NetworkBehaviour
     private H_PlayerController playerController;
     private H_PlayerEquipment equipment;
     public Animator playerAnimator;
+    public Animator fistsAnimator;
+
+    public SkinnedMeshRenderer jacketRenderer;
 
     void Start()
     {
