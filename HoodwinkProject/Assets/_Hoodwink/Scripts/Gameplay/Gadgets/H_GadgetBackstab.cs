@@ -1,10 +1,6 @@
 using Mirror;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEditor.AnimatedValues;
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class H_GadgetBackstab : H_GadgetBase
 {

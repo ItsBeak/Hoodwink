@@ -81,7 +81,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     [HideInInspector] public H_PlayerBrain brain;
     [HideInInspector] public H_PlayerAnimator animator;
     [HideInInspector] public H_PlayerController controller;
-    public Animator itemsAnimator;
     bool isDead;
     bool isBusy;
 
@@ -104,8 +103,6 @@ public class H_PlayerEquipment : NetworkBehaviour
         baseFOV = playerCamera.m_Lens.FieldOfView;
 
         StartCoroutine(ChangeSlotInput(EquipmentSlot.PrimaryItem));
-
-        RaiseItems();
     }
 
     void Update()
@@ -249,7 +246,24 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     IEnumerator ChangeSlot(EquipmentSlot newSlot)
     {
-        RaiseItems();
+        switch (newSlot)
+        {
+            case EquipmentSlot.PrimaryItem:
+                animator.fistsAnimator.SetTrigger("Raise");
+                break;
+
+            case EquipmentSlot.Sidearm:
+                //animator.fistsAnimator.SetTrigger("Raise");
+                break;
+
+            case EquipmentSlot.FirstGadget:
+                //animator.fistsAnimator.SetTrigger("Raise");
+                break;
+
+            case EquipmentSlot.SecondGadget:
+                //animator.fistsAnimator.SetTrigger("Raise");
+                break;
+        }
 
         yield return new WaitForSeconds(0.15f);
 
@@ -284,7 +298,24 @@ public class H_PlayerEquipment : NetworkBehaviour
     {
         SetBusy(true);
 
-        LowerItems();
+        switch (selectedSlot)
+        {
+            case EquipmentSlot.PrimaryItem:
+                animator.fistsAnimator.SetTrigger("Lower");
+                break;
+
+            case EquipmentSlot.Sidearm:
+                //animator.fistsAnimator.SetTrigger("Lower");
+                break;
+
+            case EquipmentSlot.FirstGadget:
+                //animator.fistsAnimator.SetTrigger("Lower");
+                break;
+
+            case EquipmentSlot.SecondGadget:
+                //animator.fistsAnimator.SetTrigger("Lower");
+                break;
+        }
 
         yield return new WaitForSeconds(0.15f);
 
@@ -450,11 +481,6 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         currentObject = primaryClientObject.GetComponent<H_ItemBase>();
         currentObject.Initialize();
-
-        if (isLocalPlayer)
-        {
-            RaiseItems();
-        }
     }
 
     [ClientRpc]
@@ -544,16 +570,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     public void RpcClearSidearmSlot()
     {
         ClearSidearmSlot();
-    }
-
-    public void LowerItems()
-    {
-        itemsAnimator.SetBool("isLowered", true);
-    }
-
-    public void RaiseItems()
-    {
-        itemsAnimator.SetBool("isLowered", false);
     }
 
     public void SetBusy(bool state)
