@@ -58,13 +58,9 @@ public class H_GameManager : NetworkBehaviour
     public GameObject defaultClientSidearm;
     public GameObject defaultObserverSidearm;
 
-    [Header("Default Sidearm Settings")]
-    public GameObject defaultClientHolstered;
-    public GameObject defaultObserverHolstered;
-
     [Header("Gadgets")]
     public List<GameObject> spyGadgets;
-    public List<GameObject> agentGadgets;
+    //public List<GameObject> agentGadgets;
 
     [Header("Map Pool")]
     [Scene] public string[] maps;
@@ -550,17 +546,16 @@ public class H_GameManager : NetworkBehaviour
 
             ResetPlayerColours(player);
 
-            NetworkServer.Destroy(player.equipment.firstGadget.gameObject);
-            NetworkServer.Destroy(player.equipment.secondGadget.gameObject);
+            if (player.currentAlignment == AgentAlignment.Spy)
+            {
+                NetworkServer.Destroy(player.equipment.firstGadget.gameObject);
+                NetworkServer.Destroy(player.equipment.secondGadget.gameObject);
+            }
 
             NetworkServer.Destroy(player.equipment.sidearmClientObject.gameObject);
             NetworkServer.Destroy(player.equipment.sidearmObserverObject.gameObject);
 
-            NetworkServer.Destroy(player.equipment.holsteredClientObject.gameObject);
-            NetworkServer.Destroy(player.equipment.holsteredObserverObject.gameObject);
-
             player.equipment.RpcClearSidearmSlot();
-            player.equipment.RpcClearHolsteredSlot();
         }
 
         roundPlayers.Clear();
@@ -630,7 +625,8 @@ public class H_GameManager : NetworkBehaviour
 
             player.TeleportPlayer(spawns[randomSpawn].position, spawns[randomSpawn].rotation);
 
-            player.equipment.currentSlot = EquipmentSlot.Holstered;
+            player.equipment.currentSlot = EquipmentSlot.PrimaryItem;
+            player.equipment.RpcSetPrimary();
         }
 
 
@@ -657,7 +653,7 @@ public class H_GameManager : NetworkBehaviour
 
             availableAgents.RemoveAt(randomAgent);
 
-            player.equipment.currentSlot = EquipmentSlot.Holstered;
+            player.equipment.currentSlot = EquipmentSlot.PrimaryItem;
             player.RpcSetCanMove(false);
             player.equipment.RpcSetBusy(true);
         }
@@ -708,28 +704,28 @@ public class H_GameManager : NetworkBehaviour
                 roundAgents.Add(roundPlayers[i]);
                 agentsLeft++;
 
-                List<GameObject> gadgetPool = new List<GameObject>();
-
-                foreach (GameObject gadget in agentGadgets)
-                {
-                    gadgetPool.Add(gadget);
-                }
-
-                int gadgetIndex = Random.Range(0, gadgetPool.Count);
-
-                GameObject firstGadget = Instantiate(gadgetPool[gadgetIndex]);
-                NetworkServer.Spawn(firstGadget, roundPlayers[i].connectionToClient);
-                roundPlayers[i].equipment.RpcEquipFirstGadget(firstGadget);
-                gadgetPool.Remove(gadgetPool[gadgetIndex]);
-
-                gadgetIndex = Random.Range(0, gadgetPool.Count);
-
-                GameObject secondGadget = Instantiate(gadgetPool[gadgetIndex]);
-                NetworkServer.Spawn(secondGadget, roundPlayers[i].connectionToClient);
-                roundPlayers[i].equipment.RpcEquipSecondGadget(secondGadget);
-                gadgetPool.Remove(gadgetPool[gadgetIndex]);
-
-                gadgetPool.Clear();
+                //List<GameObject> gadgetPool = new List<GameObject>();
+                //
+                //foreach (GameObject gadget in agentGadgets)
+                //{
+                //    gadgetPool.Add(gadget);
+                //}
+                //
+                //int gadgetIndex = Random.Range(0, gadgetPool.Count);
+                //
+                //GameObject firstGadget = Instantiate(gadgetPool[gadgetIndex]);
+                //NetworkServer.Spawn(firstGadget, roundPlayers[i].connectionToClient);
+                //roundPlayers[i].equipment.RpcEquipFirstGadget(firstGadget);
+                //gadgetPool.Remove(gadgetPool[gadgetIndex]);
+                //
+                //gadgetIndex = Random.Range(0, gadgetPool.Count);
+                //
+                //GameObject secondGadget = Instantiate(gadgetPool[gadgetIndex]);
+                //NetworkServer.Spawn(secondGadget, roundPlayers[i].connectionToClient);
+                //roundPlayers[i].equipment.RpcEquipSecondGadget(secondGadget);
+                //gadgetPool.Remove(gadgetPool[gadgetIndex]);
+                //
+                //gadgetPool.Clear();
 
             }
 
@@ -738,12 +734,6 @@ public class H_GameManager : NetworkBehaviour
             NetworkServer.Spawn(newClientSidearm, roundPlayers[i].connectionToClient);
             NetworkServer.Spawn(newObserverSidearm, roundPlayers[i].connectionToClient);
             roundPlayers[i].equipment.RpcEquipSidearm(newClientSidearm, newObserverSidearm);
-
-            GameObject newClientHolstered = Instantiate(defaultClientHolstered);
-            GameObject newObserverHolstered = Instantiate(defaultObserverHolstered);
-            NetworkServer.Spawn(newClientHolstered, roundPlayers[i].connectionToClient);
-            NetworkServer.Spawn(newObserverHolstered, roundPlayers[i].connectionToClient);
-            roundPlayers[i].equipment.RpcEquipHolstered(newClientHolstered, newObserverHolstered);
         }
 
 

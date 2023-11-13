@@ -1,9 +1,6 @@
 using Mirror;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class H_GadgetBackstab : H_GadgetBase
 {
@@ -23,10 +20,33 @@ public class H_GadgetBackstab : H_GadgetBase
     public AudioClip[] stabFailClips;
     public AudioSource source;
 
+    [Header("Viewmodel Settings")]
+    public Animator viewmodelAnimator;
+    public SkinnedMeshRenderer jacketRenderer;
+
     void Start()
     {
         damageCollider = GetComponent<BoxCollider>();
         damageCollider.enabled = false;
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        viewmodelAnimator.SetBool("isOnCooldown", cooldownTimer > 0 ? true : false);
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            Debug.Log(cooldownTimer);
+        }
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        jacketRenderer.material.color = equipment.GetComponent<H_PlayerBrain>().agentData.primaryColour;
     }
 
     public override void UseGadgetPrimary()
@@ -62,6 +82,10 @@ public class H_GadgetBackstab : H_GadgetBase
 
     IEnumerator Attack()
     {
+        viewmodelAnimator.SetBool("hitObject", false);
+
+        viewmodelAnimator.SetTrigger("Stab");
+
         yield return new WaitForSeconds(attackDelay);
         damageCollider.enabled = true;
         yield return new WaitForSeconds(attackLength);
@@ -86,6 +110,8 @@ public class H_GadgetBackstab : H_GadgetBase
                         CmdPlayStabSuccess();
 
                         health.Damage(stabSuccessDamage);
+
+                        viewmodelAnimator.SetBool("hitObject", true);
 
                         damageCollider.enabled = false;
                     }

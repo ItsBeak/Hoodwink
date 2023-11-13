@@ -53,12 +53,6 @@ public class H_ItemBase : NetworkBehaviour
             equipment.sidearmItemIcon.sprite = itemIcon;
             equipment.sidearmItemIcon.color = Color.white;
         }
-        else if (slotType == SlotType.Holstered)
-        {
-            equipment.holsteredItemIcon.sprite = itemIcon;
-            equipment.holsteredItemIcon.color = Color.white;
-        }
-
     }
 
     void CheckForKeyPresses()

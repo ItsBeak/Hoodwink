@@ -36,7 +36,7 @@ public class H_PlayerBrain : NetworkBehaviour
     [Header("Components")]
     public CinemachineVirtualCamera cam;
     public Image agentColourImage;
-    public TextMeshProUGUI agentNameText;
+    public TextMeshProUGUI agentNameText, agentNameTextShadow;
     public TextMeshProUGUI readyText;
     public H_PlayerEquipment equipment;
     public H_PlayerUI playerUI;
@@ -139,6 +139,7 @@ public class H_PlayerBrain : NetworkBehaviour
     public void OnAgentDataChanged(AgentData oldData, AgentData newData)
     {
         agentNameText.text = newData.agentName;
+        agentNameTextShadow.text = newData.agentName;
 
         agentColourImage.color = newData.primaryColour;
 
@@ -157,6 +158,7 @@ public class H_PlayerBrain : NetworkBehaviour
     public void OnPlayerNameChanged(string oldName, string newName)
     {
         agentNameText.text = newName;
+        agentNameTextShadow.text = newName;
     }
 
     public void UnregisterPlayer()
@@ -185,32 +187,34 @@ public class H_PlayerBrain : NetworkBehaviour
         if (alignment == AgentAlignment.Unassigned)
         {
             playerUI.alignmentBackground.color = alignmentColorUnassigned;
-            playerUI.roleAnimator.SetTrigger("Reset");
 
             if (isLocalPlayer)
             {
                 HideSpyIndicators();
+                playerUI.ShowHotbar(false);
             }
         }
         else if (alignment == AgentAlignment.Agent)
         {
             playerUI.alignmentBackground.color = alignmentColorAgent;
-            playerUI.roleAnimator.SetTrigger("ID Card");
 
             if (isLocalPlayer)
             {
                 HideSpyIndicators();
+                playerUI.ShowGadgets(false);
+                playerUI.ShowHotbar(true);
             }
         }
         else if (alignment == AgentAlignment.Spy)
         {
             playerUI.alignmentBackground.color = alignmentColorSpy;
-            playerUI.roleAnimator.SetTrigger("ID Card");
             spyIndicator.SetActive(true);
 
             if (isLocalPlayer)
             {
                 ShowSpyIndicators();
+                playerUI.ShowGadgets(true);
+                playerUI.ShowHotbar(true);
             }
         }
     }
