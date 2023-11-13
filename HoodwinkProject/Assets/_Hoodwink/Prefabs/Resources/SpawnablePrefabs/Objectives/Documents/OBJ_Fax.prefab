@@ -479,6 +479,7 @@ MonoBehaviour:
   - {fileID: 7577675469808320982}
   - {fileID: 7806653593785544457}
   faxCompleteCooldown: 4
+  isOnCooldown: 0
   documentPrefab: {fileID: 4572328729074933808, guid: 58fc16b84ab89004aa129d4fce2e2a71,
     type: 3}
   rejectionOutputPosition: {fileID: 949335043349918666}
@@ -487,6 +488,7 @@ MonoBehaviour:
   faxingClip: {fileID: 8300000, guid: b0831b5a61c36b7429866b313827ce3d, type: 3}
   buttonClip: {fileID: 8300000, guid: 175bcc353bb392544aab502c95c34e40, type: 3}
   containsDocument: 0
+  documentsSent: 0
   sentLights:
   - {fileID: 7259846193667091961}
   - {fileID: 7634685182073009515}
@@ -504,7 +506,8 @@ AudioSource:
   m_GameObject: {fileID: 5942521373019118780}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -5562911544293860790, guid: d4a4bc356bb5b2e47a6aa6c8e8ce30ae,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.4
