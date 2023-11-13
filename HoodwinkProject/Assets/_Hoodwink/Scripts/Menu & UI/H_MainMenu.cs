@@ -7,7 +7,6 @@ using TMPro;
 
 using UnityEngine.Timeline;
 using UnityEngine.Playables;
-using UnityEngine.LowLevel;
 
 public class H_MainMenu : MonoBehaviour
 {
@@ -50,9 +49,9 @@ public class H_MainMenu : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space) && preLoginDirector.time < 9f)
+        if (Input.GetKeyDown(KeyCode.Space) && preLoginDirector.time < 18f)
         {
-            preLoginDirector.time = 9f;
+            preLoginDirector.time = 18f;
         }
 
         Cursor.lockState = CursorLockMode.None;
@@ -63,7 +62,6 @@ public class H_MainMenu : MonoBehaviour
             JoinButton();
         }
     }
-
     public void PlayButton()
     {
         FindObjectOfType<H_Bootstrap>().hasPressedPlay = true;
