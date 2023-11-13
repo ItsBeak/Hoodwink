@@ -16,14 +16,28 @@ public class H_GadgetBase : NetworkBehaviour
 
     [HideInInspector] public EquipmentSlot gadgetSlot;
 
+    public GameObject gadgetVisuals;
+
     [Header("UI Components")]
     public bool usePrompt;
     public string prompt;
     public TextMeshProUGUI promptReadout;
+    bool isInitialized;
+    public virtual void Initialize()
+    {
+        if (!equipment)
+        {
+            equipment = GetComponentInParent<H_PlayerEquipment>();
+        }
+
+        HideGadget();
+
+        isInitialized = true;
+    }
 
     public virtual void Update()
     {
-        if (!isOwned)
+        if (!isOwned || !isInitialized)
             return;
 
         if (cooldownTimer > 0)
@@ -91,14 +105,6 @@ public class H_GadgetBase : NetworkBehaviour
 
     }
 
-    public virtual void Initialize()
-    {
-        if (!equipment)
-        {
-            equipment = GetComponentInParent<H_PlayerEquipment>();
-        }
-    }
-
     void UpdateUI()
     {
         if (usePrompt)
@@ -116,6 +122,22 @@ public class H_GadgetBase : NetworkBehaviour
         else
         {
             promptReadout.text = "";
+        }
+    }
+
+    public void ShowGadget()
+    {
+        if (gadgetVisuals)
+        {
+            gadgetVisuals.SetActive(true);
+        }
+    }
+
+    public void HideGadget()
+    {
+        if (gadgetVisuals)
+        {
+            gadgetVisuals.SetActive(false);
         }
     }
 }

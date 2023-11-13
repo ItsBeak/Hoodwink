@@ -4,6 +4,7 @@ public class H_WorldItem : NetworkBehaviour, H_IInteractable
 {
     public string itemName;
     public string itemVerb;
+    public bool itemEnabled;
 
     public string InteractableName
     {
@@ -13,6 +14,11 @@ public class H_WorldItem : NetworkBehaviour, H_IInteractable
     public string InteractableVerb
     {
         get { return itemVerb; }
+    }
+
+    public bool InteractableEnabled
+    {
+        get { return itemEnabled; }
     }
 
     public GameObject clientItem;

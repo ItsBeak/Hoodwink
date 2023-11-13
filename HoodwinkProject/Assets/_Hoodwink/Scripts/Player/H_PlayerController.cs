@@ -40,6 +40,7 @@ public class H_PlayerController : NetworkBehaviour
 
     [HideInInspector] public Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
+    [HideInInspector] public bool isMoving = false;
     [HideInInspector] public bool isRunning = false;
     
 
@@ -87,6 +88,8 @@ public class H_PlayerController : NetworkBehaviour
 
         characterController.Move(moveDirection * Time.deltaTime);
 
+        isMoving = Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0;
+
     }
 
     void Inputs()
@@ -94,7 +97,7 @@ public class H_PlayerController : NetworkBehaviour
         moveDirection.x = brain.canMove ? Input.GetAxis("Horizontal") : 0;
         moveDirection.z = brain.canMove ? Input.GetAxis("Vertical") : 0;
 
-        isCrouching = Input.GetKey(KeyCode.LeftControl);
+        //isCrouching = Input.GetKey(KeyCode.LeftControl);
     }
 
     void Direction()
