@@ -121,7 +121,7 @@ public class H_ItemWeapon : H_ItemBase
 
         if (jacketRenderer)
         {
-            jacketRenderer.material.color = equipment.brain.agentData.primaryColour;
+            //jacketRenderer.material.color = equipment.brain.agentData.primaryColour;
         }
     }
 
