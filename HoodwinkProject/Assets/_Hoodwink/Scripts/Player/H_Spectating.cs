@@ -1,9 +1,10 @@
 using UnityEngine;
 using Cinemachine;
+using JetBrains.Annotations;
 
 public class H_Spectating : MonoBehaviour
 {
-    public CinemachineFreeLook spectatorCam;
+    public CinemachineVirtualCamera spectatorCam;
 
     public GameObject[] spectatorTargets;
 
@@ -14,9 +15,14 @@ public class H_Spectating : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            isSpectating = !isSpectating;
+        }
+
         if (isSpectating)
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Mouse0))
             {
                 targetIndex++;
 
@@ -28,7 +34,7 @@ public class H_Spectating : MonoBehaviour
                 SetSpectatingTarget(targetIndex);
             }
 
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Mouse1))
             {
                 targetIndex--;
 
@@ -63,10 +69,10 @@ public class H_Spectating : MonoBehaviour
         spectatorTargets = FindSpectatorTargets();
 
         spectatorCam.Follow = spectatorTargets[index].transform;
-        spectatorCam.LookAt = spectatorTargets[index].transform;
+        spectatorCam.LookAt = spectatorTargets[index].transform.GetChild(0);
 
         //Debug.LogWarning(spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>());
-        playerUI.ChangeSpectator(spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>().playerName, spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>().coatColour);
+        playerUI.ChangeSpectator(spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>().agentData.agentName, spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>().agentData.primaryColour);
     }
 
     public GameObject[] FindSpectatorTargets()

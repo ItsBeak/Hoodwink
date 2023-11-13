@@ -7,7 +7,6 @@ using TMPro;
 
 using UnityEngine.Timeline;
 using UnityEngine.Playables;
-using UnityEngine.LowLevel;
 
 public class H_MainMenu : MonoBehaviour
 {
@@ -18,7 +17,9 @@ public class H_MainMenu : MonoBehaviour
     public TMP_InputField codeInputField;
 
     [Header("Directors")]
-    public PlayableDirector preLoginDirector, loggedInDirector, customizationDirector, customizationEndDirector, optionsDirector, optionsEndDirector;
+    public PlayableDirector preLoginDirector, loggedInDirector, customizationDirector, customizationEndDirector, optionsDirector, optionsEndDirector, startGameDirector;
+
+    public float startGameDelay;
 
     bool playedLogIn = false;
 
@@ -47,16 +48,10 @@ public class H_MainMenu : MonoBehaviour
 
     private void Update()
     {
-       //loginButton.SetActive(!NetManager.isLoggedIn);
-       //hostButton.SetActive(NetManager.isLoggedIn);
-       //joinButton.SetActive(NetManager.isLoggedIn);
-       //codeInputField.gameObject.SetActive(NetManager.isLoggedIn);
 
-       //loginButton.GetComponent<Button>().interactable = !NetManager.isLoggingIn;
-
-        if (Input.GetKeyDown(KeyCode.Space) && preLoginDirector.time < 9f)
+        if (Input.GetKeyDown(KeyCode.Space) && preLoginDirector.time < 18f)
         {
-            preLoginDirector.time = 9f;
+            preLoginDirector.time = 18f;
         }
 
         Cursor.lockState = CursorLockMode.None;
@@ -67,7 +62,6 @@ public class H_MainMenu : MonoBehaviour
             JoinButton();
         }
     }
-
     public void PlayButton()
     {
         FindObjectOfType<H_Bootstrap>().hasPressedPlay = true;
@@ -76,6 +70,13 @@ public class H_MainMenu : MonoBehaviour
 
     public void HostButton()
     {
+        startGameDirector.gameObject.SetActive(true);
+        Invoke("StartHost", startGameDelay);
+    }
+
+    public void StartHost()
+    {
+        H_TransitionManager.instance.SetBlack();
         NetManager.StartHost();
     }
 

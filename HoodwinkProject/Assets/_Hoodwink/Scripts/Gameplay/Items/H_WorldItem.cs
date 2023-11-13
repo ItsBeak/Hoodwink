@@ -1,12 +1,36 @@
 using UnityEngine;
 using Mirror;
-public class H_WorldItem : NetworkBehaviour
+public class H_WorldItem : NetworkBehaviour, H_IInteractable
 {
     public string itemName;
+    public string itemVerb;
+    public bool itemEnabled;
+
+    public string InteractableName
+    {
+        get { return itemName; }
+    }
+
+    public string InteractableVerb
+    {
+        get { return itemVerb; }
+    }
+
+    public bool InteractableEnabled
+    {
+        get { return itemEnabled; }
+    }
 
     public GameObject clientItem;
     public GameObject observerItem;
-    public void PickUpItem(NetworkIdentity newOwner)
+
+    public void OnInteract(NetworkIdentity client)
+    {
+        CmdPickUpItem(client);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdPickUpItem(NetworkIdentity newOwner)
     {
         H_PlayerEquipment player = newOwner.GetComponent<H_PlayerEquipment>();
 

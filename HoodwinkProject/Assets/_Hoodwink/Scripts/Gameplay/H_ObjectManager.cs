@@ -12,6 +12,9 @@ public class H_ObjectManager : NetworkBehaviour
 
     public GameObject faxMachinePrefab;
     public GameObject shredderPrefab;
+    //public GameObject computerPrefab;
+    //public GameObject keyMachinePrefab;
+    public GameObject phonePrefab;
 
     [Header("Level Cleanup Settings")]
     public LayerMask cleanupLayers;
@@ -45,12 +48,44 @@ public class H_ObjectManager : NetworkBehaviour
 
         int randomShredderSet = Random.Range(0, currentLevel.documentObjectives.Length);
 
-        GameObject shredder = Instantiate(shredderPrefab, currentLevel.documentObjectives[randomShredderSet].shredderLocation.position, currentLevel.documentObjectives[randomShredderSet].shredderLocation.rotation);
-        NetworkServer.Spawn(shredder);
+        foreach (var shredderLocation in currentLevel.documentObjectives[randomShredderSet].shredderLocations)
+        {
+            GameObject shredder = Instantiate(shredderPrefab, shredderLocation.position, shredderLocation.rotation);
+            NetworkServer.Spawn(shredder);
+        }
 
-        GameObject faxMachine = Instantiate(faxMachinePrefab, currentLevel.documentObjectives[randomShredderSet].faxLocation.position, currentLevel.documentObjectives[randomShredderSet].faxLocation.rotation);
-        NetworkServer.Spawn(faxMachine);
+        foreach (var faxLocation in currentLevel.documentObjectives[randomShredderSet].faxLocations)
+        {
+            GameObject faxMachine = Instantiate(faxMachinePrefab, faxLocation.position, faxLocation.rotation);
+            NetworkServer.Spawn(faxMachine);
+        }
 
+        //int randomComputerSet = Random.Range(0, currentLevel.computerObjectives.Length);
+        //
+        //GameObject computer = Instantiate(computerPrefab, currentLevel.computerObjectives[randomComputerSet].computerLocation.position, currentLevel.computerObjectives[randomComputerSet].computerLocation.rotation);
+        //NetworkServer.Spawn(computer);
+        //
+        //GameObject keyMachine = Instantiate(keyMachinePrefab, currentLevel.computerObjectives[randomComputerSet].keyMachineLocation.position, currentLevel.computerObjectives[randomComputerSet].keyMachineLocation.rotation);
+        //NetworkServer.Spawn(keyMachine);
+
+        List<Transform> phoneSpawns = new List<Transform>();
+
+        foreach (Transform point in currentLevel.phoneSpawnPoints)
+        {
+            phoneSpawns.Add(point);
+        }
+
+        for (int i = 0; i < newSettings.phonesToSpawn; i++)
+        {
+            int spawnPoint = Random.Range(0, phoneSpawns.Count);
+
+            GameObject newItem = Instantiate(phonePrefab, phoneSpawns[spawnPoint].position, phoneSpawns[spawnPoint].rotation);
+            NetworkServer.Spawn(newItem);
+            phoneSpawns.Remove(phoneSpawns[spawnPoint]);
+
+            if (enableDebugLogs)
+                Debug.Log("Spawning phone");
+        }
     }
 
     [Server]

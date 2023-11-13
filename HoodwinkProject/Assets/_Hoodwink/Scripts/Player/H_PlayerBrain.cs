@@ -3,6 +3,8 @@ using Mirror;
 using Cinemachine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 public class H_PlayerBrain : NetworkBehaviour
 {
@@ -13,13 +15,12 @@ public class H_PlayerBrain : NetworkBehaviour
     [HideInInspector] public bool isPaused;
     public float speedMultiplier = 1;
 
-    [Header("Player Data")]
-    [SyncVar(hook = nameof(OnNameChanged))] public string playerName;
-    [SyncVar(hook = nameof(SetCoatColour))] public Color coatColour;
-    [SyncVar(hook = nameof(SetCoatTrimColour))] public Color coatTrimColour;
-    [SyncVar(hook = nameof(SetPantsColour))] public Color pantsColour;
-    [SyncVar(hook = nameof(SetShoesColour))] public Color shoesColour;
+    [Header("Player Cosmetic Data")]
+    [SyncVar(hook = nameof(OnPlayerNameChanged))] public string playerName;
+    [SyncVar(hook = nameof(OnAgentDataChanged))] public AgentData agentData;
     [SyncVar(hook = nameof(OnReadyChanged))] public bool isReady = false;
+    [SyncVar(hook = nameof(OnHudVisibilityChanged))] public bool isHudHidden = false;
+    //[SyncVar] public IntroCosmeticData cosmeticData;
 
     [Header("Alignment Data")]
     [SyncVar(hook = nameof(OnAlignmentChanged))]
@@ -32,20 +33,16 @@ public class H_PlayerBrain : NetworkBehaviour
     public GameObject spyIndicator;
     public LayerMask baseCullingMask, spyCullingMask;
 
-    [Header("Cosmetic Data")]
-    public Transform hatAnchor;
-
     [Header("Components")]
     public CinemachineVirtualCamera cam;
     public Image agentColourImage;
-    public TextMeshProUGUI agentNameText;
+    public TextMeshProUGUI agentNameText, agentNameTextShadow;
     public TextMeshProUGUI readyText;
     public H_PlayerEquipment equipment;
     public H_PlayerUI playerUI;
+    public H_PlayerCosmetics cosmetics;
 
     [Header("Rendering")]
-    public Renderer playerRenderer;
-    public Renderer coatRenderer, coatTrimRenderer;
     public GameObject[] hideForLocalPlayer;
 
     private H_NetworkManager netManager;
@@ -58,16 +55,30 @@ public class H_PlayerBrain : NetworkBehaviour
             return netManager = NetworkManager.singleton as H_NetworkManager;
         }
     }
+
+    public override void OnStartLocalPlayer()
+    {
+        int hatIndex, suitIndex, vestIndex;
+        hatIndex = H_CosmeticManager.instance.currentHat.ID;
+        suitIndex = H_CosmeticManager.instance.currentSuitCut;
+        vestIndex = H_CosmeticManager.instance.currentVestCut;
+
+        CmdSetPlayerCosmetics(hatIndex, suitIndex, vestIndex);
+        CmdSetPlayerName(PlayerPrefs.GetString("C_SELECTED_NAME", "Hoodwinker"));
+    }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
 
         if (isLocalPlayer)
         {
+            H_TransitionManager.instance.FadeOut(0.25f);
+
             cam.enabled = true;
             playerUI.gameObject.SetActive(true);
 
-            HideLocalPlayer();
+            cosmetics.HidePlayer();
 
             foreach (GameObject ob in hideForLocalPlayer)
             {
@@ -99,6 +110,12 @@ public class H_PlayerBrain : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void RpcSetCanMove(bool state)
+    {
+        SetCanMove(state);
+    }
+
     public void SetCanMove(bool state)
     {
         canMove = state;
@@ -119,31 +136,29 @@ public class H_PlayerBrain : NetworkBehaviour
         speedMultiplier = amount;
     }
 
-    public void SetCoatColour(Color oldColor, Color newColor)
+    public void OnAgentDataChanged(AgentData oldData, AgentData newData)
     {
-        playerRenderer.material.SetColor("_ShirtColour", Color.clear);
-        coatRenderer.material.color = newColor;
+        agentNameText.text = newData.agentName;
+        agentNameTextShadow.text = newData.agentName;
+
+        agentColourImage.color = newData.primaryColour;
+
+        cosmetics.SetHat(newData.hatIndex);
+        cosmetics.ToggleSuit(newData.suitIndex);
+        cosmetics.ToggleVest(newData.vestIndex);
+
+        cosmetics.SetJacketColour(newData.primaryColour);
+        cosmetics.SetPantsColour(newData.pantsColour);
+        cosmetics.SetVestColour(newData.vestColour);
+        cosmetics.SetTieColour(newData.primaryColour);
+        cosmetics.SetCollarColour(newData.secondaryColour);
+        cosmetics.SetPocketColour(newData.secondaryColour);
     }
 
-    public void SetCoatTrimColour(Color oldColor, Color newColor)
-    {
-        coatTrimRenderer.material.color = newColor;
-        agentColourImage.color = newColor;
-    }
-
-    public void SetPantsColour(Color oldColor, Color newColor)
-    {
-        playerRenderer.material.SetColor("_PantsColour", newColor);
-    }
-
-    public void SetShoesColour(Color oldColor, Color newColor)
-    {
-        playerRenderer.material.SetColor("_ShoesColour", newColor);
-    }
-
-    public void OnNameChanged(string oldName, string newName)
+    public void OnPlayerNameChanged(string oldName, string newName)
     {
         agentNameText.text = newName;
+        agentNameTextShadow.text = newName;
     }
 
     public void UnregisterPlayer()
@@ -156,52 +171,50 @@ public class H_PlayerBrain : NetworkBehaviour
     {
         currentAlignment = alignment;
         UpdateAlignmentUI(currentAlignment);
-        Debug.Log("Set role to: " + currentAlignment.ToString());
     }
 
 
     void OnAlignmentChanged(AgentAlignment oldRole, AgentAlignment newRole)
     {
-        Debug.Log("Set changed to: " + newRole.ToString());
-
         UpdateAlignmentUI(newRole);
     }
 
     void UpdateAlignmentUI(AgentAlignment alignment)
     {
         playerUI.alignmentText.text = currentAlignment.ToString();
-        playerUI.alignmentFolderText.text = currentAlignment.ToString();
         spyIndicator.SetActive(false);
 
         if (alignment == AgentAlignment.Unassigned)
         {
             playerUI.alignmentBackground.color = alignmentColorUnassigned;
-            playerUI.roleAnimator.SetBool("hasRole", false);
 
             if (isLocalPlayer)
             {
                 HideSpyIndicators();
+                playerUI.ShowHotbar(false);
             }
         }
         else if (alignment == AgentAlignment.Agent)
         {
             playerUI.alignmentBackground.color = alignmentColorAgent;
-            playerUI.roleAnimator.SetBool("hasRole", true);
 
             if (isLocalPlayer)
             {
                 HideSpyIndicators();
+                playerUI.ShowGadgets(false);
+                playerUI.ShowHotbar(true);
             }
         }
         else if (alignment == AgentAlignment.Spy)
         {
             playerUI.alignmentBackground.color = alignmentColorSpy;
-            playerUI.roleAnimator.SetBool("hasRole", true);
             spyIndicator.SetActive(true);
 
             if (isLocalPlayer)
             {
                 ShowSpyIndicators();
+                playerUI.ShowGadgets(true);
+                playerUI.ShowHotbar(true);
             }
         }
     }
@@ -234,18 +247,27 @@ public class H_PlayerBrain : NetworkBehaviour
         Physics.SyncTransforms();
     }
 
-    public void HideLocalPlayer()
+    [Command]
+    void CmdSetPlayerCosmetics(int hatID, int suitID, int vestID)
     {
-        playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-        coatRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-        coatTrimRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+        agentData.hatIndex = hatID;
+        agentData.suitIndex = suitID;
+        agentData.vestIndex = vestID;
+        RpcUpdateCosmetics();
     }
 
-    public void ShowLocalPlayer()
+    [ClientRpc]
+    void RpcUpdateCosmetics()
     {
-        playerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        coatRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        coatTrimRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        cosmetics.SetHat(agentData.hatIndex);
+        cosmetics.ToggleSuit(agentData.suitIndex);
+        cosmetics.ToggleVest(agentData.vestIndex);
+    }
+
+    [Command]
+    void CmdSetPlayerName(string newName)
+    {
+        playerName = newName;
     }
 
     public void ShowSpyIndicators()
@@ -256,6 +278,29 @@ public class H_PlayerBrain : NetworkBehaviour
     public void HideSpyIndicators()
     {
         Camera.main.cullingMask = baseCullingMask;
+    }
+
+    void OnHudVisibilityChanged(bool oldValue, bool newValue)
+    {
+        playerUI.playerUI.alpha = isHudHidden ? 0 : 1;
+    }
+
+    [ClientRpc]
+    public void RpcPlayAgentIntro(IntroCosmeticData player)
+    {
+        if (isLocalPlayer)
+        {
+            H_CinematicManager.instance.PlayAgentIntro(player);
+        }
+    }
+
+    [ClientRpc]
+    public void RpcPlaySpyIntro(List<IntroCosmeticData> players)
+    {
+        if (isLocalPlayer)
+        {
+            H_CinematicManager.instance.PlaySpyIntro(players);
+        }
     }
 }
 

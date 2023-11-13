@@ -5,9 +5,14 @@ using UnityEngine.VFX;
 
 public class H_WeaponEffects : NetworkBehaviour
 {
+    [SyncVar(hook = nameof(OnSilencedChanged))]
+    public bool isSilenced;
+
     [Header("Audio")]
     public AudioSource source;
     public AudioClip[] shootClips;
+    public AudioClip[] shootSilencedClips;
+
     public AudioClip[] reloadClip;
     public AudioClip[] dryFireClips;
 
@@ -17,20 +22,36 @@ public class H_WeaponEffects : NetworkBehaviour
     public float slideSpeed = 1f;
     Vector3 slideRestPosition;
 
-    [Header("Muzzle Flash")]
-    public HDAdditionalLightData flashLight;
-    public VisualEffect flashEffect;
-    public float flashBrightness;
-    public float flashSpeed;
+    [Header("Muzzle Flash - Unsuppressed")]
+    public HDAdditionalLightData unsuppressedFlashLight;
+    public ParticleSystem unsuppressedFlash;
+    public float unsuppressedFlashBrightness;
+    public float unsuppressedFlashSpeed;
+    public float unsuppressedAudioDistance;
+
+    [Header("Muzzle Flash - Suppressed")]
+    public HDAdditionalLightData suppressedFlashLight;
+    public ParticleSystem suppressedFlash;
+    public float suppressedFlashBrightness;
+    public float suppressedFlashSpeed;
+    public float suppressedAudioDistance;
+
 
     [Header("Casing")]
     public ParticleSystem casing;
+
+    [Header("Silencer")]
+    public GameObject silencer;
+    public AudioSource silencerSource;
+    public AudioClip addSilencerClip, removeSilencerClip;
 
 
     void Start()
     {
         if (slide)
             slideRestPosition = slide.localPosition;
+
+        silencer.SetActive(false);
     }
 
     void Update()
@@ -40,9 +61,36 @@ public class H_WeaponEffects : NetworkBehaviour
             slide.localPosition = Vector3.Lerp(slide.localPosition, slideRestPosition, slideSpeed * Time.deltaTime);
         }
 
-        if (flashLight.intensity > 0)
+        if (unsuppressedFlashLight.intensity > 0)
         {
-            flashLight.intensity -= flashSpeed * Time.deltaTime;
+            unsuppressedFlashLight.intensity -= unsuppressedFlashSpeed * Time.deltaTime;
+        }
+
+        if (suppressedFlashLight.intensity > 0)
+        {
+            suppressedFlashLight.intensity -= suppressedFlashSpeed * Time.deltaTime;
+        }
+    }
+
+    [Command]
+    public void ToggleSilencer()
+    {
+        isSilenced = !isSilenced;
+    }
+
+    void OnSilencedChanged(bool oldSilenced, bool newSilenced)
+    {
+        silencer.SetActive(newSilenced);
+
+        if (newSilenced)
+        {
+            source.maxDistance = suppressedAudioDistance;
+            silencerSource.PlayOneShot(addSilencerClip);
+        }
+        else
+        {
+            source.maxDistance = unsuppressedAudioDistance;
+            silencerSource.PlayOneShot(removeSilencerClip);
         }
     }
 
@@ -52,18 +100,35 @@ public class H_WeaponEffects : NetworkBehaviour
             slide.localPosition = slideTargetPosition;
     }
 
-    public void TriggerFlash()
+    public void TriggerSuppressedFlash()
     {
-        flashLight.intensity = flashBrightness;
+        suppressedFlashLight.intensity = suppressedFlashBrightness;
 
-        if (flashEffect)
-            flashEffect.Play();
+        if (suppressedFlash)
+            suppressedFlash.Play();
+    }
+
+    public void TriggerUnsuppressedFlash()
+    {
+        unsuppressedFlashLight.intensity = unsuppressedFlashBrightness;
+
+        if (unsuppressedFlash)
+            unsuppressedFlash.Play();
     }
 
     public void PlayFireLocal()
     {
-        source.PlayOneShot(shootClips[Random.Range(0, shootClips.Length)]);
-        TriggerFlash();
+        if (isSilenced)
+        {
+            source.PlayOneShot(shootSilencedClips[Random.Range(0, shootSilencedClips.Length)]);
+            TriggerSuppressedFlash();
+        }
+        else
+        {
+            source.PlayOneShot(shootClips[Random.Range(0, shootClips.Length)]);
+            TriggerUnsuppressedFlash();
+        }
+
         TriggerSlide();
 
         if (casing)
@@ -79,9 +144,17 @@ public class H_WeaponEffects : NetworkBehaviour
     [ClientRpc(includeOwner = false)]
     void RpcPlayFire()
     {
+        if (isSilenced)
+        {
+            source.PlayOneShot(shootSilencedClips[Random.Range(0, shootSilencedClips.Length)]);
+            TriggerSuppressedFlash();
+        }
+        else
+        {
+            source.PlayOneShot(shootClips[Random.Range(0, shootClips.Length)]);
+            TriggerUnsuppressedFlash();
+        }
 
-        source.PlayOneShot(shootClips[Random.Range(0, shootClips.Length)]);
-        TriggerFlash();
         TriggerSlide();
 
         if (casing)

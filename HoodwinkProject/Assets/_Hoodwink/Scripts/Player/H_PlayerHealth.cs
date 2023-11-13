@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using TMPro;
+using Unity.VisualScripting;
 
 public class H_PlayerHealth : NetworkBehaviour
 {
@@ -16,7 +17,7 @@ public class H_PlayerHealth : NetworkBehaviour
 
     [Header("Components")]
     public Image healthBarImage;
-    public TextMeshProUGUI textReadout;
+    public TextMeshProUGUI textReadout, textReadoutShadow;
 
     H_PlayerEquipment equipment;
     H_PlayerController controller;
@@ -25,6 +26,12 @@ public class H_PlayerHealth : NetworkBehaviour
     H_PlayerAnimator animator;
     public H_HealthEffect healthEffects;
     H_Spectating spectating;
+
+    [Header("Hitboxes")]
+    public H_PlayerHitbox headHitbox;
+    public H_PlayerHitbox[] normalHitboxes;
+    public H_PlayerHitbox[] limbHitboxes;
+
 
     [Header("Debugging")]
     public bool enableDebugLogs;
@@ -38,8 +45,33 @@ public class H_PlayerHealth : NetworkBehaviour
 
         gameManager = FindObjectOfType<H_GameManager>();
 
+        SetupHitboxes();
+
         currentHealth = maxHealth;
         UpdateUI();
+    }
+
+    public void SetupHitboxes()
+    {
+        headHitbox.Setup(this);
+        headHitbox.hitboxType = H_PlayerHitbox.HitboxType.Head;
+
+        foreach (H_PlayerHitbox hit in normalHitboxes)
+        {
+            hit.Setup(this);
+            hit.hitboxType = H_PlayerHitbox.HitboxType.Normal;
+        }
+
+        foreach (H_PlayerHitbox hit in limbHitboxes)
+        {
+            hit.Setup(this);
+            hit.hitboxType = H_PlayerHitbox.HitboxType.Limb;
+        }
+    }
+
+    public float GetHealth()
+    {
+        return currentHealth;
     }
 
     private void OnHealthChanged(float oldHealth, float newHealth)
@@ -71,7 +103,7 @@ public class H_PlayerHealth : NetworkBehaviour
             if (newState)
             {
                 spectating.EnableSpectating();
-                brain.ShowLocalPlayer();
+                brain.cosmetics.ShowPlayer();
                 brain.equipment.SetDead(newState);
                 brain.playerUI.ShowSpectatorUI();
                 animator.playerAnimator.SetBool("isDead", true);
@@ -80,7 +112,7 @@ public class H_PlayerHealth : NetworkBehaviour
             else
             {
                 spectating.DisableSpectating();
-                brain.HideLocalPlayer();
+                brain.cosmetics.HidePlayer();
                 brain.equipment.SetDead(newState);
                 brain.playerUI.ShowGameUI();
                 animator.playerAnimator.SetBool("isDead", false);
@@ -92,6 +124,7 @@ public class H_PlayerHealth : NetworkBehaviour
     {
         healthBarImage.fillAmount = Mathf.Clamp01(currentHealth / maxHealth);
         textReadout.text = isDead || currentHealth == 0 ? "Dead" : currentHealth.ToString() + "/" + maxHealth.ToString();
+        textReadoutShadow.text = textReadout.text;
     }
 
     private void OnDeath()

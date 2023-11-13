@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mirror;
 using UnityEngine.Rendering;
+using Unity.VisualScripting;
 
 public class H_PlayerController : NetworkBehaviour
 {
@@ -8,6 +9,7 @@ public class H_PlayerController : NetworkBehaviour
     [Header("Movement Variables")]
     public float walkSpeed;
     public float runSpeed;
+    public float crouchSpeed;
     public float jumpForce;
     public float gravityForce;
 
@@ -18,10 +20,18 @@ public class H_PlayerController : NetworkBehaviour
     public float staminaRechargeSpeed;
     float staminaRechargeTimer;
 
+    [Header("Crouch Variables")]
+    public bool isCrouching;
+    public float standingHeight;
+    public float crouchingHeight;
+    public float standingCameraHeight;
+    public float crouchingCameraHeight;
+
     [Header("Camera Variables")]
     public float lookSpeed;
     public float lookXLimit;
     public GameObject playerCamera;
+    public Transform cameraBase;
 
     [Header("Components")]
     [HideInInspector] public CharacterController characterController;
@@ -30,6 +40,7 @@ public class H_PlayerController : NetworkBehaviour
 
     [HideInInspector] public Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
+    [HideInInspector] public bool isMoving = false;
     [HideInInspector] public bool isRunning = false;
     
 
@@ -60,6 +71,7 @@ public class H_PlayerController : NetworkBehaviour
             Inputs();
             Direction();
             Turning();
+            Crouching();
         }
         else
         {
@@ -76,12 +88,16 @@ public class H_PlayerController : NetworkBehaviour
 
         characterController.Move(moveDirection * Time.deltaTime);
 
+        isMoving = Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0;
+
     }
 
     void Inputs()
     {
         moveDirection.x = brain.canMove ? Input.GetAxis("Horizontal") : 0;
         moveDirection.z = brain.canMove ? Input.GetAxis("Vertical") : 0;
+
+        //isCrouching = Input.GetKey(KeyCode.LeftControl);
     }
 
     void Direction()
@@ -94,8 +110,16 @@ public class H_PlayerController : NetworkBehaviour
 
         moveDirection.Normalize();
 
-        moveDirection.x *= isRunning ? runSpeed : walkSpeed;
-        moveDirection.z *= isRunning ? runSpeed : walkSpeed;
+        if (!isCrouching)
+        {
+            moveDirection.x *= isRunning ? runSpeed : walkSpeed;
+            moveDirection.z *= isRunning ? runSpeed : walkSpeed;
+        }
+        else
+        {
+            moveDirection.x *= crouchSpeed;
+        }
+
 
         moveDirection = (forward * (moveDirection.z * brain.speedMultiplier)) + (right * (moveDirection.x * brain.speedMultiplier));
 
@@ -123,7 +147,7 @@ public class H_PlayerController : NetworkBehaviour
 
     void CalculateRunning()
     {
-        if (brain.canSprint && Input.GetAxis("Vertical") > 0)
+        if (brain.canSprint && Input.GetAxis("Vertical") > 0 && !isCrouching)
         {
             if (stamina > 0)
             {
@@ -164,5 +188,23 @@ public class H_PlayerController : NetworkBehaviour
 
         brain.playerUI.staminaBarImage.fillAmount = Mathf.Clamp01(stamina / maxStaminaTime);
 
+    }
+
+    void Crouching()
+    {
+        if (isCrouching)
+        {
+            characterController.height = crouchingHeight;
+            characterController.center = new Vector3(0, crouchingHeight / 2, 0);
+
+            cameraBase.transform.localPosition = new Vector3(0, crouchingCameraHeight, 0);
+        }
+        else
+        {
+            characterController.height = standingHeight;
+            characterController.center = new Vector3(0, standingHeight / 2, 0);
+
+            cameraBase.transform.localPosition = new Vector3(0, standingCameraHeight, 0);
+        }
     }
 }

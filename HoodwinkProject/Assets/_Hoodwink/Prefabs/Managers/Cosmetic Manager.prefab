@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6027060480398070258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6027060480398070256}
+  - component: {fileID: 6027060480398070257}
+  m_Layer: 0
+  m_Name: Cosmetic Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6027060480398070256
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6027060480398070258}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6027060480398070257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6027060480398070258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c937ed4458a124d82415342d65cbaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hats:
+  - ID: 0
+    cosmeticPrefab: {fileID: 6333528596864198121, guid: 7d63add677aafef4ab05979642407518,
+      type: 3}
+  - ID: 1
+    cosmeticPrefab: {fileID: 493893694559253896, guid: 27c407e75e77226459b1f6fade43914d,
+      type: 3}
+  - ID: 2
+    cosmeticPrefab: {fileID: 572343503783705167, guid: d4fab5086fc84de48990c1ca0ea657bb,
+      type: 3}
+  - ID: 3
+    cosmeticPrefab: {fileID: 2905762416008953347, guid: a8b312bc7f72b78428c386237d9f309c,
+      type: 3}
+  - ID: 4
+    cosmeticPrefab: {fileID: 1847942290661020222, guid: e94683a2fd996314fb7d342a17f9dfd5,
+      type: 3}
+  - ID: 5
+    cosmeticPrefab: {fileID: 6356900049733891781, guid: 412414026c1fc614f838978081e2e72f,
+      type: 3}
+  - ID: 6
+    cosmeticPrefab: {fileID: 6174624797869321996, guid: 447ef68686b6e5148b8fd5e52985a2bf,
+      type: 3}
+  - ID: 7
+    cosmeticPrefab: {fileID: 6124093901385190405, guid: 0bf264264e3a2b94b9f48246e6adf0da,
+      type: 3}
+  - ID: 8
+    cosmeticPrefab: {fileID: 8134891134903405157, guid: 9c3cb2115c7dd344e8531f374afdfb95,
+      type: 3}
+  agentColours: []
+  currentHat:
+    ID: 0
+    cosmeticPrefab: {fileID: 0}
+  currentSuitCut: 0
+  currentVestCut: 0

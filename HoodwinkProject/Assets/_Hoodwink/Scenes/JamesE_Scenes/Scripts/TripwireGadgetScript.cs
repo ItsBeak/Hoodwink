@@ -1,8 +1,5 @@
 using Mirror;
 using System.Collections;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class TripwireGadgetScript : H_GadgetBase
@@ -53,7 +50,7 @@ public class TripwireGadgetScript : H_GadgetBase
         }
     }
 
-    public override void UseGadget()
+    public override void UseGadgetPrimary()
     {
         Vector3 newPos = gameObject.transform.position;
         Instantiate(TestPrefab, newPos, Quaternion.identity);
