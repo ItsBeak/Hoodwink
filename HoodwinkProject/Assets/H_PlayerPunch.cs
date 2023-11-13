@@ -43,6 +43,8 @@ public class H_PlayerPunch : NetworkBehaviour
         {
             if (H_GameManager.instance.currentRoundStage == RoundStage.Game)
             {
+                GetComponent<H_PlayerAnimator>().jacketRenderer.material.color = equipment.brain.agentData.primaryColour;
+
                 StartCoroutine(Attack());
                 attackTimer = attackCooldown;
                 animator.CmdPlayPunchAnimation();

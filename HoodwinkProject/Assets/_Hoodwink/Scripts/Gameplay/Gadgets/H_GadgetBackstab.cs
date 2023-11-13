@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.AnimatedValues;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -25,6 +26,7 @@ public class H_GadgetBackstab : H_GadgetBase
 
     [Header("Viewmodel Settings")]
     public Animator viewmodelAnimator;
+    public SkinnedMeshRenderer jacketRenderer;
 
     void Start()
     {
@@ -42,6 +44,13 @@ public class H_GadgetBackstab : H_GadgetBase
         {
             Debug.Log(cooldownTimer);
         }
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        jacketRenderer.material.color = equipment.GetComponent<H_PlayerBrain>().agentData.primaryColour;
     }
 
     public override void UseGadgetPrimary()

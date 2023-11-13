@@ -9,6 +9,8 @@ public class H_PlayerAnimator : NetworkBehaviour
     public Animator playerAnimator;
     public Animator fistsAnimator;
 
+    public SkinnedMeshRenderer jacketRenderer;
+
     void Start()
     {
         playerController = GetComponent<H_PlayerController>();

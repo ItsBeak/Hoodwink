@@ -313,6 +313,8 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         primaryEquipPointClient.gameObject.SetActive(false);
         sidearmEquipPointClient.gameObject.SetActive(false);
+        firstGadgetAnchor.gameObject.SetActive(false);
+        secondGadgetAnchor.gameObject.SetActive(false);
     }
 
     void OnSlotPrimary()
@@ -366,12 +368,16 @@ public class H_PlayerEquipment : NetworkBehaviour
 
             if (currentSlot == EquipmentSlot.FirstGadget)
             {
+                firstGadgetAnchor.gameObject.SetActive(true);
+
                 brain.playerUI.slotFirstGadgetAnimator.SetBool("isActive", true);
                 brain.playerUI.slotSecondGadgetAnimator.SetBool("isActive", false);
             }
 
             if (currentSlot == EquipmentSlot.SecondGadget)
             {
+                secondGadgetAnchor.gameObject.SetActive(true);
+
                 brain.playerUI.slotFirstGadgetAnimator.SetBool("isActive", false);
                 brain.playerUI.slotSecondGadgetAnimator.SetBool("isActive", true);
             }
@@ -446,7 +452,6 @@ public class H_PlayerEquipment : NetworkBehaviour
         if (isLocalPlayer)
         {
             RaiseItems();
-
         }
     }
 
