@@ -58,10 +58,17 @@ public class H_PlayerPunch : NetworkBehaviour
 
     IEnumerator Attack()
     {
+        animator.fistsAnimator.SetBool("hitObject", false);
+
+        animator.fistsAnimator.SetTrigger("Punch");
         Debug.Log("Punching");
+
         yield return new WaitForSeconds(attackDelay);
+
         damageCollider.enabled = true;
+
         yield return new WaitForSeconds(attackLength);
+
         damageCollider.enabled = false;
     }
 
@@ -75,6 +82,8 @@ public class H_PlayerPunch : NetworkBehaviour
         }
 
         health.Damage(attackDamage);
+
+        animator.fistsAnimator.SetBool("hitObject", true);
 
         damageCollider.enabled = false;
     }
