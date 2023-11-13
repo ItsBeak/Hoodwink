@@ -16,6 +16,8 @@ public class H_GadgetBase : NetworkBehaviour
 
     [HideInInspector] public EquipmentSlot gadgetSlot;
 
+    public GameObject gadgetVisuals;
+
     [Header("UI Components")]
     public bool usePrompt;
     public string prompt;
@@ -27,6 +29,8 @@ public class H_GadgetBase : NetworkBehaviour
         {
             equipment = GetComponentInParent<H_PlayerEquipment>();
         }
+
+        HideGadget();
 
         isInitialized = true;
     }
@@ -118,6 +122,22 @@ public class H_GadgetBase : NetworkBehaviour
         else
         {
             promptReadout.text = "";
+        }
+    }
+
+    public void ShowGadget()
+    {
+        if (gadgetVisuals)
+        {
+            gadgetVisuals.SetActive(true);
+        }
+    }
+
+    public void HideGadget()
+    {
+        if (gadgetVisuals)
+        {
+            gadgetVisuals.SetActive(false);
         }
     }
 }

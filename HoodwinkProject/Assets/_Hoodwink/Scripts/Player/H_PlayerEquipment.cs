@@ -104,6 +104,8 @@ public class H_PlayerEquipment : NetworkBehaviour
         baseFOV = playerCamera.m_Lens.FieldOfView;
 
         StartCoroutine(ChangeSlotInput(EquipmentSlot.PrimaryItem));
+
+        RaiseItems();
     }
 
     void Update()
@@ -313,8 +315,8 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         primaryEquipPointClient.gameObject.SetActive(false);
         sidearmEquipPointClient.gameObject.SetActive(false);
-        firstGadgetAnchor.gameObject.SetActive(false);
-        secondGadgetAnchor.gameObject.SetActive(false);
+        firstGadget.HideGadget();
+        secondGadget.HideGadget();
     }
 
     void OnSlotPrimary()
@@ -368,7 +370,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
             if (currentSlot == EquipmentSlot.FirstGadget)
             {
-                firstGadgetAnchor.gameObject.SetActive(true);
+                firstGadget.ShowGadget();
 
                 brain.playerUI.slotFirstGadgetAnimator.SetBool("isActive", true);
                 brain.playerUI.slotSecondGadgetAnimator.SetBool("isActive", false);
@@ -376,7 +378,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
             if (currentSlot == EquipmentSlot.SecondGadget)
             {
-                secondGadgetAnchor.gameObject.SetActive(true);
+                secondGadget.ShowGadget();
 
                 brain.playerUI.slotFirstGadgetAnimator.SetBool("isActive", false);
                 brain.playerUI.slotSecondGadgetAnimator.SetBool("isActive", true);
