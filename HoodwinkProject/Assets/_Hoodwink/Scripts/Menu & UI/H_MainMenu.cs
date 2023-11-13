@@ -49,9 +49,9 @@ public class H_MainMenu : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space) && preLoginDirector.time < 14f)
+        if (Input.GetKeyDown(KeyCode.Space) && preLoginDirector.time < 18f)
         {
-            preLoginDirector.time = 14f;
+            preLoginDirector.time = 18f;
         }
 
         Cursor.lockState = CursorLockMode.None;

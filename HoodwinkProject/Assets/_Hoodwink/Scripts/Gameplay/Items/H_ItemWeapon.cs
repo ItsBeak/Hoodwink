@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 using Cinemachine.Utility;
 using TMPro;
 using System.Collections;
+using UnityEngine.UI;
 
 public class H_ItemWeapon : H_ItemBase
 {
@@ -51,6 +52,10 @@ public class H_ItemWeapon : H_ItemBase
     H_WeaponEffects clientEffects;
     H_WeaponEffects observerEffects;
 
+    [Header("Animations")]
+    public Animator viewmodelAnimator;
+    public Renderer jacketRenderer;
+
     [Header("Bullet Settings")]
     public int bulletsPerShot = 1;
     public LayerMask shootableLayers;
@@ -82,6 +87,12 @@ public class H_ItemWeapon : H_ItemBase
     [HideInInspector] public int ammoPool;
     bool lockTrigger = false;
 
+    [Header("Ammo UI")]
+    public TextMeshProUGUI ammoFillText;
+    public TextMeshProUGUI ammoShadowText;
+    public GameObject silencerUIParent;
+    public Image silencerIcon;
+
     [Header("Debugging")]
     public bool enableDebugLogs;
 
@@ -107,6 +118,11 @@ public class H_ItemWeapon : H_ItemBase
         bulletSpread = defaultBulletSpread;
 
         Debug.Log("Initializing sidearm");
+
+        if (jacketRenderer)
+        {
+            //jacketRenderer.material.color = equipment.brain.agentData.primaryColour;
+        }
     }
 
     public override void Update()
@@ -133,8 +149,6 @@ public class H_ItemWeapon : H_ItemBase
         {
             lockTrigger = false;
         }
-
-        equipment.SetAmmoUI(ammoLoaded, ammoPool);
 
         if (equipment.controller.isMoving)
         {
@@ -181,6 +195,14 @@ public class H_ItemWeapon : H_ItemBase
         crosshairPieceBottom.localPosition = spreadVector;
         crosshairPieceLeft.localPosition = spreadVector;
         crosshairPieceRight.localPosition = spreadVector;
+
+        silencerUIParent.SetActive(equipment.brain.currentAlignment == AgentAlignment.Spy ? true : false);
+
+        ammoFillText.text = ammoLoaded + "/" + ammoPool;
+        ammoShadowText.text = ammoLoaded + "/" + ammoPool;
+
+        if (viewmodelAnimator)
+            viewmodelAnimator.SetBool("isAiming", isAiming);
     }
 
     public override void PrimaryUse()
@@ -288,7 +310,9 @@ public class H_ItemWeapon : H_ItemBase
     IEnumerator Reload()
     {
         equipment.SetBusy(true);
-        equipment.LowerItems();
+
+        if (viewmodelAnimator)
+            viewmodelAnimator.SetTrigger("Reload");
 
         yield return new WaitForSeconds(0.25f);
 
@@ -304,7 +328,6 @@ public class H_ItemWeapon : H_ItemBase
         yield return new WaitForSeconds(reloadTime);
 
         equipment.SetBusy(false);
-        equipment.RaiseItems();
     }
 
     public void ToggleSilencer()
@@ -361,7 +384,6 @@ public class H_ItemWeapon : H_ItemBase
     IEnumerator SilencerChange()
     {
         equipment.SetBusy(true);
-        equipment.LowerItems();
 
         yield return new WaitForSeconds(0.5f);
 
@@ -370,7 +392,12 @@ public class H_ItemWeapon : H_ItemBase
         yield return new WaitForSeconds(4.5f);
 
         equipment.SetBusy(false);
-        equipment.RaiseItems();
+    }
+
+    public void ClearAmmoUI()
+    {
+        ammoFillText.text = "";
+        ammoShadowText.text = "";
     }
 
 }
