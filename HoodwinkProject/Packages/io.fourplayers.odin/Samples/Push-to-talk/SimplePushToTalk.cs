@@ -42,7 +42,7 @@ namespace OdinNative.Unity.Samples
         void Update()
         {
             if (AudioSender)
-                AudioSender.SilenceCapturedAudio = !(UsePushToTalk ? Input.GetKey(PushToTalkHotkey) : true) && !blockMicrophone;
+                AudioSender.SilenceCapturedAudio = !(UsePushToTalk ? Input.GetKey(PushToTalkHotkey) : true) || blockMicrophone;
 
             microphoneCanvasGroup.alpha = showHUD ? 1 : 0;
             microphoneIcon.color = AudioSender.SilenceCapturedAudio ? Color.grey : Color.green;
