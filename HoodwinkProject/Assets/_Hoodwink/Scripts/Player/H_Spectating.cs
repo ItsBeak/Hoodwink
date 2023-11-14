@@ -71,8 +71,10 @@ public class H_Spectating : MonoBehaviour
         spectatorCam.Follow = spectatorTargets[index].transform;
         spectatorCam.LookAt = spectatorTargets[index].transform.GetChild(0);
 
+
+
         //Debug.LogWarning(spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>());
-        playerUI.ChangeSpectator(spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>().agentData.agentName, spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>().agentData.primaryColour);
+        playerUI.ChangeSpectator(spectatorTargets[index].transform.GetComponent<H_SpectatorInfo>().spectatorName);
     }
 
     public GameObject[] FindSpectatorTargets()
