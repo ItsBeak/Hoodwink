@@ -246,25 +246,6 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     IEnumerator ChangeSlot(EquipmentSlot newSlot)
     {
-        switch (newSlot)
-        {
-            case EquipmentSlot.PrimaryItem:
-                animator.fistsAnimator.SetTrigger("Raise");
-                break;
-
-            case EquipmentSlot.Sidearm:
-                //animator.fistsAnimator.SetTrigger("Raise");
-                break;
-
-            case EquipmentSlot.FirstGadget:
-                //animator.fistsAnimator.SetTrigger("Raise");
-                break;
-
-            case EquipmentSlot.SecondGadget:
-                //animator.fistsAnimator.SetTrigger("Raise");
-                break;
-        }
-
         yield return new WaitForSeconds(0.15f);
 
         SetBusy(false);
@@ -298,14 +279,14 @@ public class H_PlayerEquipment : NetworkBehaviour
     {
         SetBusy(true);
 
-        switch (selectedSlot)
+        switch (currentSlot)
         {
             case EquipmentSlot.PrimaryItem:
                 animator.fistsAnimator.SetTrigger("Lower");
                 break;
 
             case EquipmentSlot.Sidearm:
-                //animator.fistsAnimator.SetTrigger("Lower");
+                sidearmEquipPointClient.GetComponentInChildren<Animator>().SetTrigger("Lower");
                 break;
 
             case EquipmentSlot.FirstGadget:
