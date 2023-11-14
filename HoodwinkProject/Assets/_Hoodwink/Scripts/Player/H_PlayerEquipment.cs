@@ -279,27 +279,32 @@ public class H_PlayerEquipment : NetworkBehaviour
     {
         SetBusy(true);
 
-        switch (currentSlot)
+        if (isLocalPlayer)
         {
-            case EquipmentSlot.PrimaryItem:
-                animator.fistsAnimator.SetTrigger("Lower");
-                break;
+            switch (currentSlot)
+            {
+                case EquipmentSlot.PrimaryItem:
+                    animator.fistsAnimator.SetTrigger("Lower");
+                    break;
 
-            case EquipmentSlot.Sidearm:
-                if (sidearmEquipPointClient.childCount > 0)
-                {
-                    sidearmEquipPointClient.GetComponentInChildren<Animator>().SetTrigger("Lower");
-                }
-                break;
+                case EquipmentSlot.Sidearm:
+                    if (sidearmEquipPointClient.childCount > 0)
+                    {
+                        sidearmEquipPointClient.GetComponentInChildren<Animator>().SetTrigger("Lower");
+                    }
+                    break;
 
-            case EquipmentSlot.FirstGadget:
-                //animator.fistsAnimator.SetTrigger("Lower");
-                break;
+                case EquipmentSlot.FirstGadget:
+                    //animator.fistsAnimator.SetTrigger("Lower");
+                    break;
 
-            case EquipmentSlot.SecondGadget:
-                //animator.fistsAnimator.SetTrigger("Lower");
-                break;
+                case EquipmentSlot.SecondGadget:
+                    //animator.fistsAnimator.SetTrigger("Lower");
+                    break;
+            }
         }
+
+
 
         yield return new WaitForSeconds(0.15f);
 
@@ -330,8 +335,12 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         primaryEquipPointClient.gameObject.SetActive(false);
         sidearmEquipPointClient.gameObject.SetActive(false);
-        firstGadget.HideGadget();
-        secondGadget.HideGadget();
+
+        if (firstGadget)
+            firstGadget.HideGadget();
+
+        if (secondGadget)
+            secondGadget.HideGadget();
     }
 
     void OnSlotPrimary()

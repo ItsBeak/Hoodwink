@@ -9,6 +9,7 @@ using UnityEngine.Playables;
 using System;
 using Random = UnityEngine.Random;
 using System.Threading;
+using OdinNative.Unity.Samples;
 
 public class H_GameManager : NetworkBehaviour
 {
@@ -114,6 +115,8 @@ public class H_GameManager : NetworkBehaviour
         objectManager = GetComponent<H_ObjectManager>();
         roundEndManager = GetComponent<H_RoundEndManager>();
         revealedSpiesText.text = "";
+
+        FindObjectOfType<SimplePushToTalk>().showHUD = true;
     }
 
     public override void OnStartServer()
