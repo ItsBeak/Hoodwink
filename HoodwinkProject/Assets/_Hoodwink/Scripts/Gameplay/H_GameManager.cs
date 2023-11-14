@@ -336,9 +336,9 @@ public class H_GameManager : NetworkBehaviour
 
                 if (postGameTimer <= 0)
                 {
+                    EndRound();
                     ResetRoles();
                     ResetPlayerStates();
-                    EndRound();
                     roundEndManager.RpcResetUI();
                 }
 

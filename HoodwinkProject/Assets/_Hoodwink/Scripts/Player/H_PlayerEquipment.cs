@@ -286,7 +286,10 @@ public class H_PlayerEquipment : NetworkBehaviour
                 break;
 
             case EquipmentSlot.Sidearm:
-                sidearmEquipPointClient.GetComponentInChildren<Animator>().SetTrigger("Lower");
+                if (sidearmEquipPointClient.childCount > 0)
+                {
+                    sidearmEquipPointClient.GetComponentInChildren<Animator>().SetTrigger("Lower");
+                }
                 break;
 
             case EquipmentSlot.FirstGadget:
