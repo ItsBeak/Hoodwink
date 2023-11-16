@@ -288,28 +288,28 @@ MonoBehaviour:
   isSilenced: 0
   source: {fileID: 6853137558523971594}
   shootClips:
-  - {fileID: 8300000, guid: d70d4b89bb8f6b443b9191f3f48062f7, type: 3}
-  - {fileID: 8300000, guid: 491a6f47cd8d2814f8006af6397b25f2, type: 3}
-  - {fileID: 8300000, guid: 5b7ef95aec510b54688a23b546f99a59, type: 3}
-  - {fileID: 8300000, guid: 926fe7d685decbb45b21a71723bf9b03, type: 3}
-  - {fileID: 8300000, guid: 7c5bdfcf4f9019e44b22ea7f73258b96, type: 3}
-  - {fileID: 8300000, guid: 2389baf2f92a7e940bae4fed72cd9a78, type: 3}
-  - {fileID: 8300000, guid: c9382887d1c155349ade049f68d1504b, type: 3}
-  - {fileID: 8300000, guid: e4b56798ac50b83459f4463574351e04, type: 3}
+  - {fileID: 8300000, guid: feda220229c182344baf76fb3c7d68e6, type: 3}
+  - {fileID: 8300000, guid: f8813b28619ffb84b905e5a867afcb09, type: 3}
+  - {fileID: 8300000, guid: eee5c109b75d7594abdeb0ace14063ec, type: 3}
+  - {fileID: 8300000, guid: d703b11fc3a9bd94d90420740a48b411, type: 3}
+  - {fileID: 8300000, guid: b8fe831f4afb260409a795d459b3ef80, type: 3}
+  - {fileID: 8300000, guid: 6c0985f588c452f4f857620499354bc2, type: 3}
+  - {fileID: 8300000, guid: 74bb0a95464e7474cb34975a5aea2cfd, type: 3}
+  - {fileID: 8300000, guid: 35d1f6ca5c6735f49a984768184c7e61, type: 3}
   shootSilencedClips:
-  - {fileID: 8300000, guid: 2b4bc9b9da25e3c49abebda16b5fcae3, type: 3}
-  - {fileID: 8300000, guid: 90737c37f747aa14a86b3f5c26f95227, type: 3}
-  - {fileID: 8300000, guid: e0dc0948dc2921c4ca7a70d9d0c18265, type: 3}
-  - {fileID: 8300000, guid: ec297b0742dacbf48adcb50b02b545e3, type: 3}
-  - {fileID: 8300000, guid: 04f1b8c91052a0841a9ec6a66296cad7, type: 3}
-  - {fileID: 8300000, guid: f429ecba9d7023849af2c960fec34a90, type: 3}
-  - {fileID: 8300000, guid: f525e4440c3d99f40850285e7d453219, type: 3}
+  - {fileID: 8300000, guid: 0dc6acae5a36f844a9a1798969775fec, type: 3}
+  - {fileID: 8300000, guid: dc2e2104fd6fce246a09f41eebc4b4a9, type: 3}
+  - {fileID: 8300000, guid: 976453d841a097c44b63ecb8b1cec182, type: 3}
+  - {fileID: 8300000, guid: 799ce993b70d2884a8e57576d103a4af, type: 3}
+  - {fileID: 8300000, guid: 923c82a2ba569e94e929fd71b6068d03, type: 3}
+  - {fileID: 8300000, guid: fb0fcf7351ca7ad488657039745c12e6, type: 3}
+  - {fileID: 8300000, guid: 42d61525b28123642985a56c2546561f, type: 3}
   reloadClip:
   - {fileID: 8300000, guid: 36c47cc56cb2408409278357353d281e, type: 3}
   dryFireClips:
   - {fileID: 8300000, guid: 95a5efb2160d005418c183c3420809db, type: 3}
-  slide: {fileID: 0}
-  slideTargetPosition: {x: -3, y: 0, z: 0}
+  slide: {fileID: 2997639617093924884}
+  slideTargetPosition: {x: 0.0333, y: 0, z: 0}
   slideSpeed: 10
   unsuppressedFlashLight: {fileID: 4383013776872652072}
   unsuppressedFlash: {fileID: 1888004588311593148}
@@ -541,7 +541,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4471220291225408726}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.25881952, z: -0, w: 0.96592575}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -549,7 +549,7 @@ Transform:
   - {fileID: 1699937548388723550}
   m_Father: {fileID: 46706901036280275}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -30, z: 0}
 --- !u!1 &7084842050693402010
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,6 +994,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c38cb12efc5a89d41b7245c426800c6f, type: 2}
+    - target: {fileID: -5078903600777333599, guid: 4cc0328a7d67c3f4ca522287ed4e9a5a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -1967758284531576944, guid: 4cc0328a7d67c3f4ca522287ed4e9a5a,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1009,6 +1014,12 @@ PrefabInstance:
 --- !u!4 &1699937548388723550 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4cc0328a7d67c3f4ca522287ed4e9a5a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1161327601423453365}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2997639617093924884 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -5078903600777333599, guid: 4cc0328a7d67c3f4ca522287ed4e9a5a,
     type: 3}
   m_PrefabInstance: {fileID: 1161327601423453365}
   m_PrefabAsset: {fileID: 0}
