@@ -12,6 +12,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     [Header("Primary Equipment Settings")]
     public Transform primaryEquipPointClient;
+    public Transform primaryItemPoint;
     public Transform primaryEquipPointObserver;
     [HideInInspector] public GameObject primaryClientObject;
     [HideInInspector] public GameObject primaryObserverObject;
@@ -242,6 +243,8 @@ public class H_PlayerEquipment : NetworkBehaviour
             focusedInteractable = null;
             interactionReadout.text = "";
         }
+
+        animator.fistsAnimator.SetBool("isHoldingDocument", primaryClientObject);
     }
 
     void OnEquipmentChanged(EquipmentSlot oldSlot, EquipmentSlot newSlot)
@@ -418,6 +421,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         if (focusedInteractable != null)
         {
             focusedInteractable.OnInteract(netIdentity);
+
+            if (focusedInteractable.InteractableVerb == "press")
+            {
+                animator.fistsAnimator.SetTrigger("Button");
+            }
         }
     }
 
@@ -465,7 +473,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         primaryClientObject = clientObject;
         primaryObserverObject = observerObject;
 
-        primaryClientObject.transform.parent = primaryEquipPointClient;
+        primaryClientObject.transform.parent = primaryItemPoint;
         primaryClientObject.transform.localPosition = Vector3.zero;
         primaryClientObject.transform.localRotation = Quaternion.identity;
 
