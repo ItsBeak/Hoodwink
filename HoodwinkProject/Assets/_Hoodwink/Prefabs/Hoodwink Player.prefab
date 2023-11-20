@@ -785,7 +785,7 @@ GameObject:
   - component: {fileID: 8613491259204155999}
   - component: {fileID: 3445814568575219396}
   m_Layer: 14
-  m_Name: Canvas
+  m_Name: SpyIndicatorCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1995,6 +1995,7 @@ MonoBehaviour:
   - {fileID: 7031156948841374102}
   - {fileID: 8870368382009905176}
   - {fileID: 2744870312345847587}
+  - {fileID: 833316975645391015}
 --- !u!114 &8347831448061583201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6799,6 +6800,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_First_Person_Hands_V2
       objectReference: {fileID: 0}
+    - target: {fileID: 1821888361710843601, guid: 243de639199e626459ab0ad421ef6181,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 36eac35cd6b5e12418b44a05bce78acb, type: 2}
     - target: {fileID: 5866666021909216657, guid: 243de639199e626459ab0ad421ef6181,
         type: 3}
       propertyPath: m_Controller

@@ -282,34 +282,32 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     IEnumerator ChangeSlotInput(EquipmentSlot selectedSlot)
     {
+        if (currentSlot == selectedSlot)
+            yield break;
+
         SetBusy(true);
 
-        if (isLocalPlayer)
+        switch (currentSlot)
         {
-            switch (currentSlot)
-            {
-                case EquipmentSlot.PrimaryItem:
-                    animator.fistsAnimator.SetTrigger("Lower");
-                    break;
+            case EquipmentSlot.PrimaryItem:
+                animator.fistsAnimator.SetTrigger("Lower");
+                break;
 
-                case EquipmentSlot.Sidearm:
-                    if (sidearmEquipPointClient.childCount > 0)
-                    {
-                        sidearmEquipPointClient.GetComponentInChildren<Animator>().SetTrigger("Lower");
-                    }
-                    break;
+            case EquipmentSlot.Sidearm:
+                if (sidearmEquipPointClient.childCount > 0)
+                {
+                    sidearmEquipPointClient.GetComponentInChildren<Animator>().SetTrigger("Lower");
+                }
+                break;
 
-                case EquipmentSlot.FirstGadget:
-                    //animator.fistsAnimator.SetTrigger("Lower");
-                    break;
+            case EquipmentSlot.FirstGadget:
+                //animator.fistsAnimator.SetTrigger("Lower");
+                break;
 
-                case EquipmentSlot.SecondGadget:
-                    //animator.fistsAnimator.SetTrigger("Lower");
-                    break;
-            }
+            case EquipmentSlot.SecondGadget:
+                //animator.fistsAnimator.SetTrigger("Lower");
+                break;
         }
-
-
 
         yield return new WaitForSeconds(0.15f);
 

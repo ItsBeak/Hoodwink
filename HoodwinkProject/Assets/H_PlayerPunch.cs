@@ -90,6 +90,7 @@ public class H_PlayerPunch : NetworkBehaviour
         if (stage == RoundStage.Game)
         {
             health.Damage(attackDamage);
+            equipment.SpawnHitMarker();
         }
 
         animator.fistsAnimator.SetBool("hitObject", true);
