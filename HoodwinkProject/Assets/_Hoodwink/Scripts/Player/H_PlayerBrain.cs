@@ -43,7 +43,8 @@ public class H_PlayerBrain : NetworkBehaviour
     public H_PlayerCosmetics cosmetics;
 
     [Header("Rendering")]
-    public GameObject[] hideForLocalPlayer;
+    public List<GameObject> hideForLocalPlayer;
+    public List<GameObject> hideWhenSpectating;
 
     private H_NetworkManager netManager;
 

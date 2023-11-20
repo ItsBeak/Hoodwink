@@ -30,7 +30,7 @@ public class H_PlayerUI : MonoBehaviour
     public Image staminaBarImage;
 
     [Header("Components")]
-    H_PlayerBrain brain;
+    [HideInInspector] public H_PlayerBrain brain;
     public TextMeshProUGUI spectatedAgentText;
 
     [HideInInspector] public bool isOpen;

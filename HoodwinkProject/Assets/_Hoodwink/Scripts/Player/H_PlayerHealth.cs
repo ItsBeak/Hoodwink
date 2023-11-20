@@ -104,9 +104,7 @@ public class H_PlayerHealth : NetworkBehaviour
             if (newState)
             {
                 spectating.EnableSpectating();
-                brain.cosmetics.ShowPlayer();
                 brain.equipment.SetDead(newState);
-                brain.playerUI.ShowSpectatorUI();
                 animator.playerAnimator.SetBool("isDead", true);
                 equipment.TryDropItem();
 
