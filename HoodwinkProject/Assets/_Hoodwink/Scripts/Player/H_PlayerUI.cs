@@ -33,7 +33,7 @@ public class H_PlayerUI : MonoBehaviour
     H_PlayerBrain brain;
     public TextMeshProUGUI spectatedAgentText;
 
-    bool isOpen;
+    [HideInInspector] public bool isOpen;
 
     private H_NetworkManager nm;
 

@@ -81,6 +81,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     [HideInInspector] public H_PlayerBrain brain;
     [HideInInspector] public H_PlayerAnimator animator;
     [HideInInspector] public H_PlayerController controller;
+    public H_PlayerUI playerUI;
     bool isDead;
     bool isBusy;
 
@@ -101,8 +102,6 @@ public class H_PlayerEquipment : NetworkBehaviour
         sidearmEquipPointObserver.gameObject.SetActive(false);
 
         baseFOV = playerCamera.m_Lens.FieldOfView;
-
-        StartCoroutine(ChangeSlotInput(EquipmentSlot.PrimaryItem));
     }
 
     void Update()
@@ -116,8 +115,14 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void CheckForKeypresses()
     {
-        if (isBusy)
+        if (isBusy || playerUI.isOpen)
+        { 
+            isPrimaryUseKeyPressed = false;
+            isSecondaryUseKeyPressed = false;
+            isAlternateUseKeyPressed = false;
+
             return;
+        }
 
         isPrimaryUseKeyPressed = Input.GetKey(primaryUseKey);
         isSecondaryUseKeyPressed = Input.GetKey(secondaryUseKey);

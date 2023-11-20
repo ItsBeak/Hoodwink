@@ -21,6 +21,8 @@ public class H_PlayerPunch : NetworkBehaviour
     H_PlayerEquipment equipment;
     H_PlayerHealth health;
 
+    RoundStage stage;
+
     public void Start()
     {
         animator = GetComponent<H_PlayerAnimator>();
@@ -39,9 +41,11 @@ public class H_PlayerPunch : NetworkBehaviour
         attackTimer -= Time.deltaTime;
         canAttack = attackTimer <= 0;
 
+        stage = H_GameManager.instance.currentRoundStage;
+
         if (equipment.isPrimaryUseKeyPressed && equipment.currentSlot == EquipmentSlot.PrimaryItem && !equipment.primaryClientObject && canAttack && !health.isDead)
         {
-            if (H_GameManager.instance.currentRoundStage == RoundStage.Game)
+            if (stage == RoundStage.Game || stage == RoundStage.Lobby)
             {
                 GetComponent<H_PlayerAnimator>().jacketRenderer.material.color = equipment.brain.agentData.primaryColour;
 
@@ -83,7 +87,10 @@ public class H_PlayerPunch : NetworkBehaviour
             clientEffects.PlayHitLocal();
         }
 
-        health.Damage(attackDamage);
+        if (stage == RoundStage.Game)
+        {
+            health.Damage(attackDamage);
+        }
 
         animator.fistsAnimator.SetBool("hitObject", true);
 
