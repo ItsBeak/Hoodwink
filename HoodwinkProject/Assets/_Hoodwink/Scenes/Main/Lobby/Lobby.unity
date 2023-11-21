@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.36157, g: 325.07837, b: 430.26367, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -480,6 +480,72 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 17745302}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &20160106
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 20160108}
+  - component: {fileID: 20160107}
+  m_Layer: 0
+  m_Name: Light Probe Group
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!220 &20160107
+LightProbeGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20160106}
+  m_Enabled: 1
+  m_SourcePositions:
+  - {x: 1.6051197, y: 0.3470993, z: -0.36976755}
+  - {x: 6.8386335, y: 0.3470993, z: -6.3015532}
+  - {x: 3.478479, y: 0.3470993, z: -5.70242}
+  - {x: -1.315628, y: 0.3470993, z: -6.295241}
+  - {x: -3.728302, y: 0.3470993, z: -2.1273594}
+  - {x: -1.1225402, y: 0.3470993, z: -1.9650993}
+  - {x: 4.7719345, y: 0.3470993, z: -2.0510287}
+  - {x: 6.648073, y: 0.3470993, z: 1.3838102}
+  - {x: 6.8873262, y: 0.3470993, z: 4.3800764}
+  - {x: 1.9755666, y: 0.3470993, z: 4.3802648}
+  - {x: -3.4676466, y: 0.3470993, z: 4.5463815}
+  - {x: -2.3576047, y: 0.3470993, z: 1.9172238}
+  - {x: 1.6051197, y: -0.82684326, z: -0.36976755}
+  - {x: 6.8386335, y: -0.82684326, z: -6.3015532}
+  - {x: 3.478479, y: -0.82684326, z: -5.70242}
+  - {x: -1.315628, y: -0.82684326, z: -6.295241}
+  - {x: -3.728302, y: -0.82684326, z: -2.1273594}
+  - {x: -1.1225402, y: -0.82684326, z: -1.9650993}
+  - {x: 4.7719345, y: -0.82684326, z: -2.0510287}
+  - {x: 6.648073, y: -0.82684326, z: 1.3838102}
+  - {x: 6.8873262, y: -0.82684326, z: 4.3800764}
+  - {x: 1.9755666, y: -0.82684326, z: 4.3802648}
+  - {x: -3.4676466, y: -0.82684326, z: 4.5463815}
+  - {x: -2.3576047, y: -0.82684326, z: 1.9172238}
+  m_Dering: 1
+--- !u!4 &20160108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20160106}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -18.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &21859676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31046,8 +31112,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1229418083}
+  m_Children: []
   m_Father: {fileID: 1535540405}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -31462,203 +31527,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1222191949}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1229418082
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1229418083}
-  - component: {fileID: 1229418084}
-  m_Layer: 0
-  m_Name: Light Probe Group
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
---- !u!4 &1229418083
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1229418082}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1214366863}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!220 &1229418084
-LightProbeGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1229418082}
-  m_Enabled: 1
-  m_SourcePositions:
-  - {x: -1.5, y: 3.5, z: 0.5}
-  - {x: 3.75, y: 3.5, z: 3.5}
-  - {x: -1.5, y: 0.25, z: 0.5}
-  - {x: 3.75, y: 0.25, z: 3.5}
-  - {x: -5.75, y: 3.5, z: 5.75}
-  - {x: -5.75, y: 3.5, z: 2.25}
-  - {x: -5.75, y: 0.25, z: 5.75}
-  - {x: -5.75, y: 0.25, z: 2.25}
-  - {x: -1.5, y: 2.25, z: 0.5}
-  - {x: 3.75, y: 2.25, z: 3.5}
-  - {x: -5.75, y: 2.25, z: 5.75}
-  - {x: -5.75, y: 2.25, z: 2.25}
-  - {x: 0.25, y: 3.5, z: 3.75}
-  - {x: 0.25, y: 0.25, z: 3.75}
-  - {x: 0.25, y: 2.25, z: 3.75}
-  - {x: -5.75, y: 3.5, z: -5.25}
-  - {x: -5.75, y: 0.25, z: -5.25}
-  - {x: -5.75, y: 2.25, z: -5.25}
-  - {x: -5.75, y: 3.5, z: -2}
-  - {x: -5.75, y: 0.25, z: -2}
-  - {x: -5.75, y: 2.25, z: -2}
-  - {x: -5.75, y: 3.5, z: -8.75}
-  - {x: -4.5, y: 0.25, z: -7.25}
-  - {x: -5.75, y: 2.25, z: -8.75}
-  - {x: -1.5, y: 3.5, z: -8.75}
-  - {x: -3, y: 0.25, z: -7}
-  - {x: -1.5, y: 2.25, z: -8.75}
-  - {x: 3.5, y: 3.5, z: -8.75}
-  - {x: 3.5, y: 0.25, z: -8.75}
-  - {x: 3.5, y: 2.25, z: -8.75}
-  - {x: 7.5, y: 3.5, z: -8.75}
-  - {x: 7.5, y: 0.25, z: -8.75}
-  - {x: 7.5, y: 2.25, z: -8.75}
-  - {x: 8.5, y: 3.5, z: -5.5}
-  - {x: 8.5, y: 0.25, z: -5.5}
-  - {x: 8.5, y: 2.25, z: -5.5}
-  - {x: 8.5, y: 3.5, z: 0.25}
-  - {x: 8.5, y: 0.25, z: 0.25}
-  - {x: 8.5, y: 2.25, z: 0.25}
-  - {x: 8.5, y: 3.5, z: 3}
-  - {x: 8.5, y: 0.25, z: 3}
-  - {x: 8.5, y: 2.25, z: 3}
-  - {x: 8.5, y: 3.5, z: 4.75}
-  - {x: 8.5, y: 0.25, z: 4.75}
-  - {x: 8.5, y: 2.25, z: 4.75}
-  - {x: 6, y: 3.5, z: 5.5}
-  - {x: 6, y: 0.25, z: 5.5}
-  - {x: 6, y: 2.25, z: 5.5}
-  - {x: 2.75, y: 3.5, z: 5.5}
-  - {x: 2.75, y: 0.25, z: 5.5}
-  - {x: 2.75, y: 2.25, z: 5.5}
-  - {x: 2.75, y: 3.5, z: 6.75}
-  - {x: 2.75, y: 0.25, z: 6.75}
-  - {x: 2.75, y: 2.25, z: 6.75}
-  - {x: -2.5, y: 3.5, z: 6.5}
-  - {x: -2.5, y: 0.25, z: 6.5}
-  - {x: -2.5, y: 2.25, z: 6.5}
-  - {x: -2.25, y: 3.5, z: 5.5}
-  - {x: -2.25, y: 0.25, z: 5.5}
-  - {x: -2.25, y: 2.25, z: 5.5}
-  - {x: -3.75, y: 3.5, z: -4.75}
-  - {x: -3.75, y: 0.25, z: -4.75}
-  - {x: -3.75, y: 2.25, z: -4.75}
-  - {x: -0.75, y: 3.5, z: -3.25}
-  - {x: -0.75, y: 0.25, z: -3.25}
-  - {x: -0.75, y: 2.25, z: -3.25}
-  - {x: 5.25, y: 3.5, z: -3.25}
-  - {x: 5.25, y: 0.25, z: -3.25}
-  - {x: 5.25, y: 2.25, z: -3.25}
-  - {x: 4.25, y: 3.5, z: 0.25}
-  - {x: 4.25, y: 0.25, z: 0.25}
-  - {x: 4.25, y: 2.25, z: 0.25}
-  - {x: -1.5, y: 0.25, z: -8.5}
-  - {x: -0.5, y: 0.25, z: -7}
-  - {x: 8.5, y: 3.5, z: -3.5}
-  - {x: 8.5, y: 0.25, z: -3.5}
-  - {x: 8.5, y: 2.25, z: -3.5}
-  - {x: 15.5, y: 3.5, z: -5.75}
-  - {x: 15.5, y: 0.25, z: -5.75}
-  - {x: 15.5, y: 2.25, z: -5.75}
-  - {x: 18.25, y: 3.5, z: -8.75}
-  - {x: 18.25, y: 0.25, z: -8.75}
-  - {x: 18.25, y: 2.25, z: -8.75}
-  - {x: 9.5, y: 3.5, z: -5.75}
-  - {x: 9.5, y: 0.25, z: -5.75}
-  - {x: 9.5, y: 2.25, z: -5.75}
-  - {x: 9.5, y: 3.5, z: -3.25}
-  - {x: 9.5, y: 0.25, z: -3.25}
-  - {x: 9.5, y: 2.25, z: -3.25}
-  - {x: 12, y: 3.5, z: -4.5}
-  - {x: 12, y: 0.25, z: -4.5}
-  - {x: 12, y: 2.25, z: -4.5}
-  - {x: 14.75, y: 3.5, z: -3.25}
-  - {x: 14.75, y: 0.25, z: -3.25}
-  - {x: 14.75, y: 2.25, z: -3.25}
-  - {x: 15.5, y: 3.5, z: -3.25}
-  - {x: 15.5, y: 0.25, z: -3.25}
-  - {x: 15.5, y: 2.25, z: -3.25}
-  - {x: 15.5, y: 3.5, z: 1.5}
-  - {x: 15.5, y: 0.25, z: 1.5}
-  - {x: 15.5, y: 2.25, z: 1.5}
-  - {x: 19.25, y: 3.5, z: 1.5}
-  - {x: 19.25, y: 0.25, z: 1.5}
-  - {x: 19.25, y: 2.25, z: 1.5}
-  - {x: 20.25, y: 3.5, z: 2.25}
-  - {x: 20.25, y: 0.25, z: 2.25}
-  - {x: 20.25, y: 2.25, z: 2.25}
-  - {x: 26.5, y: 3.5, z: 2.25}
-  - {x: 26.5, y: 0.25, z: 2.25}
-  - {x: 26.5, y: 2.25, z: 2.25}
-  - {x: 26.5, y: 3.5, z: -4.75}
-  - {x: 26.5, y: 0.25, z: -4.75}
-  - {x: 26.5, y: 2.25, z: -4.75}
-  - {x: 26.5, y: 3.5, z: -11.5}
-  - {x: 26.5, y: 0.25, z: -11.5}
-  - {x: 26.5, y: 2.25, z: -11.5}
-  - {x: 24.25, y: 3.5, z: -8.75}
-  - {x: 24.25, y: 0.25, z: -8.75}
-  - {x: 24.25, y: 2.25, z: -8.75}
-  - {x: 24.5, y: 3.5, z: -0.5}
-  - {x: 24.5, y: 0.25, z: -0.5}
-  - {x: 24.5, y: 2.25, z: -0.5}
-  - {x: 21.25, y: 3.5, z: -3.25}
-  - {x: 21.25, y: 0.25, z: -3.25}
-  - {x: 21.25, y: 2.25, z: -3.25}
-  - {x: 18.5, y: 3.5, z: 0.25}
-  - {x: 18.5, y: 0.25, z: 0.25}
-  - {x: 18.5, y: 2.25, z: 0.25}
-  - {x: 22.75, y: 3.5, z: -5.5}
-  - {x: 22.75, y: 0.25, z: -5.5}
-  - {x: 22.75, y: 2.25, z: -5.5}
-  - {x: 17, y: 3.5, z: -1}
-  - {x: 17, y: 0.25, z: -1}
-  - {x: 17, y: 2.25, z: -1}
-  - {x: 18.75, y: 3.5, z: -4.75}
-  - {x: 18.75, y: 0.25, z: -4.75}
-  - {x: 18.75, y: 2.25, z: -4.75}
-  - {x: 16.25, y: 3.5, z: -8.5}
-  - {x: 16.25, y: 0.25, z: -8.5}
-  - {x: 16.25, y: 2.25, z: -8.5}
-  - {x: 15.5, y: 3.5, z: -11.5}
-  - {x: 15.5, y: 0.25, z: -11.5}
-  - {x: 15.5, y: 2.25, z: -11.5}
-  - {x: 18.25, y: 3.5, z: -11.25}
-  - {x: 18.25, y: 0.25, z: -11.25}
-  - {x: 18.25, y: 2.25, z: -11.25}
-  - {x: 22.5, y: 3.5, z: -11.25}
-  - {x: 22.5, y: 0.25, z: -11.25}
-  - {x: 22.5, y: 2.25, z: -11.25}
-  - {x: 20, y: 3.5, z: -7.25}
-  - {x: 20, y: 0.25, z: -7.25}
-  - {x: 20, y: 2.25, z: -7.25}
-  - {x: 14.75, y: 3.5, z: -5.75}
-  - {x: 14.75, y: 0.25, z: -5.75}
-  - {x: 14.75, y: 2.25, z: -5.75}
-  m_Dering: 1
 --- !u!1001 &1235054977
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45011,7 +44879,7 @@ PrefabInstance:
     - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
         type: 3}
       propertyPath: overrideMinimumPlayerCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1024749540059299432, guid: d263ad6869d275c4e8af69791e04921c,
         type: 3}
