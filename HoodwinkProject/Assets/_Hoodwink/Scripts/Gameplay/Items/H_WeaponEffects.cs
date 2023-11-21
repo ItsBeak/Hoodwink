@@ -42,6 +42,7 @@ public class H_WeaponEffects : NetworkBehaviour
 
     [Header("Silencer")]
     public GameObject silencer;
+    public GameObject animationSilencer;
     public AudioSource silencerSource;
     public AudioClip addSilencerClip, removeSilencerClip;
 
@@ -52,6 +53,7 @@ public class H_WeaponEffects : NetworkBehaviour
             slideRestPosition = slide.localPosition;
 
         silencer.SetActive(false);
+        ToggleDecorativeSilencer(false);
     }
 
     void Update()
@@ -76,6 +78,14 @@ public class H_WeaponEffects : NetworkBehaviour
     public void ToggleSilencer()
     {
         isSilenced = !isSilenced;
+    }
+
+    public void ToggleDecorativeSilencer(bool state)
+    {
+        if (animationSilencer)
+        {
+            animationSilencer.SetActive(state);
+        }
     }
 
     void OnSilencedChanged(bool oldSilenced, bool newSilenced)
