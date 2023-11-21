@@ -539,13 +539,21 @@ public class H_GameManager : NetworkBehaviour
             player.equipment.RpcTryDropItem();
             player.equipment.RpcSetBusy(false);
         }
+            
+        List<Transform> spawns = new List<Transform>();
+
+        foreach (Transform point in lobbySpawns)
+        {
+            spawns.Add(point);
+        }
 
         foreach (var player in roundPlayers)
         {
+            int randomSpawn = Random.Range(0, spawns.Count);
 
-            int randomSpawn = Random.Range(0, lobbySpawns.Length);
+            player.TeleportPlayer(spawns[randomSpawn].position, spawns[randomSpawn].rotation);
 
-            player.TeleportPlayer(lobbySpawns[randomSpawn].position, lobbySpawns[randomSpawn].rotation);
+            spawns.Remove(spawns[randomSpawn]);
 
             ResetPlayerColours(player);
 
@@ -618,15 +626,24 @@ public class H_GameManager : NetworkBehaviour
 
         currentLevel = FindObjectOfType<H_LevelData>();
 
-        Transform[] spawns = currentLevel.playerSpawnPoints;
+        Transform[] levelSpawns = currentLevel.playerSpawnPoints;
+
+        List<Transform> spawns = new List<Transform>();
+
+        foreach (Transform point in levelSpawns)
+        {
+            spawns.Add(point);
+        }
 
         foreach (var player in roundPlayers)
         {
             player.equipment.RpcTryDropItem();
 
-            int randomSpawn = Random.Range(0, spawns.Length);
+            int randomSpawn = Random.Range(0, spawns.Count);
 
             player.TeleportPlayer(spawns[randomSpawn].position, spawns[randomSpawn].rotation);
+
+            spawns.Remove(spawns[randomSpawn]);
 
             player.equipment.currentSlot = EquipmentSlot.PrimaryItem;
             player.equipment.RpcSetPrimary();
