@@ -30,10 +30,10 @@ public class H_PlayerUI : MonoBehaviour
     public Image staminaBarImage;
 
     [Header("Components")]
-    H_PlayerBrain brain;
+    [HideInInspector] public H_PlayerBrain brain;
     public TextMeshProUGUI spectatedAgentText;
 
-    bool isOpen;
+    [HideInInspector] public bool isOpen;
 
     private H_NetworkManager nm;
 
@@ -143,10 +143,9 @@ public class H_PlayerUI : MonoBehaviour
         playerUI.blocksRaycasts = true;
     }
 
-    public void ChangeSpectator(string agentName, Color agentColour)
+    public void ChangeSpectator(string spectatorName)
     {
-        spectatedAgentText.color = agentColour;
-        spectatedAgentText.text = agentName;
+        spectatedAgentText.text = spectatorName;
     }
 
     public void ShowHotbar(bool state)

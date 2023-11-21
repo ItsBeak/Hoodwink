@@ -12,6 +12,7 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     [Header("Primary Equipment Settings")]
     public Transform primaryEquipPointClient;
+    public Transform primaryItemPoint;
     public Transform primaryEquipPointObserver;
     [HideInInspector] public GameObject primaryClientObject;
     [HideInInspector] public GameObject primaryObserverObject;
@@ -81,6 +82,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     [HideInInspector] public H_PlayerBrain brain;
     [HideInInspector] public H_PlayerAnimator animator;
     [HideInInspector] public H_PlayerController controller;
+    public H_PlayerUI playerUI;
     bool isDead;
     bool isBusy;
 
@@ -101,8 +103,6 @@ public class H_PlayerEquipment : NetworkBehaviour
         sidearmEquipPointObserver.gameObject.SetActive(false);
 
         baseFOV = playerCamera.m_Lens.FieldOfView;
-
-        StartCoroutine(ChangeSlotInput(EquipmentSlot.PrimaryItem));
     }
 
     void Update()
@@ -116,8 +116,14 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     void CheckForKeypresses()
     {
-        if (isBusy)
+        if (isBusy || playerUI.isOpen)
+        { 
+            isPrimaryUseKeyPressed = false;
+            isSecondaryUseKeyPressed = false;
+            isAlternateUseKeyPressed = false;
+
             return;
+        }
 
         isPrimaryUseKeyPressed = Input.GetKey(primaryUseKey);
         isSecondaryUseKeyPressed = Input.GetKey(secondaryUseKey);
@@ -237,6 +243,8 @@ public class H_PlayerEquipment : NetworkBehaviour
             focusedInteractable = null;
             interactionReadout.text = "";
         }
+
+        animator.fistsAnimator.SetBool("isHoldingDocument", primaryClientObject);
     }
 
     void OnEquipmentChanged(EquipmentSlot oldSlot, EquipmentSlot newSlot)
@@ -246,25 +254,6 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     IEnumerator ChangeSlot(EquipmentSlot newSlot)
     {
-        switch (newSlot)
-        {
-            case EquipmentSlot.PrimaryItem:
-                animator.fistsAnimator.SetTrigger("Raise");
-                break;
-
-            case EquipmentSlot.Sidearm:
-                //animator.fistsAnimator.SetTrigger("Raise");
-                break;
-
-            case EquipmentSlot.FirstGadget:
-                //animator.fistsAnimator.SetTrigger("Raise");
-                break;
-
-            case EquipmentSlot.SecondGadget:
-                //animator.fistsAnimator.SetTrigger("Raise");
-                break;
-        }
-
         yield return new WaitForSeconds(0.15f);
 
         SetBusy(false);
@@ -296,16 +285,22 @@ public class H_PlayerEquipment : NetworkBehaviour
 
     IEnumerator ChangeSlotInput(EquipmentSlot selectedSlot)
     {
+        if (currentSlot == selectedSlot)
+            yield break;
+
         SetBusy(true);
 
-        switch (selectedSlot)
+        switch (currentSlot)
         {
             case EquipmentSlot.PrimaryItem:
                 animator.fistsAnimator.SetTrigger("Lower");
                 break;
 
             case EquipmentSlot.Sidearm:
-                //animator.fistsAnimator.SetTrigger("Lower");
+                if (sidearmEquipPointClient.childCount > 0)
+                {
+                    sidearmEquipPointClient.GetComponentInChildren<Animator>().SetTrigger("Lower");
+                }
                 break;
 
             case EquipmentSlot.FirstGadget:
@@ -346,8 +341,12 @@ public class H_PlayerEquipment : NetworkBehaviour
 
         primaryEquipPointClient.gameObject.SetActive(false);
         sidearmEquipPointClient.gameObject.SetActive(false);
-        firstGadget.HideGadget();
-        secondGadget.HideGadget();
+
+        if (firstGadget)
+            firstGadget.HideGadget();
+
+        if (secondGadget)
+            secondGadget.HideGadget();
     }
 
     void OnSlotPrimary()
@@ -422,6 +421,11 @@ public class H_PlayerEquipment : NetworkBehaviour
         if (focusedInteractable != null)
         {
             focusedInteractable.OnInteract(netIdentity);
+
+            if (focusedInteractable.InteractableVerb == "press")
+            {
+                animator.fistsAnimator.SetTrigger("Button");
+            }
         }
     }
 
@@ -469,7 +473,7 @@ public class H_PlayerEquipment : NetworkBehaviour
         primaryClientObject = clientObject;
         primaryObserverObject = observerObject;
 
-        primaryClientObject.transform.parent = primaryEquipPointClient;
+        primaryClientObject.transform.parent = primaryItemPoint;
         primaryClientObject.transform.localPosition = Vector3.zero;
         primaryClientObject.transform.localRotation = Quaternion.identity;
 

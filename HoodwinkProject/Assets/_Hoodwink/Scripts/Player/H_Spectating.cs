@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 using JetBrains.Annotations;
+using System.Collections;
 
 public class H_Spectating : MonoBehaviour
 {
@@ -8,7 +9,11 @@ public class H_Spectating : MonoBehaviour
 
     public GameObject[] spectatorTargets;
 
+    public GameObject transitionCam;
+
     public H_PlayerUI playerUI;
+
+    public AudioSource camChange;
 
     bool isSpectating;
     int targetIndex;
@@ -50,6 +55,31 @@ public class H_Spectating : MonoBehaviour
 
     public void EnableSpectating()
     {
+        StartCoroutine(SpectatingTransition());
+    }
+
+    IEnumerator SpectatingTransition()
+    {
+        transitionCam.SetActive(true);
+
+        foreach (var ob in playerUI.brain.hideWhenSpectating)
+        {
+            ob.layer = LayerMask.NameToLayer("Hidden");
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        H_TransitionManager.instance.FadeIn(0.5f);
+
+        yield return new WaitForSeconds(2.25f);
+
+        H_TransitionManager.instance.FadeOut(1f);
+
+        playerUI.brain.cosmetics.ShowPlayer();
+        playerUI.brain.playerUI.ShowSpectatorUI();
+
+        transitionCam.SetActive(false);
+
         isSpectating = true;
 
         spectatorCam.gameObject.SetActive(true);
@@ -62,6 +92,18 @@ public class H_Spectating : MonoBehaviour
         isSpectating = false;
 
         spectatorCam.gameObject.SetActive(false);
+
+        foreach (var ob in playerUI.brain.hideWhenSpectating)
+        {
+            if (playerUI.brain.hideForLocalPlayer.Contains(ob))
+            {
+                ob.layer = LayerMask.NameToLayer("LocalPlayer");
+            }
+            else
+            {
+                ob.layer = LayerMask.NameToLayer("Default");
+            }
+        }
     }
 
     public void SetSpectatingTarget(int index)
@@ -71,8 +113,10 @@ public class H_Spectating : MonoBehaviour
         spectatorCam.Follow = spectatorTargets[index].transform;
         spectatorCam.LookAt = spectatorTargets[index].transform.GetChild(0);
 
+        camChange.Play();
+
         //Debug.LogWarning(spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>());
-        playerUI.ChangeSpectator(spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>().agentData.agentName, spectatorTargets[index].transform.GetComponentInParent<H_PlayerBrain>().agentData.primaryColour);
+        playerUI.ChangeSpectator(spectatorTargets[index].transform.GetComponent<H_SpectatorInfo>().spectatorName);
     }
 
     public GameObject[] FindSpectatorTargets()

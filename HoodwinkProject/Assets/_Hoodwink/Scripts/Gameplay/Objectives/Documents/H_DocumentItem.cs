@@ -28,33 +28,33 @@ public class H_DocumentItem : H_ItemBase
         ownerIsSpy = brain.currentAlignment == AgentAlignment.Spy;
     }
 
-    public override void PrimaryUse()
-    {
-        if (focusedFax)
-        {
-            if (!focusedFax.containsDocument && focusedFax.documentsSent < 4 && !focusedFax.isOnCooldown)
-            {
-                focusedFax.CmdAddDocument();
-                CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);
-                equipment.ClearCurrentObject();
-            }
-        }
-        else if (focusedShredder)
-        {
-            if (!focusedShredder.containsDocument)
-            {
-                focusedShredder.CmdAddDocument();
-                CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);
-                equipment.ClearCurrentObject();
-            }
-        }
-    }
-
     public override void Update()
     {
         if (!isOwned || !equipment) return;
 
         base.Update();
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (focusedFax)
+            {
+                if (!focusedFax.containsDocument && focusedFax.documentsSent < 4 && !focusedFax.isOnCooldown)
+                {
+                    focusedFax.CmdAddDocument();
+                    CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);
+                    equipment.ClearCurrentObject();
+                }
+            }
+            else if (focusedShredder)
+            {
+                if (!focusedShredder.containsDocument)
+                {
+                    focusedShredder.CmdAddDocument();
+                    CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);
+                    equipment.ClearCurrentObject();
+                }
+            }
+        }
 
         UpdateUI();
     }
@@ -108,7 +108,7 @@ public class H_DocumentItem : H_ItemBase
                 }
                 else
                 {
-                    focusReadout.text = "Press " + equipment.primaryUseKey + " to shred documents";
+                    focusReadout.text = "Press F to shred documents";
                 }
             }
         }
@@ -125,7 +125,7 @@ public class H_DocumentItem : H_ItemBase
             }
             else
             {
-                focusReadout.text = "Press " + equipment.primaryUseKey + " to insert documents";
+                focusReadout.text = "Press F to insert documents";
             }
             
         }
