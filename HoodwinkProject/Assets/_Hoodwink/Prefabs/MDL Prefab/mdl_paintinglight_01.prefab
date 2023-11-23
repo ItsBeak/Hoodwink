@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4430583206339496358}
   m_Layer: 0
-  m_Name: MDL_paintinglight_01
+  m_Name: mdl_paintinglight_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4430583206339496358
 Transform:
@@ -104,10 +104,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0a54569be217be74887ebfdd4b92a74e, type: 2}
+    - target: {fileID: -479439923343876275, guid: 15e11ab2a6cd97f408f07fbf340aa8b2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 15e11ab2a6cd97f408f07fbf340aa8b2,
         type: 3}
       propertyPath: m_Name
       value: mdl_paintinglight_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 15e11ab2a6cd97f408f07fbf340aa8b2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535739813092056162, guid: 15e11ab2a6cd97f408f07fbf340aa8b2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15e11ab2a6cd97f408f07fbf340aa8b2, type: 3}
