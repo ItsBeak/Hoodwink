@@ -140,12 +140,12 @@ public class H_CinematicManager : NetworkBehaviour
         spyPlayerName.text = players[0].playerName;
         spyPlayerAgentName.text = "Agent " + H_GameManager.ColorWord(players[0].agentData.agentName, players[0].agentData.primaryColour);
 
+        firstSpyTeammateDisplay.gameObject.SetActive(false);
+        secondSpyTeammateDisplay.gameObject.SetActive(false);
+
         if (players.Count == 1)
         {
             spyPlayerRole.text = "You are the " + H_GameManager.ColorWord("Spy", Color.red);
-
-            firstSpyTeammateDisplay.gameObject.SetActive(false);
-            secondSpyTeammateDisplay.gameObject.SetActive(false);
 
             firstSpyPlayerName.text = "";
             firstSpyPlayerAgentName.text = "";

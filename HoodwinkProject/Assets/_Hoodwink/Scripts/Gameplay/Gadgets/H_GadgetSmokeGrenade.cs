@@ -61,6 +61,7 @@ public class H_GadgetSmokeGrenade : H_GadgetBase
         CmdUseGadgetPrimary();
     }
 
+    [Command(requiresAuthority = false)]
     public override void CmdUseGadgetPrimary()
     {
         base.CmdUseGadgetPrimary();
