@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2031894002316529561}
+  - component: {fileID: 1613578351621189317}
   m_Layer: 0
   m_Name: MDL_Boiler
   m_TagString: Untagged
@@ -32,6 +33,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1613578351621189317
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905004237441686704}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &6760045048581986050
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,6 +109,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8479356459655950041, guid: d813a33d7b3b6fa49b99f3b489fa33b6,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8451413534653183515, guid: d813a33d7b3b6fa49b99f3b489fa33b6,
+        type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8451413534653183515, guid: d813a33d7b3b6fa49b99f3b489fa33b6,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -106,9 +131,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6042831493025186185, guid: d813a33d7b3b6fa49b99f3b489fa33b6,
         type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042831493025186185, guid: d813a33d7b3b6fa49b99f3b489fa33b6,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d2b5f767149486141931960c981c9e56, type: 2}
+    - target: {fileID: 7157458017410093679, guid: d813a33d7b3b6fa49b99f3b489fa33b6,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d813a33d7b3b6fa49b99f3b489fa33b6, type: 3}
 --- !u!4 &6510578173550489833 stripped

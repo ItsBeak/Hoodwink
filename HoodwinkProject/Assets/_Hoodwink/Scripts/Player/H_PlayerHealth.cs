@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Mirror;
 using TMPro;
 using Unity.VisualScripting;
+using OdinNative.Unity.Samples;
 
 public class H_PlayerHealth : NetworkBehaviour
 {
@@ -103,11 +104,12 @@ public class H_PlayerHealth : NetworkBehaviour
             if (newState)
             {
                 spectating.EnableSpectating();
-                brain.cosmetics.ShowPlayer();
                 brain.equipment.SetDead(newState);
-                brain.playerUI.ShowSpectatorUI();
                 animator.playerAnimator.SetBool("isDead", true);
                 equipment.TryDropItem();
+
+                FindObjectOfType<SimplePushToTalk>().showHUD = false;
+                FindObjectOfType<SimplePushToTalk>().blockMicrophone = true;
             }
             else
             {
@@ -116,6 +118,9 @@ public class H_PlayerHealth : NetworkBehaviour
                 brain.equipment.SetDead(newState);
                 brain.playerUI.ShowGameUI();
                 animator.playerAnimator.SetBool("isDead", false);
+
+                FindObjectOfType<SimplePushToTalk>().showHUD = true;
+                FindObjectOfType<SimplePushToTalk>().blockMicrophone = false;
             }
         }
     }

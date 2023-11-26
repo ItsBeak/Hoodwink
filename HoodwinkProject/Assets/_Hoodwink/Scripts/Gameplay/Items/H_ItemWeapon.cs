@@ -129,7 +129,17 @@ public class H_ItemWeapon : H_ItemBase
     {
         base.Update();
 
-        if (!isOwned || !equipment || equipment.CheckBusy())
+        if (!isOwned || !equipment)
+            return;
+
+        if (!waitForSecondaryKeyReleased)
+        {
+            transform.localPosition = Vector3.Lerp(transform.localPosition, restPosition, aimSpeed * Time.deltaTime);
+            equipment.playerCamera.m_Lens.FieldOfView = Mathf.Lerp(equipment.playerCamera.m_Lens.FieldOfView, equipment.baseFOV, aimSpeed * Time.deltaTime);
+            isAiming = false;
+        }
+
+        if (equipment.CheckBusy())
             return;
 
         if (waitForSecondaryKeyReleased)
@@ -137,12 +147,6 @@ public class H_ItemWeapon : H_ItemBase
             transform.localPosition = Vector3.Lerp(transform.localPosition, aimPosition, aimSpeed * Time.deltaTime);
             equipment.playerCamera.m_Lens.FieldOfView = Mathf.Lerp(equipment.playerCamera.m_Lens.FieldOfView, aimedFOV, aimSpeed * Time.deltaTime);
             isAiming = true;
-        }
-        else
-        {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, restPosition, aimSpeed * Time.deltaTime);
-            equipment.playerCamera.m_Lens.FieldOfView = Mathf.Lerp(equipment.playerCamera.m_Lens.FieldOfView, equipment.baseFOV, aimSpeed * Time.deltaTime);
-            isAiming = false;
         }
 
         if (!equipment.isPrimaryUseKeyPressed)
@@ -385,13 +389,38 @@ public class H_ItemWeapon : H_ItemBase
     {
         equipment.SetBusy(true);
 
-        yield return new WaitForSeconds(0.5f);
+        if (!clientEffects.isSilenced)
+        {
+            clientEffects.ToggleDecorativeSilencer(true);
 
-        ToggleSilencer();
+            viewmodelAnimator.SetTrigger("SilencerAdd");
 
-        yield return new WaitForSeconds(4.5f);
+            yield return new WaitForSeconds(1.5f);
 
-        equipment.SetBusy(false);
+            ToggleSilencer();
+
+            yield return new WaitForSeconds(4f);
+
+            equipment.SetBusy(false);
+
+            clientEffects.ToggleDecorativeSilencer(false);
+        }
+        else
+        {
+            clientEffects.ToggleDecorativeSilencer(true);
+
+            viewmodelAnimator.SetTrigger("SilencerRemove");
+
+            yield return new WaitForSeconds(0.5f);
+
+            ToggleSilencer();
+
+            yield return new WaitForSeconds(3f);
+
+            equipment.SetBusy(false);
+
+            clientEffects.ToggleDecorativeSilencer(false);
+        }
     }
 
     public void ClearAmmoUI()

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using OdinNative.Unity.Audio;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace OdinNative.Unity.Samples
 {
@@ -14,6 +16,11 @@ namespace OdinNative.Unity.Samples
         public KeyCode PushToTalkHotkey;
         public bool UsePushToTalk = true;
         public MicrophoneReader AudioSender;
+
+        public CanvasGroup microphoneCanvasGroup;
+        public Image microphoneIcon;
+        public bool showHUD;
+        public bool blockMicrophone;
 
         private void Reset()
         {
@@ -35,7 +42,10 @@ namespace OdinNative.Unity.Samples
         void Update()
         {
             if (AudioSender)
-                AudioSender.SilenceCapturedAudio = !(UsePushToTalk ? Input.GetKey(PushToTalkHotkey) : true);
+                AudioSender.SilenceCapturedAudio = !(UsePushToTalk ? Input.GetKey(PushToTalkHotkey) : true) || blockMicrophone;
+
+            microphoneCanvasGroup.alpha = showHUD ? 1 : 0;
+            microphoneIcon.color = AudioSender.SilenceCapturedAudio ? Color.grey : Color.green;
         }
     }
 }

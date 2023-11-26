@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &437872530208498126
 Transform:
@@ -45,7 +45,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 307.5968
+  m_Intensity: 201.7831
   m_Range: 10.74
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -84,7 +84,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 0.9241713, y: 0.2560378}
   m_BounceIntensity: 1
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 228.65898
+  m_Intensity: 150
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -231,7 +231,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5258890536081739006
 Transform:
@@ -314,9 +314,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4404729400080293336, guid: 2bd3078a93ddcb04e950e78797cedcfd,
         type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4404729400080293336, guid: 2bd3078a93ddcb04e950e78797cedcfd,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0a54569be217be74887ebfdd4b92a74e, type: 2}
+    - target: {fileID: -494702634023900101, guid: 2bd3078a93ddcb04e950e78797cedcfd,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -424573499480095691, guid: 2bd3078a93ddcb04e950e78797cedcfd,
+        type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -424573499480095691, guid: 2bd3078a93ddcb04e950e78797cedcfd,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -327,11 +342,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: mdl_light_01
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2bd3078a93ddcb04e950e78797cedcfd,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 3940598309160254964, guid: 2bd3078a93ddcb04e950e78797cedcfd,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0a54569be217be74887ebfdd4b92a74e, type: 2}
+    - target: {fileID: 7756877639795363424, guid: 2bd3078a93ddcb04e950e78797cedcfd,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bd3078a93ddcb04e950e78797cedcfd, type: 3}
 --- !u!4 &6506724732873901846 stripped

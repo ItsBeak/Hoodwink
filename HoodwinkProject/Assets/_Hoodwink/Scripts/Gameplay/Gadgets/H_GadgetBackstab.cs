@@ -35,11 +35,6 @@ public class H_GadgetBackstab : H_GadgetBase
         base.Update();
 
         viewmodelAnimator.SetBool("isOnCooldown", cooldownTimer > 0 ? true : false);
-
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            Debug.Log(cooldownTimer);
-        }
     }
 
     public override void Initialize()
