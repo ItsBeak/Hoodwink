@@ -11,9 +11,15 @@ public class H_CinematicManager : NetworkBehaviour
 {
     public static H_CinematicManager instance { get; private set; }
 
-    [Header("Timelines")]
+    [Header("Intro Timelines")]
     public PlayableDirector agentIntroTimeline;
     public PlayableDirector spyIntroTimeline;
+
+    [Header("Round End Timelines")]
+    public PlayableDirector agentsEliminatedTimeline;
+    public PlayableDirector spiesEliminatedTimeline;
+    public PlayableDirector evidenceGatheredTimeline;
+    public PlayableDirector timeOutTimeline;
 
     [Header("Agent Intro")]
     public H_CosmeticDisplay agentDisplay;
@@ -26,7 +32,9 @@ public class H_CinematicManager : NetworkBehaviour
     public TextMeshProUGUI firstSpyPlayerName, firstSpyPlayerAgentName;
     public TextMeshProUGUI secondSpyPlayerName, secondSpyPlayerAgentName;
 
-
+    [Header("Agents Eliminated Outro")]
+    public H_CosmeticDisplay firstOutroSpyDisplay;
+    public H_CosmeticDisplay secondOutroSpyDisplay, thirdOutroSpyDisplay;
 
     private void Awake()
     {
@@ -48,6 +56,12 @@ public class H_CinematicManager : NetworkBehaviour
     public void PlaySpyIntro(List<IntroCosmeticData> players)
     {
         StartCoroutine(PlaySpyIntroCutscene(players));
+    }
+
+    [ClientRpc]
+    public void PlayAgentsEliminatedOutro(List<IntroCosmeticData> spies)
+    {
+        StartCoroutine(PlayAgentsEliminatedCutscene(spies));
     }
 
     IEnumerator PlayAgentIntroCutscene(IntroCosmeticData player)
@@ -198,6 +212,93 @@ public class H_CinematicManager : NetworkBehaviour
                 p.RpcSetCanMove(true);
                 p.equipment.SetBusy(false);
             }
+        }
+
+    }
+
+    IEnumerator PlayAgentsEliminatedCutscene(List<IntroCosmeticData> spies)
+    {
+        H_GameManager.instance.playerUIGroup.alpha = 0;
+
+        ColourData firstSpyColours = new ColourData();
+
+        firstSpyColours.primaryColour = spies[0].agentData.primaryColour;
+        firstSpyColours.secondaryColour = spies[0].agentData.secondaryColour;
+        firstSpyColours.pantsColour = spies[0].agentData.pantsColour;
+        firstSpyColours.vestColour = spies[0].agentData.vestColour;
+        firstSpyColours.tieColour = spies[0].agentData.tieColour;
+
+        firstOutroSpyDisplay.SetColour(firstSpyColours);
+        firstOutroSpyDisplay.SetHat(spies[0].agentData.hatIndex);
+        firstOutroSpyDisplay.ToggleSuit(spies[0].agentData.suitIndex);
+        firstOutroSpyDisplay.ToggleVest(spies[0].agentData.vestIndex);
+
+        secondOutroSpyDisplay.gameObject.SetActive(false);
+        thirdOutroSpyDisplay.gameObject.SetActive(false);
+
+        if (spies.Count == 2 || spies.Count == 3)
+        {
+            secondOutroSpyDisplay.gameObject.SetActive(true);
+
+            ColourData secondSpyColours = new ColourData();
+
+            secondSpyColours.primaryColour = spies[1].agentData.primaryColour;
+            secondSpyColours.secondaryColour = spies[1].agentData.secondaryColour;
+            secondSpyColours.pantsColour = spies[1].agentData.pantsColour;
+            secondSpyColours.vestColour = spies[1].agentData.vestColour;
+            secondSpyColours.tieColour = spies[1].agentData.tieColour;
+
+            secondOutroSpyDisplay.SetColour(secondSpyColours);
+            secondOutroSpyDisplay.SetHat(spies[1].agentData.hatIndex);
+            secondOutroSpyDisplay.ToggleSuit(spies[1].agentData.suitIndex);
+            secondOutroSpyDisplay.ToggleVest(spies[1].agentData.vestIndex);
+        }
+
+        if (spies.Count == 3)
+        {
+            thirdOutroSpyDisplay.gameObject.SetActive(true);
+
+            ColourData thirdSpyColours = new ColourData();
+
+            thirdSpyColours.primaryColour = spies[2].agentData.primaryColour;
+            thirdSpyColours.secondaryColour = spies[2].agentData.secondaryColour;
+            thirdSpyColours.pantsColour = spies[2].agentData.pantsColour;
+            thirdSpyColours.vestColour = spies[2].agentData.vestColour;
+            thirdSpyColours.tieColour = spies[2].agentData.tieColour;
+
+            thirdOutroSpyDisplay.SetColour(thirdSpyColours);
+            thirdOutroSpyDisplay.SetHat(spies[2].agentData.hatIndex);
+            thirdOutroSpyDisplay.ToggleSuit(spies[2].agentData.suitIndex);
+            thirdOutroSpyDisplay.ToggleVest(spies[2].agentData.vestIndex);
+
+        }
+
+        H_TransitionManager.instance.SetClear();
+        H_TransitionManager.instance.FadeIn(1);
+
+        yield return new WaitForSeconds(1.5f);
+
+        agentsEliminatedTimeline.Play();
+        H_TransitionManager.instance.SetClear();
+
+        yield return new WaitForSeconds((float)agentsEliminatedTimeline.playableAsset.duration);
+
+        firstOutroSpyDisplay.ClearHat();
+        secondOutroSpyDisplay.ClearHat();
+        thirdOutroSpyDisplay.ClearHat();
+
+        H_TransitionManager.instance.SetBlack();
+        H_TransitionManager.instance.FadeOut(0.5f);
+        H_GameManager.instance.playerUIGroup.alpha = 1;
+
+        if (isServer)
+        {
+            foreach (var player in H_GameManager.instance.roundPlayers)
+            {
+                player.isHudHidden = false;
+            }
+
+            H_GameManager.instance.RoundEnd();
         }
 
     }

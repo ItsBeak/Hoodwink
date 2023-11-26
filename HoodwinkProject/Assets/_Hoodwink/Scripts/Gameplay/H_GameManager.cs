@@ -330,20 +330,7 @@ public class H_GameManager : NetworkBehaviour
             #region Post Game Stage Update
             case RoundStage.PostGame:
 
-                timerDisplay.text = "Game over, returning to lobby in : " + Mathf.RoundToInt(postGameTimer + 0.5f).ToString() + " seconds";
-
-                if (!isServer)
-                    return;
-
-                postGameTimer -= 1 * Time.deltaTime;
-
-                if (postGameTimer <= 0)
-                {
-                    EndRound();
-                    ResetRoles();
-                    ResetPlayerStates();
-                    roundEndManager.RpcResetUI();
-                }
+                timerDisplay.text = "Game over, returning to lobby";
 
                 break;
             #endregion
@@ -364,6 +351,15 @@ public class H_GameManager : NetworkBehaviour
             allPhones[Random.Range(0, allPhones.Length)].Ring();
         }
 
+    }
+
+    [Server]
+    public void RoundEnd()
+    {
+        EndRound();
+        ResetRoles();
+        ResetPlayerStates();
+        roundEndManager.RpcResetUI();
     }
 
     [Command(requiresAuthority = false)]
@@ -847,19 +843,20 @@ public class H_GameManager : NetworkBehaviour
         {
             winCondition = WinConditions.AgentsEliminated;
             winConditionMet = true;
+
             Debug.Log("Win Condition Met: Spies Win");
 
-            RoundEndData[] endData = new RoundEndData[roundAgents.Count];
-
-            for (int i = 0; i < endData.Length; i++)
-            {
-                endData[i].agentData.agentName = roundAgents[i].agentData.agentName;
-                endData[i].agentData.primaryColour = roundAgents[i].agentData.primaryColour;
-                endData[i].agentData.secondaryColour = roundAgents[i].agentData.secondaryColour;
-                endData[i].isDead = roundDeadPlayers.Contains(roundAgents[i]);
-            }
-
-            roundEndManager.RpcSetAgentCards(endData, "Agents Eliminated");
+            //RoundEndData[] endData = new RoundEndData[roundAgents.Count];
+            //
+            //for (int i = 0; i < endData.Length; i++)
+            //{
+            //    endData[i].agentData.agentName = roundAgents[i].agentData.agentName;
+            //    endData[i].agentData.primaryColour = roundAgents[i].agentData.primaryColour;
+            //    endData[i].agentData.secondaryColour = roundAgents[i].agentData.secondaryColour;
+            //    endData[i].isDead = roundDeadPlayers.Contains(roundAgents[i]);
+            //}
+            //
+            //roundEndManager.RpcSetAgentCards(endData, "Agents Eliminated");
         }
         else if (spiesLeft == 0)            // agents win - spies eliminated
         {
@@ -868,29 +865,77 @@ public class H_GameManager : NetworkBehaviour
 
             Debug.Log("Win Condition Met: Agents Win");
 
-            RoundEndData[] endData = new RoundEndData[roundSpies.Count];
-
-            for (int i = 0; i < endData.Length; i++)
-            {
-                endData[i].agentData.agentName = roundSpies[i].agentData.agentName;
-                endData[i].agentData.primaryColour = roundSpies[i].agentData.primaryColour;
-                endData[i].agentData.secondaryColour = roundSpies[i].agentData.secondaryColour;
-                endData[i].isDead = roundDeadPlayers.Contains(roundSpies[i]);
-            }
-
-            roundEndManager.RpcSetAgentCards(endData, "Spies Eliminated");
+            //RoundEndData[] endData = new RoundEndData[roundSpies.Count];
+            //
+            //for (int i = 0; i < endData.Length; i++)
+            //{
+            //    endData[i].agentData.agentName = roundSpies[i].agentData.agentName;
+            //    endData[i].agentData.primaryColour = roundSpies[i].agentData.primaryColour;
+            //    endData[i].agentData.secondaryColour = roundSpies[i].agentData.secondaryColour;
+            //    endData[i].isDead = roundDeadPlayers.Contains(roundSpies[i]);
+            //}
+            //
+            //roundEndManager.RpcSetAgentCards(endData, "Spies Eliminated");
         }
         else if (evidenceCompleted)            // agents win - evidence gathered
         {
             winCondition = WinConditions.EvidenceCompleted;
             winConditionMet = true;
+
             Debug.Log("Win Condition Met: Evidence Completed");
         }
         else if (roundTimer <= 0)            // spies win - time limit reached
         {
             winCondition = WinConditions.TimeOut;
             winConditionMet = true;
+
             Debug.Log("Win Condition Met: Time Ran Out");
+        }
+
+        if (winConditionMet)
+        {
+            PlayOutro(winCondition);
+        }
+    }
+
+    void PlayOutro(WinConditions condition)
+    {
+        foreach (var player in roundPlayers)
+        {
+            player.isHudHidden = true;
+        }
+
+        List<IntroCosmeticData> spiesData = new List<IntroCosmeticData>();
+
+        foreach (var spy in roundSpies)
+        {
+            IntroCosmeticData spyData = new IntroCosmeticData();
+
+            spyData.playerName = spy.playerName;
+            spyData.agentData = spy.agentData;
+
+            spiesData.Add(spyData);
+        }
+
+        List<IntroCosmeticData> agentsData = new List<IntroCosmeticData>();
+
+        foreach (var agent in roundAgents)
+        {
+            IntroCosmeticData agentData = new IntroCosmeticData();
+
+            agentData.playerName = agent.playerName;
+            agentData.agentData = agent.agentData;
+
+            spiesData.Add(agentData);
+        }
+
+        if (condition == WinConditions.AgentsEliminated)
+        {
+            H_CinematicManager.instance.PlayAgentsEliminatedOutro(spiesData);
+        }
+        else
+        {
+            RoundEnd();
         }
     }
 
