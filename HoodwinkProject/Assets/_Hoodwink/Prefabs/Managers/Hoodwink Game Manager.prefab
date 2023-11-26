@@ -6356,6 +6356,8 @@ GameObject:
   - component: {fileID: 3031926739823233609}
   - component: {fileID: 1529855735290287570}
   - component: {fileID: 4412749247254566819}
+  - component: {fileID: 6457987221277458505}
+  - component: {fileID: 288389444696655848}
   m_Layer: 0
   m_Name: Game Manager Canvas
   m_TagString: Untagged
@@ -6446,6 +6448,32 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6457987221277458505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5369507401300275974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2de279ecfcb88346bb7093f6a277205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  huds:
+  - {fileID: 288389444696655848}
+--- !u!225 &288389444696655848
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5369507401300275974}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5532966291553077257
 GameObject:
   m_ObjectHideFlags: 0
@@ -7986,6 +8014,7 @@ MonoBehaviour:
   roundAgents: []
   roundSpies: []
   chosenScene: 
+  winConditionMet: 0
   currentLevel: {fileID: 0}
   currentRoundStage: 0
   winCondition: 0
@@ -8147,6 +8176,7 @@ MonoBehaviour:
   pingDisplay: {fileID: 7992946917195808622}
   timerDisplay: {fileID: 8632251401198278523}
   playerUIGroup: {fileID: 7696306660566913037}
+  globalHideHud: 0
   enableDebugLogs: 1
   overrideMinimumPlayerCount: 1
   allowServerToSkipGame: 1

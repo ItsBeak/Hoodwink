@@ -36,6 +36,8 @@ public class H_CinematicManager : NetworkBehaviour
     public H_CosmeticDisplay firstOutroSpyDisplay;
     public H_CosmeticDisplay secondOutroSpyDisplay, thirdOutroSpyDisplay;
 
+    H_RendererProbeTool probes;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -46,6 +48,11 @@ public class H_CinematicManager : NetworkBehaviour
         {
             instance = this;
         }
+    }
+
+    private void Start()
+    {
+        probes = GetComponent<H_RendererProbeTool>();
     }
 
     public void PlayAgentIntro(IntroCosmeticData player)
@@ -85,6 +92,8 @@ public class H_CinematicManager : NetworkBehaviour
         agentPlayerAgentName.text = "Agent " + H_GameManager.ColorWord(player.agentData.agentName, player.agentData.primaryColour);
         agentPlayerRole.text = "You are an " + H_GameManager.ColorWord("Agent", Color.green);
 
+        probes.DisableProbes();
+
         agentIntroTimeline.Play();
         H_TransitionManager.instance.SetClear();
 
@@ -103,6 +112,7 @@ public class H_CinematicManager : NetworkBehaviour
             foreach (var p in H_GameManager.instance.roundPlayers)
             {
                 p.isHudHidden = false;
+                H_GameManager.instance.globalHideHud = false;
                 p.RpcSetCanMove(true);
                 p.equipment.SetBusy(false);
             }
@@ -191,6 +201,8 @@ public class H_CinematicManager : NetworkBehaviour
             }
         }
 
+        probes.DisableProbes();
+
         spyIntroTimeline.Play();
         H_TransitionManager.instance.SetClear();
 
@@ -209,6 +221,7 @@ public class H_CinematicManager : NetworkBehaviour
             foreach (var p in H_GameManager.instance.roundPlayers)
             {
                 p.isHudHidden = false;
+                H_GameManager.instance.globalHideHud = false;
                 p.RpcSetCanMove(true);
                 p.equipment.SetBusy(false);
             }
@@ -218,6 +231,8 @@ public class H_CinematicManager : NetworkBehaviour
 
     IEnumerator PlayAgentsEliminatedCutscene(List<IntroCosmeticData> spies)
     {
+        Debug.Log(spies.Count);
+
         H_GameManager.instance.playerUIGroup.alpha = 0;
 
         ColourData firstSpyColours = new ColourData();
@@ -273,6 +288,8 @@ public class H_CinematicManager : NetworkBehaviour
 
         }
 
+        probes.DisableProbes();
+
         H_TransitionManager.instance.SetClear();
         H_TransitionManager.instance.FadeIn(1);
 
@@ -296,6 +313,8 @@ public class H_CinematicManager : NetworkBehaviour
             foreach (var player in H_GameManager.instance.roundPlayers)
             {
                 player.isHudHidden = false;
+                H_GameManager.instance.globalHideHud = false;
+
             }
 
             H_GameManager.instance.RoundEnd();

@@ -6057,6 +6057,8 @@ GameObject:
   - component: {fileID: 6322739978706914335}
   - component: {fileID: 750041205546010118}
   - component: {fileID: 536925170438136348}
+  - component: {fileID: 1159993247329061432}
+  - component: {fileID: 3912290763554840677}
   m_Layer: 0
   m_Name: TextBox
   m_TagString: Untagged
@@ -6124,6 +6126,32 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1159993247329061432
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7786844036493747486}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3912290763554840677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7786844036493747486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2de279ecfcb88346bb7093f6a277205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  huds:
+  - {fileID: 1159993247329061432}
 --- !u!1 &7797032086173391454
 GameObject:
   m_ObjectHideFlags: 0
@@ -6939,6 +6967,8 @@ GameObject:
   - component: {fileID: 7978309171790482997}
   - component: {fileID: 7632191684877698589}
   - component: {fileID: 5867947672130957039}
+  - component: {fileID: 1474737757666066753}
+  - component: {fileID: 5129785815157515590}
   m_Layer: 0
   m_Name: Fists Crosshair Canvas
   m_TagString: Untagged
@@ -7012,6 +7042,32 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &1474737757666066753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9022147400152140890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2de279ecfcb88346bb7093f6a277205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  huds:
+  - {fileID: 5129785815157515590}
+--- !u!225 &5129785815157515590
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9022147400152140890}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1278646112487968176
 PrefabInstance:
   m_ObjectHideFlags: 0

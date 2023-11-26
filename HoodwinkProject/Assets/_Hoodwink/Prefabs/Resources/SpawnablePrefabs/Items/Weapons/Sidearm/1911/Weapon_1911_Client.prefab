@@ -1221,6 +1221,8 @@ GameObject:
   - component: {fileID: 7692230971287625788}
   - component: {fileID: 5881932171850211691}
   - component: {fileID: 7557217136486967122}
+  - component: {fileID: 2251710774972107706}
+  - component: {fileID: 8408045873037590015}
   m_Layer: 0
   m_Name: Weapon UI
   m_TagString: Untagged
@@ -1311,6 +1313,32 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2251710774972107706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7082299934137780814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2de279ecfcb88346bb7093f6a277205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  huds:
+  - {fileID: 8408045873037590015}
+--- !u!225 &8408045873037590015
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7082299934137780814}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7276425544969138917
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,16 +25,16 @@ public class H_GameManager : NetworkBehaviour
     [SyncVar] bool evidenceCompleted = false;
     bool gameStarted = false;
 
-    [HideInInspector] public List<H_PlayerBrain> serverPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundDeadPlayers;
-    [HideInInspector] public List<H_PlayerBrain> roundAgents;
-    [HideInInspector] public List<H_PlayerBrain> roundSpies;
+    public List<H_PlayerBrain> serverPlayers;
+    public List<H_PlayerBrain> roundPlayers;
+    public List<H_PlayerBrain> roundDeadPlayers;
+    public List<H_PlayerBrain> roundAgents;
+    public List<H_PlayerBrain> roundSpies;
     int agentsLeft = 0;
     int spiesLeft = 0;
 
     [HideInInspector] public string chosenScene;
-    bool winConditionMet = false;
+    [HideInInspector, SyncVar] public bool winConditionMet = false;
     [HideInInspector] public H_LevelData currentLevel;
 
     [HideInInspector, SyncVar] public RoundStage currentRoundStage = RoundStage.Lobby;
@@ -87,7 +87,7 @@ public class H_GameManager : NetworkBehaviour
     public CanvasGroup playerUIGroup;
     H_ObjectManager objectManager;
     H_RoundEndManager roundEndManager;
-
+    [HideInInspector, SyncVar] public bool globalHideHud = false;
     [Header("Debugging")]
     public bool enableDebugLogs;
     public bool overrideMinimumPlayerCount;
@@ -208,6 +208,7 @@ public class H_GameManager : NetworkBehaviour
                     foreach (var player in roundPlayers)
                     {
                         player.isHudHidden = true;
+                        globalHideHud = true;
 
                         if (player.currentAlignment == AgentAlignment.Agent)
                         {
@@ -903,6 +904,7 @@ public class H_GameManager : NetworkBehaviour
         foreach (var player in roundPlayers)
         {
             player.isHudHidden = true;
+            globalHideHud = true;
         }
 
         List<IntroCosmeticData> spiesData = new List<IntroCosmeticData>();
@@ -926,7 +928,7 @@ public class H_GameManager : NetworkBehaviour
             agentData.playerName = agent.playerName;
             agentData.agentData = agent.agentData;
 
-            spiesData.Add(agentData);
+            agentsData.Add(agentData);
         }
 
         if (condition == WinConditions.AgentsEliminated)

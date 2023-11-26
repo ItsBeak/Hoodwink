@@ -73,18 +73,27 @@ public class H_Spectating : MonoBehaviour
 
         yield return new WaitForSeconds(2.25f);
 
-        H_TransitionManager.instance.FadeOut(1f);
+        if (!H_GameManager.instance.winConditionMet)
+        {
+            H_TransitionManager.instance.FadeOut(1f);
 
-        playerUI.brain.cosmetics.ShowPlayer();
-        playerUI.brain.playerUI.ShowSpectatorUI();
+            playerUI.brain.cosmetics.ShowPlayer();
+            playerUI.brain.playerUI.ShowSpectatorUI();
 
-        transitionCam.SetActive(false);
+            transitionCam.SetActive(false);
 
-        isSpectating = true;
+            isSpectating = true;
 
-        spectatorCam.gameObject.SetActive(true);
+            spectatorCam.gameObject.SetActive(true);
 
-        SetSpectatingTarget(0);
+            SetSpectatingTarget(0);
+        }
+        else
+        {
+            H_TransitionManager.instance.FadeOut(2f);
+            transitionCam.SetActive(false);
+        }
+
     }
 
     public void DisableSpectating()
