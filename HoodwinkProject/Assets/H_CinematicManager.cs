@@ -35,10 +35,13 @@ public class H_CinematicManager : NetworkBehaviour
     [Header("Agents Eliminated Outro")]
     public H_CosmeticDisplay firstOutroSpyDisplay;
     public H_CosmeticDisplay secondOutroSpyDisplay, thirdOutroSpyDisplay;
+    public TextMeshProUGUI firstOutroSpyName, secondOutroSpyName, thirdOutroSpyName;
 
     [Header("Agents Eliminated Outro")]
     public H_CosmeticDisplay firstOutroAgentDisplay;
     public H_CosmeticDisplay secondOutroAgentDisplay, thirdOutroAgentDisplay, fourthOutroAgentDisplay, fifthOutroAgentDisplay;
+    public TextMeshProUGUI firstOutroAgentName, secondOutroAgentName, thirdOutroAgentName, fourthOutroAgentName, fifthOutroAgentName;
+
 
     [Header("Evidence Gathered Outro")]
     public H_CosmeticDisplay evidenceAgentDisplay;
@@ -235,8 +238,9 @@ public class H_CinematicManager : NetworkBehaviour
 
         yield return new WaitForSeconds((float)spyIntroTimeline.playableAsset.duration);
 
-        agentDisplay.ClearHat();
-
+        spyDisplay.ClearHat();
+        firstSpyTeammateDisplay.ClearHat();
+        secondSpyTeammateDisplay.ClearHat();
         H_GameManager.instance.playerUIGroup.alpha = 1;
         H_TransitionManager.instance.SetBlack();
         H_TransitionManager.instance.FadeOut(0.5f);
@@ -274,6 +278,7 @@ public class H_CinematicManager : NetworkBehaviour
         firstOutroSpyDisplay.SetHat(spies[0].agentData.hatIndex);
         firstOutroSpyDisplay.ToggleSuit(spies[0].agentData.suitIndex);
         firstOutroSpyDisplay.ToggleVest(spies[0].agentData.vestIndex);
+        firstOutroSpyName.text = spies[0].playerName;
 
         secondOutroSpyDisplay.gameObject.SetActive(false);
         thirdOutroSpyDisplay.gameObject.SetActive(false);
@@ -294,6 +299,8 @@ public class H_CinematicManager : NetworkBehaviour
             secondOutroSpyDisplay.SetHat(spies[1].agentData.hatIndex);
             secondOutroSpyDisplay.ToggleSuit(spies[1].agentData.suitIndex);
             secondOutroSpyDisplay.ToggleVest(spies[1].agentData.vestIndex);
+
+            secondOutroSpyName.text = spies[1].playerName;
         }
 
         if (spies.Count == 3)
@@ -313,6 +320,7 @@ public class H_CinematicManager : NetworkBehaviour
             thirdOutroSpyDisplay.ToggleSuit(spies[2].agentData.suitIndex);
             thirdOutroSpyDisplay.ToggleVest(spies[2].agentData.vestIndex);
 
+            thirdOutroSpyName.text = spies[2].playerName;
         }
 
         probes.DisableProbes();
@@ -330,6 +338,10 @@ public class H_CinematicManager : NetworkBehaviour
         firstOutroSpyDisplay.ClearHat();
         secondOutroSpyDisplay.ClearHat();
         thirdOutroSpyDisplay.ClearHat();
+
+        firstOutroSpyName.text = "";
+        secondOutroSpyName.text = "";
+        thirdOutroSpyName.text = "";
 
         H_TransitionManager.instance.SetBlack();
         H_TransitionManager.instance.FadeOut(0.5f);
@@ -361,15 +373,17 @@ public class H_CinematicManager : NetworkBehaviour
         firstAgentColours.vestColour = agents[0].agentData.vestColour;
         firstAgentColours.tieColour = agents[0].agentData.tieColour;
 
-        firstOutroSpyDisplay.SetColour(firstAgentColours);
-        firstOutroSpyDisplay.SetHat(agents[0].agentData.hatIndex);
-        firstOutroSpyDisplay.ToggleSuit(agents[0].agentData.suitIndex);
-        firstOutroSpyDisplay.ToggleVest(agents[0].agentData.vestIndex);
+        firstOutroAgentDisplay.SetColour(firstAgentColours);
+        firstOutroAgentDisplay.SetHat(agents[0].agentData.hatIndex);
+        firstOutroAgentDisplay.ToggleSuit(agents[0].agentData.suitIndex);
+        firstOutroAgentDisplay.ToggleVest(agents[0].agentData.vestIndex);
 
         secondOutroAgentDisplay.gameObject.SetActive(false);
         thirdOutroAgentDisplay.gameObject.SetActive(false);
         fourthOutroAgentDisplay.gameObject.SetActive(false);
         fifthOutroAgentDisplay.gameObject.SetActive(false);
+
+        firstOutroAgentName.text = agents[0].playerName;
 
         if (agents.Count >= 2)
         {
@@ -383,10 +397,13 @@ public class H_CinematicManager : NetworkBehaviour
             secondAgentColours.vestColour = agents[1].agentData.vestColour;
             secondAgentColours.tieColour = agents[1].agentData.tieColour;
 
-            secondOutroSpyDisplay.SetColour(secondAgentColours);
-            secondOutroSpyDisplay.SetHat(agents[1].agentData.hatIndex);
-            secondOutroSpyDisplay.ToggleSuit(agents[1].agentData.suitIndex);
-            secondOutroSpyDisplay.ToggleVest(agents[1].agentData.vestIndex);
+            secondOutroAgentDisplay.SetColour(secondAgentColours);
+            secondOutroAgentDisplay.SetHat(agents[1].agentData.hatIndex);
+            secondOutroAgentDisplay.ToggleSuit(agents[1].agentData.suitIndex);
+            secondOutroAgentDisplay.ToggleVest(agents[1].agentData.vestIndex);
+
+            secondOutroAgentName.text = agents[1].playerName;
+
         }
 
         if (agents.Count >= 3)
@@ -405,6 +422,8 @@ public class H_CinematicManager : NetworkBehaviour
             thirdOutroAgentDisplay.SetHat(agents[2].agentData.hatIndex);
             thirdOutroAgentDisplay.ToggleSuit(agents[2].agentData.suitIndex);
             thirdOutroAgentDisplay.ToggleVest(agents[2].agentData.vestIndex);
+
+            thirdOutroAgentName.text = agents[2].playerName;
         }
 
         if (agents.Count >= 4)
@@ -423,6 +442,9 @@ public class H_CinematicManager : NetworkBehaviour
             fourthOutroAgentDisplay.SetHat(agents[3].agentData.hatIndex);
             fourthOutroAgentDisplay.ToggleSuit(agents[3].agentData.suitIndex);
             fourthOutroAgentDisplay.ToggleVest(agents[3].agentData.vestIndex);
+
+            fourthOutroAgentName.text = agents[3].playerName;
+
         }
 
         if (agents.Count == 5)
@@ -441,6 +463,8 @@ public class H_CinematicManager : NetworkBehaviour
             fifthOutroAgentDisplay.SetHat(agents[4].agentData.hatIndex);
             fifthOutroAgentDisplay.ToggleSuit(agents[4].agentData.suitIndex);
             fifthOutroAgentDisplay.ToggleVest(agents[4].agentData.vestIndex);
+
+            fifthOutroAgentName.text = agents[4].playerName;
         }
 
         probes.DisableProbes();
@@ -460,6 +484,12 @@ public class H_CinematicManager : NetworkBehaviour
         thirdOutroAgentDisplay.ClearHat();
         fourthOutroAgentDisplay.ClearHat();
         fifthOutroAgentDisplay.ClearHat();
+
+        firstOutroAgentName.text = "";
+        secondOutroAgentName.text = "";
+        thirdOutroAgentName.text = "";
+        fourthOutroAgentName.text = "";
+        fifthOutroAgentName.text = "";
 
         H_TransitionManager.instance.SetBlack();
         H_TransitionManager.instance.FadeOut(0.5f);
