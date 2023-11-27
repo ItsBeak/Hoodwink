@@ -935,6 +935,18 @@ public class H_GameManager : NetworkBehaviour
         {
             H_CinematicManager.instance.PlayAgentsEliminatedOutro(spiesData);
         }
+        else if (condition == WinConditions.SpiesEliminated)
+        {
+            H_CinematicManager.instance.PlaySpiesEliminatedOutro(agentsData);
+        }
+        else if (condition == WinConditions.EvidenceCompleted)
+        {
+            H_CinematicManager.instance.PlayEvidenceGatheredOutro(agentsData[0]);
+        }
+        else if (condition == WinConditions.TimeOut)
+        {
+            H_CinematicManager.instance.PlayTimeOutOutro();
+        }
         else
         {
             RoundEnd();

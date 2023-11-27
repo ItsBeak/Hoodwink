@@ -97,8 +97,9 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: 903c57ebaac0a4f488c9554b7d11d514,
+  m_LightingDataAsset: {fileID: 112000000, guid: b8d563505af16b3478a6f727e2191431,
+    type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 8c92ad9c9baf8004c8158d2a7bc0c50b,
     type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -166,6 +167,41 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.61
       objectReference: {fileID: 0}
+    - target: {fileID: 1593611616955965104, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 20695513e33cbf745ac7ad95a70ab31e, type: 3}
+    - target: {fileID: 1593611616955965104, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611616955965104, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611616955965104, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611616955965104, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611616955965104, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611616955965104, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 1593611616955965105, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -176,10 +212,115 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -3.2326784
       objectReference: {fileID: 0}
+    - target: {fileID: 1593611616970512359, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: ae506f5c893bf664cb4864d8a56ac547, type: 3}
+    - target: {fileID: 1593611616970512359, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611616970512359, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611616970512359, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611616970512359, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611616970512359, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611616970512359, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617064909374, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 174c14ec02f80c744a43a2a1e23f167a, type: 3}
+    - target: {fileID: 1593611617064909374, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617064909374, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617064909374, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617064909374, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617064909374, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617064909374, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 1593611617064909375, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 31.646908
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617180982635, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 06e317588a4109f44a9efa2833b592a6, type: 3}
+    - target: {fileID: 1593611617180982635, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617180982635, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617180982635, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617180982635, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617180982635, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617180982635, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1593611617180982636, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
@@ -191,10 +332,80 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 31.405186
       objectReference: {fileID: 0}
+    - target: {fileID: 1593611617266128304, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: ca0ced6c8a3271f45bab2a0889040d51, type: 3}
+    - target: {fileID: 1593611617266128304, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617266128304, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617266128304, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617266128304, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617266128304, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617266128304, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 1593611617266128305, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 29.691856
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617352731975, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 264804efb2d6a01479921b314ff99913, type: 3}
+    - target: {fileID: 1593611617352731975, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617352731975, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617352731975, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617352731975, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617352731975, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617352731975, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1593611617352731976, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
@@ -206,15 +417,120 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -6.657632
       objectReference: {fileID: 0}
+    - target: {fileID: 1593611617559040719, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 59d65edf4ce4978429f6971f4aec98db, type: 3}
+    - target: {fileID: 1593611617559040719, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617559040719, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617559040719, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617559040719, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617559040719, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617559040719, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 1593611617559040720, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 5.2019105
       objectReference: {fileID: 0}
+    - target: {fileID: 1593611617623604602, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 0e51b06e57317c94db33288287244f78, type: 3}
+    - target: {fileID: 1593611617623604602, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617623604602, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617623604602, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617623604602, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617623604602, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617623604602, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 1593611617623604603, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 6.559546
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617659033417, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 1843fe5dee8587842ad2a7545217f627, type: 3}
+    - target: {fileID: 1593611617659033417, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617659033417, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617659033417, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617659033417, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617659033417, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617659033417, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1593611617659033418, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
@@ -226,20 +542,195 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 31.656357
       objectReference: {fileID: 0}
+    - target: {fileID: 1593611617832629487, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: be58501389407c443a8d0a43a9dbcbb5, type: 3}
+    - target: {fileID: 1593611617832629487, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617832629487, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617832629487, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617832629487, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617832629487, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617832629487, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617892535406, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: ea12c42abc674f146ba980952b29de77, type: 3}
+    - target: {fileID: 1593611617892535406, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617892535406, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617892535406, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617892535406, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617892535406, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617892535406, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 1593611617892535407, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 22.3265
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617959462579, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 413495f6016e5704ea23ecb489006097, type: 3}
+    - target: {fileID: 1593611617959462579, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617959462579, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617959462579, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617959462579, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617959462579, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611617959462579, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1593611617959462580, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 5.2019105
       objectReference: {fileID: 0}
+    - target: {fileID: 1593611618068180726, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 7add60068106f9f46b82c758d64aee36, type: 3}
+    - target: {fileID: 1593611618068180726, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618068180726, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618068180726, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618068180726, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618068180726, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618068180726, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 1593611618068180727, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 5.2019105
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618252537394, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 29d7e6e31545292449d6ecf6fbb345f7, type: 3}
+    - target: {fileID: 1593611618252537394, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618252537394, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618252537394, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618252537394, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618252537394, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618252537394, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1593611618252537395, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
@@ -251,30 +742,310 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 26.300182
       objectReference: {fileID: 0}
+    - target: {fileID: 1593611618477111949, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: d2655545e00a6ea458d99c44bf7e2f09, type: 3}
+    - target: {fileID: 1593611618477111949, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618477111949, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618477111949, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618477111949, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618477111949, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618477111949, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 1593611618702595773, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 4.538401
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618702595775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: f88e0b85e2aa6b143baf974c546c4f2c, type: 3}
+    - target: {fileID: 1593611618702595775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618702595775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618702595775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618702595775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618702595775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618702595775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618752851587, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 6e8dce0c520505547a9fece47655b4d4, type: 3}
+    - target: {fileID: 1593611618752851587, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618752851587, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618752851587, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618752851587, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618752851587, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618752851587, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618765250048, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 4bbd8d9149afb0140bb87083d7e27bc9, type: 3}
+    - target: {fileID: 1593611618765250048, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618765250048, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618765250048, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618765250048, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618765250048, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618765250048, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1593611618765250049, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 6.0963597
       objectReference: {fileID: 0}
+    - target: {fileID: 1593611618941876392, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 58d3476e3a3c4034aa46610370c55c29, type: 3}
+    - target: {fileID: 1593611618941876392, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618941876392, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618941876392, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618941876392, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618941876392, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618941876392, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 1593611618941876393, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 6.8676896
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618944432295, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 771acc6cfc45ac543ad032234e0557a3, type: 3}
+    - target: {fileID: 1593611618944432295, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618944432295, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618944432295, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618944432295, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618944432295, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618944432295, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1593611618944432296, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 29.855774
       objectReference: {fileID: 0}
+    - target: {fileID: 1593611618961730800, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 90dfbdda267c7564abb6cdd29fc969c1, type: 3}
+    - target: {fileID: 1593611618961730800, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618961730800, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618961730800, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618961730800, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618961730800, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611618961730800, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 1593611618961730801, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 5.2019105
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619017824235, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: fa3f767c0e6b40045887af1422ce5fc4, type: 3}
+    - target: {fileID: 1593611619017824235, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619017824235, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619017824235, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619017824235, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619017824235, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619017824235, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1593611619017824236, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
@@ -285,6 +1056,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -13.015977
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619052143775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_BakedTexture
+      value: 
+      objectReference: {fileID: 8900000, guid: 7cb353abc2aab264586668d83e0478ff, type: 3}
+    - target: {fileID: 1593611619052143775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619052143775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619052143775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistanceNegative.z
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619052143775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.x
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619052143775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593611619052143775, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+        type: 3}
+      propertyPath: m_ProbeSettings.influence.m_BoxBlendDistancePositive.z
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1593611619052143776, guid: e3165aa3cafc3d348a5de5988ac72ec1,
         type: 3}
@@ -388,6 +1194,144 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3165aa3cafc3d348a5de5988ac72ec1, type: 3}
+--- !u!1 &38227591 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611618702595648, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227592 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611618068180728, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227593 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611618961730802, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227594 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611618765250050, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611619017824237, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227596 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611617352731977, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227597 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611616955965106, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227598 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611618941876394, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611617623604604, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227600 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611618252537396, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611617659033419, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227602 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611617180982637, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227603 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611616970512361, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227604 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611619052143777, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227605 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611618752851589, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227606 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611618944432297, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227607 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611617266128306, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227608 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611617892535408, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227609 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611618477111951, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227610 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611617064909760, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611617832629489, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227612 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611617959462581, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &38227613 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593611617559040721, guid: e3165aa3cafc3d348a5de5988ac72ec1,
+    type: 3}
+  m_PrefabInstance: {fileID: 38227590}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &206007804
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,6 +2686,20 @@ Transform:
   m_Father: {fileID: 898795940}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!115 &1197867111
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 5
+  m_Script: 
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_ExecutionOrder: 0
+  m_ClassName: SceneObjectIDMapSceneAsset
+  m_Namespace: UnityEngine.Rendering.HighDefinition
 --- !u!1 &1667794356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,6 +2797,120 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1742047237
+GameObject:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1742047239}
+  - component: {fileID: 1742047238}
+  m_Layer: 0
+  m_Name: SceneIDMap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1742047238
+MonoBehaviour:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742047237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1197867111}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Entries:
+  - id: 0
+    category: 0
+    gameObject: {fileID: 38227613}
+  - id: 1
+    category: 0
+    gameObject: {fileID: 38227612}
+  - id: 2
+    category: 0
+    gameObject: {fileID: 38227611}
+  - id: 3
+    category: 0
+    gameObject: {fileID: 38227610}
+  - id: 4
+    category: 0
+    gameObject: {fileID: 38227609}
+  - id: 5
+    category: 0
+    gameObject: {fileID: 38227608}
+  - id: 6
+    category: 0
+    gameObject: {fileID: 38227607}
+  - id: 7
+    category: 0
+    gameObject: {fileID: 38227606}
+  - id: 8
+    category: 0
+    gameObject: {fileID: 38227605}
+  - id: 9
+    category: 0
+    gameObject: {fileID: 38227604}
+  - id: 10
+    category: 0
+    gameObject: {fileID: 38227603}
+  - id: 11
+    category: 0
+    gameObject: {fileID: 38227602}
+  - id: 12
+    category: 0
+    gameObject: {fileID: 38227601}
+  - id: 13
+    category: 0
+    gameObject: {fileID: 38227600}
+  - id: 14
+    category: 0
+    gameObject: {fileID: 38227599}
+  - id: 15
+    category: 0
+    gameObject: {fileID: 38227598}
+  - id: 16
+    category: 0
+    gameObject: {fileID: 38227597}
+  - id: 17
+    category: 0
+    gameObject: {fileID: 38227596}
+  - id: 18
+    category: 0
+    gameObject: {fileID: 38227595}
+  - id: 19
+    category: 0
+    gameObject: {fileID: 38227594}
+  - id: 20
+    category: 0
+    gameObject: {fileID: 38227593}
+  - id: 21
+    category: 0
+    gameObject: {fileID: 38227592}
+  - id: 22
+    category: 0
+    gameObject: {fileID: 38227591}
+--- !u!4 &1742047239
+Transform:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742047237}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1915194376
 GameObject:
