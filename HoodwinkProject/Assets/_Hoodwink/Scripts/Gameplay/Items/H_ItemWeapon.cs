@@ -158,7 +158,7 @@ public class H_ItemWeapon : H_ItemBase
         {
             if (isAiming)
             {
-                bulletSpread = Mathf.Lerp(bulletSpread, Mathf.Lerp(movingBulletSpread, aimedBulletSpread, 0.5f), Time.deltaTime * 4);
+                bulletSpread = Mathf.Lerp(bulletSpread, (aimedBulletSpread + defaultBulletSpread) / 2, Time.deltaTime * 4);
                 crosshairFade.alpha = Mathf.Lerp(crosshairFade.alpha, 0.2f, Time.deltaTime * 6);
             }
             else
