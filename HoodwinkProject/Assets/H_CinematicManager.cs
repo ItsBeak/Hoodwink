@@ -36,6 +36,13 @@ public class H_CinematicManager : NetworkBehaviour
     public H_CosmeticDisplay firstOutroSpyDisplay;
     public H_CosmeticDisplay secondOutroSpyDisplay, thirdOutroSpyDisplay;
 
+    [Header("Agents Eliminated Outro")]
+    public H_CosmeticDisplay firstOutroAgentDisplay;
+    public H_CosmeticDisplay secondOutroAgentDisplay, thirdOutroAgentDisplay, fourthOutroAgentDisplay, fifthOutroAgentDisplay;
+
+    [Header("Evidence Gathered Outro")]
+    public H_CosmeticDisplay evidenceAgentDisplay;
+
     H_RendererProbeTool probes;
 
     private void Awake()
@@ -69,6 +76,24 @@ public class H_CinematicManager : NetworkBehaviour
     public void PlayAgentsEliminatedOutro(List<IntroCosmeticData> spies)
     {
         StartCoroutine(PlayAgentsEliminatedCutscene(spies));
+    }
+
+    [ClientRpc]
+    public void PlaySpiesEliminatedOutro(List<IntroCosmeticData> agents)
+    {
+        StartCoroutine(PlaySpiesEliminatedCutscene(agents));
+    }
+
+    [ClientRpc]
+    public void PlayEvidenceGatheredOutro(IntroCosmeticData agent)
+    {
+        StartCoroutine(PlayEvidenceGatheredCutscene(agent));
+    }
+
+    [ClientRpc]
+    public void PlayTimeOutOutro()
+    {
+        StartCoroutine(PlayTimeOutCutscene());
     }
 
     IEnumerator PlayAgentIntroCutscene(IntroCosmeticData player)
@@ -112,10 +137,12 @@ public class H_CinematicManager : NetworkBehaviour
             foreach (var p in H_GameManager.instance.roundPlayers)
             {
                 p.isHudHidden = false;
-                H_GameManager.instance.globalHideHud = false;
                 p.RpcSetCanMove(true);
                 p.equipment.SetBusy(false);
             }
+
+            H_GameManager.instance.globalHideHud = false;
+
         }
 
     }
@@ -221,18 +248,18 @@ public class H_CinematicManager : NetworkBehaviour
             foreach (var p in H_GameManager.instance.roundPlayers)
             {
                 p.isHudHidden = false;
-                H_GameManager.instance.globalHideHud = false;
                 p.RpcSetCanMove(true);
                 p.equipment.SetBusy(false);
             }
+
+            H_GameManager.instance.globalHideHud = false;
+
         }
 
     }
 
     IEnumerator PlayAgentsEliminatedCutscene(List<IntroCosmeticData> spies)
     {
-        Debug.Log(spies.Count);
-
         H_GameManager.instance.playerUIGroup.alpha = 0;
 
         ColourData firstSpyColours = new ColourData();
@@ -313,9 +340,222 @@ public class H_CinematicManager : NetworkBehaviour
             foreach (var player in H_GameManager.instance.roundPlayers)
             {
                 player.isHudHidden = false;
-                H_GameManager.instance.globalHideHud = false;
-
             }
+
+            H_GameManager.instance.globalHideHud = false;
+
+            H_GameManager.instance.RoundEnd();
+        }
+
+    }
+
+    IEnumerator PlaySpiesEliminatedCutscene(List<IntroCosmeticData> agents)
+    {
+        H_GameManager.instance.playerUIGroup.alpha = 0;
+
+        ColourData firstAgentColours = new ColourData();
+
+        firstAgentColours.primaryColour = agents[0].agentData.primaryColour;
+        firstAgentColours.secondaryColour = agents[0].agentData.secondaryColour;
+        firstAgentColours.pantsColour = agents[0].agentData.pantsColour;
+        firstAgentColours.vestColour = agents[0].agentData.vestColour;
+        firstAgentColours.tieColour = agents[0].agentData.tieColour;
+
+        firstOutroSpyDisplay.SetColour(firstAgentColours);
+        firstOutroSpyDisplay.SetHat(agents[0].agentData.hatIndex);
+        firstOutroSpyDisplay.ToggleSuit(agents[0].agentData.suitIndex);
+        firstOutroSpyDisplay.ToggleVest(agents[0].agentData.vestIndex);
+
+        secondOutroAgentDisplay.gameObject.SetActive(false);
+        thirdOutroAgentDisplay.gameObject.SetActive(false);
+        fourthOutroAgentDisplay.gameObject.SetActive(false);
+        fifthOutroAgentDisplay.gameObject.SetActive(false);
+
+        if (agents.Count >= 2)
+        {
+            secondOutroAgentDisplay.gameObject.SetActive(true);
+
+            ColourData secondAgentColours = new ColourData();
+
+            secondAgentColours.primaryColour = agents[1].agentData.primaryColour;
+            secondAgentColours.secondaryColour = agents[1].agentData.secondaryColour;
+            secondAgentColours.pantsColour = agents[1].agentData.pantsColour;
+            secondAgentColours.vestColour = agents[1].agentData.vestColour;
+            secondAgentColours.tieColour = agents[1].agentData.tieColour;
+
+            secondOutroSpyDisplay.SetColour(secondAgentColours);
+            secondOutroSpyDisplay.SetHat(agents[1].agentData.hatIndex);
+            secondOutroSpyDisplay.ToggleSuit(agents[1].agentData.suitIndex);
+            secondOutroSpyDisplay.ToggleVest(agents[1].agentData.vestIndex);
+        }
+
+        if (agents.Count >= 3)
+        {
+            thirdOutroAgentDisplay.gameObject.SetActive(true);
+
+            ColourData thirdAgentColours = new ColourData();
+
+            thirdAgentColours.primaryColour = agents[2].agentData.primaryColour;
+            thirdAgentColours.secondaryColour = agents[2].agentData.secondaryColour;
+            thirdAgentColours.pantsColour = agents[2].agentData.pantsColour;
+            thirdAgentColours.vestColour = agents[2].agentData.vestColour;
+            thirdAgentColours.tieColour = agents[2].agentData.tieColour;
+
+            thirdOutroAgentDisplay.SetColour(thirdAgentColours);
+            thirdOutroAgentDisplay.SetHat(agents[2].agentData.hatIndex);
+            thirdOutroAgentDisplay.ToggleSuit(agents[2].agentData.suitIndex);
+            thirdOutroAgentDisplay.ToggleVest(agents[2].agentData.vestIndex);
+        }
+
+        if (agents.Count >= 4)
+        {
+            fourthOutroAgentDisplay.gameObject.SetActive(true);
+
+            ColourData fourthAgentColours = new ColourData();
+
+            fourthAgentColours.primaryColour = agents[3].agentData.primaryColour;
+            fourthAgentColours.secondaryColour = agents[3].agentData.secondaryColour;
+            fourthAgentColours.pantsColour = agents[3].agentData.pantsColour;
+            fourthAgentColours.vestColour = agents[3].agentData.vestColour;
+            fourthAgentColours.tieColour = agents[3].agentData.tieColour;
+
+            fourthOutroAgentDisplay.SetColour(fourthAgentColours);
+            fourthOutroAgentDisplay.SetHat(agents[3].agentData.hatIndex);
+            fourthOutroAgentDisplay.ToggleSuit(agents[3].agentData.suitIndex);
+            fourthOutroAgentDisplay.ToggleVest(agents[3].agentData.vestIndex);
+        }
+
+        if (agents.Count == 5)
+        {
+            fifthOutroAgentDisplay.gameObject.SetActive(true);
+
+            ColourData fifthAgentColours = new ColourData();
+
+            fifthAgentColours.primaryColour = agents[4].agentData.primaryColour;
+            fifthAgentColours.secondaryColour = agents[4].agentData.secondaryColour;
+            fifthAgentColours.pantsColour = agents[4].agentData.pantsColour;
+            fifthAgentColours.vestColour = agents[4].agentData.vestColour;
+            fifthAgentColours.tieColour = agents[4].agentData.tieColour;
+
+            fifthOutroAgentDisplay.SetColour(fifthAgentColours);
+            fifthOutroAgentDisplay.SetHat(agents[4].agentData.hatIndex);
+            fifthOutroAgentDisplay.ToggleSuit(agents[4].agentData.suitIndex);
+            fifthOutroAgentDisplay.ToggleVest(agents[4].agentData.vestIndex);
+        }
+
+        probes.DisableProbes();
+
+        H_TransitionManager.instance.SetClear();
+        H_TransitionManager.instance.FadeIn(1);
+
+        yield return new WaitForSeconds(1.5f);
+
+        spiesEliminatedTimeline.Play();
+        H_TransitionManager.instance.SetClear();
+
+        yield return new WaitForSeconds((float)spiesEliminatedTimeline.playableAsset.duration);
+
+        firstOutroAgentDisplay.ClearHat();
+        secondOutroAgentDisplay.ClearHat();
+        thirdOutroAgentDisplay.ClearHat();
+        fourthOutroAgentDisplay.ClearHat();
+        fifthOutroAgentDisplay.ClearHat();
+
+        H_TransitionManager.instance.SetBlack();
+        H_TransitionManager.instance.FadeOut(0.5f);
+        H_GameManager.instance.playerUIGroup.alpha = 1;
+
+        if (isServer)
+        {
+            foreach (var player in H_GameManager.instance.roundPlayers)
+            {
+                player.isHudHidden = false;
+            }
+
+            H_GameManager.instance.globalHideHud = false;
+
+            H_GameManager.instance.RoundEnd();
+        }
+
+    }
+
+    IEnumerator PlayEvidenceGatheredCutscene(IntroCosmeticData agent)
+    {
+        H_GameManager.instance.playerUIGroup.alpha = 0;
+
+        ColourData agentColours = new ColourData();
+
+        agentColours.primaryColour = agent.agentData.primaryColour;
+        agentColours.secondaryColour = agent.agentData.secondaryColour;
+        agentColours.pantsColour = agent.agentData.pantsColour;
+        agentColours.vestColour = agent.agentData.vestColour;
+        agentColours.tieColour = agent.agentData.tieColour;
+
+        evidenceAgentDisplay.SetColour(agentColours);
+        evidenceAgentDisplay.SetHat(agent.agentData.hatIndex);
+        evidenceAgentDisplay.ToggleSuit(agent.agentData.suitIndex);
+        evidenceAgentDisplay.ToggleVest(agent.agentData.vestIndex);
+
+        probes.DisableProbes();
+
+        H_TransitionManager.instance.SetClear();
+        H_TransitionManager.instance.FadeIn(1);
+
+        yield return new WaitForSeconds(1.5f);
+
+        evidenceGatheredTimeline.Play();
+        H_TransitionManager.instance.SetClear();
+
+        yield return new WaitForSeconds((float)evidenceGatheredTimeline.playableAsset.duration);
+
+        evidenceAgentDisplay.ClearHat();
+
+        H_TransitionManager.instance.SetBlack();
+        H_TransitionManager.instance.FadeOut(0.5f);
+        H_GameManager.instance.playerUIGroup.alpha = 1;
+
+        if (isServer)
+        {
+            foreach (var player in H_GameManager.instance.roundPlayers)
+            {
+                player.isHudHidden = false;
+            }
+
+            H_GameManager.instance.globalHideHud = false;
+
+            H_GameManager.instance.RoundEnd();
+        }
+
+    }
+
+    IEnumerator PlayTimeOutCutscene()
+    {
+        H_GameManager.instance.playerUIGroup.alpha = 0;
+
+        probes.DisableProbes();
+
+        H_TransitionManager.instance.SetClear();
+        H_TransitionManager.instance.FadeIn(1);
+
+        yield return new WaitForSeconds(1.5f);
+
+        timeOutTimeline.Play();
+        H_TransitionManager.instance.SetClear();
+
+        yield return new WaitForSeconds((float)timeOutTimeline.playableAsset.duration);
+
+        H_TransitionManager.instance.SetBlack();
+        H_TransitionManager.instance.FadeOut(0.5f);
+        H_GameManager.instance.playerUIGroup.alpha = 1;
+
+        if (isServer)
+        {
+            foreach (var player in H_GameManager.instance.roundPlayers)
+            {
+                player.isHudHidden = false;
+            }
+
+            H_GameManager.instance.globalHideHud = false;
 
             H_GameManager.instance.RoundEnd();
         }
