@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class H_Tripwire : NetworkBehaviour
 {
@@ -12,7 +13,9 @@ public class H_Tripwire : NetworkBehaviour
 
     AudioSource source;
     public AudioClip triggerClip;
-    public ParticleSystem explosionParticle;
+
+    public VisualEffect explosion, smoke;
+
 
     [SyncVar]
     bool isTriggered = false;
@@ -64,7 +67,8 @@ public class H_Tripwire : NetworkBehaviour
     public void RpcTriggerTripwire()
     {
         source.PlayOneShot(triggerClip);
-        explosionParticle.Play();
+        explosion.Play();
+        smoke.Play();
         GetComponent<LineRenderer>().enabled = false;
     }
 
