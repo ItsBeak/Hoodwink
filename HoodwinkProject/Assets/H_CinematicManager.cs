@@ -206,7 +206,7 @@ public class H_CinematicManager : NetworkBehaviour
                 firstSpyTeammateDisplay.ToggleVest(players[1].agentData.vestIndex);
 
                 firstSpyPlayerName.text = players[1].playerName;
-                firstSpyPlayerAgentName.text = "Agent " + H_GameManager.ColorWord(players[0].agentData.agentName, players[1].agentData.primaryColour);
+                firstSpyPlayerAgentName.text = "Agent " + H_GameManager.ColorWord(players[1].agentData.agentName, players[1].agentData.primaryColour);
             }
 
             if (players.Count == 3)
@@ -227,7 +227,7 @@ public class H_CinematicManager : NetworkBehaviour
                 secondSpyTeammateDisplay.ToggleVest(players[2].agentData.vestIndex);
 
                 secondSpyPlayerName.text = players[2].playerName;
-                secondSpyPlayerAgentName.text = "Agent " + H_GameManager.ColorWord(players[0].agentData.agentName, players[2].agentData.primaryColour);
+                secondSpyPlayerAgentName.text = "Agent " + H_GameManager.ColorWord(players[2].agentData.agentName, players[2].agentData.primaryColour);
             }
         }
 

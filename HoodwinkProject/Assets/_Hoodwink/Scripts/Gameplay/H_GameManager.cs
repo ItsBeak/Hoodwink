@@ -160,6 +160,11 @@ public class H_GameManager : NetworkBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Insert) && allowServerToForceStart)
                 {
+                    if (serverPlayers.Count < minPlayersToStart)
+                    {
+                        overrideMinimumPlayerCount = true;
+                    }
+
                     StartRound();
                     return;
                 }
@@ -564,6 +569,8 @@ public class H_GameManager : NetworkBehaviour
             NetworkServer.Destroy(player.equipment.sidearmObserverObject.gameObject);
 
             player.equipment.RpcClearSidearmSlot();
+
+            overrideMinimumPlayerCount = false;
         }
 
         roundPlayers.Clear();

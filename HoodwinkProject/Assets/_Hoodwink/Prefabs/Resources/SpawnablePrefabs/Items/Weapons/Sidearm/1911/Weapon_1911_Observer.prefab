@@ -323,6 +323,7 @@ MonoBehaviour:
   suppressedAudioDistance: 7.5
   casing: {fileID: 6911206632749345130}
   silencer: {fileID: 623821589648561660}
+  animationSilencer: {fileID: 0}
   silencerSource: {fileID: 3213369683225448040}
   addSilencerClip: {fileID: 8300000, guid: 79851f920b7c1e043aa1536deae13c1a, type: 3}
   removeSilencerClip: {fileID: 8300000, guid: 2265b30d1329b5243809fce0a0e42ba3, type: 3}
@@ -383,7 +384,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.9
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -398,7 +399,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.055555556
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -480,7 +481,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.2
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -495,7 +496,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.055555556
       inSlope: 0
       outSlope: 0
       tangentMode: 0
