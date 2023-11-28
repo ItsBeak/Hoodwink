@@ -7,7 +7,6 @@ using TMPro;
 
 using UnityEngine.Timeline;
 using UnityEngine.Playables;
-using OdinNative.Unity.Samples;
 
 public class H_MainMenu : MonoBehaviour
 {
@@ -45,8 +44,6 @@ public class H_MainMenu : MonoBehaviour
         {
             preLoginDirector.gameObject.SetActive(true);
         }
-
-        FindObjectOfType<SimplePushToTalk>().showHUD = false;
     }
 
     private void Update()
