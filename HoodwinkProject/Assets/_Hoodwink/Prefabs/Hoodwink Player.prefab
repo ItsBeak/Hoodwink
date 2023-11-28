@@ -3508,6 +3508,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5388523048142640484}
   - component: {fileID: 9193031941319660201}
+  - component: {fileID: 3438510482539209640}
   m_Layer: 5
   m_Name: Ability cards
   m_TagString: Untagged
@@ -3558,6 +3559,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!225 &3438510482539209640
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3674136688412473834}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3682068834895920169
 GameObject:
   m_ObjectHideFlags: 0
@@ -7193,6 +7206,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa318f2a788a51c40abd39218b68e7bf, type: 3}
+--- !u!1 &6945238014389062823 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8204671147949981975, guid: aa318f2a788a51c40abd39218b68e7bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1278646112487968176}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &3773046590883428831
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6945238014389062823}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &6945238014389063000 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8204671147949981928, guid: aa318f2a788a51c40abd39218b68e7bf,
