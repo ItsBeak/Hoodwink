@@ -79,6 +79,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3072
   triggerClip: {fileID: 8300000, guid: 5acd287b0d8570943be402c96b6aeda7, type: 3}
+  explosionParticle: {fileID: 0}
   explosion: {fileID: 4807346597751007397}
   smoke: {fileID: 6099197915799882798}
 --- !u!120 &7301910854743753561
@@ -537,6 +538,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6676754282097926435}
     m_Modifications:
+    - target: {fileID: 7845950833899776738, guid: c14bea4b05ebcea4e9d791feefb13267,
+        type: 3}
+      propertyPath: m_InitialEventName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7845950833899776738, guid: c14bea4b05ebcea4e9d791feefb13267,
+        type: 3}
+      propertyPath: m_InitialEventNameOverriden
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7845950833899776739, guid: c14bea4b05ebcea4e9d791feefb13267,
         type: 3}
       propertyPath: m_RootOrder
@@ -565,17 +576,17 @@ PrefabInstance:
     - target: {fileID: 7845950833899776739, guid: c14bea4b05ebcea4e9d791feefb13267,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7845950833899776739, guid: c14bea4b05ebcea4e9d791feefb13267,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7845950833899776739, guid: c14bea4b05ebcea4e9d791feefb13267,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7845950833899776739, guid: c14bea4b05ebcea4e9d791feefb13267,
         type: 3}
@@ -596,6 +607,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Smoke
+      objectReference: {fileID: 0}
+    - target: {fileID: 7845950833899776749, guid: c14bea4b05ebcea4e9d791feefb13267,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c14bea4b05ebcea4e9d791feefb13267, type: 3}
@@ -651,17 +667,17 @@ PrefabInstance:
     - target: {fileID: 4460391758380084277, guid: 538b7c71947231c4eac2ac7c1475aeed,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4460391758380084277, guid: 538b7c71947231c4eac2ac7c1475aeed,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4460391758380084277, guid: 538b7c71947231c4eac2ac7c1475aeed,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4460391758380084277, guid: 538b7c71947231c4eac2ac7c1475aeed,
         type: 3}
@@ -677,6 +693,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460391758380084278, guid: 538b7c71947231c4eac2ac7c1475aeed,
+        type: 3}
+      propertyPath: m_InitialEventName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460391758380084278, guid: 538b7c71947231c4eac2ac7c1475aeed,
+        type: 3}
+      propertyPath: m_InitialEventNameOverriden
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460391758380084279, guid: 538b7c71947231c4eac2ac7c1475aeed,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 538b7c71947231c4eac2ac7c1475aeed, type: 3}

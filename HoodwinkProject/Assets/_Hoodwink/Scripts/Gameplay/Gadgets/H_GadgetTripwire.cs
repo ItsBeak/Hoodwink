@@ -68,19 +68,21 @@ public class H_GadgetTripwire : H_GadgetBase
         viewmodelAnimator.SetTrigger("Set");
 
         equipment.brain.canMove = false;
-
-        finalPlacePoint = placePoint.position;
-        finalRotation = placePoint.rotation;
+        equipment.SetBusy(true);
 
         CmdSetupTripwireSound();
 
         yield return new WaitForSeconds(setupTime);
 
-        equipment.brain.canMove = true;
         CmdSetupTripwire();
+
+        equipment.brain.canMove = true;
+        equipment.SetBusy(false);
+
+        Debug.Log("Placing tripwire");
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     public void CmdSetupTripwireSound()
     {
         RpcSetupTripwireSound();
@@ -92,14 +94,19 @@ public class H_GadgetTripwire : H_GadgetBase
         source.PlayOneShot(setupClip);
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     public void CmdSetupTripwire()
     {
         RpcSetupTripwire();
 
+        finalPlacePoint = placePoint.position;
+        finalRotation = placePoint.rotation;
+
         GameObject newTripwire = Instantiate(tripwirePrefab, finalPlacePoint, finalRotation);
 
         NetworkServer.Spawn(newTripwire);
+
+        Debug.Log("Tripwire spawned on server");
     }
 
     [ClientRpc]
