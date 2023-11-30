@@ -32,9 +32,8 @@ public class H_GameManager : NetworkBehaviour
     int agentsLeft = 0;
     int spiesLeft = 0;
 
-    [HideInInspector] public string chosenScene;
     [HideInInspector, SyncVar] public bool winConditionMet = false;
-    [HideInInspector] public H_LevelData currentLevel;
+    public H_LevelData levelData;
 
     [HideInInspector, SyncVar] public RoundStage currentRoundStage = RoundStage.Lobby;
     [HideInInspector, SyncVar] public WinConditions winCondition;
@@ -60,10 +59,6 @@ public class H_GameManager : NetworkBehaviour
 
     [Header("Gadgets")]
     public List<GameObject> spyGadgets;
-    //public List<GameObject> agentGadgets;
-
-    [Header("Map Pool")]
-    [Scene] public string[] maps;
 
     [Header("Round Timer Settings")]
     public float warmupLength;
@@ -87,6 +82,7 @@ public class H_GameManager : NetworkBehaviour
     H_ObjectManager objectManager;
     H_RoundEndManager roundEndManager;
     [HideInInspector, SyncVar] public bool globalHideHud = false;
+
     [Header("Debugging")]
     public bool enableDebugLogs;
     public bool overrideMinimumPlayerCount;
@@ -220,7 +216,9 @@ public class H_GameManager : NetworkBehaviour
                             playerData.agentData = player.agentData;
 
                             player.RpcPlayAgentIntro(playerData);
-                            Debug.Log("Playing agent intro on player: " + player.playerName);
+
+                            if (enableDebugLogs)
+                                Debug.Log("Playing agent intro on player: " + player.playerName);
 
                         }
                         else if (player.currentAlignment == AgentAlignment.Spy)
@@ -248,7 +246,9 @@ public class H_GameManager : NetworkBehaviour
                             }
 
                             player.RpcPlaySpyIntro(playerData);
-                            Debug.Log("Playing spy intro on player: " + player.playerName);
+
+                            if (enableDebugLogs)
+                                Debug.Log("Playing spy intro on player: " + player.playerName);
                         }
                     }
                 }
@@ -307,7 +307,8 @@ public class H_GameManager : NetworkBehaviour
 
                         phoneTimer = Random.Range(minimumPhoneTime, maximumPhoneTime);
 
-                        Debug.Log("Ringing new phone");
+                        if (enableDebugLogs)
+                            Debug.Log("Ringing new phone");
                     }
                 }
 
@@ -491,9 +492,6 @@ public class H_GameManager : NetworkBehaviour
     [Server]
     public void StartRound()
     {
-
-        StartCoroutine(InitializeLevel());
-
         warmupTimer = warmupLength;
         roundTimer = roundLength;
         postGameTimer = postGameLength;
@@ -520,6 +518,8 @@ public class H_GameManager : NetworkBehaviour
             }
         }
 
+        Invoke(nameof(SpawnPlayers), 5f);
+
         ResetPlayerStates();
         ResetRoles();
 
@@ -527,6 +527,37 @@ public class H_GameManager : NetworkBehaviour
 
         currentRoundStage = RoundStage.Warmup;
 
+    }
+
+    void SpawnPlayers()
+    {
+        Transform[] levelSpawns = levelData.playerSpawnPoints;
+
+        List<Transform> spawns = new List<Transform>();
+
+        foreach (Transform point in levelSpawns)
+        {
+            spawns.Add(point);
+        }
+
+        foreach (var player in roundPlayers)
+        {
+            player.equipment.RpcTryDropItem();
+
+            int randomSpawn = Random.Range(0, spawns.Count);
+
+            player.TeleportPlayer(spawns[randomSpawn].position, spawns[randomSpawn].rotation);
+
+            spawns.Remove(spawns[randomSpawn]);
+
+            player.equipment.currentSlot = EquipmentSlot.PrimaryItem;
+            player.equipment.RpcSetPrimary();
+        }
+
+        if (enableDebugLogs)
+            Debug.Log("Spawning objects");
+
+        objectManager.SpawnObjects(currentSettings);
     }
 
     [Server]
@@ -591,7 +622,6 @@ public class H_GameManager : NetworkBehaviour
 
         Invoke("CleanupObjects", 0.3f);
 
-        RpcUnloadMap(chosenScene);
         currentRoundStage = RoundStage.Lobby;
 
     }
@@ -599,63 +629,6 @@ public class H_GameManager : NetworkBehaviour
     void CleanupObjects()
     {
         objectManager.CleanupObjects();
-    }
-
-    IEnumerator InitializeLevel()
-    {
-        chosenScene = maps[Random.Range(0, maps.Length)];
-        Debug.Log("Loading Level: '" + chosenScene + "' out of " + maps.Length + " maps.");
-
-
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(chosenScene, LoadSceneMode.Additive);
-
-        while (!asyncLoad.isDone)
-        {
-            if (enableDebugLogs)
-                Debug.LogWarning("Loading Level: " + chosenScene);
-            yield return null;
-        }
-
-        if (enableDebugLogs)
-            Debug.LogWarning("Level Loaded: " + chosenScene);
-
-        LightProbes.Tetrahedralize();
-
-        RpcLoadMap(chosenScene);
-
-        yield return new WaitForSeconds(5);
-
-        currentLevel = FindObjectOfType<H_LevelData>();
-
-        Transform[] levelSpawns = currentLevel.playerSpawnPoints;
-
-        List<Transform> spawns = new List<Transform>();
-
-        foreach (Transform point in levelSpawns)
-        {
-            spawns.Add(point);
-        }
-
-        foreach (var player in roundPlayers)
-        {
-            player.equipment.RpcTryDropItem();
-
-            int randomSpawn = Random.Range(0, spawns.Count);
-
-            player.TeleportPlayer(spawns[randomSpawn].position, spawns[randomSpawn].rotation);
-
-            spawns.Remove(spawns[randomSpawn]);
-
-            player.equipment.currentSlot = EquipmentSlot.PrimaryItem;
-            player.equipment.RpcSetPrimary();
-        }
-
-
-
-        Debug.Log("Spawning objects");
-
-        objectManager.SpawnObjects(currentSettings);
-
     }
 
     [Server]
@@ -724,30 +697,6 @@ public class H_GameManager : NetworkBehaviour
                 roundPlayers[i].currentAlignment = AgentAlignment.Agent;
                 roundAgents.Add(roundPlayers[i]);
                 agentsLeft++;
-
-                //List<GameObject> gadgetPool = new List<GameObject>();
-                //
-                //foreach (GameObject gadget in agentGadgets)
-                //{
-                //    gadgetPool.Add(gadget);
-                //}
-                //
-                //int gadgetIndex = Random.Range(0, gadgetPool.Count);
-                //
-                //GameObject firstGadget = Instantiate(gadgetPool[gadgetIndex]);
-                //NetworkServer.Spawn(firstGadget, roundPlayers[i].connectionToClient);
-                //roundPlayers[i].equipment.RpcEquipFirstGadget(firstGadget);
-                //gadgetPool.Remove(gadgetPool[gadgetIndex]);
-                //
-                //gadgetIndex = Random.Range(0, gadgetPool.Count);
-                //
-                //GameObject secondGadget = Instantiate(gadgetPool[gadgetIndex]);
-                //NetworkServer.Spawn(secondGadget, roundPlayers[i].connectionToClient);
-                //roundPlayers[i].equipment.RpcEquipSecondGadget(secondGadget);
-                //gadgetPool.Remove(gadgetPool[gadgetIndex]);
-                //
-                //gadgetPool.Clear();
-
             }
 
             GameObject newClientSidearm = Instantiate(defaultClientSidearm);
@@ -759,36 +708,6 @@ public class H_GameManager : NetworkBehaviour
 
 
 
-    }
-
-    [ClientRpc]
-    void RpcLoadMap(string sceneName)
-    {
-        StartCoroutine(LoadMap(sceneName));
-    }
-
-    IEnumerator LoadMap(string sceneName)
-    {
-        if (!isServer)
-        {
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
-
-            LightProbes.Tetrahedralize();
-        }
-    }
-
-    [ClientRpc]
-    void RpcUnloadMap(string scene)
-    {
-        if (SceneManager.GetSceneByPath(scene).isLoaded)
-        {
-            SceneManager.UnloadSceneAsync(scene);
-        }
     }
 
     [Server]
@@ -842,59 +761,40 @@ public class H_GameManager : NetworkBehaviour
             winCondition = WinConditions.Draw;
             winConditionMet = true;
 
-            Debug.Log("Win Condition Met: Draw");
+            if (enableDebugLogs)
+                Debug.Log("Win Condition Met: Draw");
         }
         else if (agentsLeft == 0)            // spies win - agents eliminated
         {
             winCondition = WinConditions.AgentsEliminated;
             winConditionMet = true;
 
-            Debug.Log("Win Condition Met: Spies Win");
-
-            //RoundEndData[] endData = new RoundEndData[roundAgents.Count];
-            //
-            //for (int i = 0; i < endData.Length; i++)
-            //{
-            //    endData[i].agentData.agentName = roundAgents[i].agentData.agentName;
-            //    endData[i].agentData.primaryColour = roundAgents[i].agentData.primaryColour;
-            //    endData[i].agentData.secondaryColour = roundAgents[i].agentData.secondaryColour;
-            //    endData[i].isDead = roundDeadPlayers.Contains(roundAgents[i]);
-            //}
-            //
-            //roundEndManager.RpcSetAgentCards(endData, "Agents Eliminated");
+            if (enableDebugLogs)
+                Debug.Log("Win Condition Met: Spies Win");
         }
         else if (spiesLeft == 0)            // agents win - spies eliminated
         {
             winCondition = WinConditions.SpiesEliminated;
             winConditionMet = true;
 
-            Debug.Log("Win Condition Met: Agents Win");
-
-            //RoundEndData[] endData = new RoundEndData[roundSpies.Count];
-            //
-            //for (int i = 0; i < endData.Length; i++)
-            //{
-            //    endData[i].agentData.agentName = roundSpies[i].agentData.agentName;
-            //    endData[i].agentData.primaryColour = roundSpies[i].agentData.primaryColour;
-            //    endData[i].agentData.secondaryColour = roundSpies[i].agentData.secondaryColour;
-            //    endData[i].isDead = roundDeadPlayers.Contains(roundSpies[i]);
-            //}
-            //
-            //roundEndManager.RpcSetAgentCards(endData, "Spies Eliminated");
+            if (enableDebugLogs)
+                Debug.Log("Win Condition Met: Agents Win");
         }
         else if (evidenceCompleted)            // agents win - evidence gathered
         {
             winCondition = WinConditions.EvidenceCompleted;
             winConditionMet = true;
 
-            Debug.Log("Win Condition Met: Evidence Completed");
+            if (enableDebugLogs)
+                Debug.Log("Win Condition Met: Evidence Completed");
         }
         else if (roundTimer <= 0)            // spies win - time limit reached
         {
             winCondition = WinConditions.TimeOut;
             winConditionMet = true;
+            if (enableDebugLogs)
 
-            Debug.Log("Win Condition Met: Time Ran Out");
+                Debug.Log("Win Condition Met: Time Ran Out");
         }
 
         if (winConditionMet)
@@ -1027,7 +927,8 @@ public class H_GameManager : NetworkBehaviour
 
     IEnumerator DrainEvidence()
     {
-        Debug.Log("Started draining evidence");
+        if (enableDebugLogs)
+            Debug.Log("Started draining evidence");
 
         yield return new WaitForSeconds(5);
 
@@ -1037,7 +938,9 @@ public class H_GameManager : NetworkBehaviour
             yield return new WaitForSeconds(0.316f);
         }
 
-        Debug.Log("Evidence drained");
+        if (enableDebugLogs)
+            Debug.Log("Evidence drained");
+
         evidenceCompleted = true;
 
         CheckWinConditions();
