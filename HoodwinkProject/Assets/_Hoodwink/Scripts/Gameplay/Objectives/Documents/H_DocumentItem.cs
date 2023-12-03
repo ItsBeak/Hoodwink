@@ -47,7 +47,7 @@ public class H_DocumentItem : H_ItemBase
             }
             else if (focusedShredder)
             {
-                if (!focusedShredder.containsDocument)
+                if (!focusedShredder.containsDocument && ownerIsSpy)
                 {
                     focusedShredder.CmdAddDocument();
                     CmdDestroyDocuments(equipment.primaryClientObject, equipment.primaryObserverObject);

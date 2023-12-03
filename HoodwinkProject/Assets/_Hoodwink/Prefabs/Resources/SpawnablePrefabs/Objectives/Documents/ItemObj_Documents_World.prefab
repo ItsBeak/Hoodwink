@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6074116555233368328}
   - component: {fileID: 5419689864697130500}
   - component: {fileID: 1225529532723628158}
+  - component: {fileID: 5133779262565856519}
   m_Layer: 12
   m_Name: ItemObj_Documents_World
   m_TagString: Untagged
@@ -130,6 +131,19 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
+--- !u!65 &5133779262565856519
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4572328729074933808}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.21, z: 0.54}
+  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!1 &6757554288323209655
 GameObject:
   m_ObjectHideFlags: 0
