@@ -45,6 +45,8 @@ GameObject:
   - component: {fileID: 5179220531536634059}
   - component: {fileID: 339875230809382244}
   - component: {fileID: 6648118454623577374}
+  - component: {fileID: 5323992918264201221}
+  - component: {fileID: 760004947288385492}
   m_Layer: 0
   m_Name: Player UI
   m_TagString: Untagged
@@ -170,6 +172,33 @@ MonoBehaviour:
   brain: {fileID: 0}
   spectatedAgentText: {fileID: 5933883154443340526}
   isOpen: 0
+--- !u!114 &5323992918264201221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427255165005840693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2de279ecfcb88346bb7093f6a277205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  huds:
+  - {fileID: 760004947288385492}
+  localOnly: 1
+--- !u!225 &760004947288385492
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427255165005840693}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &428121392137825766
 GameObject:
   m_ObjectHideFlags: 0
@@ -6151,6 +6180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   huds:
   - {fileID: 1159993247329061432}
+  localOnly: 0
 --- !u!1 &7797032086173391454
 GameObject:
   m_ObjectHideFlags: 0
@@ -7055,6 +7085,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   huds:
   - {fileID: 5129785815157515590}
+  localOnly: 0
 --- !u!225 &5129785815157515590
 CanvasGroup:
   m_ObjectHideFlags: 0
