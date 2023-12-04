@@ -259,6 +259,11 @@ public class H_GameManager : NetworkBehaviour
             #region Game Stage Update
             case RoundStage.Game:
 
+                timerDisplay.text = "In game, time left: " + Mathf.RoundToInt(roundTimer + 0.5f).ToString();
+
+                if (!isServer)
+                    return;
+
                 if (!gameStarted)
                 {
                     gameStarted = true;
@@ -267,11 +272,6 @@ public class H_GameManager : NetworkBehaviour
                         player.equipment.RpcSetBusy(false);
                     }
                 }
-
-                timerDisplay.text = "In game, time left: " + Mathf.RoundToInt(roundTimer + 0.5f).ToString();
-
-                if (!isServer)
-                    return;
 
                 roundTimer -= 1 * Time.deltaTime;
 
@@ -364,6 +364,7 @@ public class H_GameManager : NetworkBehaviour
         ResetRoles();
         ResetPlayerStates();
         roundEndManager.RpcResetUI();
+        gameStarted = false;
     }
 
     [Command(requiresAuthority = false)]
