@@ -16,7 +16,7 @@ public class H_PlayerEquipment : NetworkBehaviour
     public Transform primaryEquipPointObserver;
     [HideInInspector] public GameObject primaryClientObject;
     [HideInInspector] public GameObject primaryObserverObject;
-    [HideInInspector, SyncVar(hook = nameof(OnHoldChanged))] public bool isHoldingItem = false;
+    [HideInInspector, SyncVar] public bool isHoldingItem = false;
     H_ItemBase currentObject;
 
     [Header("Sidearm Equipment Settings")]
@@ -245,6 +245,21 @@ public class H_PlayerEquipment : NetworkBehaviour
         }
 
         animator.fistsAnimator.SetBool("isHoldingDocument", primaryClientObject);
+
+        foreach (var marker in GameObject.FindObjectsOfType<H_ObjectiveMarker>())
+        {
+            if (marker.isSpyObjective)
+            {
+                if (brain.currentAlignment == AgentAlignment.Spy)
+                {
+                    marker.ToggleMarker(isHoldingItem);
+                }
+            }
+            else
+            {
+                marker.ToggleMarker(isHoldingItem);
+            }
+        }
     }
 
     void OnEquipmentChanged(EquipmentSlot oldSlot, EquipmentSlot newSlot)
@@ -596,17 +611,6 @@ public class H_PlayerEquipment : NetworkBehaviour
     {
         StartCoroutine(ChangeSlotInput(EquipmentSlot.PrimaryItem));
         OnSlotPrimary();
-    }
-
-    void OnHoldChanged(bool oldState, bool newState)
-    {
-        if (isLocalPlayer)
-        {
-            foreach (var marker in GameObject.FindObjectsOfType<H_ObjectiveMarker>())
-            {
-                marker.ToggleMarker(newState);
-            }
-        }
     }
 
 }
