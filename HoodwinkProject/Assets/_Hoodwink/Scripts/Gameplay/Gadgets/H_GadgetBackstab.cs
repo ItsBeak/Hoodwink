@@ -138,7 +138,6 @@ public class H_GadgetBackstab : H_GadgetBase
             if (cooldownTimer <= 0 && equipment.currentSlot == gadgetSlot && targetPlayer)
             {
                 promptReadout.text = prompt;
-
             }
             else
             {
