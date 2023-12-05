@@ -41,6 +41,7 @@ public class H_PlayerBrain : NetworkBehaviour
     public H_PlayerEquipment equipment;
     public H_PlayerUI playerUI;
     public H_PlayerCosmetics cosmetics;
+    public H_Tutorial tutorial;
 
     [Header("Rendering")]
     public List<GameObject> hideForLocalPlayer;

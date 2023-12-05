@@ -35,7 +35,7 @@ public class H_GameManager : NetworkBehaviour
     [HideInInspector, SyncVar] public bool winConditionMet = false;
     public H_LevelData levelData;
 
-    [HideInInspector, SyncVar] public RoundStage currentRoundStage = RoundStage.Lobby;
+    [HideInInspector, SyncVar(hook = nameof(OnRoundStageChanged))] public RoundStage currentRoundStage = RoundStage.Lobby;
     [HideInInspector, SyncVar] public WinConditions winCondition;
 
     [Header("Lobby Settings")]
@@ -357,6 +357,20 @@ public class H_GameManager : NetworkBehaviour
 
     }
 
+    void OnRoundStageChanged(RoundStage oldStage, RoundStage newStage)
+    {
+        if (isServer)
+        {
+            if (newStage == RoundStage.Lobby)
+            {
+                foreach (var player in serverPlayers)
+                {
+                    player.tutorial.RpcOpenTutorial();
+                }
+            }
+        }
+    }
+
     [Server]
     public void RoundEnd()
     {
@@ -373,6 +387,8 @@ public class H_GameManager : NetworkBehaviour
         serverPlayers.Add(player);
 
         ResetPlayerColours(player);
+
+        player.tutorial.RpcOpenTutorial();
     }
 
     [Server]
