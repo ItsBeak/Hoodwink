@@ -105,7 +105,7 @@ public class H_GadgetBase : NetworkBehaviour
 
     }
 
-    void UpdateUI()
+    public virtual void UpdateUI()
     {
         if (usePrompt)
         {

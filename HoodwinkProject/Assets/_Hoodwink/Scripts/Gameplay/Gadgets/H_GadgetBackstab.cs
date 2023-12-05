@@ -1,6 +1,7 @@
 using Mirror;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class H_GadgetBackstab : H_GadgetBase
 {
@@ -24,10 +25,11 @@ public class H_GadgetBackstab : H_GadgetBase
     public Animator viewmodelAnimator;
     public SkinnedMeshRenderer jacketRenderer;
 
+    H_PlayerHealth targetPlayer;
+
     void Start()
     {
         damageCollider = GetComponent<BoxCollider>();
-        damageCollider.enabled = false;
     }
 
     public override void Update()
@@ -52,9 +54,9 @@ public class H_GadgetBackstab : H_GadgetBase
             animator = GetComponentInParent<H_PlayerAnimator>();
         }
 
-        if (cooldownTimer <= 0)
+        if (cooldownTimer <= 0 && targetPlayer)
         {
-            StartCoroutine(Attack());
+            StartCoroutine(Attack(targetPlayer));
             animator.CmdPlayStabAnimation();
 
             PlaySwingLocal();
@@ -67,7 +69,7 @@ public class H_GadgetBackstab : H_GadgetBase
 
     public override void UseGadgetSecondary()
     {
-
+        
     }
 
     public override void RpcUseGadgetPrimary()
@@ -75,55 +77,80 @@ public class H_GadgetBackstab : H_GadgetBase
         source.PlayOneShot(swingClips[Random.Range(0, swingClips.Length)]);
     }
 
-    IEnumerator Attack()
+    IEnumerator Attack(H_PlayerHealth target)
     {
-        viewmodelAnimator.SetBool("hitObject", false);
+        H_PlayerHealth newTarget = target;
+        PlayStabSuccessLocal();
+        CmdPlayStabSuccess();
 
+        viewmodelAnimator.SetBool("hitObject", true);
         viewmodelAnimator.SetTrigger("Stab");
 
+        equipment.brain.SetCanMove(false);
+        CmdFreezeTarget(newTarget.brain);
+
         yield return new WaitForSeconds(attackDelay);
-        damageCollider.enabled = true;
+
+        newTarget.Damage(stabSuccessDamage);
+
         yield return new WaitForSeconds(attackLength);
-        damageCollider.enabled = false;
+
+        equipment.brain.SetCanMove(true);
+        //CmdUnfreezeTarget(newTarget.brain);
     }
 
-    private void OnTriggerEnter(Collider other)
+    void CmdFreezeTarget(H_PlayerBrain brain)
     {
-        GameObject hitObject = other.gameObject;
+        brain.RpcSetCanMove(false);
+    }
 
-        if (hitObject.GetComponent<NetworkIdentity>())
+    void CmdUnfreezeTarget(H_PlayerBrain brain)
+    {
+        brain.RpcSetCanMove(true);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.GetComponent<NetworkIdentity>())
         {
-            if (!hitObject.GetComponent<NetworkIdentity>().isLocalPlayer)
+            if (!other.gameObject.GetComponent<NetworkIdentity>().isLocalPlayer)
             {
-                var health = hitObject.GetComponent<H_PlayerHealth>();
+                var health = other.gameObject.GetComponent<H_PlayerHealth>();
 
                 if (health)
                 {
-                    if (Vector3.Dot(transform.forward, hitObject.transform.forward) >= 0.5)
+                    if (Vector3.Dot(transform.forward, other.gameObject.transform.forward) >= 0.5)
                     {
-                        PlayStabSuccessLocal();
-                        CmdPlayStabSuccess();
-
-                        health.Damage(stabSuccessDamage);
-
-                        viewmodelAnimator.SetBool("hitObject", true);
-
-                        damageCollider.enabled = false;
-                    }
-                    else
-                    {
-                        PlayStabFailLocal();
-                        CmdPlayStabFail();
-
-                        health.Damage(stabFailDamage);
-
-                        damageCollider.enabled = false;
+                        targetPlayer = health;
+                        return;
                     }
                 }
             }
         }
+
+        targetPlayer = null;
     }
 
+    public override void UpdateUI()
+    {
+        if (usePrompt)
+        {
+            if (cooldownTimer <= 0 && equipment.currentSlot == gadgetSlot && targetPlayer)
+            {
+                promptReadout.text = prompt;
+
+            }
+            else
+            {
+                promptReadout.text = "";
+            }
+        }
+        else
+        {
+            promptReadout.text = "";
+        }
+    }
+    
     public void PlaySwingLocal()
     {
         source.PlayOneShot(swingClips[Random.Range(0, swingClips.Length)]);

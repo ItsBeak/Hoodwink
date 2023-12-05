@@ -21,7 +21,7 @@ public class H_PlayerHealth : NetworkBehaviour
 
     H_PlayerEquipment equipment;
     H_PlayerController controller;
-    H_PlayerBrain brain;
+    [HideInInspector] public H_PlayerBrain brain;
     H_GameManager gameManager;
     H_PlayerAnimator animator;
     public H_HealthEffect healthEffects;
