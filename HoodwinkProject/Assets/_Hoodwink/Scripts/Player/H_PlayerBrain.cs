@@ -38,6 +38,8 @@ public class H_PlayerBrain : NetworkBehaviour
     public Image agentColourImage;
     public TextMeshProUGUI agentNameText, agentNameTextShadow;
     public TextMeshProUGUI readyText;
+    public TextMeshProUGUI readyPrompt;
+
     public H_PlayerEquipment equipment;
     public H_PlayerUI playerUI;
     public H_PlayerCosmetics cosmetics;
@@ -108,7 +110,7 @@ public class H_PlayerBrain : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            CmdSetReady(!isReady);
+            CmdSetReady(true);
         }
     }
 
@@ -231,11 +233,16 @@ public class H_PlayerBrain : NetworkBehaviour
     {
         if (newReady)
         {
-            readyText.text = "Ready";
-            readyText.color = Color.green;
+            //readyText.text = "Ready";
+            //readyText.color = Color.green;
+
+            readyText.text = "";
+            readyPrompt.text = "";
+            readyText.color = Color.clear;
         }
         else
         {
+            readyPrompt.text = "Press Enter to Ready Up";
             readyText.text = "Not Ready";
             readyText.color = Color.red;
         }

@@ -516,7 +516,7 @@ public class H_GameManager : NetworkBehaviour
         foreach (var player in serverPlayers)
         {
             roundPlayers.Add(player);
-            player.isReady = false;
+            player.isReady = true;
         }
 
         if (overrideMinimumPlayerCount)
